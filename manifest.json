@@ -1,5 +1,5 @@
 {
-    "name" : "创创猫B2B2C",
+    "name" : "好好新鲜",
     "appid" : "__UNI__240159E",
     "description" : "",
     "versionName" : "1.0.0",
@@ -96,6 +96,15 @@
                         "spotlight@3x" : "unpackage/res/icons/120x120.png"
                     }
                 }
+            },
+            "splashscreen" : {
+                "androidStyle" : "default",
+                "android" : {
+                    "hdpi" : "C:/Users/Administrator/Desktop/蔬菜/Howfresh app开机图/安卓480x762.png",
+                    "xhdpi" : "C:/Users/Administrator/Desktop/蔬菜/Howfresh app开机图/安卓720x1242.png",
+                    "xxhdpi" : "C:/Users/Administrator/Desktop/蔬菜/Howfresh app开机图/安卓10880x1882.png"
+                },
+                "iosStyle" : "common"
             }
         }
     },
