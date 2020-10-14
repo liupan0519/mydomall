@@ -8,7 +8,7 @@
 			"path": "pages/index/index",
 			"style": {
 				// #ifdef MP 
-				"navigationBarTitleText": "创创猫商城",
+				"navigationBarTitleText": "好好新鲜商城",
 				//"navigationStyle": "custom",
 				// #endif 
 				"app-plus": {
@@ -451,6 +451,12 @@
 				"navigationBarTitleText": "领券中心"
 			}
 		}, {
+			"path": "pages/voucher/voucher",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "卡券"
+			}
+		}, {
 			"path": "pages/help/help",
 			"style": {
 				"enablePullDownRefresh": false,
@@ -526,7 +532,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "创创猫商城",
+		"navigationBarTitleText": "好好新鲜商城",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#f8f8f8"
 	},
@@ -571,5 +577,15 @@
 					"scope.userLocation": {
 					  "desc": "你的位置信息将用于查询附近的门店"
 					}
-				 }
+				 },
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
 }

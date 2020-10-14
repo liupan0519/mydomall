@@ -1,4 +1,5 @@
-export const apiBaseUrl = 'https://b2b2c.ccmao.net/b2b2c/rest/'
+export const apiBaseUrl = 'https://api.howfresh.jp/b2b2c/'
+//export const apiBaseUrl = 'http://b2b2c.mydomall.com/b2b2c/'
 
 // 需要登陆的，都写到这里，否则就是不需要登陆的接口
 const generateUuid = (randomFlag, min, max) => {
@@ -59,6 +60,7 @@ const methodsToken = [
 	'consumer/createPoster',
 	'consumer/changeCoupon',
 	'consumer/searchUserCoupon',
+	'consumer/inquiryVoucher',
 	'consumer/calculateCouponAmount',
 	'consumer/calculateFreightAmount',
 	'consumer/calculateDeliveryAmount',
@@ -79,7 +81,9 @@ const methodsToken = [
 	'consumer/inquiryUserDeliveryAddress',
 	'consumer/initWechatPay',
 	'consumer/initWechatPayH5',
+	'consumer/initWechatPayApp',
 	'consumer/initAlipay',
+	'consumer/initAlipayApp',
 	'consumer/balancePay',
 	'consumer/seckillQuanId',
 	'consumer/getSignDateNum',
@@ -658,11 +662,17 @@ export const wechatPay = (data, callback, hideLoading) => post('consumer/initWec
 // 公众号微信支付接口
 export const wechatPayH5 = (data, callback, hideLoading) => post('consumer/initWechatPayH5', data, callback, hideLoading);
 
+// APP微信支付接口
+export const wechatPayApp = (data, callback, hideLoading) => post('consumer/initWechatPayApp', data, callback, hideLoading);
+
 // 获取微信支付签名
 export const getSignature = (data, callback, hideLoading) => post('consumer/getSignature', data, callback, hideLoading);
 
-// 支付宝支付接口
+// 支付宝H5端接口
 export const alipay = (data, callback, hideLoading) => post('consumer/initAlipay', data, callback, hideLoading);
+
+// 支付宝APP端接口
+export const alipayApp = (data, callback, hideLoading) => post('consumer/initAlipayApp', data, callback, hideLoading);
 
 // 模拟支付成功接口
 export const balancePay = (data, callback, hideLoading) => post('consumer/balancePay', data, callback, hideLoading);
@@ -675,6 +685,9 @@ export const getCoupon = (data, callback, hideLoading) => post('consumer/changeC
 
 // 用户已领取的优惠券列表
 export const userCoupon = (data, callback, hideLoading) => post('consumer/searchUserCoupon', data, callback, hideLoading);
+
+// 订单电子卡券
+export const voucherList = (data, callback, hideLoading) => post('consumer/inquiryVoucher', data, callback, hideLoading);
 
 // 获取用户奖金明细
 export const getBalanceList = (data, callback, hideLoading) => post('consumer/searchUserAward', data, callback, hideLoading);
