@@ -2,7 +2,6 @@ import Vue from 'vue'
 import store from './store'
 import App from './App'
 import VueI18n from "vue-i18n"
-import messages from './config/lang.js'
 import util from './config/util'
 import * as request from './config/api'
 import './components/ican-H5Api/ican-H5Api'
