@@ -16,6 +16,9 @@
 					<!-- 订单列表 -->
 					<view v-for="(item,index) in orderList" :key="index" class="order-item">
 						<view class="i-top b-b">
+							<uni-tag text="普通" type="success" size="small" v-if="item.orderType=='0'"></uni-tag>
+							<uni-tag text="秒杀" type="error" size="small" v-if="item.orderType=='1'"></uni-tag>
+							<uni-tag text="拼团" type="warning" size="small" v-if="item.orderType=='2'"></uni-tag>
 							<text class="time">{{item.orderTime}}</text>
 							<text class="state" v-if="!item.afterSale" :style="{color:item.orderStatusColor}">{{item.orderStatusDesc}}</text>
 							<text class="state" v-if="item.afterSale">已申请退款</text>
@@ -34,6 +37,8 @@
 								<text class="title clamp">{{goodsItem.productName}}</text>
 								<text class="attr-box">{{goodsItem.productSkuDesc||''}} x {{goodsItem.productUnit}}</text>
 								<text class="price">{{goodsItem.actualAmount}}</text>
+								<uni-tag :text="item.deliveryTypeDesc" :inverted="true" type="warning" size="small" style="width:70px"></uni-tag>
+								
 							</view>
 						</view>
 
@@ -44,19 +49,9 @@
 							<text class="price">{{item.actualAmount}}</text>
 						</view>
 						<view class="action-box b-t" v-if="!item.afterSale">
-							<!-- 未付款或未发货状态可以取消订单 -->
-							<button v-if="item.orderStatus=='0'" class="action-btn" @click="cancelOrder(item)">取消订单</button>
-							<!-- 未付款状态可以发起支付 -->
-							<button @click="pay(item)" class="action-btn recom" v-if="item.orderStatus=='0'">立即支付</button>
 							<!-- 待收货状态可以收货 -->
-							<button @click="receive(item)" class="action-btn recom" v-if="item.orderStatus=='2'">确认收货</button>
-							<!-- 已收货状态可以评价 -->
-							<button @click="evaluate(item)" class="action-btn recom" v-if="item.orderStatus=='3'">去评价</button>
-							<!-- 申请退款(待发货,已发货,待评价状态可以申请退款, 前提是订单未结算) -->
-							<button @click="applyAfterSale(item)" class="action-btn recom" v-if="item.orderStatus!='0'&&item.orderStatus!='4'&&!item.accounted&&!item.afterSale">申请退款</button>
+							<button @click="deliver(item)" class="action-btn recom" v-if="item.orderStatus=='1'">发货</button>
 							<button @click="viewOrder(item)" class="action-btn">订单详情</button>
-							<!-- 发货后的状态可以查看物流 -->
-							<button @click="viewCourier(item)" class="action-btn" v-if="item.deliveryType=='1'&&item.orderStatus!='0'&&item.orderStatus!='1'&&item.orderStatus!='4'">查看物流</button>
 						</view>
 						<view class="action-box b-t" v-if="item.afterSale">
 							<button @click="viewAfterSale(item)" class="action-btn">查看退款</button>
@@ -121,18 +116,6 @@
 						text: '待评价',
 						loadingType: 'more',
 						orderList: []
-					},
-					{
-						state: '4',
-						text: '已取消',
-						loadingType: 'more',
-						orderList: []
-					},
-					{
-						state: '5',
-						text: '已完成',
-						loadingType: 'more',
-						orderList: []
 					}
 				],
 			};
@@ -140,21 +123,16 @@
 
 		onLoad(options) {
 			this.tabCurrentIndex = Number(options.state);
-			//查询全部订单时这里调用, 查询其他状态时因为tabCurrentIndex改变会触发changeTab方法调用查询
-			if(this.tabCurrentIndex === 0)
-				this.searchOrder(this.translateTabIndex(this.tabCurrentIndex));
+			this.searchOrder(this.translateTabIndex(this.tabCurrentIndex));
 		},
 		//下拉刷新
 		onPullDownRefresh() {
 			//重新加载数据
 			this.resetPage();
 			this.searchOrder(this.translateTabIndex(this.tabCurrentIndex));
-			setTimeout(function () {
-				uni.stopPullDownRefresh();
-			}, 1000);
 		},
 		computed: {
-			...mapState(['hasLogin', 'userInfo', 'footPrint'])
+			...mapState(['hasLogin', 'merchantInfo', 'footPrint'])
 		},
 		methods: {
 			//加载更多
@@ -166,11 +144,9 @@
 			},
 			searchOrder(orderStatus) {
 				let that = this;
-				let keyArray = ['USER','IS_AFTER_SALE','ORDER_TYPE_LIST'];
+				let keyArray = ['MERCHANT'];
 				let searchOptions = {
-					userUuid: this.userInfo.userUuid,
-					afterSale: false,
-					orderTypeList:['0','1','2'],
+					merchantUuid: this.merchantInfo.merchantUuid,
 					startIndex: (this.pageNo - 1) * this.pageSize,
 					pageSize: this.pageSize
 				};
@@ -219,12 +195,6 @@
 						break;
 					case 4:
 						orderStatus = '3';
-						break;
-					case 5:
-						orderStatus = '4';
-						break;
-					case 6:
-						orderStatus = '5';
 						break;
 				}
 				return orderStatus;
@@ -294,27 +264,9 @@
 					url: '/pages/money/pay?orderNo=' + item.orderNo
 				})
 			},
-			receive(item) {
-				let that = this;
-				uni.showModal({
-					content: '确认已收货吗？',
-					success: (e) => {
-						if (e.confirm) {
-							this.$api.request.confirmOrder({
-								orderNo: item.orderNo
-							}, res => {
-								if (res.body.status.statusCode === '0') {
-									that.$api.msg('确认收货成功');
-									setTimeout(()=>{
-										that.resetPage();
-										that.searchOrder(that.translateTabIndex(that.tabCurrentIndex));
-									}, 1000)
-								} else {
-									that.$api.msg(res.body.status.errorDesc);
-								}
-							}, false);
-						}
-					}
+			deliver(item) {
+				uni.navigateTo({
+					url: '/pages/order/deliverOrder?orderNo='+item.orderNo
 				})
 			},
 			evaluate(item) {
@@ -347,11 +299,6 @@
 			viewOrder(item){
 				uni.navigateTo({
 					url: '/pages/order/detail?orderNo='+item.orderNo
-				})
-			},
-			viewCourier(item){
-				uni.navigateTo({
-					url: '/pages/order/courier?courierNo='+item.courierNo
 				})
 			}
 		},
@@ -431,6 +378,7 @@
 
 			.time {
 				flex: 1;
+				margin-left: 10upx;
 			}
 
 			.state {
@@ -483,8 +431,8 @@
 
 			.goods-img {
 				display: block;
-				width: 120upx;
-				height: 120upx;
+				width: 160upx;
+				height: 160upx;
 			}
 
 			.right {

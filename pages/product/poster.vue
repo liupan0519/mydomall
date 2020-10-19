@@ -17,8 +17,6 @@ export default {
 	},
 	onLoad(options) {
 		this.poster = unescape(options.poster);
-		//http替换成https
-		this.poster = this.poster.replace("http://","https://");
 	},
 	computed: {
 		weiXinBrowser () {
@@ -72,15 +70,15 @@ export default {
 					uni.saveImageToPhotosAlbum({
 						filePath: res.tempFilePath,
 						success() {
-							_this.$api.msg('保存成功');
+							_this.$common.successToShow('保存成功')
 						},
 						fail() {
-							_this.$api.msg('图片保存失败');
+							_this.$common.errorToShow('图片保存失败')
 						}
 					});
 				},
-				fail (res) {
-					_this.$api.msg('图片保存失败');
+				fail () {
+					_this.$common.errorToShow('下载失败')
 				}
 			})
 			// #endif
@@ -96,15 +94,15 @@ export default {
 							uni.saveImageToPhotosAlbum({
 								filePath: res.tempFilePath,
 								success() {
-									_this.$api.msg('保存成功');
+									_this.$common.successToShow('保存成功')
 								},
 								fail() {
-									_this.$api.msg('图片保存失败');
+									_this.$common.errorToShow('图片保存失败')
 								}
 							});
 						},
-						fail (res) {
-							_this.$api.msg('图片保存失败');
+						fail () {
+							_this.$common.errorToShow('下载失败')
 						}
 					})
 				},

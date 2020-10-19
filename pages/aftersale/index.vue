@@ -16,7 +16,7 @@
 			 :key="goodsIndex">
 				<image class="goods-img" :src="goodsItem.productImageUrl" mode="aspectFill"></image>
 				<view class="right">
-					<text class="title clamp">{{goodsItem.productName}}</text>
+					<text class="title clamp">{{goodsItem.prouctName}}</text>
 					<text class="attr-box">{{goodsItem.productSkuDesc}} x {{goodsItem.productUnit}}</text>
 					<text class="price">{{goodsItem.actualAmount}}</text>
 				</view>
@@ -72,9 +72,7 @@
 				saleNo: '',	//编辑模式,退款单号
 				afterSale: {},//编辑模式,退款单	
 				orderNo: '',	//订单号
-				order: {
-					orderStatus:'1'
-				},	//订单信息
+				order: {},	//订单信息
 				afterSaleType:'1',	//退款类型(1-仅退款, 2-退款退货)
 				afterSaleAmount:0,	//退款金额
 				afterSaleDescription:'',//退款描述
@@ -123,7 +121,7 @@
 			//提交退款
 			apply() {
 				//校验退款金额
-				if(this.afterSaleAmount<=0 || this.afterSaleAmount>this.order.actualAmount){
+				if(this.afterSaleAmount<=0 || this.afterSaleAmount>this.order.productAmount){
 					this.$api.msg('退款金额有误');
 					return;
 				}
@@ -197,12 +195,7 @@
 				}, res => {
 					if (res.body.status.statusCode === '0') {
 						this.order = res.body.data;
-						//已发货, 默认运费不退
-						if(this.order.deliveryTime)
-							this.afterSaleAmount = this.order.productAmount;
-						//未发货, 默认运费要退
-						else
-							this.afterSaleAmount = this.order.actualAmount;
+						this.afterSaleAmount = this.order.productAmount;
 					} else {
 						this.$api.msg(res.body.status.errorDesc);
 					}

@@ -20,16 +20,18 @@
 			<view 
 				v-for="(item, index) in goodsList" :key="index"
 				class="goods-item"
+				@click="navToDetailPage(item)"
 			>
-				<view class="image-wrapper" @click="navToDetailPage(item)">
+				<view class="image-wrapper">
 					<image v-if="item.productMainImage" :src="item.productMainImage.url" mode="aspectFill"></image>
 				</view>
 				<text class="title clamp">{{item.productName}}</text>
 				<view class="price-box">
 					<text class="price">{{item.unitPrice}}</text>
+					<text v-if="item.onSale" class="sale">已上架</text>
+					<text v-if="!item.onSale">未上架</text>
 					<text>已售 {{item.soldUnit}}</text>
 				</view>
-				<navigator v-if="item.merchantDTO" :url="'/pages/merchant/detail?id='+item.merchantDTO.merchantUuid" class="merchant">{{item.merchantDTO.merchantName}}</navigator>
 			</view>
 		</view>
 		<uni-load-more :status="loadingType"></uni-load-more>
@@ -56,6 +58,10 @@
 
 <script>
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
+	import {
+	    mapState,  
+	    mapMutations  
+	} from 'vuex';  
 	export default {
 		components: {
 			uniLoadMore	
@@ -79,7 +85,9 @@
 				searchKey:''
 			};
 		},
-		
+		computed:{
+			...mapState(['merchantInfo']),
+		},
 		onLoad(options){
 			// #ifdef H5
 			this.headerTop = document.querySelector(".uni-page-head").offsetHeight+'px';
@@ -93,7 +101,6 @@
 			//this.loadData();
 			this.searchKey = options.searchKey;	//主页搜索
 			this.searchBrand = options.brandId;	//从分类页点击品牌
-			this.searchMerchant = options.merchantId;	//商家商品
 			this.searchProduct();
 		},
 		onPageScroll(e){
@@ -131,7 +138,6 @@
 			//搜索商品
 			searchProduct(){
 				var keyArray = [];
-				keyArray.push('ON_SALE');
 				if(this.cateId){
 					keyArray.push('PRODUCT_CATE');
 				}
@@ -141,16 +147,13 @@
 				if(this.searchBrand){
 					keyArray.push('BRAND');
 				}
-				if(this.searchMerchant){
-					keyArray.push('MERCHANT');
-				}
+				keyArray.push('MERCHANT');
 				let searchData = {
 					'keyArray': keyArray,
-					'onSale': true,
 					'productCateUuid': this.cateId,
 					'productName': this.searchKey,
 					'productBrandUuid': this.searchBrand,
-					'merchantUuid': this.searchMerchant,
+					'merchantUuid': this.merchantInfo.merchantUuid,
 					'startIndex': (this.pageNo-1)*this.pageSize,
 					'pageSize': this.pageSize,
 					'sortBy': this.sortBy,
@@ -471,6 +474,12 @@
 			padding-right: 10upx;
 			font-size: 24upx;
 			color: $font-color-light;
+			.sale{
+				background-color: #5FCDA2;
+				color: #fff;
+				padding: 10upx;
+				border-radius: 10upx;
+			}
 		}
 		.price{
 			font-size: $font-lg;
@@ -480,10 +489,6 @@
 				content: '￥';
 				font-size: 26upx;
 			}
-		}
-		.merchant{
-			margin-top: 20upx;
-			color: $font-color-light;
 		}
 	}
 	

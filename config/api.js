@@ -1,4 +1,5 @@
-export const apiBaseUrl = 'https://b2b2c.ccmao.net/b2b2c/rest/'
+export const apiBaseUrl = 'https://api.howfresh.jp/b2b2c/'
+//export const apiBaseUrl = 'http://b2b2c.mydomall.com/b2b2c/'
 
 // 需要登陆的，都写到这里，否则就是不需要登陆的接口
 const generateUuid = (randomFlag, min, max) => {
@@ -16,6 +17,25 @@ const generateUuid = (randomFlag, min, max) => {
 	return str;
 }
 const methodsToken = [
+	'merchant/changePassword',
+	'merchant/changeMerchant',
+	'merchant/inquiryMerchant',
+	'merchant/dashboard',
+	'merchant/applyWithdraw',
+	'merchant/searchMerchantWithdraw',
+	'merchant/searchStatement',
+	'merchant/inquiryWithdraw',
+	'merchant/searchOrder',
+	'merchant/searchOrderTotal',
+	'merchant/searchOrderAfterSale',
+	'merchant/inquiryOrder',
+	'merchant/inquiryOrderAfterSaleDetail',
+	'merchant/deliverOrder',
+	'merchant/inquiryMerchantShopper',
+	'merchant/approveOrderAfterSale',
+	'merchant/rejectOrderAfterSale',
+	'merchant/confirmOrderAfterSale',
+	'merchant/statistic',
 	'consumer/inquiryUser',
 	'consumer/updateUserField',
 	'changePassword',
@@ -30,14 +50,12 @@ const methodsToken = [
 	'consumer/changeOrder',
 	'consumer/addSecKillOrder',
 	'consumer/addGroupBuyOrder',
-	'consumer/addPointOrder',
 	'consumer/getCartProductNum',
 	'consumer/inquiryCartProduct',
 	'consumer/deleteProductFromShoppingCart',
 	'consumer/updateShoppingCartProductNum',
 	'consumer/clearShoppingCart',
 	'consumer/inquiryOrder',
-	'consumer/getCourierInfo',
 	'consumer/inquiryPaymentAmount',
 	'consumer/searchOrder',
 	'consumer/searchOrderTotal',
@@ -49,7 +67,6 @@ const methodsToken = [
 	'consumer/changeProductComment',
 	'consumer/applyOrderAfterSale',
 	'consumer/searchOrderAfterSale',
-	'consumer/searchOrderAfterSaleTotal',
 	'consumer/inquiryOrderAfterSaleDetail',
 	'consumer/cancelOrderAfterSale',
 	'consumer/updateOrderAfterSale',
@@ -59,16 +76,13 @@ const methodsToken = [
 	'consumer/createPoster',
 	'consumer/changeCoupon',
 	'consumer/searchUserCoupon',
+	'merchant/inquiryVoucher',
+	'merchant/writeOffVoucher',
 	'consumer/calculateCouponAmount',
 	'consumer/calculateFreightAmount',
-	'consumer/calculateDeliveryAmount',
 	'consumer/calculateSecKillFreightAmount',
-	'consumer/calculateSecKillDeliveryAmount',
 	'consumer/calculateGroupBuyFreightAmount',
-	'consumer/calculateGroupBuyDeliveryAmount',
-	'consumer/calculatePointFreightAmount',
 	'consumer/searchUserAward',
-	'consumer/searchUserStatement',
 	'consumer/searchUserPerformance',
 	'consumer/searchUserWithdraw',
 	'consumer/applyWithdraw',
@@ -78,20 +92,8 @@ const methodsToken = [
 	'consumer/changeUserDeliveryAddress',
 	'consumer/inquiryUserDeliveryAddress',
 	'consumer/initWechatPay',
-	'consumer/initWechatPayH5',
-	'consumer/initAlipay',
 	'consumer/balancePay',
-	'consumer/seckillQuanId',
-	'consumer/getSignDateNum',
-	'consumer/isPointSigned',
-	'consumer/signPoint',
-	'consumer/searchUserPointStatement',
-	'consumer/isMerchantFollowed',
-	'consumer/followMerchant',
-	'consumer/cancelFollowMerchant',
-	'consumer/inquiryFollowedMerchant',
-	'consumer/inquiryProfitWelfare',
-	'consumer/receiveProfitWelfare'
+	'consumer/seckillQuanId'
 ];
 
 const post = (method, data, callback, hideLoading) => {
@@ -99,7 +101,7 @@ const post = (method, data, callback, hideLoading) => {
 	var postDataHeader = {
 		requestId: generateUuid(false, 32),
 		timeStamp: new Date().getTime(),
-		applicationId: 'b2b2c-mobile',
+		applicationId: 'b2c-mobile',
 		ip: '0.0.0.0'
 	};
 	//请求头body信息
@@ -107,15 +109,15 @@ const post = (method, data, callback, hideLoading) => {
 	// 判断token是否存在
 	if (methodsToken.indexOf(method) >= 0) {
 		// 获取用户token
-		let userToken = uni.getStorageSync("userToken");
-		if (!userToken) {
+		let merchantToken = uni.getStorageSync("merchantToken");
+		if (!merchantToken) {
 			uni.navigateTo({
 				url:'/pages/public/login'
 			})
 			return false;
 		} else {
 			//将tokenId置于请求头信息
-			postDataHeader.tokenId = userToken;
+			postDataHeader.tokenId = merchantToken;
 		}
 	}
 	var postData = {
@@ -139,7 +141,7 @@ const post = (method, data, callback, hideLoading) => {
 				// 登录信息过期或者未登录
 				if (result.body.status.errorCode === 'ErrorCode.common.0002' || result.body.status.errorCode ===
 					'ErrorCode.common.0003' || result.body.status.errorCode === 'ErrorCode.common.0004') {
-					uni.removeStorageSync('userToken')
+					uni.removeStorageSync('merchantToken')
 					uni.showToast({
 						title: result.body.status.errorDesc,
 						icon: 'none',
@@ -179,15 +181,15 @@ const pluginsPost = (method, data, callback, hideLoading) => {
 	// 判断token是否存在
 	if (methodsToken.indexOf(method) >= 0) {
 		// 获取用户token
-		let userToken = db.get("userToken");
-		if (!userToken) {
+		let merchantToken = db.get("merchantToken");
+		if (!merchantToken) {
 			// common.jumpToLogin();
 			uni.navigateTo({
 				url:'/pages/public/login'
 			})
 			return false;
 		} else {
-			data.token = userToken;
+			data.token = merchantToken;
 		}
 	}
 	uni.request({
@@ -205,7 +207,7 @@ const pluginsPost = (method, data, callback, hideLoading) => {
 			if (!result.status) {
 				// 登录信息过期或者未登录
 				if (result.data === 14007 || result.data === 14006) {
-					db.del("userToken");
+					db.del("merchantToken");
 					uni.showToast({
 						title: result.msg,
 						icon: 'none',
@@ -397,17 +399,17 @@ export const applicationConfig = (data, callback, hideLoading) => post('getGloba
 // 获取参数
 export const getParameter = (data, callback, hideLoading) => post('inquiryParameter', data, callback, hideLoading);
 
-// 微信公众号通过code换取open id
-export const getOpenIdByCode4OfficialAccount = (data, callback, hideLoading) => post('consumer/getOpenIdByCode4OfficialAccount', data, callback, hideLoading);
+// 商家入驻
+export const applyMerchant = (data, callback, hideLoading) => post('public/applyMerchant', data, callback, hideLoading);
 
-// 用户注册
-export const reg = (data, callback, hideLoading) => post('consumer/registerUser', data, callback, hideLoading);
+// 商家登录
+export const login = (data, callback, hideLoading) => post('merchant/login', data, callback, hideLoading);
 
-// 用户登录
-export const login = (data, callback, hideLoading) => post('consumer/login', data, callback, hideLoading);
+// 商家信息
+export const merchantInfo = (data, callback, hideLoading) => post('merchant/inquiryMerchant', data, callback, hideLoading);
 
-// 用户信息
-export const userInfo = (data, callback, hideLoading) => post('consumer/inquiryUser', data, callback, hideLoading);
+// 商家仪表盘
+export const dashboard = (data, callback, hideLoading) => post('merchant/dashboard', data, callback, hideLoading);
 
 // 会员升级需要的会员数和销售额
 export const nextUserLevel = (data, callback, hideLoading) => post('consumer/nextUserLevelData', data, callback, hideLoading);
@@ -416,7 +418,7 @@ export const nextUserLevel = (data, callback, hideLoading) => post('consumer/nex
 export const invitedUser = (data, callback, hideLoading) => post('consumer/inquiryInvitedUsers', data, callback, hideLoading);
 
 // 编辑用户信息
-export const editInfo = (data, callback, hideLoading) => post('consumer/updateUserField', data, callback, hideLoading);
+export const editInfo = (data, callback, hideLoading) => post('merchant/changeMerchant', data, callback, hideLoading);
 
 // 发送短信验证码
 export const sms = (data, callback, hideLoading) => post('sendVerificationCode', data, callback, hideLoading);
@@ -425,10 +427,10 @@ export const sms = (data, callback, hideLoading) => post('sendVerificationCode',
 export const verifyCode = (data, callback, hideLoading) => post('verifyCode', data, callback, hideLoading);
 
 // 重置登录密码
-export const resetPassword = (data, callback, hideLoading) => post('resetPassword', data, callback, hideLoading);
+export const resetPassword = (data, callback, hideLoading) => post('merchant/forgetPassword', data, callback, hideLoading);
 
 // 修改登录密码
-export const changePassword = (data, callback, hideLoading) => post('changePassword', data, callback, hideLoading);
+export const changePassword = (data, callback, hideLoading) => post('merchant/changePassword', data, callback, hideLoading);
 
 // 打开消息推送
 export const enableNotification = (data, callback, hideLoading) => post('consumer/enableNotification', data, callback, hideLoading);
@@ -463,9 +465,6 @@ export const groupBuy = (data, callback, hideLoading) => post('public/inquiryGro
 // 团购商品详情
 export const groupBuyDetail = (data, callback, hideLoading) => post('consumer/groupBuyDetail', data, callback, hideLoading);
 
-// 根据商品获取正在进行中的拼团
-export const getGroupBuyByProduct = (data, callback, hideLoading) => post('public/getGroupBuyByProduct', data, callback, hideLoading);
-
 // 抢秒杀资格
 export const seckillQuanId = (data, callback, hideLoading) => post('consumer/seckillQuanId', data, callback, hideLoading);
 
@@ -496,14 +495,8 @@ export const qaList = (data, callback, hideLoading) => post('public/inquiryQa', 
 // 获取商品列表
 export const goodsList = (data, callback, hideLoading) => post('public/searchProduct', data, callback, hideLoading);
 
-// 获取积分商品列表
-export const pointGoodsList = (data, callback, hideLoading) => post('public/searchPointProduct', data, callback, hideLoading);
-
 // 获取商品详情
 export const goodsDetail = (data, callback, hideLoading) => post('public/inquiryProductDetail', data, callback, hideLoading);
-
-// 获取积分商品详情
-export const pointGoodsDetail = (data, callback, hideLoading) => post('public/inquiryPointProduct', data, callback, hideLoading);
 
 // 计算使用优惠券之后的优惠金额
 export const calculateCouponAmount = (data, callback, hideLoading) => post('consumer/calculateCouponAmount', data, callback, hideLoading);
@@ -511,23 +504,11 @@ export const calculateCouponAmount = (data, callback, hideLoading) => post('cons
 // 计算运费
 export const calculateFreightAmount = (data, callback, hideLoading) => post('consumer/calculateFreightAmount', data, callback, hideLoading);
 
-// 计算同城配送费
-export const calculateDeliveryAmount = (data, callback, hideLoading) => post('consumer/calculateDeliveryAmount', data, callback, hideLoading);
-
-// 计算秒杀订单运费(快递配送)
+// 计算秒杀订单运费
 export const calculateSecKillFreightAmount = (data, callback, hideLoading) => post('consumer/calculateSecKillFreightAmount', data, callback, hideLoading);
-
-// 计算秒杀订单配送费(同城配送)
-export const calculateSecKillDeliveryAmount = (data, callback, hideLoading) => post('consumer/calculateSecKillDeliveryAmount', data, callback, hideLoading);
 
 // 计算秒杀订单运费
 export const calculateGroupBuyFreightAmount = (data, callback, hideLoading) => post('consumer/calculateGroupBuyFreightAmount', data, callback, hideLoading);
-
-// 计算秒杀订单配送费(同城配送)
-export const calculateGroupBuyDeliveryAmount = (data, callback, hideLoading) => post('consumer/calculateGroupBuyDeliveryAmount', data, callback, hideLoading);
-
-// 计算积分订单运费
-export const calculatePointFreightAmount = (data, callback, hideLoading) => post('consumer/calculatePointFreightAmount', data, callback, hideLoading);
 
 // 获取商品海报
 export const goodsPoster = (data, callback, hideLoading) => post('consumer/createPoster', data, callback, hideLoading);
@@ -589,9 +570,6 @@ export const createSecKillOrder = (data, callback, hideLoading) => post('consume
 // 生成团购订单
 export const createGroupBuyOrder = (data, callback, hideLoading) => post('consumer/addGroupBuyOrder', data, callback, hideLoading);
 
-// 生成积分订单
-export const createPointOrder = (data, callback, hideLoading) => post('consumer/addPointOrder', data, callback, hideLoading);
-
 // 取消订单
 export const cancelOrder = (data, callback, hideLoading) => post('consumer/cancelOrder', data, callback, hideLoading);
 
@@ -599,22 +577,28 @@ export const cancelOrder = (data, callback, hideLoading) => post('consumer/cance
 export const delOrder = (data, callback, hideLoading) => post('consumer/changeOrder', data, callback, hideLoading);
 
 // 获取订单详情
-export const orderDetail = (data, callback, hideLoading) => post('consumer/inquiryOrder', data, callback, hideLoading);
+export const orderDetail = (data, callback, hideLoading) => post('merchant/inquiryOrder', data, callback, hideLoading);
 
-// 获取订单详情
-export const orderCourier = (data, callback, hideLoading) => post('consumer/getCourierInfo', data, callback, hideLoading);
+// 商家数据概览
+export const dataStatistic = (data, callback, hideLoading) => post('merchant/statistic', data, callback, hideLoading);
 
 // 获取拆分后订单的总支付金额
 export const orderPaymentAmount = (data, callback, hideLoading) => post('consumer/inquiryPaymentAmount', data, callback, hideLoading);
+
+// 发货
+export const deliverOrder = (data, callback, hideLoading) => post('merchant/deliverOrder', data, callback, hideLoading);
+
+// 查询配送员
+export const inquiryMerchantShopper = (data, callback, hideLoading) => post('merchant/inquiryMerchantShopper', data, callback, hideLoading);
 
 // 确认收货
 export const confirmOrder = (data, callback, hideLoading) => post('consumer/confirmOrder', data, callback, hideLoading);
 
 // 搜索订单
-export const searchOrder = (data, callback, hideLoading) => post('consumer/searchOrder', data, callback, hideLoading);
+export const searchOrder = (data, callback, hideLoading) => post('merchant/searchOrder', data, callback, hideLoading);
 
 // 查询订单数量
-export const searchOrderTotal = (data, callback, hideLoading) => post('consumer/searchOrderTotal', data, callback, hideLoading);
+export const searchOrderTotal = (data, callback, hideLoading) => post('merchant/searchOrderTotal', data, callback, hideLoading);
 
 // 搜索团购单
 export const searchGroupBuy = (data, callback, hideLoading) => post('consumer/searchGroupBuy', data, callback, hideLoading);
@@ -624,6 +608,15 @@ export const searchGroupBuyTotal = (data, callback, hideLoading) => post('consum
 
 // 申请售后单
 export const applyAfterSale = (data, callback, hideLoading) => post('consumer/applyOrderAfterSale', data, callback, hideLoading);
+
+// 同意售后单
+export const approveAfterSale = (data, callback, hideLoading) => post('merchant/approveOrderAfterSale', data, callback, hideLoading);
+
+// 拒绝售后单
+export const rejectAfterSale = (data, callback, hideLoading) => post('merchant/rejectOrderAfterSale', data, callback, hideLoading);
+
+// 确认售后收货
+export const confirmAfterSale = (data, callback, hideLoading) => post('merchant/confirmOrderAfterSale', data, callback, hideLoading);
 
 // 撤销售后单
 export const cancelAfterSale = (data, callback, hideLoading) => post('consumer/cancelOrderAfterSale', data, callback, hideLoading);
@@ -635,10 +628,7 @@ export const updateAfterSale = (data, callback, hideLoading) => post('consumer/u
 export const courierAfterSale = (data, callback, hideLoading) => post('consumer/courierOrderAfterSale', data, callback, hideLoading);
 
 // 分页查询售后单
-export const searchAfterSale = (data, callback, hideLoading) => post('consumer/searchOrderAfterSale', data, callback, hideLoading);
-
-// 查询售后单数量
-export const searchAfterSaleTotal = (data, callback, hideLoading) => post('consumer/searchOrderAfterSaleTotal', data, callback, hideLoading);
+export const searchAfterSale = (data, callback, hideLoading) => post('merchant/searchOrderAfterSale', data, callback, hideLoading);
 
 // 查询系统通知
 export const inquiryNotes = (data, callback, hideLoading) => post('inquiryNotes', data, callback, hideLoading);
@@ -650,19 +640,10 @@ export const markNoteRead = (data, callback, hideLoading) => post('markNoteRead'
 export const inquiryArticle = (data, callback, hideLoading) => post('public/inquiryArticle', data, callback, hideLoading);
 
 // 售后单详情
-export const afterSalesInfo = (data, callback, hideLoading) => post('consumer/inquiryOrderAfterSaleDetail', data, callback, hideLoading);
+export const afterSalesInfo = (data, callback, hideLoading) => post('merchant/inquiryOrderAfterSaleDetail', data, callback, hideLoading);
 
-// 小程序微信支付接口
+// 微信支付接口
 export const wechatPay = (data, callback, hideLoading) => post('consumer/initWechatPay', data, callback, hideLoading);
-
-// 公众号微信支付接口
-export const wechatPayH5 = (data, callback, hideLoading) => post('consumer/initWechatPayH5', data, callback, hideLoading);
-
-// 获取微信支付签名
-export const getSignature = (data, callback, hideLoading) => post('consumer/getSignature', data, callback, hideLoading);
-
-// 支付宝支付接口
-export const alipay = (data, callback, hideLoading) => post('consumer/initAlipay', data, callback, hideLoading);
 
 // 模拟支付成功接口
 export const balancePay = (data, callback, hideLoading) => post('consumer/balancePay', data, callback, hideLoading);
@@ -673,74 +654,38 @@ export const couponList = (data, callback, hideLoading) => post('public/searchCo
 // 用户领取优惠券
 export const getCoupon = (data, callback, hideLoading) => post('consumer/changeCoupon', data, callback, hideLoading);
 
+// 查询电子卡券
+export const getVoucher = (data, callback, hideLoading) => post('merchant/inquiryVoucher', data, callback, hideLoading);
+
+// 核销电子卡券
+export const writeOffVoucher = (data, callback, hideLoading) => post('merchant/writeOffVoucher', data, callback, hideLoading);
+
 // 用户已领取的优惠券列表
 export const userCoupon = (data, callback, hideLoading) => post('consumer/searchUserCoupon', data, callback, hideLoading);
 
-// 获取用户奖金明细
-export const getBalanceList = (data, callback, hideLoading) => post('consumer/searchUserAward', data, callback, hideLoading);
-
 // 获取用户余额明细
-export const getStatementList = (data, callback, hideLoading) => post('consumer/searchUserStatement', data, callback, hideLoading);
+export const getBalanceList = (data, callback, hideLoading) => post('consumer/searchUserAward', data, callback, hideLoading);
 
 // 获取团队业绩明细
 export const getPerformanceList = (data, callback, hideLoading) => post('consumer/searchUserPerformance', data, callback, hideLoading);
 
-// 用户提现
-export const userToCash = (data, callback, hideLoading) => post('consumer/applyWithdraw', data, callback, hideLoading);
+// 商家提现
+export const merchantToCash = (data, callback, hideLoading) => post('merchant/applyWithdraw', data, callback, hideLoading);
 
-// 用户提现列表
-export const cashList = (data, callback, hideLoading) => post('consumer/searchUserWithdraw', data, callback, hideLoading);
+// 商家提现列表
+export const cashList = (data, callback, hideLoading) => post('merchant/searchMerchantWithdraw', data, callback, hideLoading);
+
+// 商家余额列表
+export const statementList = (data, callback, hideLoading) => post('merchant/searchStatement', data, callback, hideLoading);
 
 // 查询提现详情
-export const withdrawDetail = (data, callback, hideLoading) => post('consumer/inquiryUserWithdraw', data, callback, hideLoading);
+export const withdrawDetail = (data, callback, hideLoading) => post('merchant/inquiryWithdraw', data, callback, hideLoading);
 
-// 查询商家
-export const merchantList = (data, callback, hideLoading) => post('public/searchMerchant', data, callback, hideLoading);
-
-// 查询商家优惠券
-export const merchantCouponList = (data, callback, hideLoading) => post('public/searchMerchantCoupon', data, callback, hideLoading);
-
-// 商家列表
+// 门店列表
 export const nearbyMerchant = (data, callback, hideLoading) => post('consumer/inquiryNearMerchant', data, callback, hideLoading);
-
-// 商家详情
-export const merchantDetail = (data, callback, hideLoading) => post('public/inquiryMerchant', data, callback, hideLoading);
-
-// 查询是否关注商家
-export const isMerchantFollowed = (data, callback, hideLoading) => post('consumer/isMerchantFollowed', data, callback, hideLoading);
-
-// 关注商家
-export const followMerchant = (data, callback, hideLoading) => post('consumer/followMerchant', data, callback, hideLoading);
-
-// 查询关注的商家
-export const followedMerchant = (data, callback, hideLoading) => post('consumer/inquiryFollowedMerchant', data, callback, hideLoading);
-
-// 取消关注商家
-export const cancelFollowMerchant = (data, callback, hideLoading) => post('consumer/cancelFollowMerchant', data, callback, hideLoading);
 
 // 微信订阅消息
 export const wxSuscribeMsg = (data, callback, hideLoading) => post('public/inquirySuscribeMsg', data, callback, hideLoading);
 
-//查询新人福利
-export const inquiryProfitWelfare = (data, callback, hideLoading) => post('consumer/inquiryProfitWelfare', data, callback, hideLoading);
-
-//领取新人福利
-export const receiveProfitWelfare = (data, callback, hideLoading) => post('consumer/receiveProfitWelfare', data, callback, hideLoading);
-
-//获取积分签到设置
-export const signSetting = (data, callback, hideLoading) => post('public/getSignSetting', data, callback, hideLoading);
-
-//是否签到
-export const isPointSigned = (data, callback, hideLoading) => post('consumer/isPointSigned', data, callback, hideLoading);
-
-//连续签到天数
-export const signDateNum = (data, callback, hideLoading) => post('consumer/getSignDateNum', data, callback, hideLoading);
-
-//积分签到
-export const signPoint = (data, callback, hideLoading) => post('consumer/signPoint', data, callback, hideLoading);
-
-//积分明细
-export const pointStatementList = (data, callback, hideLoading) => post('consumer/searchUserPointStatement', data, callback, hideLoading);
-
-//直播间列表
-export const wechatLiveRoomList = (data, callback, hideLoading) => post('public/inquiryWechatLiveRooms', data, callback, hideLoading);
+// 获取签名
+export const getSignature = (data, callback, hideLoading) => post('consumer/getSignature', data, callback, hideLoading);

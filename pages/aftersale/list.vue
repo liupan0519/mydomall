@@ -29,10 +29,11 @@
 				<text class="price">{{item.afterSaleAmount}}</text>
 			</view>
 			<view class="action-box b-t">
-				<button class="action-btn"  v-if="item.status == '0' || item.status == '2'" @click="cancelOrderAfterSale(item)">撤销申请</button>
-				<button class="action-btn"  v-if="item.status === '0'" @click="editOrderAfterSale(item)">修改申请</button>
-				<button class="action-btn"  v-if="item.status === '2'" @click="editOrderAfterSale(item)">重新申请</button>
-				<button class="action-btn"  v-if="item.status === '1'" @click="courierOrderAfterSale(item)">我已寄出</button>
+				<!-- <button class="action-btn"  v-if="item.status != '9' && item.status != '2'" @click="cancelOrderAfterSale(item)">撤销申请</button> -->
+				<!-- <button class="action-btn"  v-if="item.status === '0'" @click="editOrderAfterSale(item)">修改申请</button> -->
+				<button class="action-btn"  v-if="item.status === '0'" @click="approveOrderAfterSale(item)">同意退款</button>
+				<button class="action-btn"  v-if="item.status === '0'" @click="rejectOrderAfterSale(item)">拒绝退款</button>
+				<button class="action-btn"  v-if="item.status === '3'" @click="confirmOrderAfterSale(item)">确认收货</button>
 				<button class="action-btn" @click="viewOrderAfterSale(item)">查看详情</button>
 			</view>
 		</view>
@@ -63,17 +64,8 @@
 		onLoad(option) {
 			this.searchOrderAfterSale();
 		},
-		//下拉刷新
-		onPullDownRefresh() {
-			//重新加载数据
-			this.resetPage();
-			this.searchOrderAfterSale();
-			setTimeout(function () {
-				uni.stopPullDownRefresh();
-			}, 1000);
-		},
 		computed: {
-			...mapState(['hasLogin', 'userInfo'])
+			...mapState(['hasLogin', 'merchantInfo'])
 		},
 		methods: {
 			radioChange(e) {
@@ -122,8 +114,8 @@
 				let that = this;
 				this.loadingType = 'loading';
 				this.$api.request.searchAfterSale({
-					keyArray: ['USER'],
-					userUuid: this.userInfo.userUuid,
+					keyArray: ['MERCHANT'],
+					merchantUuid: this.merchantInfo.merchantUuid,
 					startIndex: (this.pageNo - 1) * this.pageSize,
 					pageSize: this.pageSize
 				}, res => {
@@ -176,6 +168,72 @@
 							}, res => {
 								if (res.body.status.statusCode === '0') {
 									that.$api.msg('售后单已成功撤销');
+									that.resetPage();
+									that.searchOrderAfterSale();
+								} else {
+									that.$api.msg(res.body.status.errorDesc);
+								}
+							}, false);
+						}
+					}
+				})
+			},
+			// 同意退款申请
+			approveOrderAfterSale(item){
+				let that = this;
+				uni.showModal({
+					content: '确定要同意退款申请吗？',
+					success: (e) => {
+						if (e.confirm) {
+							this.$api.request.approveAfterSale({
+								saleNo: item.saleNo
+							}, res => {
+								if (res.body.status.statusCode === '0') {
+									that.$api.msg('已同意退款申请');
+									that.resetPage();
+									that.searchOrderAfterSale();
+								} else {
+									that.$api.msg(res.body.status.errorDesc);
+								}
+							}, false);
+						}
+					}
+				})
+			},
+			// 拒绝退款申请
+			rejectOrderAfterSale(item){
+				let that = this;
+				uni.showModal({
+					content: '确定要拒绝退款申请吗？',
+					success: (e) => {
+						if (e.confirm) {
+							this.$api.request.rejectAfterSale({
+								saleNo: item.saleNo
+							}, res => {
+								if (res.body.status.statusCode === '0') {
+									that.$api.msg('已拒绝退款申请');
+									that.resetPage();
+									that.searchOrderAfterSale();
+								} else {
+									that.$api.msg(res.body.status.errorDesc);
+								}
+							}, false);
+						}
+					}
+				})
+			},
+			// 确认收货
+			confirmOrderAfterSale(item){
+				let that = this;
+				uni.showModal({
+					content: '确定已经收到退货吗？',
+					success: (e) => {
+						if (e.confirm) {
+							this.$api.request.confirmAfterSale({
+								saleNo: item.saleNo
+							}, res => {
+								if (res.body.status.statusCode === '0') {
+									that.$api.msg('已确认收货');
 									that.resetPage();
 									that.searchOrderAfterSale();
 								} else {

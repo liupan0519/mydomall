@@ -26,6 +26,7 @@
 </template>
 
 <script>
+	import listCell from '@/components/mix-list-cell';
 	import uniBadge from "@/components/uni-badge/uni-badge.vue";
 	import {
 		mapState,
@@ -33,6 +34,7 @@
 	} from 'vuex';
 	export default {
 		components: {
+			listCell,
 			uniBadge
 		},
 		data() {

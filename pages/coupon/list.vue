@@ -1,36 +1,53 @@
 <template>
 	<view class="content">
-		<u-search bg-color="#fff" placeholder="搜索商家" :clearabled="true" :show-action="false" action-text="搜索" :animation="true" v-model="searchKey" @search="search"></u-search>
-		<view class="coupon-list" v-for="merchant in merchantList" v-if="merchant.couponList.length>0">
-			<view class="coupon-title" @click="navMerchant(merchant)">{{merchant.merchantName}}<u-icon name="arrow-right"></u-icon></view>
-			<view class="coupon-list-item" v-for="item in merchant.couponList">
-				<u-row>
-					<u-col span="4">
-						<view class="coupon-left">
-							<view class="c1">
-								<text class="amount" v-if="item.type=='CASH'">{{item.benefitCash}}</text>
-								<text class="discount" v-if="item.type=='DISCOUNT'">{{item.benefitDiscount/10}}</text>
-							</view>
-							<view class="c2">
-								<text v-if="item.conditionAmount>0"> 满{{item.conditionAmount}}元可用</text>
-								<text v-else> 无门槛</text>
-							</view>
-						</view>
-					</u-col>
-					<u-col span="8" class="coupon-right">
-						<view class="c1">
-							<text v-if="item.benefitType=='0'">全场通用</text>
-							<text v-if="item.benefitType=='1'">指定商品</text>
-						</view>
-						<view class="c2">
-							<text v-if="item.validType==1"> 有效期至{{item.endDate}}</text>
-							<text v-if="item.validType==2"> 领取后{{item.validDays}}天内有效</text>
-						</view>
-						<view class="c3">
-							<u-button plain size="mini " type="error" @click="getCoupon(item)">立即领取</u-button>
-						</view>
-					</u-col>
-				</u-row>
+		<!-- <view class="coupon-list">
+			<view 
+				v-for="(item, index) in coupons" :key="index"
+				class="coupon-item"
+				@click="navToDetailPage(item)"
+			>
+				<view class="coupon-left">
+					<image :src="item.imageUrl" mode="scaleToFill"></image>
+				</view>
+				<view class="coupon-right">
+					<text class="name">{{item.couponName}}</text>
+					<text class="expire" v-if="item.validType=='1'">有效期至{{item.endDate}}</text>
+					<text class="expire" v-if="item.validType=='2'">领取后{{item.validDays}}内有效</text>
+
+					<text class="stock">{{item.availableCount}}</text>
+				</view>
+				
+				<text class="title clamp">{{item.productName}}</text>
+				<view class="price-box">
+					<text class="price">{{item.unitPrice}}</text>
+					<text>已售 {{item.soldUnit}}</text>
+				</view>
+			</view>
+		</view> -->
+		<view class="coupon-list">
+			<view class="coupon-list_item" v-for="item in coupons">
+				<view class="coupon-left">
+					<image :src="item.imageUrl"></image>
+					<!-- <image src="../../image/page1copy.png"></image> -->
+				</view>
+				<view bindtap="checkbox" class="coupon-right">
+					<view class="name">
+						<text>{{item.name}}</text>
+					</view>
+					<view class="stock">
+						<text v-if="item.benefitType=='0'">所有商品</text>
+						<text v-if="item.benefitType=='1'">指定商品</text>
+					</view>
+					<view class="valid">
+						<text v-if="item.conditionAmount>0"> 满{{item.conditionAmount}}元可用</text>
+						<text v-else> 无金额限制</text>
+					</view>
+<!-- 					<view class="stock">
+						<text>剩余{{item.totalCount}}张</text>
+					</view> -->
+					
+					<view class="buy" @click="getCoupon(item)">立即领取</view>
+				</view>
 			</view>
 		</view>
 		<uni-load-more :status="loadingType"></uni-load-more>
@@ -49,10 +66,9 @@
 		},
 		data() {
 			return {
-				searchKey:'',
 				pageNo: 1,
 				pageSize: 10,
-				merchantList: [],
+				coupons: [],
 				total: 0,
 				loadingType: ''
 			};
@@ -71,55 +87,29 @@
 			...mapState(['hasLogin', 'userInfo', 'footPrint'])
 		},
 		methods: {
-			navMerchant(merchant){
-				uni.navigateTo({
-					url: '/pages/merchant/detail?id='+merchant.merchantUuid
-				})
-			},
-			search(e){
-				this.resetPage();
-				this.searchCoupon();
-			},
 			//搜索优惠券
 			searchCoupon() {
-				let that = this;
-				var postData = {
+				let postData = {
+					keyArray: ['ACTIVE'],
+					active: true,
 					startIndex: (this.pageNo - 1) * this.pageSize,
-					pageSize: this.pageSize,
-					merchantName: this.searchKey
-				}
-				var keyArray = ['HAS_COUPON'];
-				if(this.hasLogin)	
-					postData.userUuid = this.userInfo.userUuid;
-				if(this.searchKey){
-					keyArray.push('MERCHANTNAME');
-				}
-				postData.keyArray = keyArray;
+					pageSize: this.pageSize
+				};
+				//加载中
 				this.loadingType = 'loading';
-				this.$api.request.merchantCouponList(postData, res => {
+				this.$api.request.couponList(postData, res => {
 					if (res.body.status.statusCode === '0') {
-						var merchantList = res.body.data.merchants;
-						this.merchantList = this.merchantList.concat(merchantList);
+						var coupons = res.body.data.coupons;
+						this.coupons = this.coupons.concat(coupons);
 						this.total = res.body.data.total;
-						if(this.merchantList.length>=this.total){
-							this.loadingType = 'noMore';
-						}else{
-							this.loadingType = 'more';
-						}
+						this.loadingType = this.coupons.length >= this.total ? 'noMore' : 'more';
 					} else {
 						this.loadingType = 'more';
-						this.$api.msg(res.body.status.errorDesc);
 					}
-				},true);
+				}, true);
 			},
 			//领取优惠券
 			getCoupon(item) {
-				if(!this.hasLogin){
-					uni.navigateTo({
-						url: '/pages/public/login'
-					})
-					return;
-				}
 				this.$api.request.getCoupon({
 					actionType:'RECEIVE',
 					couponDTO:{
@@ -138,86 +128,85 @@
 				}, false);
 			},
 			resetPage() {
-				this.merchantList = [];
+				this.coupons = [];
 				this.total = 0;
 				this.pageNo = 1;
+			},
+			//详情
+			navToDetailPage(item) {
+				let id = item.productUuid;
+				uni.navigateTo({
+					url: `/pages/product/product?id=${id}`
+				})
 			}
 		},
 	}
 </script>
 
 <style lang="scss">
-	page{
-		background-color: $page-color-base;
+	page,{
+		background: $page-color-base;
 	}
-	.content{
-		margin: 20upx;
-	}
+
 
 	/* 列表 */
 	.coupon-list {
 		display: flex;
 		flex-wrap: wrap;
-		margin-top: 20upx;
-		padding: 0 20upx 20upx 20upx;
-		background-color: #ffffff;
-		// margin-top: 20upx;
+		padding: 0 30upx;
 		border-radius: 20upx;
-		.coupon-title{
-			font-size: 30upx;
-			color: #000;
-			font-weight: 700;
-			padding: 20upx 0;
-		}
-		.coupon-list-item {
+		.coupon-list_item {
 			width: 100%;
 			height: 110px;
 			margin: 10upx 0;
-			background-image: url('../../static/image/coupon_bg.png');
-			background-repeat:no-repeat;
-			background-size:100% 100%;
+			background-color: #fff;
 			border-radius: 5px;
 			.coupon-left {
-				text-align: center;
-				color: #fff;
-				.c1{
-					height: 80px;
-					line-height: 80px;
-					.amount{
-						font-size: 100upx;
-						font-weight: 900;
-						&:before{
-							content: '￥';
-							font-size: $font-lg;
-						}
-					}
-					
-					.discount{
-						font-size: 100upx;
-						font-weight: 900;
-						&:after{
-							content: '折';
-							font-size: $font-lg;
-						}
-					}
-				}
-				.c2{
-					font-size: $font-sm;
+				float: left;
+				width: 45%;
+				height: 100%;
+				padding: 10upx;
+			
+				image {
+					width: 100%;
+					height: 100%;
+					opacity: 1;
 				}
 			}
 			
 			.coupon-right {
-				color: #fff;
-				text-align: center;
-				.c1{
-					padding-top: 20upx;
+				padding: 10upx;
+				width: 55%;
+				float: left;
+				border-radius: 0px 10px 10px 0px;
+				.name {
+					color: $font-color-dark;
+					font-size: $font-lg;
 				}
-				.c2{
-					padding-top: 10upx;
-					font-size: $font-sm;
+			
+				.valid {
+					color: $font-color-light;
+					font-size: $font-base;
+					line-height: 40upx;
 				}
-				.c3{
-					padding-top: 30upx;
+			
+				.stock {
+					color: $font-color-light;
+					font-size: $font-base;
+					line-height: 40upx;
+					margin-top: 10upx;
+				}
+				.buy {
+					float: right;
+					width: 90px;
+					height: 60upx;
+					border: .5px solid rgba(219, 63, 96, 0.4);
+					border-radius: 30upx;
+					line-height: 60upx;
+					color: #FF3D45;
+					font-size: 14px;
+					text-align: center;
+				
 				}
 			}
 		}

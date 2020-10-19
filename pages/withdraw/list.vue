@@ -3,7 +3,7 @@
 		<view class="list b-b">
 			<view class="wrapper">
 				<view class="withdraw-box">
-					<text class="balance">￥{{userInfo.availableBalance}}</text>
+					<text class="balance">￥{{merchantInfo.availableBalance}}</text>
 				</view>
 				<view class="u-box">
 					<text class="name">可提现余额</text>
@@ -12,7 +12,7 @@
 			<text class="apply" @click="navTo('/pages/withdraw/apply')">提现</text>
 		</view>
 		<view class="withdraw-history">
-			<view @click="navTo('/pages/withdraw/detail?id='+item.userWithdrawUuid)"  class="list b-b" v-for="(item, index) in withdrawList" :key="index">
+			<view @click="navTo('/pages/withdraw/detail?id='+item.merchantWithdrawUuid)"  class="list b-b" v-for="(item, index) in withdrawList" :key="index">
 				<view class="wrapper">
 					<view class="withdraw-box">
 						<text class="withdraw">{{item.paymentMethodStr}}</text>
@@ -59,7 +59,7 @@
 			}
 		},
 		onLoad(option) {
-			this.searchUserWithdraw();
+			this.searchMerchantWithdraw();
 		},
 		onReachBottom() {
 			this.loadMore();
@@ -68,17 +68,17 @@
 		onPullDownRefresh() {
 			//重新加载数据
 			this.resetPage();
-			this.searchUserWithdraw();
+			this.searchMerchantWithdraw();
 		},
 		computed: {
-			...mapState(['hasLogin', 'userInfo'])
+			...mapState(['hasLogin', 'merchantInfo'])
 		},
 		methods: {
 			//加载更多
 			loadMore() {
 				if (this.loadingType === 'more') {
 					this.pageNo = this.pageNo + 1;
-					this.searchUserWithdraw();
+					this.searchMerchantWithdraw();
 				}
 			},
 			resetPage() {
@@ -93,14 +93,14 @@
 			//添加或修改成功之后回调
 			refreshList() {
 				this.resetPage();
-				this.searchUserWithdraw();
+				this.searchMerchantWithdraw();
 			},
 			//查询用户奖金明细
-			searchUserWithdraw() {
+			searchMerchantWithdraw() {
 				let that = this;
 				let keyArray = ['USER'];
 				let searchOptions = {
-					userUuid: this.userInfo.userUuid,
+					userUuid: this.merchantInfo.userUuid,
 					startIndex: (this.pageNo - 1) * this.pageSize,
 					pageSize: this.pageSize
 				};

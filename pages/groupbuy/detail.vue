@@ -3,9 +3,8 @@
 		
 		<view class="photo-wrapper">
 			<view v-for="item in groupBuy.groupBuyUserList">
-				<!-- <image :src="item.userDTO.photoUrl" ></image> -->
-				<u-avatar :src="item.userDTO.photoUrl"></u-avatar>
-				<!-- <uni-badge type="primary" v-if="item.owner" text="团长"></uni-badge> -->
+				<image :src="item.userDTO.photoUrl" ></image>
+				<uni-badge type="primary" v-if="item.owner" text="团长"></uni-badge>
 			</view>
 		</view>
 		<view class="desc-wrapper">
@@ -131,7 +130,7 @@
 							seconds: diff[3]
 						}
 						this.groupBuy.groupBuyCountDown = groupBuyCountDown;
-						this.shareHref = this.$api.request.apiBaseUrl.replace("/b2b2c/rest/","") + '/#/pages/product/groupbuy?id=' + this.groupBuy.groupBuyProductDTO.groupBuyProductUuid+'&groupId='+this.groupBuy.groupBuyUuid;
+						this.shareHref = this.$api.request.apiBaseUrl.replace("/b2c/rest/","") + '/#/pages/product/groupbuy?id=' + this.groupBuy.groupBuyProductDTO.groupBuyProductUuid+'&groupId='+this.groupBuy.groupBuyUuid;
 					} else {
 						this.$api.msg(res.body.status.errorDesc);
 					}

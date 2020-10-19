@@ -60,7 +60,7 @@
 			}
 		},
 		computed: {
-			...mapState(['hasLogin', 'userInfo'])
+			...mapState(['hasLogin', 'merchantInfo'])
 		},
 		onReachBottom(){
 			if(this.loadingType === 'more'){

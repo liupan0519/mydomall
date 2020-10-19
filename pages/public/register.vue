@@ -1,49 +1,58 @@
 <template>
 	<view class="container">
 		<view class="left-bottom-sign"></view>
-		<!-- <view class="back-btn yticon icon-zuojiantou-up" @click="navBack"></view> -->
+		<view class="back-btn yticon icon-zuojiantou-up" @click="navBack"></view>
 		<view class="right-top-sign"></view>
 		<!-- 设置白色背景防止软键盘把下部绝对定位元素顶上来盖住输入框等 -->
 		<view class="wrapper">
 			<view class="left-top-sign">REGISTER</view>
 			<view class="welcome">
-				欢迎使用{{applicationConfig.applicationName}}
+				{{applicationConfig.applicationName}}
 			</view>
-			<!-- #ifdef MP-WEIXIN -->
-			<view class="wrapper">
-			
-				<view class="application-logo">
-					<image :src="applicationConfig.applicationLogo" mode="aspectFill"></image>
-				</view>
-				<view class="application-name">
-					{{applicationConfig.applicationDesc}}
-				</view>
+			<view class="welcome">
+				欢迎商家入驻！
 			</view>
-			<!-- #endif -->
-			<!-- #ifndef MP-WEIXIN -->
 			<view class="input-content">
+				<view class="input-item">
+					<text class="tit">商家名称</text>
+					<input type="text" :value="merchantName" placeholder="请输入商家名称" maxlength="30" data-key="merchantName" @input="inputChange" />
+				</view>
+				<view class="input-item">
+					<text class="tit">联系人</text>
+					<input type="text" :value="contactName" placeholder="请输入联系人姓名" maxlength="11" data-key="contactName" @input="inputChange" />
+				</view>
 				<view class="input-item">
 					<text class="tit">手机号码</text>
 					<input type="number" :value="mobileNo" placeholder="请输入手机号码" maxlength="11" data-key="mobileNo" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<text class="tit">密码</text>
-					<input type="mobile" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
-					 data-key="password" @input="inputChange" />
+					<text class="tit">所在城市</text>
+					<view style="font-size: 15px;color:#303133" @click="showAddressRegion">
+						{{province}}  {{city}}  {{district}}
+					</view>
+				</view>
+				<view class="input">
+					<w-picker
+						mode="region"
+						:defaultVal="defaultRegion"
+						:hideArea="false"
+						@confirm="onConfirm" 
+						ref="region"
+						:timeout="true"
+					></w-picker>
 				</view>
 				<view class="input-item">
-					<text class="tit">重复密码</text>
-					<input type="mobile" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
-					 data-key="rePassword" @input="inputChange" />
+					<text class="tit">详细地址</text>
+					<input disabled @click="map()" type="text" :value="merchantAddress" placeholder="点击选择商家地址" placeholder-class="input-empty" maxlength="20"
+					 data-key="merchantAddress" @input="inputChange" />
 				</view>
 			</view>
-			<!-- #endif -->
 			<!-- #ifdef MP-WEIXIN -->
-			<button open-type="getUserInfo" class="confirm-btn" @getuserinfo="getuserinfo" withCredentials="true" :disabled="registering">微信登录</button>
+			<button open-type="getUserInfo" class="confirm-btn" @getuserinfo="getuserinfo" withCredentials="true" :disabled="registering">注册</button>
 			<!-- #endif -->
 			
 			<!-- #ifndef MP-WEIXIN -->
-			<button class="confirm-btn" @click="toRegisterByPassword" :disabled="registering">注册</button>
+			<button class="confirm-btn" @click="toRegister" :disabled="registering">注册</button>
 			<!-- #endif -->
 		</view>
 	</view>
@@ -58,50 +67,27 @@
 	export default {
 		data() {
 			return {
-				code: '',
-				openId: '',
+				province: '北京市',
+				city: '市辖区',
+				district: '东城区',
+				defaultRegion:['北京市','市辖区','东城区'],
+				merchantName: '',
+				merchantAddress: '',
+				latitude: null,
+				longitude: null,
+				contactName: '',
 				mobileNo: '',
-				password: '',
-				rePassword: '',
 				registering: false,
-				supervisorId: '',
-				groupUuid: '', //会员注册专用商品组
 				wechatUserInfo:{},
 				to: '',
 				suscribeMsgList:[]
 			}
 		},
 		onLoad(options) {
-			// #ifdef H5
-			//微信浏览器
-			if(this.isWexinBrowser()){
-				var openId = uni.getStorageSync('openId');
-				//未缓存openId
-				if(!openId){
-					//有code, 通过code换取openId
-					if(options.code){
-						this.code = options.code;
-						this.getOpenIdByCode(this.code);
-					}
-					//没有code, 重定向获取code
-					else{
-						let uri = encodeURIComponent(window.location.href);
-						let authURL = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.applicationConfig.wechatAppIdOfficialAccount+'&redirect_uri='+uri+'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';  
-						window.location.href = authURL;
-						return;
-						//注意因为使用vue的history模式, 需要在nginx配置重定向, 否则会出现404错误
-					}
-				}else{
-					this.openId = openId;
-				}
-			}
-			// #endif
-			this.supervisorId = options.id || decodeURIComponent(options.scene);
 			var to = options.to;
 			if(to){
 				this.to = unescape(to);
 			}
-			this.inquiryProductGroupRegister();
 			this.inquirySuscribeMsg();
 		},
 		computed: {
@@ -109,26 +95,23 @@
 		},
 		methods: {
 			...mapMutations(['login']),
-			isWexinBrowser(){
-			    var ua = navigator.userAgent.toLowerCase();
-			    if(ua.match(/MicroMessenger/i)=="micromessenger") {
-			        return true;
-			    } else {
-			        return false;
-			    }
+			showAddressRegion(){
+				this.$refs['region'].show();	
 			},
-			getOpenIdByCode(code) {
-				let that = this;
-				let searchOptions = {
-					code: code
-				};
-				that.$api.request.getOpenIdByCode4OfficialAccount(searchOptions, res => {
-					if (res.body.status.statusCode === '0') {
-						var data = res.body.data;
-						that.openId = data.openId;
-						uni.setStorageSync("openId",that.openId);
-					} else {
-						that.$api.msg(res.body.status.errorDesc);
+			onConfirm(val){
+				this.province=val.checkArr[0];
+				this.city=val.checkArr[1];
+				this.district=val.checkArr[2];
+			},
+			map() {
+				var that = this;
+				uni.chooseLocation({
+					success: function (res) {
+						if(res.name){
+							that.merchantAddress = res.address;
+							that.latitude= res.latitude;
+							that.longitude=res.longitude;
+						}
 					}
 				});
 			},
@@ -154,57 +137,9 @@
 					success: function(res) {
 						console.log('code: '+res.code);
 						that.wechatUserInfo.code = res.code;
-						var requestData = {
-							verifyType: 'WECHAT'
-						};
-						if (that.supervisorId && that.supervisorId != 'undefined') {
-							requestData.supervisorL1 = {
-								userUuid: that.supervisorId
-							}
-						}
-						that.populateWechatUserInfo(requestData);
-						that.$api.request.login(requestData, loginRes => {
-							if (loginRes.body.status.statusCode === '0') {
-								var tokenId = loginRes.header.tokenId;
-								uni.setStorageSync('userToken', tokenId);
-								that.login(loginRes.body.data); //将用户信息保存起来
-								//如果未绑定手机号码则提示绑定手机号码
-								if (!loginRes.body.data.personalPhone) {
-									uni.showModal({
-										title: '',
-										content: '您还未绑定手机，绑定后体验更佳!',
-										showCancel: false,
-										cancelText: '',
-										confirmText: '立即绑定',
-										confirmColor: '#666666',
-										success: res => {
-											uni.navigateTo({
-												url: '/pages/public/bindMobileNo?to=' + escape(that.to)
-											})
-										}
-									});
-								} else {
-									that.loginRedirect();
-								}
-				
-							} else {
-								that.$api.msg(loginRes.body.status.errorDesc);
-							}
-						});
+						that.toRegister();
 					}
 				});
-			},
-			loginRedirect() {
-				var that = this;
-				if (that.to) {
-					uni.navigateTo({
-						url: that.to
-					})
-				} else {
-					uni.switchTab({
-						url: '/pages/user/user'
-					})
-				}
 			},
 			//查询订阅消息
 			inquirySuscribeMsg() {
@@ -216,43 +151,31 @@
 					}
 				});
 			},
-			populateWechatUserInfo(requestData){
-				requestData.code = this.wechatUserInfo.code;
-				requestData.name = this.wechatUserInfo.nickName;
-				requestData.photoUrl = this.wechatUserInfo.avatarUrl;
-				let sex = '未知';
-				if(this.wechatUserInfo.gender===1)
-					sex = '男';
-				else if(this.wechatUserInfo.gender===2)
-					sex = '女';
-				requestData.sex = sex;
-			},
-			
-			// 查询注册专用商品组
-			inquiryProductGroupRegister() {
-				this.$api.request.productGroupForRegister({}, res => {
-					if (res.body.status.statusCode === '0' && res.body.data) {
-						this.groupUuid = res.body.data.groupUuid;
-					}
-				});
-			},
-			async toRegisterByPassword() {
+			async toRegister() {
 				this.registering = true;
-
 				const {
+					merchantName,
 					mobileNo,
-					password,
-					rePassword
+					contactName,
+					province,
+					city,
+					district,
+					merchantAddress,
+					latitude,
+					longitude
 				} = this;
 				var isFormValid = true;
-				if (!this.$api.util.validateMobileNo(mobileNo)) {
+				if (!merchantName) {
+					this.$api.msg('请输入商家名称');
+					isFormValid = false;
+				} else if (!contactName) {
+					this.$api.msg('请输入联系人');
+					isFormValid = false;
+				} else if (!this.$api.util.validateMobileNo(mobileNo)) {
 					this.$api.msg('手机号码格式错误');
 					isFormValid = false;
-				} else if (!this.$api.util.validatePassword(password)) {
-					this.$api.msg('密码为8-20位字母数字下划线组合');
-					isFormValid = false;
-				} else if (password != rePassword) {
-					this.$api.msg('两次密码输入不一致');
+				} else if (!merchantAddress) {
+					this.$api.msg('请选择商家地址');
 					isFormValid = false;
 				}
 				if (!isFormValid) {
@@ -260,53 +183,34 @@
 					return;
 				}
 				let requestData = {
-					personalPhone: mobileNo,
-					personalPhoneCountryCode: '86',
-					password: password,
-					openId: this.openId
+					merchantName: merchantName,
+					mobileNo: mobileNo,
+					contactName: contactName,
+					province: province,
+					city: city,
+					district: district,
+					merchantAddress: merchantAddress,
+					latitude: latitude,
+					longitude: longitude
 				};
-				if (this.supervisorId) {
-					requestData.supervisorL1 = {
-						userUuid: this.supervisorId
-					}
-				}
-				this.$api.request.reg(requestData, regRes => {
+				this.$api.request.applyMerchant(requestData, regRes => {
 					if (regRes.body.status.statusCode === '0') {
-						//注册成功后立即登录, 获取userToken
-						this.$api.request.login({
-							verifyType: 'PASSWORD',
-							personalPhone: mobileNo,
-							personalPhoneCountryCode: '86',
-							password: password
-						}, loginRes => {
-							if (loginRes.body.status.statusCode === '0') {
-								var tokenId = loginRes.header.tokenId;
-								uni.setStorageSync('userToken', tokenId);
-								this.login(loginRes.body.data); //将用户信息保存起来
-								if(this.to){
-									console.log(this.to);
-									uni.navigateTo({
-										url: this.to
-									})
-								}else if (this.groupUuid) {
-									uni.navigateTo({
-										url: '/pages/product/group?groupId=' + this.groupUuid
-									})
-								} else {
-									uni.switchTab({
-										url: '/pages/user/user'
-									})
-								}
-							} else {
-								this.$api.msg(loginRes.body.status.errorDesc);
-								this.registering = false;
-							}
-						});
+						uni.navigateTo({
+							url: '/pages/public/registerSuccess'
+						})
 					} else {
 						this.$api.msg(regRes.body.status.errorDesc);
 						this.registering = false;
 					}
 				});
+				// const result = await this.$api.json('userInfo');
+				// if (result.status === 1) {
+				// 	this.login(result.data);
+				// 	uni.navigateBack();
+				// } else {
+				// 	this.$api.msg(result.msg);
+				// 	this.registering = false;
+				// }
 			}
 		}
 	}
@@ -318,10 +222,9 @@
 	}
 
 	.container {
-		padding-top: 75px;
+		padding-top: 40px;
 		position: relative;
 		width: 100vw;
-		height: 100vh;
 		overflow: hidden;
 		background: #fff;
 	}
@@ -341,21 +244,6 @@
 		top: 40upx;
 		font-size: 40upx;
 		color: $font-color-dark;
-	}
-	
-	.application-logo {
-		text-align: center;
-
-		image {
-			width: 200upx;
-			height: 200upx;
-		}
-	}
-
-	.application-name {
-		margin-top: 20upx;
-		text-align: center;
-		color: $font-color-base;
 	}
 
 	.left-top-sign {
@@ -406,7 +294,7 @@
 
 	.welcome {
 		position: relative;
-		text-align: center;
+		left: 50upx;
 		top: -90upx;
 		font-size: 46upx;
 		color: #555;

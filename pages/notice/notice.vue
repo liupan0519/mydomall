@@ -21,6 +21,7 @@
 </template>
 
 <script>
+	import listCell from '@/components/mix-list-cell';
 	import uniBadge from "@/components/uni-badge/uni-badge.vue";
 	import {
 		mapState,
@@ -28,6 +29,7 @@
 	} from 'vuex';
 	export default {
 		components: {
+			listCell,
 			uniBadge
 		},
 		data() {
@@ -56,25 +58,8 @@
 							})
 					}
 				},true)
-				//设置已读
-				this.markRead(item.articleUuid);
+		
 			},
-			markRead(articleUuid){
-				var readNotice = uni.getStorageSync('readNotice');
-				if (!readNotice) {
-					readNotice = [];
-				}
-				var flag = false;	//已读列表是否已经存在该通知
-				for (var key in readNotice) {
-					if (readNotice[key] == articleUuid) {
-						flag = true;
-					}
-				}
-				if(!flag){
-					readNotice.push(articleUuid);
-				}
-				uni.setStorageSync('readNotice', readNotice);
-			}
 		}
 	}
 </script>

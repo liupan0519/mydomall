@@ -6,7 +6,7 @@
 		</view>
 		<view class="row">
 			<text class="tit">可提现金额</text>
-			<text class="tit-amount" @click="withdrawFullAmount">{{userInfo.availableBalance}}</text>
+			<text class="tit-amount" @click="withdrawFullAmount">{{merchantInfo.availableBalance}}</text>
 		</view>
 		<view class="apply-wrapper">
 			<view class="navbar">
@@ -106,7 +106,7 @@
 			
 		},
 		computed: {
-			...mapState(['hasLogin', 'userInfo'])
+			...mapState(['hasLogin', 'merchantInfo'])
 		},
 		methods: {
 			...mapMutations(['login']),
@@ -129,7 +129,7 @@
 					this.$api.msg('请输入提现金额');
 					return;
 				}
-				if(this.withdrawAmount===0 || this.withdrawAmount>this.userInfo.availableBalance){
+				if(this.withdrawAmount===0 || this.withdrawAmount>this.merchantInfo.availableBalance){
 					this.$api.msg('仅限金额输入有误');
 					return;
 				}
@@ -156,8 +156,8 @@
 					}
 				}
 				let options = {
-					userDTO:{
-						userUuid: this.userInfo.userUuid,
+					merchantDTO:{
+						merchantUuid: this.merchantInfo.merchantUuid,
 					},
 					withdrawAmount: this.withdrawAmount,
 					bankAccountName: this.bankAccountName,
@@ -166,11 +166,11 @@
 					alipayId: this.alipayId,
 					paymentMethod: this.tabCurrentIndex===0?'BANK':'ALIPAY'
 				}
-				this.$api.request.userToCash(options, res => {
+				this.$api.request.merchantToCash(options, res => {
 					if (res.body.status.statusCode === '0') {
 						this.$api.msg('提现申请已提交');
-						this.userInfo.availableBalance = this.userInfo.availableBalance - this.withdrawAmount;
-						this.login(this.userInfo);
+						this.merchantInfo.availableBalance = this.merchantInfo.availableBalance - this.withdrawAmount;
+						this.login(this.merchantInfo);
 						setTimeout(()=>{
 							this.$api.prePage().refreshList();
 							uni.navigateBack();
@@ -190,7 +190,7 @@
 				this.tabCurrentIndex = index;
 			},
 			withdrawFullAmount(){
-				this.withdrawAmount = this.userInfo.availableBalance;
+				this.withdrawAmount = this.merchantInfo.availableBalance;
 			},
 			navTo(url) {
 				uni.navigateTo({

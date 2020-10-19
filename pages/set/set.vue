@@ -1,10 +1,10 @@
 <template>
 	<view class="container">
-		<view class="list-cell b-b m-t" @click="navTo('/pages/set/setUserInfo')" hover-class="cell-hover" :hover-stay-time="50">
+		<view class="list-cell b-b m-t" @click="navTo('/pages/set/setMerchantInfo')" hover-class="cell-hover" :hover-stay-time="50">
 			<text class="cell-tit">个人资料</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view>
-		<view class="list-cell b-b" @click="navTo('/pages/set/setUserSecurity')" hover-class="cell-hover" :hover-stay-time="50">
+		<view class="list-cell b-b" @click="navTo('/pages/set/setMerchantSecurity')" hover-class="cell-hover" :hover-stay-time="50">
 			<text class="cell-tit">账户安全</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view>
@@ -12,10 +12,6 @@
 			<text class="cell-tit">收货地址</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view> -->
-		<view class="list-cell m-t">
-			<text class="cell-tit">消息推送</text>
-			<switch :checked="userInfo.notificationEnabled" color="#fa436a" @change="switchChange" />
-		</view>
 <!-- 		<view class="list-cell m-t b-b" @click="clearStorage" hover-class="cell-hover" :hover-stay-time="50">
 			<text class="cell-tit">清除缓存</text>
 			<text class="cell-more yticon icon-you"></text>
@@ -70,19 +66,6 @@
 				    }
 				});
 			},
-			//打开或关闭消息通知
-			switchChange(e){
-				let isNotificationEnabled = e.detail.value ? true: false;
-				if(isNotificationEnabled)
-					this.$api.request.enableNotification({
-						userUuid: this.userInfo.userUuid,
-					}, res => {});
-				else
-					this.$api.request.disableNotification({
-						userUuid: this.userInfo.userUuid,
-					}, res => {});
-			},
-
 		}
 	}
 </script>

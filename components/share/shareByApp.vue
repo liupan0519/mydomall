@@ -81,15 +81,24 @@ export default {
 								sort:1
 							})
 							break;
-						// case 'qq':
-						// 	data.push({
-						// 		name: 'QQ好友',
-						// 		cate: 'share',
-						// 		id: 'qq',
-						// 		img: '../../static/image/qq.png',
-						// 		sort:3
-						// 	})
-						// 	break;
+// 						case 'sinaweibo':
+// 							data.push({
+// 								name: '分享到新浪微博',
+// 								cate: 'share',
+// 								id: 'sinaweibo',
+// 								img: '../../static/image/sina-weibo.png',
+// 								sort:2
+// 							})
+// 							break;
+						case 'qq':
+							data.push({
+								name: 'QQ好友',
+								cate: 'share',
+								id: 'qq',
+								img: '../../static/image/qq.png',
+								sort:3
+							})
+							break;
 						default:
 							break;
 					}

@@ -7,40 +7,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				// #ifdef MP 
-				"navigationBarTitleText": "创创猫商城",
-				//"navigationStyle": "custom",
-				// #endif 
-				"app-plus": {
-					"titleNView": {
-						"type": "transparent",
-						"searchInput": {
-							"backgroundColor": "rgba(231, 231, 231,.7)",
-							"borderRadius": "16px",
-							"placeholder": "请输入商品 如：iphone",
-							"disabled": true,
-							"placeholderColor": "#606266"
-						},
-						"buttons": [
-							{
-								"fontSrc": "/static/yticon.ttf",
-								"text": "\ue60d",
-								"fontSize": "26",
-								"color": "#303133",
-								"float": "left",
-								"background": "rgba(0,0,0,0)"
-							},
-							{
-								"fontSrc": "/static/yticon.ttf",
-								"text": "\ue744",
-								"fontSize": "27",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)",
-								"redDot": true
-							}
-						]
-					}
-				}
+				"navigationBarTitleText": "好好新鲜商家端",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -65,24 +33,19 @@
 				"navigationBarTitleText": "设置"
 			}
 		}, {
-			"path": "pages/set/setUserInfo",
+			"path": "pages/set/setMerchantInfo",
 			"style": {
-				"navigationBarTitleText": "个人资料"
+				"navigationBarTitleText": "商家资料"
 			}
 		}, {
-			"path": "pages/set/setUserSecurity",
+			"path": "pages/set/setMerchantSecurity",
 			"style": {
 				"navigationBarTitleText": "账户安全"
 			}
 		}, {
-			"path": "pages/set/setUserSecurityPassword",
+			"path": "pages/set/setMerchantSecurityPassword",
 			"style": {
 				"navigationBarTitleText": "修改密码"
-			}
-		}, {
-			"path": "pages/set/setUserInfoName",
-			"style": {
-				"navigationBarTitleText": "设置昵称"
 			}
 		},
 		{
@@ -160,18 +123,13 @@
 		{
 			"path": "pages/merchant/nearby",
 			"style": {
-				"navigationBarTitleText": "附近商家"
+				"navigationBarTitleText": "附近门店"
 			}
 		}, 
 		{
 			"path": "pages/merchant/list",
 			"style": {
-				"navigationBarTitleText": "商家列表"
-			}
-		},{
-			"path": "pages/merchant/detail",
-			"style": {
-				"navigationBarTitleText": "商家详情"
+				"navigationBarTitleText": "门店列表"
 			}
 		}, {
 			"path": "pages/content/index",
@@ -197,42 +155,42 @@
 		}, {
 			"path": "pages/public/login",
 			"style": {
-				"navigationBarTitleText": "会员登录"
-				// "navigationStyle": "custom",
-				// "app-plus": {
-				// 	"titleNView": false,
-				// 	"animationType": "slide-in-bottom"
-				// }
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
 			}
 		}, {
 			"path": "pages/public/register",
 			"style": {
-				"navigationBarTitleText": "会员加入"
-				// "navigationStyle": "custom",
-				// "app-plus": {
-				// 	"titleNView": false,
-				// 	"animationType": "slide-in-bottom"
-				// }
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
+			}
+		}, {
+			"path": "pages/public/registerSuccess",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
 			}
 		}, {
 			"path": "pages/public/forgetPassword",
 			"style": {
-				"navigationBarTitleText": "忘记密码"
-				// "navigationStyle": "custom",
-				// "app-plus": {
-				// 	"titleNView": false,
-				// 	"animationType": "slide-in-bottom"
-				// }
-			}
-		}, {
-			"path": "pages/public/bindMobileNo",
-			"style": {
-				"navigationBarTitleText": "绑定手机"
-				// "navigationStyle": "custom",
-				// "app-plus": {
-				// 	"titleNView": false,
-				// 	"animationType": "slide-in-bottom"
-				// }
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
 			}
 		}, {
 			"path": "pages/user/user",
@@ -266,10 +224,19 @@
 				}
 			}
 		}, {
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		}, {
 			"path": "pages/order/order",
 			"style": {
 				"navigationBarTitleText": "我的订单",
-				"enablePullDownRefresh": true,
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -283,20 +250,20 @@
 				}
 			}
 		}, {
+			"path": "pages/order/deliverOrder",
+			"style": {
+				"navigationBarTitleText": "订单发货",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
 			"path": "pages/money/money",
 			"style": {}
 		}, {
 			"path": "pages/order/createOrder",
 			"style": {
 				"navigationBarTitleText": "创建订单"
-			}
-		}, {
-			"path": "pages/order/courier",
-			"style": {
-				"navigationBarTitleText": "订单物流",
-				"app-plus": {
-					"bounce": "none"
-				}
 			}
 		}, {
 			"path": "pages/order/createSecKillOrder",
@@ -326,8 +293,7 @@
 		}, {
 			"path": "pages/aftersale/list",
 			"style": {
-				"navigationBarTitleText": "退款/售后",
-				"enablePullDownRefresh": true
+				"navigationBarTitleText": "退款/售后"
 			}
 		}, {
 			"path": "pages/aftersale/detail",
@@ -451,82 +417,28 @@
 				"navigationBarTitleText": "领券中心"
 			}
 		}, {
+			"path": "pages/voucher/voucher",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "核销卡券"
+			}
+		}, {
 			"path": "pages/help/help",
 			"style": {
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": "客服中心"
 			}
 		}, {
-			"path": "pages/point/sign",
+			"path": "pages/data/data",
 			"style": {
 				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "积分签到"
-			}
-		}, {
-			"path": "pages/point/rule",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "积分签到规则"
-			}
-		}, {
-			"path": "pages/point/point-list",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "积分明细"
-			}
-		}, {
-			"path": "pages/point/product-list",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "积分商品"
-			}
-		}, {
-			"path": "pages/point/product-detail",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "商品详情"
-			}
-		}, {
-			"path": "pages/point/point-create-order",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "创建积分订单"
-			}
-		}, {
-			"path": "pages/point/point-pay",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "订单支付"
-			}
-		}, {
-			"path": "pages/point/point-pay-success",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "兑换成功"
-			}
-		}, {
-			"path": "pages/point/point-order-list",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "积分订单"
-			}
-		}, {
-			"path": "pages/point/point-order-detail",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "订单详情"
-			}
-		}, {
-			"path": "pages/live/room-list",
-			"style": {
-				"enablePullDownRefresh": false,
-				"navigationBarTitleText": "直播间"
+				"navigationBarTitleText": "数据"
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "创创猫商城",
+		"navigationBarTitleText": "商城",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#f8f8f8"
 	},
@@ -545,7 +457,7 @@
 				"pagePath": "pages/category/category",
 				"iconPath": "static/tab-cate.png",
 				"selectedIconPath": "static/tab-cate-current.png",
-				"text": "分类"
+				"text": "商品"
 			},
 			{
 				"pagePath": "pages/content/index",
@@ -553,12 +465,12 @@
 				"selectedIconPath": "static/tab-find-current.png",
 				"text": "发现"
 			},
-			{
-				"pagePath": "pages/cart/cart",
-				"iconPath": "static/tab-cart.png",
-				"selectedIconPath": "static/tab-cart-current.png",
-				"text": "购物车"
-			},
+			// {
+			// 	"pagePath": "pages/cart/cart",
+			// 	"iconPath": "static/tab-cart.png",
+			// 	"selectedIconPath": "static/tab-cart-current.png",
+			// 	"text": "购物车"
+			// },
 			{
 				"pagePath": "pages/user/user",
 				"iconPath": "static/tab-my.png",

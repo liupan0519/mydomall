@@ -81,16 +81,16 @@
 		onLoad(option) {
 			//订单数据
 			this.id = option.id;
-			this.inquiryUserWithdraw(this.id);
+			this.inquiryMerchantWithdraw(this.id);
 		},
 		computed: {
-			...mapState(['hasLogin', 'userInfo'])
+			...mapState(['hasLogin', 'merchantInfo'])
 		},
 		methods: {
 			//查询提现详情
-			inquiryUserWithdraw(id) {
+			inquiryMerchantWithdraw(id) {
 				this.$api.request.withdrawDetail({
-					userWithdrawUuid: id
+					merchantWithdrawUuid: id
 				}, res => {
 					if (res.body.status.statusCode === '0') {
 						this.withdraw = res.body.data;

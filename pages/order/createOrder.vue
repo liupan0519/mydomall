@@ -1,13 +1,13 @@
 <template>
 	<view>
 		<!-- 地址 -->
-		<view class="navbar">
+		<!-- <view class="navbar">
 			<view v-for="(item, index) in navList" :key="index" class="nav-item" :class="{current: tabCurrentIndex === index}"
-			 @click="tabClick(index,item)">
+			 @click="tabClick(index)">
 				{{item.text}}
 			</view>
-		</view>
-		<navigator v-if="currentDeliveryType=='1'" url="/pages/address/address?source=1" class="address-section">
+		</view> -->
+		<navigator v-if="tabCurrentIndex==0" url="/pages/address/address?source=1" class="address-section">
 			<view class="order-content" v-if="addressData.name">
 				<text class="yticon icon-shouhuodizhi"></text>
 				<view class="cen">
@@ -33,19 +33,31 @@
 			</view>
 			<image class="a-bg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAAFCAYAAAAaAWmiAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Rjk3RjkzMjM2NzMxMTFFOUI4RkU4OEZGMDcxQzgzOEYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Rjk3RjkzMjQ2NzMxMTFFOUI4RkU4OEZGMDcxQzgzOEYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpGOTdGOTMyMTY3MzExMUU5QjhGRTg4RkYwNzFDODM4RiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpGOTdGOTMyMjY3MzExMUU5QjhGRTg4RkYwNzFDODM4RiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PrEOZlQAAAiuSURBVHjazJp7bFvV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"></image>
 		</navigator>
-		<view v-if="currentDeliveryType=='2'" class="delivery-section">
-			<u-form :model="deliveryData">
-				<u-form-item label="收件人姓名" label-width="250"><u-input type="text" v-model="deliveryData.deliveryName" placeholder="请输入姓名"/></u-form-item>
-				<u-form-item label="收件人电话号码" label-width="250"><u-input type="number" v-model="deliveryData.deliveryContactNo" placeholder="请输入电话号码"/></u-form-item>
-				<u-form-item label="收件地址" label-width="250" right-icon="arrow-right"><u-input readonly type="text" v-model="deliveryData.deliveryStreet"  placeholder="点击选择" @click="chooseLocation"/></u-form-item>
-			</u-form>
-		</view>
-		<view v-if="currentDeliveryType=='3'" class="delivery-section">
-			<u-form :model="deliveryData">
-				<u-form-item label="提货人姓名" label-width="250"><u-input type="text" v-model="deliveryData.deliveryName" placeholder="请输入姓名"/></u-form-item>
-				<u-form-item label="提货人电话号码" label-width="250"><u-input type="number" v-model="deliveryData.deliveryContactNo" placeholder="请输入电话号码"/></u-form-item>
-			</u-form>
-		</view>
+		<navigator v-if="tabCurrentIndex==1" url="/pages/merchant/list" class="address-section">
+			<view class="order-content" v-if="merchantData.merchantUuid">
+				<text class="yticon icon-shouhuodizhi"></text>
+				<view class="cen">
+					<view class="top">
+						<text class="name">{{merchantData.merchantName}}</text>
+					</view>
+					<text class="address">{{merchantData.merchantAddress}}公里</text>
+				</view>
+				<text class="yticon icon-you"></text>
+			</view>
+			<view class="order-content" v-if="!merchantData.merchantUuid">
+				<text class="yticon icon-shouhuodizhi"></text>
+				<view class="cen">
+					<view class="top">
+						<!-- <text class="name">{{addressData.name}}</text>
+						<text class="mobile">{{addressData.telephone}}</text> -->
+						<text>请选择门店</text>
+					</view>
+					<!-- <text class="address">{{addressData.street}}</text> -->
+				</view>
+				<text class="yticon icon-you"></text>
+			</view>
+		</navigator>
+
 		<view class="goods-section">
 			<!-- 			<view class="g-header b-b">
 				<image class="logo" src="http://duoduo.qibukj.cn/./Upload/Images/20190321/201903211727515.png"></image>
@@ -54,12 +66,7 @@
 			<!-- 商品列表 -->
 			<view v-for="cart in carts">
 				<view class="store">
-					<view class="m-name">
-					{{cart.productDTO.merchantDTO.merchantName}}
-					</view>
-					<view class="m-address" v-if="currentDeliveryType=='3'" @click="openLocation(cart.productDTO.merchantDTO.latitude, cart.productDTO.merchantDTO.longitude)">
-						{{cart.productDTO.merchantDTO.province||''}}{{cart.productDTO.merchantDTO.city||''}}{{cart.productDTO.merchantDTO.district||''}}{{cart.productDTO.merchantDTO.merchantAddress||''}}
-					</view>
+					<image class="portrait" src="/static/image/store-dark.png" mode="aspectFill"></image>&nbsp;&nbsp;&nbsp;{{cart.productDTO.merchantDTO.merchantName}}
 				</view>
 				<view class="g-item">
 					<image :src="cart.productDTO.productMainImage.url"></image>
@@ -93,10 +100,7 @@
 				<text class="cell-tip active" v-if="coupons.length>0" @click="togglePopup('bottom', 'coupon')">
 					<text v-if="!selectedCoupon.userCouponUuid">不使用优惠券</text>
 					<text v-if="selectedCoupon.userCouponUuid">
-						<text v-if="selectedCoupon.couponDTO.conditionAmount>0">满{{selectedCoupon.couponDTO.conditionAmount}}</text>
-						<text v-else>立</text>
-						<text v-if="selectedCoupon.couponDTO.type=='CASH'">减{{selectedCoupon.couponDTO.benefitCash}}</text>
-						<text v-if="selectedCoupon.couponDTO.type=='DISCOUNT'">享{{selectedCoupon.couponDTO.benefitDiscount/10}}折</text>
+						{{selectedCoupon.couponDTO.name}}
 					</text>
 				</text>
 				<text class="cell-tip">
@@ -122,13 +126,10 @@
 				<text class="cell-tit clamp">优惠金额</text>
 				<text class="cell-tip">￥{{deductAmount}}</text>
 			</view>
-			<view class="yt-list-cell b-b" v-if="currentDeliveryType=='1'">
+			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">运费</text>
-				<text class="cell-tip">￥{{freightAmount}}</text>
-			</view>
-			<view class="yt-list-cell b-b" v-if="currentDeliveryType=='2'">
-				<text class="cell-tit clamp">配送费</text>
-				<text class="cell-tip">￥{{deliveryAmount}}</text>
+				<text class="cell-tip" v-if="tabCurrentIndex==0">￥{{freightAmount}}</text>
+				<text class="cell-tip" v-if="tabCurrentIndex==1">￥0</text>
 			</view>
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">备注</text>
@@ -141,7 +142,7 @@
 			<view class="price-content">
 				<text>实付款</text>
 				<text class="price-tip">￥</text>
-				<text class="price">{{actualAmount.toFixed(2)}}</text>
+				<text class="price">{{actualAmount}}</text>
 			</view>
 			<text class="submit" @click="submit">提交订单</text>
 		</view>
@@ -150,33 +151,27 @@
 		<!-- 底部分享弹窗 -->
 		<uni-popup ref="showcoupon" :type="type" @change="change">
 			<scroll-view scroll-y="true" class="coupon-list">
-				<view class="coupon-list-item" v-if="item.userCouponUuid!=selectedCoupon.userCouponUuid" v-for="item in coupons">
-					<u-row>
-						<u-col span="4">
-							<view class="coupon-left">
-								<view class="c1">
-									<text class="amount" v-if="item.couponDTO.type=='CASH'">{{item.couponDTO.benefitCash}}</text>
-									<text class="discount" v-if="item.couponDTO.type=='DISCOUNT'">{{item.couponDTO.benefitDiscount/10}}</text>
-								</view>
-								<view class="c2">
-									<text v-if="item.couponDTO.conditionAmount>0"> 满{{item.couponDTO.conditionAmount}}元可用</text>
-									<text v-else> 无门槛</text>
-								</view>
-							</view>
-						</u-col>
-						<u-col offset="2" span="6" class="coupon-right">
-							<view class="c1">
-								<text v-if="item.couponDTO.benefitType=='0'">全场通用</text>
-								<text v-if="item.couponDTO.benefitType=='1'">指定商品</text>
-							</view>
-							<view class="c2">
-								<text> 有效期至{{item.endDate}}</text>
-							</view>
-							<view class="c3">
-								<u-button plain size="mini " type="error"  @click="selectCoupon(item)">立即使用</u-button>
-							</view>
-						</u-col>
-					</u-row>
+				<view class="coupon-list_item" v-for="item in coupons" @click="selectCoupon(item)">
+					<view class="coupon-left">
+						<image :src="item.couponDTO.imageUrl"></image>
+						<!-- <image src="../../image/page1copy.png"></image> -->
+					</view>
+					<view bindtap="checkbox" class="coupon-right">
+						<view class="name">
+							<text>{{item.couponDTO.name}}</text>
+						</view>
+						<view class="stock">
+							<text v-if="item.couponDTO.benefitType=='0'">所有商品</text>
+							<text v-if="item.couponDTO.benefitType=='1'">指定商品</text>
+						</view>
+						<view class="valid">
+							<text v-if="item.couponDTO.conditionAmount>0"> 满{{item.couponDTO.conditionAmount}}元可用</text>
+							<text v-else> 无金额限制</text>
+						</view>
+						<view class="valid">
+							<text> {{item.endDate}}到期</text>
+						</view>
+					</view>
 				</view>
 			</scroll-view>
 		</uni-popup>
@@ -194,20 +189,18 @@
 		data() {
 			return {
 				tabCurrentIndex:0,
-				currentDeliveryType:'',
-				isDeliveryExpressEnabled:true,
-				isDeliveryCityEnabled:true,
-				isDeliveryPickEnabled:true,
-				navList: [],
+				navList: [{
+						state: '1',
+						text: '快递配送'
+					}],
 				cartIds: [],
 				carts: [], //结算的商品
 				productAmount: 0.00, //商品金额, 未扣减任何优惠
 				deductAmount: 0.00, //优惠金额
 				actualAmount: 0.00, //实付金额
 				freightAmount: 0.00, //运费
-				deliveryData:{},	//配送地址
-				deliveryAmount: 0.00, //配送费
 				addressData: {}, //收货地址
+				merchantData: {}, //门店地址
 				maskState: 0, //优惠券面板显示状态
 				memo: '', //备注
 				payType: 1, //1微信 2支付宝
@@ -238,16 +231,7 @@
 			}
 			this.inquiryProductByCartId(this.cartIds);
 			this.inquiryDefaultAddress(this.userInfo.userUuid);
-			//全局支持的配送方式
-			if(!this.applicationConfig.applicationDeliveryExpressEnabled){
-				this.isDeliveryExpressEnabled = false;
-			}
-			if(!this.applicationConfig.applicationDeliveryCityEnabled){
-				this.isDeliveryCityEnabled = false;
-			}
-			if(!this.applicationConfig.applicationDeliveryPickEnabled){
-				this.isDeliveryPickEnabled = false;
-			}
+			this.searchCoupon();
 		},
 		computed: {
 			...mapState(['hasLogin', 'userInfo', 'applicationConfig'])
@@ -258,15 +242,12 @@
 			}
 		},
 		methods: {
-			tabClick(index,item) {
+			tabClick(index) {
 				this.tabCurrentIndex = index;
-				this.currentDeliveryType = item.state;
-				if(this.currentDeliveryType=='1'){
-					this.actualAmount = this.productAmount - this.deductAmount + this.freightAmount;
-				}else if(this.currentDeliveryType=='2'){
-					this.actualAmount = this.productAmount - this.deductAmount + this.deliveryAmount;
-				}else if(this.currentDeliveryType=='3'){
+				if(index==1){
 					this.actualAmount = this.productAmount - this.deductAmount;
+				}else if(index==0){
+					this.actualAmount = this.productAmount - this.deductAmount + this.freightAmount;
 				}
 			},
 			//查询默认收货地址
@@ -299,66 +280,17 @@
 						var productAmount = this.calcSelectedProductAmount(this.carts);
 						this.productAmount = productAmount.toFixed(2);
 						this.actualAmount = this.productAmount - this.deductAmount + this.freightAmount;
-						//是否包含多个商家商品, 是否多支持快递配送, 同城配送, 门店自提
+						
+						//是否包含多个商家商品
 						this.carts.forEach(function(val,index){
-							if(that.carts[index].productDTO.merchantDTO.merchantUuid!=that.carts[0].productDTO.merchantDTO.merchantUuid){
+							if(that.carts[index+1].productDTO.merchantDTO.merchantUuid!=that.carts[index].productDTO.merchantDTO.merchantUuid){
 								that.isMultipleMerchant = true;			
 							}
-							if(!that.carts[index].productDTO.deliveryExpressEnabled){
-								that.isDeliveryExpressEnabled = false;
-							}
-							if(!that.carts[index].productDTO.deliveryCityEnabled){
-								that.isDeliveryCityEnabled = false;
-							}
-							if(!that.carts[index].productDTO.deliveryPickEnabled){
-								that.isDeliveryPickEnabled = false;
-							}
 						})
-						//单商家商品, 搜索优惠券
-						if(!that.isMultipleMerchant){
-							that.searchCoupon();
-						}
-						//商品支持的发货方式
-						this.populateDeliveryType();
 					} else {
 						console.log(res.body.status.errorDesc);
 					}
 				});
-			},
-			//打开商家地址
-			openLocation(latitude,longitude){
-				uni.openLocation({
-					latitude: latitude,
-					longitude: longitude,
-					success: function () {
-						console.log('打开地图成功');
-					}
-				});
-			},
-			//选择配送地址
-			chooseLocation(){
-				let that = this;
-				uni.chooseLocation({
-				    success: function (res) {
-						that.$set(that.deliveryData, 'deliveryStreet', res.address+res.name);
-						that.$set(that.deliveryData, 'deliveryLatitude', res.latitude);
-						that.$set(that.deliveryData, 'deliveryLongitude', res.longitude);
-						that.calculateDeliveryAmount(that.cartIds, res.latitude, res.longitude);
-				    }
-				});
-			},
-			//支持的发货方式
-			populateDeliveryType(){
-				if(this.isDeliveryExpressEnabled){
-					this.navList.push({state:'1',text:'快递配送'});
-				}
-				if(this.isDeliveryCityEnabled){
-					this.navList.push({state:'2',text:'同城配送'});
-				}
-				if(this.isDeliveryPickEnabled){
-					this.navList.push({state:'3',text:'门店自提'});
-				}
-				this.currentDeliveryType = this.navList[0].state;	//第一个为默认选择
 			},
 			//搜索可用优惠券
 			searchCoupon() {
@@ -372,12 +304,6 @@
 					startIndex: 0,
 					pageSize: 50 //默认查询50张有效优惠券, 用户大于50张则多余部分不会显示
 				};
-				//只查询适用于该商家的优惠券(不适用于跨商家订单)
-				if(!this.isMultipleMerchant){
-					keyArray.push('MERCHANT');
-					postData.merchantUuid = this.carts[0].productDTO.merchantDTO.merchantUuid;
-				}
-				postData.keyArray = keyArray;
 				//加载中
 				this.$api.request.userCoupon(postData, res => {
 					if (res.body.status.statusCode === '0') {
@@ -426,24 +352,6 @@
 					if (res.body.status.statusCode === '0') {
 						this.freightAmount = res.body.data.freightAmount;
 						this.actualAmount = this.productAmount - this.deductAmount + this.freightAmount;
-					} else {
-						this.$api.msg(res.body.status.errorDesc);
-					}
-				}, false);
-			},
-			// 计算同城配送费金额
-			calculateDeliveryAmount(item, deliveryLatitude, deliveryLongitude) {
-				let postData = {
-					shoppingCartUuidList: this.cartIds.split(','),
-					deliveryLatitude: deliveryLatitude,
-					deliveryLongitude: deliveryLongitude
-				}
-				this.$api.request.calculateDeliveryAmount(postData, res => {
-					if (res.body.status.statusCode === '0') {
-						this.deliveryAmount = res.body.data.deliveryAmount;
-						//同城配送
-						if(this.currentDeliveryType=='2')
-							this.actualAmount = this.productAmount - this.deductAmount + this.deliveryAmount;
 					} else {
 						this.$api.msg(res.body.status.errorDesc);
 					}
@@ -499,18 +407,12 @@
 			},
 			submit() {
 				//检查收货地址是否选择
-				if ((this.currentDeliveryType=='1')&&!this.addressData.userDeliveryAddressUuid) {
-					this.$api.msg('未选择快递收货地址');
+				if (this.tabCurrentIndex==0&&!this.addressData.userDeliveryAddressUuid) {
+					this.$api.msg('未选择收货地址');
 					return;
 				}
-				//检查配送地址是否选择
-				if ((this.currentDeliveryType=='2')&&(!this.deliveryData.deliveryStreet||!this.deliveryData.deliveryName||!this.deliveryData.deliveryContactNo)) {
-					this.$api.msg('配送地址未填写完整');
-					return;
-				}
-				//检查提货人是否选择
-				if ((this.currentDeliveryType=='3')&&(!this.deliveryData.deliveryName||!this.deliveryData.deliveryContactNo)) {
-					this.$api.msg('提货人信息未填写完整');
+				if (this.tabCurrentIndex==1&&!this.merchantData.merchantUuid) {
+					this.$api.msg('未选择提货门店');
 					return;
 				}
 				//post订单数据到后台
@@ -522,13 +424,10 @@
 					deliveryAddressDTO: {
 						userDeliveryAddressUuid: this.addressData.userDeliveryAddressUuid
 					},
-					deliveryName: this.deliveryData.deliveryName,
-					deliveryContactNo: this.deliveryData.deliveryContactNo,
-					deliveryLatitude: this.deliveryData.deliveryLatitude,
-					deliveryLongitude: this.deliveryData.deliveryLongitude,
-					deliveryStreet: this.deliveryData.deliveryStreet,
-					deliveryType: this.currentDeliveryType,
-					memo: this.memo,
+					merchantDTO:{
+						merchantUuid: this.merchantData.merchantUuid
+					},
+					deliveryType: this.tabCurrentIndex==0?'1':'2',
 					shoppingCartUuidList: this.cartIds.split(',')
 				}
 				if (this.selectedCoupon.userCouponUuid) {
@@ -619,30 +518,16 @@
 	.store{
 		display: flex;
 		flex-direction: row;
-		justify-content: space-between;
 		margin: 40upx 30upx 0 30upx;
 		font-size: $font-sm;
 		color: $font-color-dark;
-		.m-name{
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			font-size: $font-lg;
-			color: $font-color-dark;
-		}
-		.m-address{
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			max-width: 200px;
-			font-size: $font-sm;
-			color: $font-color-light;
+		.portrait{
+			width: 40upx;
+			height: 40upx;
+			margin-right: 10upx;
 		}
 	}
-	.delivery-section{
-		background-color: #fff;
-		padding: 20upx 30upx 0 30upx;
-	}
+
 	.goods-section {
 		margin-top: 16upx;
 		background: #fff;
@@ -1025,66 +910,65 @@
 	}
 
 	.coupon-list {
+		height: 400px;
 		display: flex;
 		flex-wrap: wrap;
-		padding: 0 10upx;
+		padding: 0 30upx;
 		border-radius: 20upx;
-		margin-bottom: 100upx;
-		height: 700upx;
-		.coupon-list-item {
+		margin-bottom: 90upx;
+
+		.coupon-list_item {
 			width: 100%;
 			height: 110px;
 			margin: 10upx 0;
-			background-image: url('../../static/image/coupon_bg.png');
-			background-repeat:no-repeat;
-			background-size:100% 100%;
+			background-color: #fff;
 			border-radius: 5px;
+
 			.coupon-left {
-				text-align: center;
-				color: #fff;
-				.c1{
-					height: 80px;
-					line-height: 80px;
-					.amount{
-						font-size: 100upx;
-						font-weight: 900;
-						&:before{
-							content: '￥';
-							font-size: $font-lg;
-						}
-					}
-					
-					.discount{
-						font-size: 100upx;
-						font-weight: 900;
-						&:after{
-							content: '折';
-							font-size: $font-lg;
-						}
-					}
-				}
-				.c2{
-					font-size: $font-sm;
+				float: left;
+				width: 45%;
+				height: 100%;
+				padding: 10upx;
+
+				image {
+					width: 100%;
+					height: 100%;
+					opacity: 1;
 				}
 			}
-			
+
 			.coupon-right {
-				color: #fff;
-				text-align: center;
-				.c1{
-					padding-top: 20upx;
+				position: relative;
+				padding: 10upx;
+				width: 55%;
+				float: left;
+				border-radius: 0px 10px 10px 0px;
+
+				.name {
+					color: $font-color-dark;
+					font-size: $font-lg;
 				}
-				.c2{
-					padding-top: 10upx;
-					font-size: $font-sm;
+
+				.valid {
+					color: $font-color-light;
+					font-size: $font-base;
+					line-height: 40upx;
 				}
-				.c3{
-					padding-top: 30upx;
+
+				.stock {
+					color: $font-color-light;
+					font-size: $font-base;
+					line-height: 40upx;
+					margin-top: 10upx;
 				}
-			}
-			image{
-				height: 100upx;
-				width: 100upx;
+
+				image {
+					position: absolute;
+					top: 10upx;
+					right: 10upx;
+					height: 100upx;
+					width: 100upx;
+				}
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 		font-family: yticon;
 		font-weight: normal;
 		font-style: normal;
-		src: url('https://at.alicdn.com/t/font_1476501_e6vogp16dzd.ttf') format('truetype');
+		src: url('https://at.alicdn.com/t/font_1476501_4u89d8ghdjc.ttf') format('truetype');
 	}
 
 	.yticon {
@@ -308,11 +308,15 @@
 	.icon-tuan:before {
 		content: "\e650";
 	}
-	
-	.icon-qiandao:before {
-		content: "\e6af";
+	.icon-shuju:before {
+		content: "\e666";
 	}
-	
-	.icon-point:before {
-		content: "\e65c";
+	.icon-shouhou:before {
+		content: "\e68e";
+	}
+	.icon-fahuo:before {
+		content: "\e651";
+	}
+	.icon-tixian:before {
+		content: "\e759";
 	}

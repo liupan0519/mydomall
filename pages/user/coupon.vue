@@ -9,39 +9,29 @@
 		<empty v-if="loadingType!='loading'&&coupons.length === 0"></empty>
 		<view v-if="coupons.length > 0">
 			<view class="coupon-list">
-				<view class="coupon-list-item" v-for="item in coupons">
-					<u-row>
-						<u-col span="4">
-							<view class="coupon-left">
-								<view class="c1">
-									<text class="amount" v-if="item.couponDTO.type=='CASH'">{{item.couponDTO.benefitCash}}</text>
-									<text class="discount" v-if="item.couponDTO.type=='DISCOUNT'">{{item.couponDTO.benefitDiscount/10}}</text>
-								</view>
-								<view class="c2">
-									<text v-if="item.couponDTO.conditionAmount>0"> 满{{item.couponDTO.conditionAmount}}元可用</text>
-									<text v-else> 无门槛</text>
-								</view>
-							</view>
-						</u-col>
-						<u-col span="2">
-							<image v-if="isExpired" src="../../static/image/expired.png" mode="aspectFill"></image>
-							<image v-else-if="isUsed" src="../../static/image/used.png" mode="aspectFill"></image>
-							<text v-else style='color: #FA436A;'>-</text>
-						</u-col>
-						<u-col span="6" class="coupon-right">
-							<view class="c1">
-								<u-button  size="mini" type="warning">{{item.couponDTO.merchantDTO.merchantName}}</u-button>
-							</view>
-							<view class="c2">
-								<text v-if="item.couponDTO.benefitType=='0'">全场通用</text>
-								<text v-if="item.couponDTO.benefitType=='1'">指定商品</text>
-							</view>
-							<view class="c3">
-								<text> 有效期至{{item.endDate}}</text>
-							</view>
-						</u-col>
-					</u-row>
-					
+				<view class="coupon-list_item" v-for="item in coupons">
+					<view class="coupon-left">
+						<image :src="item.couponDTO.imageUrl"></image>
+						<!-- <image src="../../image/page1copy.png"></image> -->
+					</view>
+					<view bindtap="checkbox" class="coupon-right">
+						<view class="name">
+							<text>{{item.couponDTO.name}}</text>
+						</view>
+						<view class="stock">
+							<text v-if="item.couponDTO.benefitType=='0'">所有商品</text>
+							<text v-if="item.couponDTO.benefitType=='1'">指定商品</text>
+						</view>
+						<view class="valid">
+							<text v-if="item.couponDTO.conditionAmount>0"> 满{{item.couponDTO.conditionAmount}}元可用</text>
+							<text v-else> 无金额限制</text>
+						</view>
+						<view class="valid">
+							<text> {{item.endDate}}到期</text>
+						</view>
+						<image v-if="isExpired" src="../../static/image/expired.png" mode="aspectFill"></image>
+						<image v-if="isUsed" src="../../static/image/used.png" mode="aspectFill"></image>
+					</view>
 				</view>
 			</view>
 			<uni-load-more :status="loadingType"></uni-load-more>
@@ -141,7 +131,7 @@
 					} else {
 						this.loadingType = 'more';
 					}
-				});
+				}, true);
 			},
 			resetPage() {
 				this.coupons = [];
@@ -194,73 +184,65 @@
 		}
 	}
 
+	/* 列表 */
 	.coupon-list {
 		display: flex;
 		flex-wrap: wrap;
-		padding: 0 10upx;
-		margin-top: 20upx;
+		padding: 0 30upx;
 		border-radius: 20upx;
-		.coupon-list-item {
+
+		.coupon-list_item {
 			width: 100%;
 			height: 110px;
 			margin: 10upx 0;
-			background-image: url('../../static/image/coupon_bg.png');
-			background-repeat:no-repeat;
-			background-size:100% 100%;
+			background-color: #fff;
 			border-radius: 5px;
+
 			.coupon-left {
-				text-align: center;
-				color: #fff;
-				.c1{
-					height: 80px;
-					line-height: 80px;
-					.amount{
-						font-size: 100upx;
-						font-weight: 900;
-						&:before{
-							content: '￥';
-							font-size: $font-lg;
-						}
-					}
-					
-					.discount{
-						font-size: 100upx;
-						font-weight: 900;
-						&:after{
-							content: '折';
-							font-size: $font-lg;
-						}
-					}
-				}
-				.c2{
-					font-size: $font-sm;
+				float: left;
+				width: 45%;
+				height: 100%;
+				padding: 10upx;
+
+				image {
+					width: 100%;
+					height: 100%;
+					opacity: 1;
 				}
 			}
-			
+
 			.coupon-right {
-				color: #fff;
-				text-align: center;
-				padding: 10px 0;
-				height: 110px;
-				.c1{
-					text-align: right;
-					height: 30px;
-					line-height: 30px;
+				position: relative;
+				padding: 10upx;
+				width: 55%;
+				float: left;
+				border-radius: 0px 10px 10px 0px;
+
+				.name {
+					color: $font-color-dark;
+					font-size: $font-lg;
 				}
-				.c2{
-					height: 40px;
-					line-height: 40px;
+
+				.valid {
+					color: $font-color-light;
+					font-size: $font-base;
+					line-height: 40upx;
 				}
-				.c3{
-					height: 20px;
-					line-height: 20px;
-					font-size: $font-sm;
+
+				.stock {
+					color: $font-color-light;
+					font-size: $font-base;
+					line-height: 40upx;
+					margin-top: 10upx;
 				}
-			}
-			image{
-				height: 100upx;
-				width: 100upx;
-				margin: 60upx 0;
+
+				image{
+					position: absolute;
+					top: 10upx;
+					right: 10upx;
+					height: 100upx;
+					width: 100upx;
+				}
 			}
 		}
 	}

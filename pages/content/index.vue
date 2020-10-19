@@ -134,6 +134,7 @@
 			loadTabbars(){
 				let that = this;
 				this.$api.request.inquiryTag({tagType:'ARTICLE'}, function(res) {
+					console.log(res)
 					if (res.body.status.statusCode === '0') {
 						let tabList = res.body.data.tags;
 						tabList.forEach(item=>{

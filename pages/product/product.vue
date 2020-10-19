@@ -3,9 +3,6 @@
 	<view class="container">
 		<view class="carousel">
 			<swiper indicator-dots circular=true duration="400">
-				<swiper-item v-for="(item,index) in product.productVideos">
-				    <video style="width:100%;height:100%" :show-fullscreen-btn="true" :autoplay="true" play-btn-position="center" :src="item.url" controls></video>
-				 </swiper-item>
 				<swiper-item class="swiper-item" v-for="(item,index) in product.productImages" :key="index">
 					<view class="image-wrapper">
 						<image :src="item.url" class="loaded" mode="aspectFill"></image>
@@ -20,12 +17,13 @@
 				<text class="price-tip">¥</text>
 				<text class="price">{{product.unitPrice}}</text>
 				<text class="m-price">¥{{product.unitPriceStandard}}</text>
+				<text v-if="product.onSale" class="sale">已上架</text>
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
 				<text>销量: {{product.soldUnit}}</text>
 				<text>库存: {{product.totalUnit}}</text>
-				<u-icon size="32" name="share" @click="togglePopup('bottom', 'share')"></u-icon>
+				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
 		<!-- 多规格商品 -->
@@ -35,68 +33,30 @@
 				<text class="price-tip">¥</text>
 				<text class="price">{{productSku.skuUnitPrice}}</text>
 				<text class="m-price">¥{{productSku.skuUnitPriceStandard}}</text>
+				<text v-if="product.onSale" class="sale">已上架</text>
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
 				<text>销量: {{productSku.skuSoldUnit}}</text>
 				<text>库存: {{productSku.skuTotalUnit}}</text>
-				<u-icon size="32" name="share" @click="togglePopup('bottom', 'share')"></u-icon>
+				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
 
-		<!--  领券 -->
-		<view class="coupon-section" @click="showCoupon = true" v-if="coupons.length>0">
-			<view>
-				<u-button type="error" style="margin-right:10px;height:20px;line-height: 20px;" size="mini">领券</u-button>
+		<!--  分享 -->
+		<view class="share-section" @click="togglePopup('bottom', 'share')">
+			<view class="share-icon">
+				<text class="yticon icon-xingxing"></text>
+				<!-- 返 -->
 			</view>
-			<view v-for="(item,index) in coupons" v-if="index<3">
-				<u-button type="error" style="margin-right:5px;height:20px;line-height: 20px;" plain size="mini">
-					<text v-if="item.conditionAmount>0">满{{item.conditionAmount}}</text>
-					<text v-else>立</text>
-					<text v-if="item.type=='CASH'">减{{item.benefitCash}}</text>
-					<text v-if="item.type=='DISCOUNT'">享{{item.benefitDiscount/10}}折</text>
-					</u-button>
-			</view>
-			
-			<view class="coupon-btn">
+			<text class="tit">将该商品分享给朋友</text>
+			<!-- <text class="yticon icon-bangzhu1"></text> -->
+			<view class="share-btn">
+				立即分享
 				<text class="yticon icon-you"></text>
 			</view>
+
 		</view>
-		<!-- 领优惠券弹出框 -->
-		<u-popup v-model="showCoupon" mode="bottom" :closeable="true" border-radius="14" width="100%" height="800">
-			<view class="coupon-title">领优惠券</view>
-			<view class="coupon-list">
-				<view class="coupon-list-item" v-for="item in coupons">
-					<u-row>
-						<u-col span="4">
-							<view class="coupon-left">
-								<view class="c1">
-									<text class="amount" v-if="item.type=='CASH'">{{item.benefitCash}}</text>
-									<text class="discount" v-if="item.type=='DISCOUNT'">{{item.benefitDiscount/10}}</text>
-								</view>
-								<view class="c2">
-									<text v-if="item.conditionAmount>0"> 满{{item.conditionAmount}}元可用</text>
-									<text v-else> 无门槛</text>
-								</view>
-							</view>
-						</u-col>
-						<u-col span="8" class="coupon-right">
-							<view class="c1">
-								<text v-if="item.benefitType=='0'">全场通用</text>
-								<text v-if="item.benefitType=='1'">指定商品</text>
-							</view>
-							<view class="c2">
-								<text v-if="item.validType==1"> 有效期至{{item.endDate}}</text>
-								<text v-if="item.validType==2"> 领取后{{item.validDays}}天内有效</text>
-							</view>
-							<view class="c3">
-								<u-button plain size="mini " type="error" @click="getCoupon(item)">立即领取</u-button>
-							</view>
-						</u-col>
-					</u-row>
-				</view>
-			</view>
-		</u-popup>
 
 		<view class="c-list">
 			<view class="c-row b-b" @click="toggleSpec" v-if="product.skuEnabled">
@@ -122,7 +82,7 @@
 					<text>单笔购买满两件免邮费</text>
 				</view>
 			</view> -->
-			<view class="c-row b-b">
+			<!-- <view class="c-row b-b">
 				<text class="tit">数量</text>
 				<view class="bz-list con">
 					<uni-number-box class="step" :min="1" :max="productSku.skuTotalUnit" :value="unit"
@@ -130,7 +90,7 @@
 					<uni-number-box class="step" :min="1" :max="product.totalUnit" :value="unit"
 					 :isMax="unit>=product.totalUnit?true:false" :isMin="unit===1" @eventChange="numberChange" v-if="!product.skuEnabled"></uni-number-box>
 				</view>
-			</view>
+			</view> -->
 			<view class="c-row b-b">
 				<text class="tit">快递</text>
 				<view class="bz-list con">
@@ -173,7 +133,7 @@
 						<view class="star">
 							<image src="../../static/temp/redstar.png" mode="" v-if="i<comment.commentRank" v-for="(item,i) in stars"></image>
 						</view>
-						<text class="con">{{comment.commentContent||''}}</text>
+						<text class="con">{{comment.commentContent}}</text>
 					</view>
 				</view>
 				<view class="eva-image">
@@ -185,20 +145,20 @@
 			</view>
 		</view>
 		
-		<view class="store-box" v-if="product.merchantDTO">
+		<!-- <view class="store-box" v-if="product.merchantDTO">
 			<image class="portrait" src="/static/image/store.png" mode="aspectFill"></image>
 			<view class="right">
 				<view class="bot">
 					<text class="attr">{{product.merchantDTO.merchantName}}</text>
 				</view>
 				<view class="desc">
-					<u-icon name="star-fill" color="#FC9F2A" size="30"></u-icon>{{(product.merchantDTO.score||0).toFixed(1)}}
+{{product.merchantDTO.merchantDescription||''}}
 				</view>
 			</view>
-			<view class="action" @click="navTo('/pages/merchant/detail?id='+product.merchantDTO.merchantUuid)">
-				进去逛逛
+			<view class="action" @click="navTo('/pages/product/list?merchantId='+product.merchantDTO.merchantUuid)">
+				全部商品
 			</view>
-		</view>
+		</view> -->
 
 		<view class="detail-desc">
 			<view class="d-header">
@@ -212,7 +172,7 @@
 		</view>
 
 		<!-- 底部操作菜单 -->
-		<view class="page-bottom">
+		<!-- <view class="page-bottom">
 			<navigator url="/pages/index/index" open-type="switchTab" class="p-b-btn">
 				<text class="yticon icon-xiatubiao--copy"></text>
 				<text>首页</text>
@@ -231,7 +191,7 @@
 				<button type="primary" class=" action-btn no-border buy-now-btn" @click="buy">立即购买</button>
 				<button type="primary" class=" action-btn no-border add-cart-btn" @click="addCart">加入购物车</button>
 			</view>
-		</view>
+		</view> -->
 
 
 		<!-- 规格-模态层弹窗 -->
@@ -347,8 +307,6 @@
 			return {
 				id: '',
 				unit: 1,
-				showCoupon:false,
-				coupons:[],
 				product: {
 					unitPrice:0,
 					unitPriceStandard:0,
@@ -356,10 +314,7 @@
 					totalUnit: 0,
 					productMainImage:{},
 					productImages:[],
-					attrList:[],
-					merchantDTO:{
-						
-					}
+					attrList:[]
 				},
 				productSku: {},
 				cartNum: 0,
@@ -377,20 +332,12 @@
 		onLoad(options) {
 
 			//接收传值,id里面放的是标题，因为测试数据并没写id 
-			let id = options.id||decodeURIComponent(options.scene);
+			let id = options.id;
 			if (id) {
 				this.id = id;
 				this.inquiryProduct(id);
-				//是否收藏
-				if (this.hasLogin){
-					this.checkProductCollected(this.userInfo.userUuid, id);
-					//购物车商品数量
-					this.inquiryCartNum();
-				}
 				//商品评论
 				this.searchProductComment(id);
-				//可用优惠券
-				this.searchCoupon();
 			}
 		},
 		computed: {
@@ -399,11 +346,11 @@
 				let pages = getCurrentPages()
 				let page = pages[pages.length - 1]
 				// #ifdef H5 || MP-WEIXIN || APP-PLUS || APP-PLUS-NVUE
-				return this.$api.request.apiBaseUrl.replace("/b2c/rest/","") + '/#/' + page.route + '?id=' + this.product.productUuid;
+				return this.$api.request.apiBaseUrl.replace("/b2b2c/rest/","") + '/#/' + page.route + '?id=' + this.product.productUuid;
 				// #endif
 
 				// #ifdef MP-ALIPAY
-				return this.$api.request.apiBaseUrl.replace("/b2c/rest/","") + '/#/' + page.__proto__.route + '?id=' + this.product
+				return this.$api.request.apiBaseUrl.replace("/b2b2c/rest/","") + '/#/' + page.__proto__.route + '?id=' + this.product
 					.productUuid;
 				// #endif
 			}
@@ -478,7 +425,7 @@
 					if (res.body.status.statusCode === '0') {
 						console.log('商品已收藏')
 					} else {
-						this.$api.msg(res.body.status.errorDesc);
+						console.log(res.body.status.errorDesc);
 					}
 				}, true);
 			},
@@ -495,7 +442,7 @@
 					if (res.body.status.statusCode === '0') {
 						console.log('已取消商品收藏')
 					} else {
-						this.$api.msg(res.body.status.errorDesc);
+						console.log(res.body.status.errorDesc);
 					}
 				}, true);
 			},
@@ -570,17 +517,12 @@
 			},
 			//收藏
 			toFavorite() {
-				if (!this.hasLogin) 
-					uni.navigateTo({
-						url:'/pages/public/login'
-					});
-				else{
-					this.isProductCollected = !this.isProductCollected;
-					if (this.isProductCollected) {
-						this.collectProduct(this.userInfo.userUuid, this.id);
-					} else {
-						this.cancelCollectProduct(this.userInfo.userUuid, this.id);
-					}
+				if (!this.hasLogin) return;
+				this.isProductCollected = !this.isProductCollected;
+				if (this.isProductCollected) {
+					this.collectProduct(this.userInfo.userUuid, this.id);
+				} else {
+					this.cancelCollectProduct(this.userInfo.userUuid, this.id);
 				}
 			},
 			//立即购买
@@ -606,7 +548,7 @@
 							url: '/pages/order/createOrder?data=' + JSON.stringify(res.body.data.shoppingCartUuid)
 						})
 					} else {
-						this.$api.msg(res.body.status.errorDesc);
+						console.log(res.body.status.errorDesc);
 					}
 				});
 			},
@@ -631,7 +573,7 @@
 					if (res.body.status.statusCode === '0') {
 						this.inquiryCartNum();
 					} else {
-						this.$api.msg(res.body.status.errorDesc);
+						console.log(res.body.status.errorDesc);
 					}
 				});
 			},
@@ -649,41 +591,6 @@
 					loop: "true",
 					urls: urls
 				})
-			},
-			//搜索优惠券
-			searchCoupon() {
-				let postData = {
-					keyArray: ['ACTIVE','PRODUCT'],
-					productUuid: this.id,
-					active: true,
-					startIndex: 0,
-					pageSize: 100
-				};
-				this.$api.request.couponList(postData, res => {
-					if (res.body.status.statusCode === '0') {
-						var coupons = res.body.data.coupons;
-						this.coupons = coupons
-					}
-				}, true);
-			},
-			//领取优惠券
-			getCoupon(item) {
-				this.$api.request.getCoupon({
-					actionType:'RECEIVE',
-					couponDTO:{
-						couponUuid: item.couponUuid,
-					},
-					userDTO: {
-						userUuid: this.userInfo.userUuid
-					},
-					receiveChannel: 'SELF'
-				}, res => {
-					if (res.body.status.statusCode === '0') {
-						this.$api.msg('领取成功');
-					} else {
-						this.$api.msg(res.body.status.errorDesc);
-					}
-				}, false);
 			},
 			stopPrevent() {}
 		},
@@ -751,6 +658,12 @@
 			padding: 10upx 0;
 			font-size: 26upx;
 			color: $uni-color-primary;
+			.sale{
+				background-color: #5FCDA2;
+				color: #fff;
+				padding: 10upx;
+				border-radius: 10upx;
+			}
 		}
 
 		.price {
@@ -761,6 +674,17 @@
 			margin: 0 12upx;
 			color: $font-color-light;
 			text-decoration: line-through;
+		}
+
+		.coupon-tip {
+			align-items: center;
+			padding: 4upx 10upx;
+			background: $uni-color-primary;
+			font-size: $font-sm;
+			color: #fff;
+			border-radius: 6upx;
+			line-height: 1;
+			transform: translateY(-4upx);
 		}
 
 		.bot-row {
@@ -775,83 +699,72 @@
 			}
 		}
 	}
-	/* 领券 */
-	.coupon-section {
+
+	/* 分享 */
+	.share-section {
 		display: flex;
 		align-items: center;
 		color: $font-color-base;
+		background: linear-gradient(left, #fdf5f6, #fbebf6);
 		padding: 12upx 30upx;
-		.coupon-btn {
+
+		.share-icon {
+			display: flex;
+			align-items: center;
+			/* width: 70upx; */
+			height: 30upx;
+			line-height: 1;
+/* 			border: 1px solid $uni-color-primary;
+			border-radius: 4upx; */
+			position: relative;
+			overflow: hidden;
+			font-size: 22upx;
+			color: $uni-color-primary;
+
+			&:after {
+				content: '';
+				width: 50upx;
+				height: 50upx;
+				border-radius: 50%;
+				left: -20upx;
+				top: -12upx;
+				position: absolute;
+				background: $uni-color-primary;
+			}
+		}
+
+		.icon-xingxing {
+			position: relative;
+			z-index: 1;
+			font-size: 24upx;
+			margin-left: 2upx;
+			margin-right: 10upx;
+			color: #fff;
+			line-height: 1;
+		}
+
+		.tit {
+			font-size: $font-base;
+			margin-left: 10upx;
+		}
+
+		.icon-bangzhu1 {
+			padding: 10upx;
+			font-size: 30upx;
+			line-height: 1;
+		}
+
+		.share-btn {
 			flex: 1;
 			text-align: right;
 			font-size: $font-sm;
 			color: $uni-color-primary;
-			.icon-you {
-				margin-left: 4upx;
-			}
 		}
-	}
-	.coupon-title {
-		text-align: center;
-		padding: 30upx 0;
-		color: $font-color-dark;
-	}
-	/* 列表 */
-	.coupon-list {
-		display: flex;
-		flex-wrap: wrap;
-		padding: 0 10upx;
-		border-radius: 20upx;
-		.coupon-list-item {
-			width: 100%;
-			height: 110px;
-			margin: 10upx 0;
-			background-image: url('../../static/image/coupon_bg.png');
-			background-repeat:no-repeat;
-			background-size:100% 100%;
-			border-radius: 5px;
-			.coupon-left {
-				text-align: center;
-				color: #fff;
-				.c1{
-					height: 80px;
-					line-height: 80px;
-					.amount{
-						font-size: 100upx;
-						font-weight: 900;
-						&:before{
-							content: '￥';
-							font-size: $font-lg;
-						}
-					}
-					.discount{
-						font-size: 100upx;
-						font-weight: 900;
-						&:after{
-							content: '折';
-							font-size: $font-lg;
-						}
-					}
-				}
-				.c2{
-					font-size: $font-sm;
-				}
-			}
-			
-			.coupon-right {
-				color: #fff;
-				text-align: center;
-				.c1{
-					padding-top: 20upx;
-				}
-				.c2{
-					padding-top: 10upx;
-					font-size: $font-sm;
-				}
-				.c3{
-					padding-top: 30upx;
-				}
-			}
+
+		.icon-you {
+			font-size: $font-sm;
+			margin-left: 4upx;
+			color: $uni-color-primary;
 		}
 	}
 
@@ -976,7 +889,8 @@
 				color: $font-color-base;
 			}
 			.desc{
-				margin-top: 10upx;
+				display: flex;
+				justify-content: space-between;
 				font-size: $font-sm;
 				color: $font-color-light;
 			}

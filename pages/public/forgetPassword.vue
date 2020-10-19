@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="left-bottom-sign"></view>
-		<!-- <view class="back-btn yticon icon-zuojiantou-up" @click="navBack"></view> -->
+		<view class="back-btn yticon icon-zuojiantou-up" @click="navBack"></view>
 		<view class="right-top-sign"></view>
 		<!-- 设置白色背景防止软键盘把下部绝对定位元素顶上来盖住输入框等 -->
 		<view class="wrapper">
@@ -32,12 +32,12 @@
 				</view>
 				<view class="input-item">
 					<text class="tit">设置新密码</text>
-					<input type="mobile" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
+					<input type="text" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
 					 data-key="password" @input="inputChange" />
 				</view>
 				<view class="input-item">
 					<text class="tit">重复新密码</text>
-					<input type="mobile" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
+					<input type="text" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
 					 data-key="rePassword" @input="inputChange" />
 				</view>
 			</view>
@@ -55,7 +55,7 @@
 	export default {
 		data() {
 			return {
-				mobileNo: '18428396534',
+				mobileNo: '',
 				verificationCode: '',
 				password: '',
 				rePassword: '',
@@ -157,10 +157,8 @@
 					if (verifyRes.body.status.statusCode === '0') {
 						//验证码校验成功后重置密码
 						this.$api.request.resetPassword({
-							verifyType: 'PASSWORD',
 							verificationCode: verificationCode,
-							personalPhone: mobileNo,
-							personalPhoneCountryCode: '86',
+							mobileNo: mobileNo,
 							newPassword: password
 						}, resetRes => {
 							if (resetRes.body.status.statusCode === '0') {
@@ -273,7 +271,7 @@
 
 	.welcome {
 		position: relative;
-		left: 60upx;
+		left: 50upx;
 		top: -90upx;
 		font-size: 46upx;
 		color: #555;
@@ -319,7 +317,7 @@
 				height: 60px;
 				line-height: 60px;
 				width: 35%;
-				text-align: center;
+
 				.sendCodeBtn {
 					font-size: $font-sm+2upx;
 					color: $font-color-base;

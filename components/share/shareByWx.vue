@@ -100,8 +100,7 @@
 					productUuid: this.goodsId,
 					groupBuyUuid: this.groupId,
 					userUuid: this.userId,
-					shareHref: this.shareHref,
-					hrefType: 2
+					shareHref: this.shareHref
 				}
 				this.$api.request.goodsPoster(data, res => {
 					if (res.body.status.statusCode === '0') {

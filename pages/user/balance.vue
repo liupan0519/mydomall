@@ -6,16 +6,19 @@
 				<view class="tran-type">
 					{{item.transactionTypeDesc}}
 				</view>
+				<view class="tran-code">
+					{{item.transactionCode}}
+				</view>
 				<view class="tran-time">
 					{{item.transactionTime}}
 				</view>
 			</view>
 			<view class="right">
-				<view class="balance-minus" v-if="item.balanceBefore>item.balanceAfter">
-					-￥{{item.transactionAmount}}
+				<view class="balance-minus" v-if="item.transactionAmount<0">
+					￥{{item.transactionAmount}}
 				</view>
-				<view class="balance-plus" v-if="item.balanceBefore<item.balanceAfter">
-					+￥{{item.transactionAmount}}
+				<view class="balance-plus" v-if="item.transactionAmount>=0">
+					￥{{item.transactionAmount}}
 				</view>
 				<view class="balance">
 					交易后余额:￥{{item.balanceAfter}}
@@ -49,7 +52,7 @@
 			}
 		},
 		onLoad(option) {
-			this.searchUserStatement();
+			this.searchMerchantStatement();
 		},
 		onReachBottom() {
 			this.loadMore();
@@ -58,39 +61,35 @@
 		onPullDownRefresh() {
 			//重新加载数据
 			this.resetPage();
-			this.searchUserStatement();
+			this.searchMerchantStatement();
 		},
 		computed: {
-			...mapState(['hasLogin', 'userInfo'])
+			...mapState(['hasLogin', 'merchantInfo'])
 		},
 		methods: {
 			//加载更多
 			loadMore() {
 				if (this.loadingType === 'more') {
 					this.pageNo = this.pageNo + 1;
-					this.searchUserStatement();
+					this.searchMerchantStatement();
 				}
 			},
 			resetPage() {
 				this.pageNo = 1;
 				this.statementList = [];
 			},
-			//添加或修改成功之后回调
-			refreshList() {
-				this.inquiryaward();
-			},
 			//查询用户奖金明细
-			searchUserStatement() {
+			searchMerchantStatement() {
 				let that = this;
-				let keyArray = ['USER'];
+				let keyArray = ['MERCHANT'];
 				let searchOptions = {
-					userUuid: this.userInfo.userUuid,
+					merchantUuid: this.merchantInfo.merchantUuid,
 					startIndex: (this.pageNo - 1) * this.pageSize,
 					pageSize: this.pageSize
 				};
 				searchOptions.keyArray = keyArray;
 				this.loadingType = 'loading';
-				this.$api.request.getStatementList(searchOptions, res => {
+				this.$api.request.statementList(searchOptions, res => {
 					if (res.body.status.statusCode === '0') {
 						var total = res.body.data.total;
 						var statementList = res.body.data.statements;
@@ -116,6 +115,18 @@
 
 	.content {
 		position: relative;
+	}
+
+	.list {
+		display: flex;
+		align-items: center;
+		padding: 20upx 30upx;
+		;
+		background: #fff;
+		position: relative;
+		.amount{
+			color: $base-color
+		}
 	}
 
 	.list {
@@ -148,9 +159,13 @@
 			font-size: $font-base;
 			color: $font-color-dark;
 		}
-		
+		.tran-code {
+			font-size: $font-sm;
+			color: $font-color-light;
+			padding-top:20upx;
+		}
 		.tran-time{
-			font-size: $font-base;
+			font-size: $font-sm;
 			color: $font-color-light;
 			padding-top:20upx;
 		}
@@ -166,10 +181,9 @@
 			color: green
 		}
 		.balance{
-			font-size: $font-base;
+			font-size: $font-sm;
 			color: $font-color-light;
 			padding-top:20upx;
 		}
 	}
-
 </style>

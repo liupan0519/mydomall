@@ -1,31 +1,3 @@
-Date.prototype.format = function(format) {
-    var o = {
-        "M+": this.getMonth() + 1, //month
-        "d+": this.getDate(), //day
-        "h+": this.getHours(), //hour
-        "m+": this.getMinutes(), //minute
-        "s+": this.getSeconds(), //second
-        "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
-        "S": this.getMilliseconds() //millisecond
-    }
-    if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
-        (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(format))
-            format = format.replace(RegExp.$1,
-                RegExp.$1.length == 1 ? o[k] :
-                ("00" + o[k]).substr(("" + o[k]).length));
-    return format;
-}
-
-//日期添加
-const addDays = (date, interval) => {
-	var copy = new Date();
-	copy.setTime(date.getTime());
-	copy.setDate(copy.getDate()+interval);  
-	return  copy;  
-}
-
 //快递公司
 const courierList = ['顺丰速运', '中国邮政', '圆通速递', '中通快递', '申通快递', '宅急送', '联邦物流', '韵达快递', '京东快递', '百世快递', '其他快递']
 
@@ -828,6 +800,7 @@ const getCountDownTimes = (date) => {
 }
 //轮播广告
 const navSwiper = (item) => {
+	debugger
 	if (item.linkType === '0') {
 		uni.navigateTo({
 			url: '/pages/product/product?id=' + item.content
@@ -867,22 +840,8 @@ const navAD = (item) => {
 	}
 }
 
-//计算两个经纬度的距离(千米)
-const getDistance = (lat1, lng1, lat2, lng2) => {
-	var radLat1 = lat1*Math.PI / 180.0;
-	var radLat2 = lat2*Math.PI / 180.0;
-	var a = radLat1 - radLat2;
-	var b = lng1*Math.PI / 180.0 - lng2*Math.PI / 180.0;
-	var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
-	Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
-	s = s *6378.137 ;// EARTH_RADIUS;
-	s = Math.round(s * 10000) / 10000;
-	return s;
-}
-
 
 export default {
-	addDays,
 	courierList,
 	bankList,
 	validateMobileNo,
@@ -894,6 +853,5 @@ export default {
 	translateGroupBuyStatus,
 	getCountDownTimes,
 	navSwiper,
-	navAD,
-	getDistance
+	navAD
 }
