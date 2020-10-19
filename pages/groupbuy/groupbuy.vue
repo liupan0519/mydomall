@@ -67,25 +67,25 @@
 				loadingType: '',
 				navList: [{
 						state: '0',
-						text: this.i18n.groupbuy.all,
+						text: this.$i18nMsg().index.groupbuy.all,
 						loadingType: 'more',
 						groupBuyList: []
 					},
 					{
 						state: '1',
-						text: this.i18n.groupbuy.grouping,
+						text: this.$i18nMsg().index.groupbuy.grouping,
 						loadingType: 'more',
 						groupBuyList: []
 					},
 					{
 						state: '2',
-						text: this.i18n.groupbuy.fail,
+						text: this.$i18nMsg().index.groupbuy.fail,
 						loadingType: 'more',
 						groupBuyList: []
 					},
 					{
 						state: '3',
-						text: this.i18n.groupbuy.success,
+						text: this.$i18nMsg().index.groupbuy.success,
 						loadingType: 'more',
 						groupBuyList: []
 					}

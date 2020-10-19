@@ -89,31 +89,31 @@
 				loadingType: '',
 				navList: [{
 						state: '',
-						text: this.i18n.navList.all,
+						text: this.$i18nMsg().index.navList.all,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '0',
-						text: this.i18n.navList.state0,
+						text: this.$i18nMsg().index.navList.state0,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '1',
-						text: this.i18n.navList.state1,
+						text: this.$i18nMsg().index.navList.state1,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '2',
-						text:this.i18n.navList.state2,
+						text:this.$i18nMsg().index.navList.state2,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '3',
-						text: this.i18n.navList.state3,
+						text: this.$i18nMsg().index.navList.state3,
 						loadingType: 'more',
 						orderList: []
 					}

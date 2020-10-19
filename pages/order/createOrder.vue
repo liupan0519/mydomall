@@ -121,7 +121,7 @@
 			</view>
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">{{i18n.order.memo}}</text>
-				<input class="desc" type="text" v-model="memo" :placeholder="memoPlaceHolder" placeholder-class="placeholder" />
+				<input class="desc" type="text" v-model="memo" :placeholder="i18n.order.memoPlaceHolder" placeholder-class="placeholder" />
 			</view>
 		</view>
 
@@ -169,7 +169,7 @@
 				</view>
 			</scroll-view>
 		</uni-popup>
-		<u-modal @confirm="navigateBack" v-model="isMultipleProductType" :show-title="false"  :content="multipleProductTypeContent"></u-modal>
+		<u-modal @confirm="navigateBack" v-model="isMultipleProductType" :show-title="false"  :content="i18n.order.multipleProductTypeContent"></u-modal>
 	</view>
 </template>
 
@@ -199,14 +199,12 @@
 				addressData: {}, //收货地址
 				maskState: 0, //优惠券面板显示状态
 				memo: '', //备注
-				memoPlaceHolder: this.i18n.order.memoPlaceHolder,
 				payType: 1, //1微信 2支付宝
 				coupons: [], //有效优惠券
 				selectedCoupon: {}, //选择使用的优惠券
 				type: '',
 				isMultipleMerchant: false, //订单是否包含多商家商品
 				isMultipleProductType: false,//订单是否寄包含实物商品又包含虚拟商品
-				multipleProductTypeContent: this.i18n.order.multipleProductTypeContent
 			}
 		},
 		components: {

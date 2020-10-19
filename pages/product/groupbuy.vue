@@ -240,7 +240,7 @@
 				stars: [0, 0, 0, 0, 0],
 				
 				groupBuyList:[],
-				subTitle: this.i18n.searchAll,
+				subTitle: this.$i18nMsg().index.searchAll,
 				showAllPinTuan:false
 			};
 		},

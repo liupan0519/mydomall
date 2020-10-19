@@ -91,7 +91,7 @@
 			</view>
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">{{i18n.order.memo}}</text>
-				<input class="desc" type="text" v-model="memo" :placeholder="memoPlaceHolder" placeholder-class="placeholder" />
+				<input class="desc" type="text" v-model="memo" :placeholder="i18n.order.memoPlaceHolder" placeholder-class="placeholder" />
 			</view>
 		</view>
 
@@ -138,7 +138,6 @@
 				deliveryData:{},	//配送地址
 				deliveryAmount: 0.00, //配送费
 				memo: '', //备注
-				memoPlaceHolder: this.i18n.order.memoPlaceHolder,
 				type: ''
 			}
 		},

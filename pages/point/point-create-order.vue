@@ -113,7 +113,7 @@
 				tabCurrentIndex:0,
 				navList: [{
 						state: '1',
-						text: this.i18n.populateDeliveryType.state1
+						text: this.$i18nMsg().index.populateDeliveryType.state1
 					}],
 				product:{},
 				unit: 1,	//商品数量

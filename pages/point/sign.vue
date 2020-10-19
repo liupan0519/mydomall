@@ -69,7 +69,7 @@
 				isSigned: true,
 				signList: [],
 				signSetting: {},
-				signMsg:this.i18n.point
+				signMsg:this.$i18nMsg().index.point
 			}
 		},
 		onLoad() {

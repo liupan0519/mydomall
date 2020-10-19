@@ -71,7 +71,7 @@
 		},
 		data() {
 			return {
-				defaultBank:[this.i18n.withdraw.defaultBank],
+				defaultBank:[this.$i18nMsg().index.withdraw.defaultBank],
 				bankList:this.$api.util.bankList,
 				bankAccountName:'',
 				bankName:'',
@@ -85,11 +85,11 @@
 				loadingType:'',
 				navList: [{
 						state: '1',
-						text: this.i18n.withdraw.state1
+						text: this.$i18nMsg().index.withdraw.state1
 					},
 					{
 						state: '2',
-						text: this.i18n.withdraw.state2
+						text: this.$i18nMsg().index.withdraw.state2
 					}],
 				tabCurrentIndex:0
 			}

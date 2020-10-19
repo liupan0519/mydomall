@@ -42,7 +42,7 @@
 				uploadUrl: this.$api.request.apiBaseUrl+'uploadSingleFile',
 				formData:{},
 				header: {},
-				evaluateMsg:this.i18n.order.evaluate
+				evaluateMsg:this.$i18nMsg().index.order.evaluate
 			}
 		},
 		onLoad(option) {

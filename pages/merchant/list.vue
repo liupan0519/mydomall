@@ -83,19 +83,19 @@
 		data() {
 			return {
 				sortList: [{
-					name: this.i18n.default
+					name: this.$i18nMsg().index.default
 				}, {
-					name: this.i18n.sales
+					name: this.$i18nMsg().index.sales
 				}, {
-					name: this.i18n.score
+					name: this.$i18nMsg().index.score
 				}, {
-					name: this.i18n.distance
+					name: this.$i18nMsg().index.distance
 				}],
 				sortCurrent: 0,	//当前排序
 				tabList: [{
-					name: this.i18n.merchant.allMerchant
+					name: this.$i18nMsg().index.merchant.allMerchant
 				}, {
-					name: this.i18n.merchant.follow
+					name: this.$i18nMsg().index.merchant.follow
 				}],
 				current: 0,
 				latitude: 30.6565202250, //默认天府广场, 如果获取当前位置成功则替换为当前位置
