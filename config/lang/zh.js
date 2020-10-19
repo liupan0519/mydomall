@@ -326,7 +326,7 @@ export const index = {
 		deleteCon: '确认要删除订单吗？',
 		deleteOrder: '订单已成功删除',
 		cancelCon: '确认要取消订单吗？',
-		cancelOrder: '订单已成功取消',
+		cancelOrderSuccess: '订单已成功取消',
 		receiveCon: '确认已收货吗？',
 		receive: '确认收货成功',
 		applyAfterSale: '发起退款前请与客服仔细沟通, 达成一致后再发起退款申请, 是否继续申请退款？'

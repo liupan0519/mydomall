@@ -290,7 +290,7 @@
 								orderNo: item.orderNo
 							}, res => {
 								if (res.body.status.statusCode === '0') {
-									that.$api.msg(that.orderMsg.cancelOrder);
+									that.$api.msg(that.orderMsg.cancelOrderSuccess);
 									that.resetPage();
 									that.searchOrder(that.translateTabIndex(that.tabCurrentIndex));
 								} else {
