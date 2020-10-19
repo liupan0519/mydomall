@@ -18,7 +18,7 @@
 						+{{item.transactionPoint}}
 					</view>
 					<view class="balance">
-						剩余积分:{{item.pointAfter}}
+						{{i18n.point.pointAfter}}:{{item.pointAfter}}
 					</view>
 				</view>
 			</view>
@@ -51,6 +51,9 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.point.listTitle
+			})
 			this.searchUserPointStatement();
 		},
 		onReachBottom() {
@@ -63,6 +66,9 @@
 			this.searchUserPointStatement();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

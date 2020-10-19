@@ -6,7 +6,7 @@
 					<u-tabs :show-bar="true" active-color="#FA436A" :list="tabList" :is-scroll="true" :current="current" @change="change"></u-tabs>
 				</u-col>
 				<u-col span="6">
-					<u-search v-if="current==0" placeholder="搜索商家" :clearabled="true" :show-action="false" action-text="搜索" :animation="true" v-model="searchKey" @search="search"></u-search>
+					<u-search v-if="current==0" :placeholder="i18n.searchMerchant" :clearabled="true" :show-action="false" :action-text="i18n.search" :animation="true" v-model="searchKey" @search="search"></u-search>
 				</u-col>
 			</u-row>
 		</view>
@@ -19,7 +19,7 @@
 					</u-col>
 				</u-row>
 			</view>
-			<view class="merchant-item"v-for="(merchant, index) in merchantList" :key="index"">
+			<view class="merchant-item"v-for="(merchant, index) in merchantList" :key="index">
 				<u-row gutter=" 16" class="top-section">
 					<u-col span="2">
 						<u-avatar :src="merchant.logo"></u-avatar>
@@ -36,17 +36,17 @@
 						<u-row>
 							<u-col span="7">
 								<view class="desc">{{merchant.merchantAddress}}</view>
-								<view class="desc"><u-icon name="star-fill" color="#FC9F2A" size="30"></u-icon>{{merchant.score}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已售{{merchant.soldUnit}}</view>
-								<view class="desc">{{merchant.followTotal}}人已关注</view>
+								<view class="desc"><u-icon name="star-fill" color="#FC9F2A" size="30"></u-icon>{{merchant.score}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i18n.sold}}{{merchant.soldUnit}}</view>
+								<view class="desc">{{merchant.followTotal}}{{i18n.merchant.followedP}}</view>
 							</u-col>
 							<u-col span="3">
 								<view>
-									<u-button :ripple="true" :plain="true" type="error" size="mini" @click="cancelFollow(merchant)" v-if="merchant.followed">已关注</u-button>
-									<u-button :ripple="true" :plain="true" type="error" size="mini" @click="follow(merchant)" v-else>关注</u-button>
+									<u-button :ripple="true" :plain="true" type="error" size="mini" @click="cancelFollow(merchant)" v-if="merchant.followed">{{i18n.merchant.followed}}</u-button>
+									<u-button :ripple="true" :plain="true" type="error" size="mini" @click="follow(merchant)" v-else>{{i18n.merchant.follow}}</u-button>
 								</view>
 							</u-col>
 							<u-col span="2">
-								<u-button :ripple="true" :plain="false" type="error" size="mini"  @click="selectMerchant(merchant)">去逛逛</u-button>
+								<u-button :ripple="true" :plain="false" type="error" size="mini"  @click="selectMerchant(merchant)">{{i18n.toIndex}}</u-button>
 							</u-col>
 						</u-row>
 					</u-col>
@@ -61,7 +61,7 @@
 					</view>
 					<view v-else class='empty-product'>
 						<image style="width:75px;height:75px" src="../../static/image/empty.png"></image>
-						<view>商家未上架商品</view>
+						<view>{{i18n.merchant.nodata}}</view>
 					</view>
 				</scroll-view>
 			</view>
@@ -83,19 +83,19 @@
 		data() {
 			return {
 				sortList: [{
-					name: '默认排序'
+					name: this.i18n.default
 				}, {
-					name: '销量'
+					name: this.i18n.sales
 				}, {
-					name: '评分'
+					name: this.i18n.score
 				}, {
-					name: '距离'
+					name: this.i18n.distance
 				}],
 				sortCurrent: 0,	//当前排序
 				tabList: [{
-					name: '全部商家'
+					name: this.i18n.merchant.allMerchant
 				}, {
-					name: '关注'
+					name: this.i18n.merchant.follow
 				}],
 				current: 0,
 				latitude: 30.6565202250, //默认天府广场, 如果获取当前位置成功则替换为当前位置
@@ -111,6 +111,9 @@
 		},
 		onLoad(option) {
 			let that = this;
+			uni.setNavigationBarTitle({
+				title: that.$i18n.merchant.list
+			})
 			uni.getLocation({
 				type: 'gcj02',
 				success: function(res) {
@@ -133,6 +136,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -282,7 +288,7 @@
 						}, res => {
 						if (res.body.status.statusCode === '0') {
 							merchant.followed = true;
-							this.$api.msg('关注成功');
+							this.$api.msg(this.i18n.merchant.followSuccess);
 						} else {
 							console.log(res.body.status.errorDesc);
 						}
@@ -304,7 +310,7 @@
 						}, res => {
 						if (res.body.status.statusCode === '0') {
 							merchant.followed = false;
-							this.$api.msg('取消关注成功');
+							this.$api.msg(this.i18n.merchant.cancelFollow);
 						} else {
 							console.log(res.body.status.errorDesc);
 						}

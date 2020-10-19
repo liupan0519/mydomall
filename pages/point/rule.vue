@@ -19,11 +19,18 @@
 				signSetting:{}
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.point.ruleTitle
+			})
+		},
 		onShareAppMessage(res) {
 		    
 		 },
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig'])
 		},
 		methods: {

@@ -2,13 +2,13 @@
 	<view class="content">
 		<view class="navbar" :style="{position:headerPosition,top:headerTop}">
 			<view class="nav-item" :class="{current: filterIndex === 0}" @click="tabClick(0)">
-				综合排序
+				{{i18n.headerTop.filterIndex0}}
 			</view>
 			<view class="nav-item" :class="{current: filterIndex === 1}" @click="tabClick(1)">
-				销量优先
+				{{i18n.headerTop.filterIndex1}}
 			</view>
 			<view class="nav-item" :class="{current: filterIndex === 2}" @click="tabClick(2)">
-				<text>价格</text>
+				<text>{{i18n.headerTop.price}}</text>
 				<view class="p-box">
 					<text :class="{active: priceOrder === 1 && filterIndex === 2}" class="yticon icon-shang"></text>
 					<text :class="{active: priceOrder === 2 && filterIndex === 2}" class="yticon icon-shang xia"></text>
@@ -28,7 +28,7 @@
 				<text class="title clamp">{{item.productName}}</text>
 				<view class="price-box">
 					<text class="price">{{item.unitPoint}}</text>
-					<text>已兑换 {{item.soldUnit}}</text>
+					<text>{{i18n.point.redeemed}} {{item.soldUnit}}</text>
 				</view>
 			</view>
 		</view>
@@ -60,6 +60,11 @@
 		components: {
 			uniLoadMore	
 		},
+		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			}
+		},
 		data() {
 			return {
 				cateMaskState: 0, //分类面板展开状态
@@ -81,6 +86,9 @@
 		},
 		
 		onLoad(options){
+			uni.setNavigationBarTitle({
+				title: this.i18n.point.productTitle
+			})
 			// #ifdef H5
 			this.headerTop = document.querySelector(".uni-page-head").offsetHeight+'px';
 			// #endif

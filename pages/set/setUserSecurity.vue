@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="list-cell b-b m-t" @click="navTo('/pages/set/setUserSecurityPassword')" hover-class="cell-hover"
 		 :hover-stay-time="50">
-			<text class="cell-tit">修改密码</text>
+			<text class="cell-tit">{{i18n.set.editPwd}}</text>
 			<text class="cell-tip">******</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view>
@@ -20,7 +20,15 @@
 
 			};
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.set.userSecurity
+			})
+		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

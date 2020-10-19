@@ -20,7 +20,7 @@
 					<image @click="previewImage(url)" :src="url" mode="aspectFill" v-for="url in comment.imageUrlList"></image>
 				</view>
 				<view class="eva-reply" v-if="comment.replayContent">
-					<text>卖家回复: {{comment.replayContent}}</text>
+					<text>{{i18n.merchant.reply}}: {{comment.replayContent}}</text>
 				</view>
 			</view>
 			<uni-load-more :status="loadingType"></uni-load-more>
@@ -50,6 +50,9 @@
 			};
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.evaluateTitle
+			})
 
 			//接收传值,id里面放的是标题，因为测试数据并没写id 
 			let id = options.id;
@@ -60,6 +63,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		onReachBottom(){

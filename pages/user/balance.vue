@@ -18,7 +18,7 @@
 					+￥{{item.transactionAmount}}
 				</view>
 				<view class="balance">
-					交易后余额:￥{{item.balanceAfter}}
+					{{i18n.set.balanceAfter}}:￥{{item.balanceAfter}}
 				</view>
 			</view>
 		</view>
@@ -49,6 +49,9 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.user.balanceTitle
+			})
 			this.searchUserStatement();
 		},
 		onReachBottom() {
@@ -61,6 +64,9 @@
 			this.searchUserStatement();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

@@ -17,7 +17,7 @@
 		data() {
 			return {
 				richText:'',
-				strings: '<p>点击订单进入订单列表, 在想要退款的订单下点击退款</p>'
+				strings: `<p>${this.contentMsg.strings}</p>`
 			};
 		},
 		
@@ -29,6 +29,9 @@
 			
 		},
 		computed: {
+			contentMsg() {
+				return this.$i18nMsg().index.content
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

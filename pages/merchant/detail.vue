@@ -8,18 +8,18 @@
 				<u-col span="6">
 					<view class="title">{{merchant.merchantName}}</view>
 					<view class="desc" @click="openLocation"><u-icon name="map-fill" color="#666" size="30"></u-icon>{{merchant.merchantAddress}}</view>
-					<view class="desc"><u-icon name="star-fill" color="#FC9F2A" size="30"></u-icon>{{(merchant.score||0).toFixed(1)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已售{{merchant.soldUnit}}</view>
-					<view class="desc">{{merchant.followTotal}}人已关注</view>
+					<view class="desc"><u-icon name="star-fill" color="#FC9F2A" size="30"></u-icon>{{(merchant.score||0).toFixed(1)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i18n.sold}}{{merchant.soldUnit}}</view>
+					<view class="desc">{{merchant.followTotal}}{{i18n.merchant.followedP}}</view>
 				</u-col>
 				<u-col span="2">
 					<view>
-						<u-button :ripple="true"  :plain="true" type="error" size="mini"  @click="callMerchant" >联系</u-button>
+						<u-button :ripple="true"  :plain="true" type="error" size="mini"  @click="callMerchant" >{{i18n.merchant.contact}}</u-button>
 					</view>
 				</u-col>
 				<u-col span="2">
 					<view>
-						<u-button :ripple="true"  :plain="false" type="error" size="mini" @click="cancelFollow" v-if="isFollowed">已关注</u-button>
-						<u-button :ripple="true"  :plain="true" type="error" size="mini" @click="follow" v-else>关注</u-button>
+						<u-button :ripple="true"  :plain="false" type="error" size="mini" @click="cancelFollow" v-if="isFollowed">{{i18n.merchant.followed}}</u-button>
+						<u-button :ripple="true"  :plain="true" type="error" size="mini" @click="follow" v-else>{{i18n.merchant.follow}}</u-button>
 					</view>
 				</u-col>
 			</u-row>
@@ -28,14 +28,14 @@
 		<!--  领券 -->
 		<view class="coupon-section" @click="showCoupon = true" v-if="couponList.length>0">
 			<view>
-				<u-button type="error" style="margin-right:10px;height:20px;line-height: 20px;" size="mini">领券</u-button>
+				<u-button type="error" style="margin-right:10px;height:20px;line-height: 20px;" size="mini">{{i18n.coupon.coupons}}</u-button>
 			</view>
 			<view v-for="(item,index) in couponList" v-if="index<3">
 				<u-button type="error" style="margin-right:5px;height:20px;line-height: 20px;" plain size="mini">
-					<text v-if="item.conditionAmount>0">满{{item.conditionAmount}}</text>
+					<text v-if="item.conditionAmount>0">{{i18n.coupon.full}}{{item.conditionAmount}}</text>
 					<text v-else>立</text>
-					<text v-if="item.type=='CASH'">减{{item.benefitCash}}</text>
-					<text v-if="item.type=='DISCOUNT'">享{{item.benefitDiscount/10}}折</text>
+					<text v-if="item.type=='CASH'">{{i18n.coupon.less}}{{item.benefitCash}}</text>
+					<text v-if="item.type=='DISCOUNT'">{{i18n.coupon.enjoy}}{{item.benefitDiscount/10}}{{i18n.coupon.discount}}</text>
 					</u-button>
 			</view>
 			
@@ -45,7 +45,7 @@
 		</view>
 		<!-- 领优惠券弹出框 -->
 		<u-popup v-model="showCoupon" mode="bottom" :closeable="true" border-radius="14" width="100%" height="800">
-			<view class="coupon-title">领优惠券</view>
+			<view class="coupon-title">{{i18n.coupon.getCoupons}}领优惠券</view>
 			<view class="coupon-list">
 				<view class="coupon-list-item" v-for="item in couponList">
 					<u-row>
@@ -56,22 +56,22 @@
 									<text class="discount" v-if="item.type=='DISCOUNT'">{{item.benefitDiscount/10}}</text>
 								</view>
 								<view class="c2">
-									<text v-if="item.conditionAmount>0"> 满{{item.conditionAmount}}元可用</text>
-									<text v-else> 无门槛</text>
+									<text v-if="item.conditionAmount>0"> {{i18n.coupon.full}}{{item.conditionAmount}}{{i18n.coupon.available}}</text>
+									<text v-else>{{i18n.coupon.noThreshold}}</text>
 								</view>
 							</view>
 						</u-col>
 						<u-col span="8" class="coupon-right">
 							<view class="c1">
-								<text v-if="item.benefitType=='0'">全场通用</text>
-								<text v-if="item.benefitType=='1'">指定商品</text>
+								<text v-if="item.benefitType=='0'">{{i18n.coupon.benefitType0}}</text>
+								<text v-if="item.benefitType=='1'">{{i18n.coupon.benefitType1}}</text>
 							</view>
 							<view class="c2">
-								<text v-if="item.validType==1"> 有效期至{{item.endDate}}</text>
-								<text v-if="item.validType==2"> 领取后{{item.validDays}}天内有效</text>
+								<text v-if="item.validType==1"> {{i18n.coupon.endDate}}{{item.endDate}}</text>
+								<text v-if="item.validType==2"> {{i18n.coupon.receive}}{{item.validDays}}{{i18n.coupon.validDays}}</text>
 							</view>
 							<view class="c3">
-								<u-button plain size="mini " type="error" @click="getCoupon(item)">立即领取</u-button>
+								<u-button plain size="mini " type="error" @click="getCoupon(item)">{{i18n.coupon.getCoupon}}</u-button>
 							</view>
 						</u-col>
 					</u-row>
@@ -86,7 +86,7 @@
 				</u-col>
 				<u-col span="4">
 					<view style="margin-top:5px" >
-						<u-search placeholder="搜索商品" :clearabled="true" :show-action="false" action-text="搜索" :animation="true" v-model="searchProductName" @search="search"></u-search>
+						<u-search :placeholder="i18n.searchProducts" :clearabled="true" :show-action="false" :action-text="i18n.search" :animation="true" v-model="searchProductName" @search="search"></u-search>
 					</view>
 				</u-col>
 			</u-row>
@@ -103,7 +103,7 @@
 					<text class="title clamp">{{item.productName}}</text>
 					<view class="price-box">
 						<text class="price">{{item.unitPrice}}</text>
-						<text>已售 {{item.soldUnit}}</text>
+						<text>{{i18n.sold}} {{item.soldUnit}}</text>
 					</view>
 				</view>
 			</view>
@@ -125,7 +125,7 @@
 					<image @click="previewImage(url)" :src="url" mode="aspectFill" v-for="url in comment.imageUrlList"></image>
 				</view>
 				<view class="eva-reply" v-if="comment.replayContent">
-					<text>卖家回复: {{comment.replayContent}}</text>
+					<text>{{i18n.merchant.reply}}: {{comment.replayContent}}</text>
 				</view>
 			</view>
 			<uni-load-more :status="loadingType"></uni-load-more>
@@ -149,11 +149,11 @@
 				merchant:{},
 				isFollowed: false,
 				tabList: [{
-					name: '推荐'
+					name: this.i18n.recommend
 				}, {
-					name: '全部商品'
+					name: this.i18n.allPro
 				}, {
-					name: '评价'
+					name: this.i18n.evaluate
 				}],
 				current: 0,
 				total: 0,
@@ -169,6 +169,9 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.$i18n.merchant.detail
+			})
 			this.merchantUuid = option.id;
 			// 商家基本信息
 			this.inquiryMerchant(this.merchantUuid);
@@ -195,6 +198,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -340,7 +346,7 @@
 					receiveChannel: 'SELF'
 				}, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('领取成功');
+						this.$api.msg(this.i18n.coupon.getSuccess);
 					} else {
 						this.$api.msg(res.body.status.errorDesc);
 					}
@@ -379,7 +385,7 @@
 						}, res => {
 						if (res.body.status.statusCode === '0') {
 							this.isFollowed = true;
-							this.$api.msg('关注成功');
+							this.$api.msg(this.i18n.merchant.detail.followSuccess);
 						} else {
 							console.log(res.body.status.errorDesc);
 						}
@@ -402,7 +408,7 @@
 						}, res => {
 						if (res.body.status.statusCode === '0') {
 							this.isFollowed = false;
-							this.$api.msg('取消关注成功');
+							this.$api.msg(thi.i18n.merchant.detail.cancelFollow);
 						} else {
 							console.log(res.body.status.errorDesc);
 						}

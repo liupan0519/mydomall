@@ -1,44 +1,41 @@
 <template>
 	<view class="content">
 		<view class="row b-b">
-			<text class="tit">联系人</text>
-			<input class="input" :maxlength="10" type="text" v-model="addressData.name" placeholder="收货人姓名" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.address.name}}</text>
+			<input class="input" :maxlength="10" type="text" v-model="addressData.name" :placeholder="i18n.address.name2"
+			 placeholder-class="placeholder" />
 		</view>
 		<view class="row b-b">
-			<text class="tit">手机号</text>
-			<input class="input" type="number" v-model="addressData.telephone" placeholder="收货人手机号码" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.telephone}}</text>
+			<input class="input" type="number" v-model="addressData.telephone" :placeholder="i18n.address.telephone2"
+			 placeholder-class="placeholder" />
 		</view>
 		<view class="row b-b">
-			<text class="tit">省市区</text>
+			<text class="tit">{{i18n.province}}</text>
 			<view class="input">
-				{{addressData.province}}  {{addressData.city}}  {{addressData.area}}
+				{{addressData.province}} {{addressData.city}} {{addressData.area}}
 			</view>
 			<text class="yticon icon-you" @click="showAddressRegion"></text>
 		</view>
 		<view class="input">
-			<w-picker
-				mode="region"
-				:defaultVal="defaultRegion"
-				:hideArea="false"
-				@confirm="onConfirm" 
-				ref="region"
-				:timeout="true"
-			></w-picker>
-		</view>
-		<view class="row b-b"> 
-			<text class="tit">详细地址</text>
-			<input :maxlength="100" class="input" type="text" v-model="addressData.street" placeholder="省市区及详细地址" placeholder-class="placeholder" />
+			<w-picker mode="region" :defaultVal="defaultRegion" :hideArea="false" @confirm="onConfirm" ref="region" :timeout="true"></w-picker>
 		</view>
 		<view class="row b-b">
-			<text class="tit">邮政编码</text>
-			<input class="input" type="text" :maxlength="6" v-model="addressData.zipcode" placeholder="邮政编码" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.address.street}}</text>
+			<input :maxlength="100" class="input" type="text" v-model="addressData.street" :placeholder="i18n.address.street"
+			 placeholder-class="placeholder" />
+		</view>
+		<view class="row b-b">
+			<text class="tit">{{i18n.address.zipcode}}</text>
+			<input class="input" type="text" :maxlength="6" v-model="addressData.zipcode" :placeholder="i18n.address.zipcode"
+			 placeholder-class="placeholder" />
 		</view>
 		<view class="row default-row">
-			<text class="tit">设为默认</text>
+			<text class="tit">{{i18n.setDefault}}</text>
 			<switch :checked="addressData.default" color="#09A0F7" @change="switchChange" />
 		</view>
-		<button class="add-btn" @click="confirm">保存</button>
-		<button v-if="manageType==='edit'" class="del-btn" @click="del">删除</button>
+		<button class="add-btn" @click="confirm">{{i18n.saveBtn}}</button>
+		<button v-if="manageType==='edit'" class="del-btn" @click="del">{{i18n.delBtn}}</button>
 	</view>
 </template>
 
@@ -51,7 +48,7 @@
 	export default {
 		data() {
 			return {
-				manageType:'',
+				manageType: '',
 				addressData: {
 					name: '',
 					telephone: '',
@@ -62,15 +59,15 @@
 					zipcode: '',
 					default: true,
 				},
-				defaultRegion:['北京市','市辖区','东城区']
+				defaultRegion: ['北京市', '市辖区', '东城区']
 			}
 		},
-		onLoad(option){
-			let title = '新增收货地址';
-			if(option.type==='edit'){
-				title = '编辑收货地址'
+		onLoad(option) {
+			let title = this.i18n.address.addBtn;
+			if (option.type === 'edit') {
+				title = this.i18n.address.editBtn
 				this.addressData = JSON.parse(option.data);
-				this.defaultRegion=[this.addressData.province,this.addressData.city,this.addressData.area];
+				this.defaultRegion = [this.addressData.province, this.addressData.city, this.addressData.area];
 			}
 			this.manageType = option.type;
 			debugger
@@ -84,56 +81,56 @@
 			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
-		components:{
+		components: {
 			wPicker
 		},
 		methods: {
-			showAddressRegion(){
-				this.$refs['region'].show();	
+			showAddressRegion() {
+				this.$refs['region'].show();
 			},
-			onConfirm(val){
-				this.$set(this.addressData,'province',val.checkArr[0]);
-				this.$set(this.addressData,'city',val.checkArr[1]);
-				this.$set(this.addressData,'area',val.checkArr[2]);
+			onConfirm(val) {
+				this.$set(this.addressData, 'province', val.checkArr[0]);
+				this.$set(this.addressData, 'city', val.checkArr[1]);
+				this.$set(this.addressData, 'area', val.checkArr[2]);
 			},
-			switchChange(e){
+			switchChange(e) {
 				this.addressData.default = e.detail.value;
 			},
-			
+
 			//地图选择地址
-			chooseLocation(){
+			chooseLocation() {
 				uni.chooseLocation({
-					success: (data)=> {
+					success: (data) => {
 						debugger
 						this.addressData.addressName = data.name;
 					}
 				})
 			},
-			
+
 			//提交
-			confirm(){
+			confirm() {
 				let data = this.addressData;
-				if(!data.name){
-					this.$api.msg('请填写收货人姓名');
+				if (!data.name) {
+					this.$api.msg(this.i18n.address.errorName);
 					return;
 				}
-				if(!this.$api.util.validateMobileNo(data.telephone)){
-					this.$api.msg('请输入正确的手机号码');
+				if (!this.$api.util.validateMobileNo(data.telephone)) {
+					this.$api.msg(this.i18n.address.errorTel);
 					return;
 				}
 				// if(!data.address){
 				// 	this.$api.msg('请在地图选择所在位置');
 				// 	return;
 				// }
-				if(!data.street){
-					this.$api.msg('请填写详细地址');
+				if (!data.street) {
+					this.$api.msg(this.i18n.address.errorStreet);
 					return;
 				}
-				
+
 				let options = this.addressData;
-				if(this.manageType=='edit'){
+				if (this.manageType == 'edit') {
 					options.actionType = 'MODIFY';
-				}else{
+				} else {
 					options.actionType = 'ADD';
 					options.userDTO = {
 						userUuid: this.userInfo.userUuid
@@ -141,10 +138,10 @@
 				}
 				this.$api.request.saveUserShip(options, res => {
 					if (res.body.status.statusCode === '0') {
-						var msg = '地址添加成功';
-						if(this.manageType=='edit') msg = '地址修改成功';
+						var msg = this.i18n.address.successAdd;
+						if (this.manageType == 'edit') msg = this.i18n.address.successEdit;
 						this.$api.msg(msg);
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.$api.prePage().refreshList();
 							uni.navigateBack();
 						}, 800)
@@ -152,18 +149,18 @@
 						this.$api.msg(res.body.status.errorDesc);
 					}
 				});
-				
+
 			},
 			//删除地址
-			del(){
+			del() {
 				let options = {
 					userDeliveryAddressUuid: this.addressData.userDeliveryAddressUuid,
 					actionType: 'DELETE'
 				}
 				this.$api.request.removeShip(options, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('地址删除成功');
-						setTimeout(()=>{
+						this.$api.msg(this.i18n.address.successDel);
+						setTimeout(() => {
 							this.$api.prePage().refreshList();
 							uni.navigateBack();
 						}, 800)
@@ -171,52 +168,58 @@
 						this.$api.msg(res.body.status.errorDesc);
 					}
 				});
-				
+
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background: $page-color-base;
 		padding-top: 16upx;
 	}
 
-	.row{
+	.row {
 		display: flex;
 		align-items: center;
 		position: relative;
-		padding:0 30upx;
+		padding: 0 30upx;
 		height: 110upx;
 		background: #fff;
-		
-		.tit{
+
+		.tit {
 			flex-shrink: 0;
 			width: 160upx;
 			font-size: 30upx;
 			color: $font-color-dark;
 		}
-		.input{
+
+		.input {
 			flex: 1;
 			font-size: 30upx;
 			color: $font-color-dark;
 		}
-		.icon-shouhuodizhi{
+
+		.icon-shouhuodizhi {
 			font-size: 36upx;
 			color: $font-color-light;
 		}
 	}
-	.default-row{
+
+	.default-row {
 		margin-top: 16upx;
-		.tit{
+
+		.tit {
 			flex: 1;
 		}
-		switch{
+
+		switch {
 			transform: translateX(16upx) scale(.9);
 		}
 	}
-	.add-btn{
+
+	.add-btn {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -229,7 +232,8 @@
 		border-radius: 10upx;
 		box-shadow: 1px 2px 5px #09A0F7;
 	}
-	.del-btn{
+
+	.del-btn {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -242,16 +246,18 @@
 		border-radius: 10upx;
 		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
 	}
-	
-	
-	.tab{
-		padding:20upx 0;
+
+
+	.tab {
+		padding: 20upx 0;
 		font-size: 32upx;
 	}
-	.tab.active{
-		color:#f00;
+
+	.tab.active {
+		color: #f00;
 	}
-	.result{
+
+	.result {
 		margin-top: 100upx;
 		font-size: 32upx;
 	}

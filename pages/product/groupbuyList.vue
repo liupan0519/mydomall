@@ -1,4 +1,4 @@
-<template>
+ <template>
 	<view class="content">
 		<view class="group">
 			<image src="https://ccmao-b2c.oss-cn-shenzhen.aliyuncs.com/groupbuy.png" mode="aspectFill"></image>
@@ -6,7 +6,7 @@
 		
 		<view class="goods-list">
 			<view class="header">
-				<image src="../../static/image/groupbuy_icon.png" mode="aspectFill"></image><text>超级团购</text>
+				<image src="../../static/image/groupbuy_icon.png" mode="aspectFill"></image><text>{{i18n.groupbuy.superGroup}}</text>
 			</view>
 			<view 
 				v-for="(item, index) in groupBuys" :key="index"
@@ -16,11 +16,11 @@
 				<view class="image-wrapper">
 					<image v-if="item.productDTO.productMainImage" :src="item.productDTO.productMainImage.url" mode="aspectFill"></image>
 				</view>
-				<text class="title clamp"><u-tag :text="item.minUserCount+'人团'" mode="dark" size="mini" type="error" />{{item.productDTO.productName}}</text>
+				<text class="title clamp"><u-tag :text="item.minUserCount+i18n.groupbuy.minUserCount" mode="dark" size="mini" type="error" />{{item.productDTO.productName}}</text>
 				<view class="price-box">
 					<text class="price">{{item.unitPrice}}<text class="standard">￥{{item.productDTO.unitPrice}}</text></text>
-					<text class="note">已拼{{item.soldUnit}}件</text>
-					<text class="action">去拼团</text>
+					<text class="note">{{i18n.groupbuy.spelled}}{{item.soldUnit}}件{{i18n.productUnit}}</text>
+					<text class="action">{{i18n.groupbuy.toJoin}}</text>
 				</view>
 			</view>
 		</view>
@@ -40,8 +40,15 @@
 				groupBuys:[]
 			};
 		},
-		
+		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			}
+		},
 		onLoad(options){
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.groupbuyList
+			})
 			this.inquiryGroupBuy();
 		},
 		methods: {

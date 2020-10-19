@@ -1,18 +1,18 @@
 <template>
 	<view class="container">
 		<view class="row b-b">
-			<text class="tit">旧密码</text>
-			<input class="input" type="password" maxlength="20" v-model="password" placeholder="8-20位字母数字下划线组合" placeholder-class="placeholder" />
+			<text class="tit">{{setMsg.password}}</text>
+			<input class="input" type="password" maxlength="20" v-model="password" :placeholder="i18n.publics.newPwdPH" placeholder-class="placeholder" />
 		</view>
 		<view class="row b-b">
-			<text class="tit">新密码</text>
-			<input class="input" type="password" maxlength="20" v-model="newPassword" placeholder="8-20位字母数字下划线组合" placeholder-class="placeholder" />
+			<text class="tit">{{setMsg.newPassword}}</text>
+			<input class="input" type="password" maxlength="20" v-model="newPassword" :placeholder="i18n.publics.newPwdPH" placeholder-class="placeholder" />
 		</view>
 		<view class="row b-b">
-			<text class="tit">重复新密码</text>
-			<input class="input" type="password" maxlength="20" v-model="reNewPassword" placeholder="8-20位字母数字下划线组合" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.publics.newPwd2}}</text>
+			<input class="input" type="password" maxlength="20" v-model="reNewPassword" :placeholder="i18n.publics.newPwdPH" placeholder-class="placeholder" />
 		</view>
-		<button class="add-btn" @click="save">提交</button>
+		<button class="add-btn" @click="save">{{i18n.publics.submitting}}</button>
 	</view>
 </template>
 
@@ -29,7 +29,18 @@
 				reNewPassword: ''
 			};
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.setMsg.editPwd
+			})
+		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			setMsg() {
+				return this.$i18nMsg().index.set
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -37,13 +48,13 @@
 			save() {
 				var isFormValid = true;
 				if (!this.$api.util.validatePassword(this.password)) {
-					this.$api.msg('密码为8-20位字母数字下划线组合');
+					this.$api.msg(this.i18n.publics.validatePassword);
 					isFormValid = false;
 				} else if (!this.$api.util.validatePassword(this.newPassword)) {
-					this.$api.msg('密码为8-20位字母数字下划线组合');
+					this.$api.msg(this.i18n.publics.validatePassword);
 					isFormValid = false;
 				}else if (this.newPassword != this.reNewPassword) {
-					this.$api.msg('两次新密码密码输入不一致');
+					this.$api.msg(this.i18n.publics.validatePassword2);
 					isFormValid = false;
 				}
 				if (!isFormValid) {
@@ -55,7 +66,7 @@
 					newPassword: this.newPassword
 				}, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('密码修改成功');
+						this.$api.msg(this.setMsg.changePassword);
 						setTimeout(function() {
 							uni.switchTab({
 								url: '/pages/user/user'

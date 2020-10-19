@@ -7,7 +7,7 @@
 		<view class="wrapper">
 			<view class="left-top-sign">REGISTER</view>
 			<view class="welcome">
-				欢迎使用{{applicationConfig.applicationName}}
+				{{publicMsg.welcome}}{{applicationConfig.applicationName}}
 			</view>
 			<!-- #ifdef MP-WEIXIN -->
 			<view class="wrapper">
@@ -23,27 +23,27 @@
 			<!-- #ifndef MP-WEIXIN -->
 			<view class="input-content">
 				<view class="input-item">
-					<text class="tit">手机号码</text>
-					<input type="number" :value="mobileNo" placeholder="请输入手机号码" maxlength="11" data-key="mobileNo" @input="inputChange" />
+					<text class="tit">{{i18n.telephone}}</text>
+					<input type="number" :value="mobileNo" :placeholder="publicMsg.mobileNoPH" maxlength="11" data-key="mobileNo" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<text class="tit">密码</text>
-					<input type="mobile" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
+					<text class="tit">{{publicMsg.pwd}}</text>
+					<input type="mobile" value="" :placeholder="publicMsg.validatePassword" placeholder-class="input-empty" maxlength="20" password
 					 data-key="password" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<text class="tit">重复密码</text>
-					<input type="mobile" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
+					<text class="tit">{{publicMsg.pwd2}}</text>
+					<input type="mobile" value="" :placeholder="publicMsg.validatePassword" placeholder-class="input-empty" maxlength="20" password
 					 data-key="rePassword" @input="inputChange" />
 				</view>
 			</view>
 			<!-- #endif -->
 			<!-- #ifdef MP-WEIXIN -->
-			<button open-type="getUserInfo" class="confirm-btn" @getuserinfo="getuserinfo" withCredentials="true" :disabled="registering">微信登录</button>
+			<button open-type="getUserInfo" class="confirm-btn" @getuserinfo="getuserinfo" withCredentials="true" :disabled="registering">{{publicMsg.wxlogin}}</button>
 			<!-- #endif -->
 			
 			<!-- #ifndef MP-WEIXIN -->
-			<button class="confirm-btn" @click="toRegisterByPassword" :disabled="registering">注册</button>
+			<button class="confirm-btn" @click="toRegisterByPassword" :disabled="registering">{{publicMsg.toRegister}}</button>
 			<!-- #endif -->
 		</view>
 	</view>
@@ -72,6 +72,9 @@
 			}
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.publicMsg.loginTitle
+			})
 			// #ifdef H5
 			//微信浏览器
 			if(this.isWexinBrowser()){
@@ -105,6 +108,12 @@
 			this.inquirySuscribeMsg();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			publicMsg() {
+				return this.$i18nMsg().index.publics
+			},
 			...mapState(['applicationConfig'])
 		},
 		methods: {
@@ -172,10 +181,10 @@
 								if (!loginRes.body.data.personalPhone) {
 									uni.showModal({
 										title: '',
-										content: '您还未绑定手机，绑定后体验更佳!',
+										content: that.publicMsg.noBind,
 										showCancel: false,
 										cancelText: '',
-										confirmText: '立即绑定',
+										confirmText: that.publicMsg.toBind,
 										confirmColor: '#666666',
 										success: res => {
 											uni.navigateTo({
@@ -220,11 +229,11 @@
 				requestData.code = this.wechatUserInfo.code;
 				requestData.name = this.wechatUserInfo.nickName;
 				requestData.photoUrl = this.wechatUserInfo.avatarUrl;
-				let sex = '未知';
+				let sex = that.publicMsg.noBind;
 				if(this.wechatUserInfo.gender===1)
-					sex = '男';
+					sex = that.publicMsg.gender1;
 				else if(this.wechatUserInfo.gender===2)
-					sex = '女';
+					sex = that.publicMsg.gender2;
 				requestData.sex = sex;
 			},
 			
@@ -242,17 +251,18 @@
 				const {
 					mobileNo,
 					password,
-					rePassword
+					rePassword,
+					publicMsg
 				} = this;
 				var isFormValid = true;
 				if (!this.$api.util.validateMobileNo(mobileNo)) {
-					this.$api.msg('手机号码格式错误');
+					this.$api.msg(publicMsg.validateMobileNo);
 					isFormValid = false;
 				} else if (!this.$api.util.validatePassword(password)) {
-					this.$api.msg('密码为8-20位字母数字下划线组合');
+					this.$api.msg(publicMsg.validatePassword);
 					isFormValid = false;
 				} else if (password != rePassword) {
-					this.$api.msg('两次密码输入不一致');
+					this.$api.msg(publicMsg.validatePassword2);
 					isFormValid = false;
 				}
 				if (!isFormValid) {

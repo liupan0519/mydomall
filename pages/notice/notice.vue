@@ -14,7 +14,7 @@
 		</view>
 		<view class="empty" v-if="notices.length===0">
 		  <view mode="widthFix" class="noce">
-		    <text>——暂无信息——</text>
+		    <text>{{i18n.notice.empty}}</text>
 		  </view>
 		</view>
 	</view>
@@ -36,9 +36,15 @@
 			}
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.notice.title
+			})
 			this.notices = JSON.parse(decodeURIComponent(options.data));
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint'])
 		},
 		methods: {
@@ -46,11 +52,11 @@
 				this.$api.request.inquiryArticle({articleUuid: item.articleUuid}, function(res) {
 					if (res.body.status.statusCode === '0') {
 						var article = res.body.data;
-						if(article.linkType==='自定义内容')
+						if(article.linkType===this.i18n.notice.linkType1)
 							uni.navigateTo({
 								url: '/pages/content/richText?content=' + escape(JSON.stringify(article.content))
 							})
-						else if(article.linkType==='外部链接')
+						else if(article.linkType===this.i18n.notice.linkType2)
 							uni.navigateTo({
 								url: '/pages/content/webView?src=' + article.content
 							})

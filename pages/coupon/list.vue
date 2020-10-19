@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<u-search bg-color="#fff" placeholder="搜索商家" :clearabled="true" :show-action="false" action-text="搜索" :animation="true" v-model="searchKey" @search="search"></u-search>
+		<u-search bg-color="#fff" :placeholder="i18n.searchMerchant" :clearabled="true" :show-action="false" :action-text="i18n.search" :animation="true" v-model="searchKey" @search="search"></u-search>
 		<view class="coupon-list" v-for="merchant in merchantList" v-if="merchant.couponList.length>0">
 			<view class="coupon-title" @click="navMerchant(merchant)">{{merchant.merchantName}}<u-icon name="arrow-right"></u-icon></view>
 			<view class="coupon-list-item" v-for="item in merchant.couponList">
@@ -12,22 +12,22 @@
 								<text class="discount" v-if="item.type=='DISCOUNT'">{{item.benefitDiscount/10}}</text>
 							</view>
 							<view class="c2">
-								<text v-if="item.conditionAmount>0"> 满{{item.conditionAmount}}元可用</text>
-								<text v-else> 无门槛</text>
+								<text v-if="item.conditionAmount>0"> {{i18n.coupon.full}}{{item.conditionAmount}}{{i18n.coupon.available}}</text>
+								<text v-else>{{i18n.coupon.noThreshold}}</text>
 							</view>
 						</view>
 					</u-col>
 					<u-col span="8" class="coupon-right">
 						<view class="c1">
-							<text v-if="item.benefitType=='0'">全场通用</text>
-							<text v-if="item.benefitType=='1'">指定商品</text>
+							<text v-if="item.benefitType=='0'">{{i18n.coupon.benefitType0}}</text>
+							<text v-if="item.benefitType=='1'">{{i18n.coupon.benefitType1}}</text>
 						</view>
 						<view class="c2">
-							<text v-if="item.validType==1"> 有效期至{{item.endDate}}</text>
-							<text v-if="item.validType==2"> 领取后{{item.validDays}}天内有效</text>
+							<text v-if="item.validType==1"> {{i18n.coupon.endDate}}{{item.endDate}}</text>
+							<text v-if="item.validType==2"> {{i18n.coupon.receive}}{{item.validDays}}{{i18n.coupon.validDays}}</text>
 						</view>
 						<view class="c3">
-							<u-button plain size="mini " type="error" @click="getCoupon(item)">立即领取</u-button>
+							<u-button plain size="mini " type="error" @click="getCoupon(item)">{{i18n.coupon.getCoupon}}</u-button>
 						</view>
 					</u-col>
 				</u-row>
@@ -59,6 +59,9 @@
 		},
 
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.couponCenter
+			})
 			this.searchCoupon();
 		},
 		onReachBottom(){
@@ -68,6 +71,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint'])
 		},
 		methods: {
@@ -131,7 +137,7 @@
 					receiveChannel: 'SELF'
 				}, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('领取成功');
+						this.$api.msg(this.i18n.coupon.getSuccess);
 					} else {
 						this.$api.msg(res.body.status.errorDesc);
 					}

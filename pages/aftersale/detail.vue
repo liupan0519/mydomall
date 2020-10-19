@@ -85,10 +85,16 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.aftersale.detailTitle
+			})
 			this.saleNo = option.id;
 			this.inquiryOrderAfterSale(this.saleNo);
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

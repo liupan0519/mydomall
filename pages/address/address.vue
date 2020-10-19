@@ -4,7 +4,7 @@
 		<view class="list b-b" v-for="(item, index) in addressList" :key="index" @click="checkAddress(item)">
 			<view class="wrapper">
 				<view class="address-box">
-					<text v-if="item.default" class="tag">{{i18n.commom.default}}</text>
+					<text v-if="item.default" class="tag">{{i18n.default}}</text>
 					<text class="address">{{item.street}}</text>
 				</view>
 				<view class="u-box">
@@ -37,6 +37,9 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.address.title
+			})
 			console.log(option.source);
 			this.source = option.source;
 			this.inquiryAddress();

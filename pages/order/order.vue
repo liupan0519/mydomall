@@ -18,7 +18,7 @@
 						<view class="i-top b-b">
 							<text class="time">{{item.orderTime}}</text>
 							<text class="state" v-if="!item.afterSale" :style="{color:item.orderStatusColor}">{{item.orderStatusDesc}}</text>
-							<text class="state" v-if="item.afterSale">已申请退款</text>
+							<text class="state" v-if="item.afterSale">{{orderMsg.afterSale}}</text>
 							<text v-if="item.orderStatus==='4'" class="del-btn yticon icon-iconfontshanchu1" @click="deleteOrder(item)"></text>
 						</view>
 
@@ -38,31 +38,31 @@
 						</view>
 
 						<view class="price-box">
-							共
+							{{i18n.total}}
 							<text class="num">{{item.productUnit}}</text>
-							件商品 实付款
+							{{i18n.products}} {{i18n.order.actualAmount}}
 							<text class="price">{{item.actualAmount}}</text>
 						</view>
 						<view class="action-box b-t" v-if="!item.afterSale">
 							<!-- 未付款或未发货状态可以取消订单 -->
-							<button v-if="item.orderStatus=='0'" class="action-btn" @click="cancelOrder(item)">取消订单</button>
+							<button v-if="item.orderStatus=='0'" class="action-btn" @click="cancelOrder(item)">{{orderMsg.cancelOrder}}</button>
 							<!-- 未付款状态可以发起支付 -->
-							<button @click="pay(item)" class="action-btn recom" v-if="item.orderStatus=='0'">立即支付</button>
+							<button @click="pay(item)" class="action-btn recom" v-if="item.orderStatus=='0'">{{orderMsg.pay}}</button>
 							<!-- 待收货状态可以收货 -->
-							<button @click="receive(item)" class="action-btn recom" v-if="item.orderStatus=='2'">确认收货</button>
+							<button @click="receive(item)" class="action-btn recom" v-if="item.orderStatus=='2'">{{orderMsg.receive}}</button>
 							<!-- 已收货状态可以评价 -->
-							<button @click="evaluate(item)" class="action-btn recom" v-if="item.orderStatus=='3'">去评价</button>
+							<button @click="evaluate(item)" class="action-btn recom" v-if="item.orderStatus=='3'">{{orderMsg.evaluate}}</button>
 							<!-- 申请退款(待发货,已发货,待评价状态可以申请退款, 前提是订单未结算)，仅实物商品允许退款 -->
-							<button @click="applyAfterSale(item)" class="action-btn recom" v-if="item.orderProductDTOList[0].productDTO.productType=='1'&&item.orderStatus!='0'&&item.orderStatus!='4'&&!item.accounted&&!item.afterSale">申请退款</button>
+							<button @click="applyAfterSale(item)" class="action-btn recom" v-if="item.orderProductDTOList[0].productDTO.productType=='1'&&item.orderStatus!='0'&&item.orderStatus!='4'&&!item.accounted&&!item.afterSale">{{orderMsg.applyAfterSale}}</button>
 							<!-- 已支付的电子卡券商品可以查看核销码 -->
-							<button @click="viewVoucher(item)" class="action-btn recom" v-if="item.orderProductDTOList[0].productDTO.productType=='3'&&item.paymentTime">查看核销码</button>
-							<button @click="viewOrder(item)" class="action-btn">订单详情</button>
+							<button @click="viewVoucher(item)" class="action-btn recom" v-if="item.orderProductDTOList[0].productDTO.productType=='3'&&item.paymentTime">{{orderMsg.viewVoucher}}</button>
+							<button @click="viewOrder(item)" class="action-btn">{{orderMsg.viewOrder}}</button>
 							<!-- 发货后的状态可以查看物流 -->
-							<button @click="viewCourier(item)" class="action-btn" v-if="item.deliveryType=='1'&&item.orderStatus!='0'&&item.orderStatus!='1'&&item.orderStatus!='4'">查看物流</button>
+							<button @click="viewCourier(item)" class="action-btn" v-if="item.deliveryType=='1'&&item.orderStatus!='0'&&item.orderStatus!='1'&&item.orderStatus!='4'">{{orderMsg.viewCourier}}</button>
 						</view>
 						<view class="action-box b-t" v-if="item.afterSale">
-							<button @click="viewAfterSale(item)" class="action-btn">查看退款</button>
-							<button @click="viewOrder(item)" class="action-btn">订单详情</button>
+							<button @click="viewAfterSale(item)" class="action-btn">{{orderMsg.viewAfterSale}}</button>
+							<button @click="viewOrder(item)" class="action-btn">{{orderMsg.viewOrder}}</button>
 						</view>	
 					</view>
 
@@ -96,43 +96,43 @@
 				loadingType: '',
 				navList: [{
 						state: '',
-						text: '全部',
+						text: this.i18n.navList.all,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '0',
-						text: '待付款',
+						text: this.i18n.navList.state0,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '1',
-						text: '待发货',
+						text: this.i18n.navList.state1,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '2',
-						text: '待收货',
+						text: this.i18n.navList.state2,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '3',
-						text: '待评价',
+						text: this.i18n.navList.state3,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '4',
-						text: '已取消',
+						text: this.i18n.navList.state4,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '5',
-						text: '已完成',
+						text: this.i18n.navList.state5,
 						loadingType: 'more',
 						orderList: []
 					}
@@ -141,6 +141,9 @@
 		},
 
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.orderMsg.title
+			})
 			this.tabCurrentIndex = Number(options.state);
 			//查询全部订单时这里调用, 查询其他状态时因为tabCurrentIndex改变会触发changeTab方法调用查询
 			if(this.tabCurrentIndex === 0)
@@ -156,6 +159,12 @@
 			}, 1000);
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			orderMsg() {
+				return this.$i18nMsg().index.order
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint'])
 		},
 		methods: {
@@ -245,7 +254,7 @@
 			deleteOrder(item) {
 				let that = this;
 				uni.showModal({
-					content: '确认要删除订单吗？',
+					content: that.orderMsg.deleteCon,
 					success: (e) => {
 						if (e.confirm) {
 							this.$api.request.delOrder({
@@ -253,7 +262,7 @@
 								orderNo: item.orderNo
 							}, res => {
 								if (res.body.status.statusCode === '0') {
-									that.$api.msg('订单已成功删除');
+									that.$api.msg(that.orderMsg.deleteOrder);
 									that.resetPage();
 									that.searchOrder(that.translateTabIndex(that.tabCurrentIndex));
 								} else {
@@ -271,7 +280,7 @@
 			//取消订单
 			cancelOrder(item) {
 				let that = this;
-				var content = '确认要取消订单吗？';
+				var content = that.orderMsg.cancelCon;
 				uni.showModal({
 					content: content,
 					success: (e) => {
@@ -280,7 +289,7 @@
 								orderNo: item.orderNo
 							}, res => {
 								if (res.body.status.statusCode === '0') {
-									that.$api.msg('订单已成功取消');
+									that.$api.msg(that.orderMsg.cancelOrder);
 									that.resetPage();
 									that.searchOrder(that.translateTabIndex(that.tabCurrentIndex));
 								} else {
@@ -299,14 +308,14 @@
 			receive(item) {
 				let that = this;
 				uni.showModal({
-					content: '确认已收货吗？',
+					content: that.orderMsg.receiveCon,
 					success: (e) => {
 						if (e.confirm) {
 							this.$api.request.confirmOrder({
 								orderNo: item.orderNo
 							}, res => {
 								if (res.body.status.statusCode === '0') {
-									that.$api.msg('确认收货成功');
+									that.$api.msg(that.orderMsg.receive);
 									setTimeout(()=>{
 										that.resetPage();
 										that.searchOrder(that.translateTabIndex(that.tabCurrentIndex));
@@ -331,7 +340,7 @@
 			},
 			applyAfterSale(item){
 				uni.showModal({
-					content: '发起退款前请与客服仔细沟通, 达成一致后再发起退款申请, 是否继续申请退款？',
+					content: that.orderMsg.applyAfterSale,
 					success: (e) => {
 						if (e.confirm) {
 							uni.navigateTo({

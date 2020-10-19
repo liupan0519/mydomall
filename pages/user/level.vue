@@ -3,31 +3,31 @@
 		<view class="tj-sction">
 			<view class="tj-item" @click="navTo('/pages/user/invited')">
 				<text class="num">{{nextLevelData.directUserCount}}</text>
-				<text>直邀会员</text>
+				<text>{{userMsg.directUser}}</text>
 			</view>
 			<view class="tj-item">
 				<text class="num">{{nextLevelData.teamUserCount}}</text>
-				<text>团队会员</text>
+				<text>{{userMsg.teamUser}}</text>
 			</view>
 			<view class="tj-item">
 				<text class="num">￥{{nextLevelData.directSaleAmount}}</text>
-				<text>个人销售额</text>
+				<text>{{userMsg.directSaleAmount}}</text>
 			</view>
 			<view class="tj-item">
 				<text class="num">￥{{nextLevelData.teamSaleAmount}}</text>
-				<text>团队销售额</text>
+				<text>{{userMsg.teamSaleAmount}}</text>
 			</view>
 		</view>
 		<view>
 			<view class="arc-title" v-if="nextLevelData.userLevelDTO">
 				<!-- <uni-tag text="目标会员等级" type="default"> -->
-					目标会员等级 - {{nextLevelData.userLevelDTO.name}}
+					{{userMsg.userLevelDTO}} - {{nextLevelData.userLevelDTO.name}}
 				<!-- </uni-tag> -->
 			</view>
 			<view class="arc-columns">
 				<view v-if="nextLevelData.userLevelDTO && nextLevelData.userLevelDTO.requiredByUser">
 					<view class="arc-bg-white arc-title-bar arc-common-mt">
-						<view class="arc-title-dot-light">直邀会员</view>
+						<view class="arc-title-dot-light">{{userMsg.directUser}}</view>
 					</view>
 					<view class="arc-charts">
 						<!--#ifdef MP-ALIPAY -->
@@ -43,7 +43,7 @@
 				</view>
 				<view v-if="nextLevelData.userLevelDTO&&nextLevelData.userLevelDTO.requiredByUser">
 					<view class="arc-bg-white arc-title-bar arc-common-mt">
-						<view class="arc-title-dot-light">团队会员</view>
+						<view class="arc-title-dot-light">{{userMsg.teamUser}}</view>
 					</view>
 					<view class="arc-charts">
 						<!--#ifdef MP-ALIPAY -->
@@ -59,7 +59,7 @@
 				</view>
 				<view v-if="nextLevelData.userLevelDTO&&nextLevelData.userLevelDTO.requiredByAmount">
 					<view class="arc-bg-white arc-title-bar arc-common-mt">
-						<view class="arc-title-dot-light">个人销售额</view>
+						<view class="arc-title-dot-light">{{userMsg.directSaleAmount}}</view>
 					</view>
 					<view class="arc-charts">
 						<!--#ifdef MP-ALIPAY -->
@@ -76,7 +76,7 @@
 				</view>
 				<view v-if="nextLevelData.userLevelDTO&&nextLevelData.userLevelDTO.requiredByAmount">
 					<view class="arc-bg-white arc-title-bar arc-common-mt">
-						<view class="arc-title-dot-light">团队销售额</view>
+						<view class="arc-title-dot-light">{{userMsg.teamSaleAmount}}</view>
 					</view>
 					<view class="arc-charts">
 						<!--#ifdef MP-ALIPAY -->
@@ -124,12 +124,15 @@
 				cHeight: '', //圆弧进度图
 				arcbarWidth: '', //圆弧进度图，进度条宽度,此设置可使各端宽度一致
 				pixelRatio: 1,
-				serverData: '',
+				serverData: ''
 			};
 		},
 
 		onLoad(options) {
 			_self = this;
+			uni.setNavigationBarTitle({
+				title: _self.levelTitle
+			})
 			//#ifdef MP-ALIPAY
 			uni.getSystemInfo({
 				success: function(res) {
@@ -153,6 +156,12 @@
 			//this.fillData();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			userMsg() {
+				return this.$i18nMsg().index.user
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig'])
 		},
 		methods: {

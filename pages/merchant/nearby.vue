@@ -9,9 +9,9 @@
 		<view class="m-list">
 			<view class="no-merchant" v-if="merchantList.length === 0">
 				<image class="no-merchant-image" src="../../static/image/empty.png"></image>
-				<view class="no-merchant-text">附近未找到门店</view>
+				<view class="no-merchant-text">{{i18n.merchant.noMerchant}}</view>
 			</view>
-			<view class="list b-b" v-for="(item, index) in merchantList" :key="index"">
+			<view class="list b-b" v-for="(item, index) in merchantList" :key="index">
 				<view class="wrapper" @click="findCover(item)">
 					<view class="merchant-box">
 						<text class="merchant">{{item.merchantName}}</text>
@@ -24,9 +24,9 @@
 					</view>
 				</view>
 				<view class="distance" @click="openLocation(item)">
-					<view>{{item.distance}}公里</view>
+					<view>{{item.distance}}{{i18n.km}}</view>
 					<image src="../../static/image/nav.png"></image>
-					<view>去这里</view>
+					<view>{{i18n.goHere}}</view>
 				</view>
 			</view>
 		</view>
@@ -56,6 +56,9 @@
 		},
 		onLoad(option) {
 			let that = this;
+			uni.setNavigationBarTitle({
+				title: that.$i18n.merchant.nearby
+			})
 			uni.getLocation({
 				type: 'gcj02',
 				success: function(res) {
@@ -70,6 +73,9 @@
 			});
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

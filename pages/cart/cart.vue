@@ -4,14 +4,14 @@
 		<view v-if="!hasLogin || empty===true" class="empty">
 			<image src="/static/emptyCart.png" mode="aspectFit"></image>
 						<view v-if="hasLogin" class="empty-tips">
-							<text>空空如也</text>
+							<text>{{i18n.cart.nodata}}</text>
 							<view style="margin-top:10px">
 								<u-button :ripple="true" type="error" size="mini" @click="navToIndex">去逛逛</u-button>
 							</view>
 							<!-- <navigator class="navigator" v-if="hasLogin" url="../index/index" open-type="switchTab">随便逛逛></navigator> -->
 						</view>
 						<view v-else class="empty-tips">
-							<text>空空如也</text>
+							<text>{{i18n.cart.nodata}}</text>
 							<view style="margin-top:10px">
 								<u-button :ripple="true" type="error" size="mini" @click="navToLogin">去登录</u-button>
 							</view>
@@ -52,18 +52,18 @@
 				<view class="checkbox">
 					<image :src="allChecked?'/static/selected.png':'/static/select.png'" mode="aspectFit" @click="check('all')"></image>
 					<view class="clear-btn" :class="{show: allChecked}" @click="clearCart">
-						清空
+						{{i18n.cart.clearCart}}
 					</view>
 				</view>
 				<view class="total-box">
 					<text class="price">¥{{total}}</text>
 					<text class="coupon">
-						已优惠
+						{{i18n.cart.coupon}}
 						<text>0.00</text>
-						元
+						{{i18n.unit}}
 					</text>
 				</view>
-				<button type="primary" :disabled="selectedCartIds===''" :class="{'disabled':!selectedCartIds}" class="no-border confirm-btn" @click="createOrder">去结算</button>
+				<button type="primary" :disabled="selectedCartIds===''" :class="{'disabled':!selectedCartIds}" class="no-border confirm-btn" @click="createOrder">{{i18n.cart.toSettle}}</button>
 			</view>
 		</view>
 	</view>
@@ -87,6 +87,11 @@
 				selectedCartIds: ''
 			};
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.cart
+			})
+		},
 		onShow() {
 			if (this.hasLogin) {
 				this.cartList = [];
@@ -103,6 +108,9 @@
 			}
 		},
 		computed: {
+			i18n(){
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -201,7 +209,7 @@
 			//清空
 			clearCart() {
 				uni.showModal({
-					content: '清空购物车？',
+					content: this.i18n.cart.clearCartConfirm,
 					success: (e) => {
 						if (e.confirm) {
 							this.cartList = [];
@@ -209,7 +217,7 @@
 								userUuid: this.userInfo.userUuid
 							}, res => {
 								if (res.body.status.statusCode === '0') {
-									console.log('购物车商品已清除');
+									console.log(this.i18n.cart.clearCartSuccess);
 								} else {
 									console.log(res.body.status.errorDesc);
 								}

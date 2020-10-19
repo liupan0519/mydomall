@@ -13,7 +13,7 @@
 				<text class="title clamp">{{item.productName}}</text>
 				<view class="price-box">
 					<text class="price">{{item.unitPrice}}</text>
-					<text>已售 {{item.soldUnit}}</text>
+					<text>{{i18n.sold}} {{item.soldUnit}}</text>
 				</view>
 			</view>
 			<view class="goods-item" style="background:none">
@@ -43,9 +43,15 @@
 		},
 		
 		onLoad(options){
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.favoriteTitle
+			})
 			this.inquiryFavorite();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

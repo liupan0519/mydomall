@@ -36,8 +36,15 @@
 				pageSize:10
 			};
 		},
-		
+		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			}
+		},
 		onLoad(options){
+			uni.setNavigationBarTitle({
+				title: this.i18n.studio
+			})
 			// #ifdef H5
 			this.headerTop = document.querySelector(".uni-page-head").offsetHeight+'px';
 			// #endif

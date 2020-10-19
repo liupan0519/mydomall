@@ -22,7 +22,7 @@
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>库存: {{seckill.stock}}</text>
+				<text>{{i18n.stock}}: {{seckill.stock}}</text>
 				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
@@ -36,14 +36,14 @@
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>库存: {{seckill.stock}}</text>
+				<text>{{i18n.stock}}: {{seckill.stock}}</text>
 				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
 
 		<view class="c-list">
 			<view class="c-row b-b" @click="toggleSpec" v-if="product.skuEnabled">
-				<text class="tit">购买类型</text>
+				<text class="tit">{{i18n.order.buyType}}</text>
 				<view class="con">
 					<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
 						{{sku.skuAttrValue}}
@@ -53,13 +53,13 @@
 			</view>
 			
 			<view class="c-row b-b" v-if="product.productFreightDTO">
-				<text class="tit">快递</text>
+				<text class="tit">{{i18n.courier.courier}}</text>
 				<view class="bz-list con">
 					<text>{{product.productFreightDTO.name}}</text>
 				</view>
 			</view>
 			<view v-if="product.attrList.length>0" class="c-row b-b" @click="togglePopup('bottom', 'attr')">
-				<text class="tit">参数</text>
+				<text class="tit">{{i18n.product.attr}}</text>
 				<view class="bz-list con">
 					<text>{{product.attrList[0].productAttrName}} {{product.attrList[0].productAttrValue}}...</text>
 				</view>
@@ -72,7 +72,7 @@
 
 		<view class="detail-desc">
 			<view class="d-header">
-				<text>图文详情</text>
+				<text>{{i18n.product.productDescImages}}</text>
 			</view>
 			<view class="image-wrapper">
 				<image v-for="item in product.productDescImages" class="loaded" mode="widthFix" :src="item.url" />
@@ -87,8 +87,8 @@
 			<uni-countdown v-if="secKillCountDown" class="countdown" :day="secKillCountDown.days" :hour="secKillCountDown.hours" :minute="secKillCountDown.minutes"
 			 :second="secKillCountDown.seconds" color="#FFFFFF" background-color="#333333" />
 			<view class="action-btn-group">
-				<button type="primary" v-if="!endFlag" :disabled="!actionFlag" :class="{'active':actionFlag}" class="action-btn no-border buy-now-btn" @click="buy">立即秒杀</button>
-				<button type="primary" v-if="endFlag" disabled class="action-btn no-border buy-now-btn">已结束</button>
+				<button type="primary" v-if="!endFlag" :disabled="!actionFlag" :class="{'active':actionFlag}" class="action-btn no-border buy-now-btn" @click="buy">{{i18n.spike.tobuy}}</button>
+				<button type="primary" v-if="endFlag" disabled class="action-btn no-border buy-now-btn">{{i18n.spike.end}}</button>
 			</view>
 		</view>
 
@@ -102,9 +102,9 @@
 					<image v-if="product.productMainImage" :src="product.productMainImage.url"></image>
 					<view class="right">
 						<text class="price">¥{{seckill.unitPrice}}</text>
-						<text class="stock">库存：{{seckill.stock}}件</text>
+						<text class="stock">{{i18n.stock}}：{{seckill.stock}}{{i18n.productUnit}}</text>
 						<view class="selected">
-							已选：
+							{{i18n.selected}}：
 							<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
 								{{sku.skuAttrValue}}
 							</text>
@@ -119,8 +119,8 @@
 						</view>
 					</view>
 				</view>
-				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">完成</button>
-				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">无库存</button>
+				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">{{i18n.complete}}</button>
+				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">{{i18n.nostock}}</button>
 			</view>
 		</view>
 		
@@ -134,7 +134,7 @@
 					</view>
 				</view>
 			</view>
-			<button class="close-btn" @click="closeAttr">关闭</button>
+			<button class="close-btn" @click="closeAttr">{{i18n.closed}}</button>
 		</uni-popup>
 	</view>
 </template>
@@ -187,6 +187,9 @@
 			};
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.seckill
+			})
 
 			//接收传值,id里面放的是标题，因为测试数据并没写id 
 			let id = options.id;
@@ -196,6 +199,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo']),
 			shareHref() {
 				let pages = getCurrentPages()

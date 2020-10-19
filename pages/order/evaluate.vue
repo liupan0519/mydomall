@@ -7,7 +7,7 @@
 			</view>
 			<view class="evaluation-star">
 				<view class="desc">
-					<text>商品描述相符</text>
+					<text>{{evaluateMsg.desc}}</text>
 				</view>
 				<view class="star">
 					<image class='star-item' @click="changeProductRank(productIndex,index)" v-for="(item,index) in orderProduct.stars"
@@ -15,14 +15,13 @@
 				</view>
 			</view>
 			<view class="evaluation-comment">
-				<textarea v-model="orderProduct.comment" placeholder="商品满足你的期望吗？说说它的优点和美中不足的地方吧" />
+				<textarea v-model="orderProduct.comment" :placeholder="evaluateMsg.comment" />
 			</view>
 			<view class="evaluation-image">
 				<robby-image-upload v-model="orderProduct.imageUrlList" fileKeyName="files" :header="header" :formData="formData" :server-url="uploadUrl"></robby-image-upload>
 			</view>
-			
 		</view>
-		<button class="evaluate-btn" @click="evaluate">发表</button>
+		<button class="evaluate-btn" @click="evaluate">{{evaluateMsg.evaluate}}</button>
 
 	</view>
 </template>
@@ -42,14 +41,21 @@
 				orderProductList: [],
 				uploadUrl: this.$api.request.apiBaseUrl+'uploadSingleFile',
 				formData:{},
-				header: {}
+				header: {},
+				evaluateMsg:this.i18n.order.evaluate
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.order.evaluateTitle
+			})
 			this.orderNo = option.orderNo;
 			this.inquiryOrder(this.orderNo);
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -108,7 +114,7 @@
 					commentList: productCommentList
 				}, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('订单评价成功');
+						this.$api.msg(this.evaluateMsg.evaluateSuccess);
 						setTimeout(() => {
 							uni.navigateTo({
 								url: '/pages/order/order?state=4'

@@ -22,13 +22,13 @@
 						<view class="goods-box-single"
 						 :key="index">
 							<image @click="navProductDetail(item.groupBuyProductDTO.productDTO)" class="goods-img" :src="item.groupBuyProductDTO.productDTO.productMainImage.url" mode="aspectFill"></image>
-							<uni-badge type="primary" v-if="item.ownerDTO.userUuid==userInfo.userUuid" text="团长"></uni-badge>
-							<uni-badge type="warning" v-if="item.ownerDTO.userUuid!=userInfo.userUuid" text="团员"></uni-badge>
+							<uni-badge type="primary" v-if="item.ownerDTO.userUuid==userInfo.userUuid" :text="i18n.groupbuy.leader"></uni-badge>
+							<uni-badge type="warning" v-if="item.ownerDTO.userUuid!=userInfo.userUuid" :text="i18n.groupbuy.member"></uni-badge>
 							<view class="right">
 								<text class="title clamp">{{item.groupBuyProductDTO.productDTO.productName}}</text>
 								<text class="price">{{item.groupBuyProductDTO.unitPrice}}</text>
 								<view class="action">
-									<text @click="viewGroupBuy(item)" class="action-btn">拼团详情</text>
+									<text @click="viewGroupBuy(item)" class="action-btn">{{i18n.groupbuy.detail}}</text>
 								</view>
 								
 							</view>
@@ -67,25 +67,25 @@
 				loadingType: '',
 				navList: [{
 						state: '0',
-						text: '全部',
+						text: this.i18n.groupbuy.all,
 						loadingType: 'more',
 						groupBuyList: []
 					},
 					{
 						state: '1',
-						text: '拼团中',
+						text: this.i18n.groupbuy.grouping,
 						loadingType: 'more',
 						groupBuyList: []
 					},
 					{
 						state: '2',
-						text: '拼团失败',
+						text: this.i18n.groupbuy.fail,
 						loadingType: 'more',
 						groupBuyList: []
 					},
 					{
 						state: '3',
-						text: '拼团成功',
+						text: this.i18n.groupbuy.success,
 						loadingType: 'more',
 						groupBuyList: []
 					}
@@ -94,6 +94,9 @@
 		},
 
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.user.groupbuy
+			})
 			this.tabCurrentIndex = Number('0');
 			this.searchGroupBuy(this.translateTabIndex(this.tabCurrentIndex));
 		},
@@ -104,6 +107,9 @@
 			this.searchGroupBuy(this.translateTabIndex(this.tabCurrentIndex));
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint'])
 		},
 		methods: {
@@ -182,7 +188,7 @@
 			deleteOrder(item) {
 				let that = this;
 				uni.showModal({
-					content: '确认要删除订单吗？',
+					content:that.i18n.groupbuy.deleteConfirm,
 					success: (e) => {
 						if (e.confirm) {
 							this.$api.request.delOrder({
@@ -190,7 +196,7 @@
 								orderNo: item.orderNo
 							}, res => {
 								if (res.body.status.statusCode === '0') {
-									that.$api.msg('订单已成功删除');
+									that.$api.msg(that.i18n.groupbuy.deleted);
 									that.resetPage();
 									that.searchGroupBuy(that.translateTabIndex(that.tabCurrentIndex));
 								} else {

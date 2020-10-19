@@ -12,24 +12,24 @@
 				</view>
 				<view class="sign-point" @click="toggleSignPoint" v-if="hasLogin">
 					<text class="iconfont yticon icon-qiandao"></text>
-					<view class="sign-point-text">积分签到</view>
+					<view class="sign-point-text">{{userMsg.signPoint}}</view>
 				  </view>
 				<view class="customer-service" @click="customerService">
 					<text class="iconfont yticon icon-kefu1"></text>
-					<view class="customer-service-text">客服</view>
+					<view class="customer-service-text">{{userMsg.customerService}}</view>
 				  </view>
 			</view>
 			<view class="vip-card-box">
 				<view class="b-btn" v-if="!hasLogin" @click="navTo('/pages/public/login')">
-					立即登录
+					{{userMsg.login}}
 				</view>
 				<view class="b-btn" v-if="hasLogin" @click="navTo('/pages/set/setUserInfoName')">
-					{{userInfo.name||'设置昵称'}}
+					{{userInfo.name||userMsg.setUserInfoName}}
 				</view>
 				<view class="tit">
 					<text class="yticon icon-iLinkapp-"></text>
 					<text v-if="hasLogin" @click="navTo('/pages/user/level')">{{userInfo.userLevelName}} ></text>
-					<text v-if="!hasLogin">游客</text>
+					<text v-if="!hasLogin">{{userMsg.tourist}}</text>
 				</view>
 				<text class="e-m"></text>
 				<text class="e-b"></text>
@@ -46,59 +46,59 @@
 			<view class="tj-sction">
 				<view class="tj-item">
 					<text class="num" @click="navTo('/pages/user/balance')">{{userInfo.availableBalance||0}}</text>
-					<text>余额</text>
-					<text class="b-btn" @click="navTo('/pages/withdraw/list')">提现</text>
+					<text>{{userMsg.balance}}</text>
+					<text class="b-btn" @click="navTo('/pages/withdraw/list')">{{i18n.withdraw.apply}}</text>
 				</view>
 				<view class="tj-item">
 					<text class="num" @click="navTo('/pages/point/point-list')">{{userInfo.availablePoint||0}}</text>
-					<text>积分</text>
+					<text>{{userMsg.point}}</text>
 				</view>
 				<view class="tj-item" @click="navTo('/pages/user/performance')">
 					<text class="num">{{userInfo.performanceAmount||0}}</text>
-					<text>本月业绩</text>
+					<text>{{userMsg.performanceAmount}}</text>
 				</view>
 				<view class="tj-item" @click="navTo('/pages/user/coupon')">
 					<text class="num">{{userInfo.couponCount||0}}</text>
-					<text>优惠券</text>
+					<text>{{i18n.coupons}}</text>
 				</view>
 			</view>
 			<!-- 订单 -->
 			<view class="order-section">
 				<view class="order-item" @click="navTo('/pages/order/order?state=')" hover-class="common-hover" :hover-stay-time="50">
 					<text class="yticon icon-shouye"></text>
-					<text>全部订单</text>
+					<text>{{i18n.navList.all2}}</text>
 				</view>
 				<view class="order-item" @click="navTo('/pages/order/order?state=1')" hover-class="common-hover" :hover-stay-time="50">
 					<text class="yticon icon-daifukuan"></text>
-					<text>待付款</text><uni-badge type="error" v-if="toPayOrderCount>0" :text="toPayOrderCount+''"></uni-badge>
+					<text>{{i18n.navList.state0}}</text><uni-badge type="error" v-if="toPayOrderCount>0" :text="toPayOrderCount+''"></uni-badge>
 				</view>
 				<view class="order-item" @click="navTo('/pages/order/order?state=3')" hover-class="common-hover" :hover-stay-time="50">
 					<text class="yticon icon-yishouhuo"></text>
-					<text>待收货</text><uni-badge type="error" v-if="toConfirmOrderCount>0" :text="toConfirmOrderCount+''"></uni-badge>
+					<text>{{i18n.navList.state2}}</text><uni-badge type="error" v-if="toConfirmOrderCount>0" :text="toConfirmOrderCount+''"></uni-badge>
 				</view>
 				<view class="order-item" @click="navTo('/pages/aftersale/list')" hover-class="common-hover" :hover-stay-time="50">
 					<text class="yticon icon-shouhoutuikuan"></text>
-					<text>退款/售后</text><uni-badge type="error" v-if="afterSaleCount>0" :text="afterSaleCount+''"></uni-badge>
+					<text>{{i18n.navList.state6}}</text><uni-badge type="error" v-if="afterSaleCount>0" :text="afterSaleCount+''"></uni-badge>
 				</view>
 			</view>
 			<!-- 浏览历史 -->
 			<view class="history-section icon">
 				<view class="sec-header" v-if="footPrint.length>0">
 					<text class="yticon icon-lishijilu"></text>
-					<text>浏览历史</text>
+					<text>{{userMsg.history}}</text>
 				</view>
 				<scroll-view scroll-x class="h-list" v-if="footPrint.length>0">
 					<image @click="navTo('/pages/product/product?id='+footPrint[footPrint.length-index-1].productUuid)" :src="footPrint[footPrint.length-index-1].productMainImage.url"
 					 mode="aspectFill" v-for="(product,index) in footPrint"></image>
 				</scroll-view>
-				<list-cell icon="icon-tuan" iconColor="#e07472" title="我的拼团" @eventClick="navTo('/pages/groupbuy/groupbuy')"></list-cell>
-				<list-cell icon="icon-point" iconColor="#F8BD9F" title="兑换记录" @eventClick="navTo('/pages/point/point-order-list')"></list-cell>
-				<list-cell icon="icon-shouhuodizhi" iconColor="#5fcda2" title="地址管理" @eventClick="navTo('/pages/address/address')"></list-cell>
-				<list-cell v-if="hasLogin" @eventClick="togglePopup('bottom', 'share')" icon="icon-share" iconColor="#9789f7" title="分享" tips="邀请好友赢取佣金"></list-cell>
+				<list-cell icon="icon-tuan" iconColor="#e07472" :title="userMsg.groupbuy" @eventClick="navTo('/pages/groupbuy/groupbuy')"></list-cell>
+				<list-cell icon="icon-point" iconColor="#F8BD9F" :title="userMsg.pointlist" @eventClick="navTo('/pages/point/point-order-list')"></list-cell>
+				<list-cell icon="icon-shouhuodizhi" iconColor="#5fcda2" :title="userMsg.address" @eventClick="navTo('/pages/address/address')"></list-cell>
+				<list-cell v-if="hasLogin" @eventClick="togglePopup('bottom', 'share')" icon="icon-share" iconColor="#9789f7" :title="userMsg.share" :tips="userMsg.invite"></list-cell>
 				<!-- <list-cell icon="icon-pinglun-copy" iconColor="#ee883b" title="晒单" tips="晒单抢红包"></list-cell> -->
-				<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" title="我的收藏" @eventClick="navTo('/pages/product/favorite')"></list-cell>
-				<list-cell icon="icon-xiaoxi" iconColor="#DB3F60" title="消息中心" border="" @eventClick="navTo('/pages/notice/list')"></list-cell>
-				<list-cell icon="icon-shezhi" iconColor="#e07472" title="设置" border="" @eventClick="navTo('/pages/set/set')"></list-cell>
+				<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" :title="userMsg.favorite" @eventClick="navTo('/pages/product/favorite')"></list-cell>
+				<list-cell icon="icon-xiaoxi" iconColor="#DB3F60" :title="userMsg.noticelist" border="" @eventClick="navTo('/pages/notice/list')"></list-cell>
+				<list-cell icon="icon-shezhi" iconColor="#e07472" :title="userMsg.set" border="" @eventClick="navTo('/pages/set/set')"></list-cell>
 			</view>
 		</view>
 		<!-- 底部分享弹窗 -->
@@ -109,7 +109,7 @@
 
 			<!-- #ifdef MP-WEIXIN -->
 			<shareByWx :shareType='1' :userId="userInfo.userUuid" :shareImg="userInfo.photoUrl"
-			 shareTitle="注册会员, 立享佣金!" :shareContent="'我是'+userInfo.name" :shareHref="'/pages/public/register?id='+userInfo.userUuid" @close="closeShare()"></shareByWx>
+			 :shareTitle="userMsg.str2" :shareContent="userMsg.str1+userInfo.name" :shareHref="'/pages/public/register?id='+userInfo.userUuid" @close="closeShare()"></shareByWx>
 			<!-- #endif -->
 
 			<!-- #ifdef MP-ALIPAY -->
@@ -178,10 +178,14 @@
 				afterSaleCount:0
 			}
 		},
-		onLoad() {},
+		onLoad() {
+				uni.setNavigationBarTitle({
+					title: this.userMsg.title
+				})
+		},
 		onShareAppMessage(res) {
 		    return {
-		      title: '我是'+this.userInfo.name+',注册会员,立享佣金!',
+		      title: this.userMsg.str1+this.userInfo.name+','+this.userMsg.str2,
 			  imageUrl:this.userInfo.photoUrl,
 		      path: '/pages/public/register?id=' + this.userInfo.userUuid
 		    }
@@ -207,6 +211,12 @@
 		},
 		// #endif
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			userMsg() {
+				return this.$i18nMsg().index.user
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig']),
 			shareHref() {
 				let pages = getCurrentPages()

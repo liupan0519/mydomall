@@ -17,7 +17,15 @@
 				name: ''
 			};
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.setMsg.about
+			})
+		},
 		computed: {
+			setMsg() {
+				return this.$i18nMsg().index.set
+			},
 			...mapState(['hasLogin', 'userInfo','applicationConfig'])
 		},
 		methods: {

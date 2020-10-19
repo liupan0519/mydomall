@@ -26,7 +26,7 @@
 			</view>
 		</view>
 		<!-- #ifdef MP-WEIXIN -->
-		<button class="contact-btn" open-type='contact'>人工客服</button>
+		<button class="contact-btn" open-type='contact'>{{i18n.contact}}</button>
 		<!-- #endif -->
 	</view>
 </template>
@@ -61,10 +61,16 @@
 			uniTag
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.cService
+			})
 			this.inquiryTag();
 			this.inquiryHotQa();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'applicationConfig'])
 		},
 		methods: {

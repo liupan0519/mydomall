@@ -13,12 +13,12 @@
 		<view class="introduce-section" v-if="!product.skuEnabled">
 			<text class="title">{{product.productName}}</text>
 			<view class="price-box">
-				<text class="price">{{product.unitPoint}}积分</text>
-				<text class="m-price">¥{{product.unitPointStandard}}积分</text>
+				<text class="price">{{product.unitPoint}}{{i18n.integral}}</text>
+				<text class="m-price">¥{{product.unitPointStandard}}{{i18n.integral}}</text>
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>库存: {{product.totalUnit}}</text>
+				<text>{{i18n.stock}}: {{product.totalUnit}}</text>
 				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
@@ -26,19 +26,19 @@
 		<view class="introduce-section" v-if="product.skuEnabled">
 			<text class="title">{{product.productName}}</text>
 			<view class="price-box">
-				<text class="price">{{productSku.skuUnitPoint}}积分</text>
-				<text class="m-price">¥{{productSku.skuUnitPointStandard}}积分</text>
+				<text class="price">{{productSku.skuUnitPoint}}{{i18n.integral}}</text>
+				<text class="m-price">¥{{productSku.skuUnitPointStandard}}{{i18n.integral}}</text>
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>库存: {{productSku.skuTotalUnit}}</text>
+				<text>{{i18n.stock}}: {{productSku.skuTotalUnit}}</text>
 				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
 
 		<view class="c-list">
 			<view class="c-row b-b" @click="toggleSpec" v-if="product.skuEnabled">
-				<text class="tit">购买类型</text>
+				<text class="tit">{{i18n.order.buyType}}</text>
 				<view class="con">
 					<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
 						{{sku.skuAttrValue}}
@@ -48,7 +48,7 @@
 			</view>
 			
 			<view class="c-row b-b">
-				<text class="tit">数量</text>
+				<text class="tit">{{i18n.order.number}}</text>
 				<view class="bz-list con">
 					<uni-number-box class="step" :min="1" :max="productSku.skuTotalUnit" :value="unit"
 					 :isMax="unit>=productSku.skuTotalUnit?true:false" :isMin="unit===1" @eventChange="numberChange" v-if="product.skuEnabled"></uni-number-box>
@@ -57,13 +57,13 @@
 				</view>
 			</view>
 			<view class="c-row b-b">
-				<text class="tit">快递</text>
+				<text class="tit">{{i18n.courier.courier}}</text>
 				<view class="bz-list con">
 					<text v-if="product.productFreightDTO">{{product.productFreightDTO.name}}</text>
 				</view>
 			</view>
 			<view v-if="product.attrList.length>0" class="c-row b-b" @click="togglePopup('bottom', 'attr')">
-				<text class="tit">参数</text>
+				<text class="tit">{{i18n.product.attr}}</text>
 				<view class="bz-list con">
 					<text>{{product.attrList[0].productAttrName}} {{product.attrList[0].productAttrValue}}...</text>
 				</view>
@@ -112,7 +112,7 @@
 
 		<view class="detail-desc">
 			<view class="d-header">
-				<text>图文详情</text>
+				<text>{{i18n.product.productDescImages}}</text>
 			</view>
 			<view class="image-wrapper">
 				<image v-for="item in product.productDescImages" class="loaded" mode="widthFix" :src="item.url" />
@@ -123,7 +123,7 @@
 
 		<!-- 底部操作菜单 -->
 		<view class="page-bottom">
-				<text class="action-btn no-border buy-now-btn" @click="buy">立即兑换</text>
+				<text class="action-btn no-border buy-now-btn" @click="buy">{{i18n.point.buy}}</text>
 		</view>
 
 
@@ -135,8 +135,8 @@
 				<view class="a-t">
 					<image v-if="product.productMainImage" :src="product.productMainImage.url"></image>
 					<view class="right">
-						<text class="price">{{productSku.skuUnitPoint}}积分</text>
-						<text class="stock">库存：{{productSku.skuTotalUnit}}件</text>
+						<text class="price">{{productSku.skuUnitPoint}}{{i18n.integral}}</text>
+						<text class="stock">{{i18n.stock}}：{{productSku.skuTotalUnit}}{{i18n.productUnit}}</text>
 						<view class="selected">
 							已选：
 							<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
@@ -153,8 +153,8 @@
 						</view>
 					</view>
 				</view>
-				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">完成</button>
-				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">无库存</button>
+				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">{{i18n.complete}}</button>
+				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">{{i18n.complete}}</button>
 			</view>
 		</view>
 		
@@ -168,7 +168,7 @@
 					</view>
 				</view>
 			</view>
-			<button class="close-btn" @click="closeAttr">关闭</button>
+			<button class="close-btn" @click="closeAttr">{{i18n.closed}}</button>
 		</uni-popup>
 	</view>
 </template>
@@ -220,6 +220,9 @@
 		},
 		onLoad(options) {
 
+			uni.setNavigationBarTitle({
+				title: this.i18n.point.detailTitle
+			})
 			let id = options.id;
 			if (id) {
 				this.id = id;
@@ -239,6 +242,9 @@
 				return this.$api.request.apiBaseUrl.replace("/b2c/rest/","") + '/#/' + page.__proto__.route + '?id=' + this.product
 					.productUuid;
 				// #endif
+			},
+			i18n() {
+				return this.$i18nMsg().index
 			}
 		},
 		methods: {

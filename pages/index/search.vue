@@ -3,15 +3,15 @@
 		<view class='search'>
 			<view class='search-c'>
 				<image class='icon search-icon' src='/static/image/zoom.png'></image>
-				<input v-bind:class="$store.state.searchStyle" class='search-input' placeholder-class='search-input-p' placeholder='请输入关键字搜索'
+				<input v-bind:class="$store.state.searchStyle" class='search-input' placeholder-class='search-input-p' :placeholder='i18n.searchInput'
 				 v-model="key" focus :auto-focus="focus" :fixed="focus"></input>
 			</view>
-			<button class="btn btn-g" @click="search" hover-class="btn-hover2">搜索</button>
+			<button class="btn btn-g" @click="search" hover-class="btn-hover2">{{i18n.search}}</button>
 		</view>
 		<view class="history-c" v-show="keys.length > 0">
 			<view class="history-title">
-				<view class='ht-left'>历史记录</view>
-				<view class='ht-right' @click="deleteKey">清除</view>
+				<view class='ht-left'>{{i18n.historyRecord}}</view>
+				<view class='ht-right' @click="deleteKey">{{i18n.clear}}</view>
 			</view>
 			<view class="history-body">
 				<view class="hb-item" v-for="(item, key) in keys" :key="key" @click="toNav(item)">
@@ -43,6 +43,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			recommend() {
 				// return this.$store.state.config.recommend_keys
 				return []
@@ -123,6 +126,9 @@
 		},
 		//页面卸载触发
 		onUnload() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.search
+			})
 			// this.$db.set('search_term', '');
 			uni.setStorageSync('search_term', '');
 		}

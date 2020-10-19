@@ -5,7 +5,7 @@
 			<input  type="number" v-model="withdrawAmount" class="input-amount" :maxlength="10"/>
 		</view>
 		<view class="row">
-			<text class="tit">可提现金额</text>
+			<text class="tit">{{withdrawMsg.availableMoney}}</text>
 			<text class="tit-amount" @click="withdrawFullAmount">{{userInfo.availableBalance}}</text>
 		</view>
 		<view class="apply-wrapper">
@@ -17,16 +17,16 @@
 			</view>
 			<view v-if="tabCurrentIndex==0">
 				<view class="row">
-					<text class="tit">账户名</text>
+					<text class="tit">{{withdrawMsg.bankAccountName}}</text>
 					<input type="text" v-model="bankAccountName" class="input" :maxlength="10"/>
 				</view>
 				<view class="row">
-					<text class="tit">开户银行</text>
+					<text class="tit">{{withdrawMsg.bankName}}</text>
 					<view class="input">{{bankName}}</view>
 					<text class="yticon icon-you" @click="showBankList"></text>
 				</view>
 				<view class="row">
-					<text class="tit">银行卡号</text>
+					<text class="tit">{{withdrawMsg.bankAccountNo}}</text>
 					<input type="number" v-model="bankAccountNo" class="input"/>
 				</view>
 				<view>
@@ -42,16 +42,16 @@
 			</view>
 			<view v-if="tabCurrentIndex==1">
 				<view class="row">
-					<text class="tit">支付宝账号</text>
+					<text class="tit">{{withdrawMsg.alipayId}}</text>
 					<input type="text" v-model="alipayId" class="input"/>
 				</view>
 			</view>
 			<view class="note">
-				每笔提现将扣除{{taxRate}}%手续费！
+				{{withdrawMsg.warn}}{{taxRate}}%{{withdrawMsg.taxRate}}！
 			</view>
 		</view>
 		
-		<button class="apply-btn" @click="applyWithdraw">申请提现</button>
+		<button class="apply-btn" @click="applyWithdraw">{{withdrawMsg.applyWithdraw}}</button>
 	</view>
 </template>
 
@@ -71,7 +71,7 @@
 		},
 		data() {
 			return {
-				defaultBank:['中国工商银行'],
+				defaultBank:[this.i18n.withdraw.defaultBank],
 				bankList:this.$api.util.bankList,
 				bankAccountName:'',
 				bankName:'',
@@ -85,16 +85,19 @@
 				loadingType:'',
 				navList: [{
 						state: '1',
-						text: '银行卡'
+						text: this.i18n.withdraw.state1
 					},
 					{
 						state: '2',
-						text: '支付宝'
+						text: this.i18n.withdraw.state2
 					}],
-				tabCurrentIndex:0,
+				tabCurrentIndex:0
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.withdrawMsg.applyWithdraw
+			})
 			this.inquiryTaxRate();
 			this.tabClick(0);
 		},
@@ -106,9 +109,18 @@
 			
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			withdrawMsg() {
+				return this.$i18nMsg().index.withdraw
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapMutations(['login']),
 			inquiryTaxRate() {
 				this.$api.request.getParameter({
@@ -124,34 +136,37 @@
 				});
 			},
 			applyWithdraw(){
+				const {
+					withdrawMsg
+				}=this
 				//检查金额
 				if(!this.withdrawAmount){
-					this.$api.msg('请输入提现金额');
+					this.$api.msg(withdrawMsg.withdrawAmountErr);
 					return;
 				}
 				if(this.withdrawAmount===0 || this.withdrawAmount>this.userInfo.availableBalance){
-					this.$api.msg('仅限金额输入有误');
+					this.$api.msg(withdrawMsg.withdrawAmount2Err);
 					return;
 				}
 				//如果是银行卡提现, 检查各项输入是否正确
 				if(this.tabCurrentIndex==0){
 					if(!this.bankAccountName){
-						this.$api.msg('请输入账户名');
+						this.$api.msg(withdrawMsg.bankAccountNameErr);
 						return;
 					}
 					if(!this.bankName){
-						this.$api.msg('请选择开户银行');
+						this.$api.msg(withdrawMsg.bankNameErr);
 						return;
 					}
 					if(!this.bankAccountNo){
-						this.$api.msg('请输入银行卡号');
+						this.$api.msg(withdrawMsg.bankAccountNoErr);
 						return;
 					}
 				}
 				//如果是支付宝提现, 检查各项输入是否正确
 				if(this.tabCurrentIndex==1){
 					if(!this.alipayId){
-						this.$api.msg('请输入支付宝账号');
+						this.$api.msg(withdrawMsg.alipayIdErr);
 						return;
 					}
 				}
@@ -168,7 +183,7 @@
 				}
 				this.$api.request.userToCash(options, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('提现申请已提交');
+						this.$api.msg(withdrawMsg.userToCash);
 						this.userInfo.availableBalance = this.userInfo.availableBalance - this.withdrawAmount;
 						this.login(this.userInfo);
 						setTimeout(()=>{

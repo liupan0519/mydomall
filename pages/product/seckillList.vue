@@ -6,7 +6,7 @@
 		
 		<view class="goods-list">
 			<view class="header">
-				<image src="../../static/image/seckill_icon.png" mode="aspectFill"></image><text>限时秒杀</text>
+				<image src="../../static/image/seckill_icon.png" mode="aspectFill"></image><text>{{i18n.aspectFill}}</text>
 			</view>
 			<view 
 				v-for="(item, index) in secKills" :key="index"
@@ -20,8 +20,8 @@
 					<text class="price">{{item.unitPrice}}</text>
 					<uni-countdown class="countdown" :day="item.secKillCountDown.days" :hour="item.secKillCountDown.hours" :minute="item.secKillCountDown.minutes"
 					 :second="item.secKillCountDown.seconds" color="#FFFFFF" background-color="#333333" />
-					<text v-if="!item.endFlag" class="action" @click="navSecKill(item)">去秒杀</text>
-					<text v-if="item.endFlag" class="end">已结束</text>
+					<text v-if="!item.endFlag" class="action" @click="navSecKill(item)">{{i18n.navSecKill}}</text>
+					<text v-if="item.endFlag" class="end">{{i18n.end}}</text>
 				</view>
 			</view>
 		</view>
@@ -41,8 +41,15 @@
 				secKills:[]
 			};
 		},
-		
+		computed: {
+			i18n() {
+				return this.$i18nMsg().index.spike
+			}
+		},
 		onLoad(options){
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.seckillList
+			})
 			this.inquirySecKill();
 		},
 		methods: {

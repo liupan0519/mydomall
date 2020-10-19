@@ -15,7 +15,9 @@
 			...mapMutations(['login', 'updateApplicationConfig'])
 		},
 		computed: {
-
+			/* i18n() {
+				return this.$i18nMsg().index
+			} */
 		},
 		onLaunch: function() {
 			//设置竖屏
@@ -30,7 +32,7 @@
 					console.log('获取应用全局设置失败');
 				}
 			});
-			
+
 			var lan = 'zh'
 			try {
 				const res = uni.getSystemInfoSync();

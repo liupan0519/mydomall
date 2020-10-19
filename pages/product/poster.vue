@@ -2,8 +2,8 @@
 	<view class="content">
 		<view class="share-top"><img class="share-img" :src="poster" mode="widthFix"/></view>
 		<view class="share-bot">
-			<button class="btn-save" v-if="weiXinBrowser">长按图片保存到手机</button>
-			<button class="btn-save" @click="savePoster()" v-else>保存到本地</button>
+			<button class="btn-save" v-if="weiXinBrowser">{{i18n.product.pressSave}}</button>
+			<button class="btn-save" @click="savePoster()" v-else>{{i18n.product.savePoster}}</button>
 			<!-- <button class="btn" @click="goBack()">返回</button> -->
 		</view>
 	</view>
@@ -16,11 +16,17 @@ export default {
 		};
 	},
 	onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.posterTitle
+			})
 		this.poster = unescape(options.poster);
 		//http替换成https
 		this.poster = this.poster.replace("http://","https://");
 	},
 	computed: {
+		i18n() {
+			return this.$i18nMsg().index
+		},
 		weiXinBrowser () {
 			return this.$api.util.isWeiXinBrowser()
 		}
@@ -72,15 +78,15 @@ export default {
 					uni.saveImageToPhotosAlbum({
 						filePath: res.tempFilePath,
 						success() {
-							_this.$api.msg('保存成功');
+							_this.$api.msg(_this.$i18n.product.saveSuccess);
 						},
 						fail() {
-							_this.$api.msg('图片保存失败');
+							_this.$api.msg(_this.$i18n.product.saveFail);
 						}
 					});
 				},
 				fail (res) {
-					_this.$api.msg('图片保存失败');
+					_this.$api.msg(_this.$i18n.product.saveFail);
 				}
 			})
 			// #endif
@@ -96,15 +102,15 @@ export default {
 							uni.saveImageToPhotosAlbum({
 								filePath: res.tempFilePath,
 								success() {
-									_this.$api.msg('保存成功');
+									_this.$api.msg(_this.$i18n.product.saveSuccess);
 								},
 								fail() {
-									_this.$api.msg('图片保存失败');
+									_this.$api.msg(_this.$i18n.product.saveFail);
 								}
 							});
 						},
 						fail (res) {
-							_this.$api.msg('图片保存失败');
+							_this.$api.msg(_this.$i18n.product.saveFail);
 						}
 					})
 				},

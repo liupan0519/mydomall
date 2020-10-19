@@ -24,7 +24,7 @@
 					<view class="top">
 						<!-- <text class="name">{{addressData.name}}</text>
 						<text class="mobile">{{addressData.telephone}}</text> -->
-						<text>请选择地址</text>
+						<text>{{i18n.address.selectAddress}}</text>
 					</view>
 					<!-- <text class="address">{{addressData.street}}</text> -->
 				</view>
@@ -34,15 +34,15 @@
 		</navigator>
 		<view v-if="currentDeliveryType=='2'" class="delivery-section">
 			<u-form :model="deliveryData">
-				<u-form-item label="收件人姓名" label-width="250"><u-input type="text" v-model="deliveryData.deliveryName" placeholder="请输入姓名"/></u-form-item>
-				<u-form-item label="收件人电话号码" label-width="250"><u-input type="number" v-model="deliveryData.deliveryContactNo" placeholder="请输入电话号码"/></u-form-item>
-				<u-form-item label="收件地址" label-width="250" right-icon="arrow-right"><u-input readonly type="text" v-model="deliveryData.deliveryStreet"  placeholder="点击选择" @click="chooseLocation"/></u-form-item>
+				<u-form-item :label="i18n.address.name2" label-width="250"><u-input type="text" v-model="deliveryData.deliveryName" :placeholder="i18n.address.phname"/></u-form-item>
+				<u-form-item :label="i18n.address.telephone2" label-width="250"><u-input type="number" v-model="deliveryData.deliveryContactNo" :placeholder="i18n.address.phtel"/></u-form-item>
+				<u-form-item :label="i18n.address.address2" label-width="250" right-icon="arrow-right"><u-input readonly type="text" v-model="deliveryData.deliveryStreet"  :placeholder="i18n.address.clickSlect" @click="chooseLocation"/></u-form-item>
 			</u-form>
 		</view>
 		<view v-if="currentDeliveryType=='3'" class="delivery-section">
 			<u-form :model="deliveryData">
-				<u-form-item label="提货人姓名" label-width="250"><u-input type="text" v-model="deliveryData.deliveryName" placeholder="请输入姓名"/></u-form-item>
-				<u-form-item label="提货人电话号码" label-width="250"><u-input type="number" v-model="deliveryData.deliveryContactNo" placeholder="请输入电话号码"/></u-form-item>
+				<u-form-item :label="i18n.address.deliveryName" label-width="250"><u-input type="text" v-model="deliveryData.deliveryName" :placeholder="i18n.address.phname"/></u-form-item>
+				<u-form-item :label="i18n.address.deliveryContactNo" label-width="250"><u-input type="number" v-model="deliveryData.deliveryContactNo" :placeholder="i18n.address.phtel"/></u-form-item>
 			</u-form>
 		</view>
 
@@ -73,23 +73,23 @@
 		<!-- 金额明细 -->
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">商品金额</text>
+				<text class="cell-tit clamp">{{i18n.order.productAmount}}</text>
 				<text class="cell-tip red">￥{{productAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">优惠金额</text>
+				<text class="cell-tit clamp">{{i18n.order.deductAmount}}</text>
 				<text class="cell-tip">￥{{deductAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="currentDeliveryType=='1'">
-				<text class="cell-tit clamp">运费</text>
+				<text class="cell-tit clamp">{{i18n.order.freightAmount}}</text>
 				<text class="cell-tip">￥{{freightAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="currentDeliveryType=='2'">
-				<text class="cell-tit clamp">配送费</text>
+				<text class="cell-tit clamp">{{i18n.order.deliveryAmount}}</text>
 				<text class="cell-tip">￥{{deliveryAmount}}</text>
 			</view>
 			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">备注</text>
+				<text class="cell-tit clamp">{{i18n.order.memo}}</text>
 				<input class="desc" type="text" v-model="memo" :placeholder="memoPlaceHolder" placeholder-class="placeholder" />
 			</view>
 		</view>
@@ -97,11 +97,11 @@
 		<!-- 底部 -->
 		<view class="footer">
 			<view class="price-content">
-				<text>实付款</text>
+				<text>{{i18n.order.actualAmount}}</text>
 				<text class="price-tip">￥</text>
 				<text class="price">{{actualAmount}}</text>
 			</view>
-			<text class="submit" @click="submit">提交订单</text>
+			<text class="submit" @click="submit">{{i18n.order.submit}}</text>
 		</view>
 
 	</view>
@@ -141,7 +141,7 @@
 				deliveryData:{},	//配送地址
 				deliveryAmount: 0.00, //配送费
 				memo: '', //备注
-				memoPlaceHolder: '请填写备注信息',
+				memoPlaceHolder: this.i18n.order.memoPlaceHolder,
 				type: ''
 			}
 		},
@@ -149,6 +149,9 @@
 			uniPopup
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.order.createGroupBuyOrder
+			})
 			//商品数据
 			this.quanlificationId = option.quanId;
 			this.groupBuyProductId = option.groupBuyProductId;
@@ -169,6 +172,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'applicationConfig'])
 		},
 		watch: {
@@ -246,7 +252,7 @@
 							this.inquiryDefaultAddress(this.userInfo.userUuid);
 						//虚拟商品需填写联系方式
 						else if(this.product.productType=='2')
-							this.memoPlaceHolder = '虚拟商品, 请务必填写手机号码以便商家联系!';
+							this.memoPlaceHolder = that.i18n.order.productType2;
 					} else {
 						console.log(res.body.status.errorDesc);
 					}
@@ -276,14 +282,15 @@
 			},
 			//支持的发货方式
 			populateDeliveryType(){
+				let deliveryObj=that.i18n.populateDeliveryType;
 				if(this.isDeliveryExpressEnabled){
-					this.navList.push({state:'1',text:'快递配送'});
+					this.navList.push({state:'1',text:deliveryObj.state1});
 				}
 				if(this.isDeliveryCityEnabled){
-					this.navList.push({state:'2',text:'同城配送'});
+					this.navList.push({state:'2',text:deliveryObj.state2});
 				}
 				if(this.isDeliveryPickEnabled){
-					this.navList.push({state:'3',text:'门店自提'});
+					this.navList.push({state:'3',text:deliveryObj.state3});
 				}
 				if(this.navList.length>0)
 					this.currentDeliveryType = this.navList[0].state;	//第一个为默认选择
@@ -371,17 +378,17 @@
 			submit() {
 				//检查收货地址是否选择
 				if ((this.currentDeliveryType=='1')&&!this.addressData.userDeliveryAddressUuid) {
-					this.$api.msg('未选择快递收货地址');
+					this.$api.msg(this.i18n.order.error1);
 					return;
 				}
 				//检查配送地址是否选择
 				if ((this.currentDeliveryType=='2')&&(!this.deliveryData.deliveryStreet||!this.deliveryData.deliveryName||!this.deliveryData.deliveryContactNo)) {
-					this.$api.msg('配送地址未填写完整');
+					this.$api.msg(this.i18n.order.error2);
 					return;
 				}
 				//检查提货人是否选择
 				if ((this.currentDeliveryType=='3')&&(!this.deliveryData.deliveryName||!this.deliveryData.deliveryContactNo)) {
-					this.$api.msg('提货人信息未填写完整');
+					this.$api.msg(this.i18n.order.error3);
 					return;
 				}
 				//post订单数据到后台

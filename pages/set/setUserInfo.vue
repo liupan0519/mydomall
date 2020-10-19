@@ -2,17 +2,17 @@
 	<view class="container">
 		<view class="list-cell b-b m-t" hover-class="cell-hover"
 		 :hover-stay-time="50">
-			<text class="cell-tit">手机号码</text>
+			<text class="cell-tit">{{i18n.telephone}}</text>
 			<text class="cell-tip">{{userInfo.personalPhone||''}}</text>
 		</view>
 		<view class="list-cell b-b m-t" @click="navTo('/pages/set/setUserInfoName')" hover-class="cell-hover"
 		 :hover-stay-time="50">
-			<text class="cell-tit">昵称</text>
-			<text class="cell-tip">{{userInfo.name||'未设置'}}</text>
+			<text class="cell-tit">{{setMsg.name}}</text>
+			<text class="cell-tip">{{userInfo.name||setMsg.noSet}}</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view>
 		<view class="list-cell b-b m-t" @click="changeAvatar" hover-class="cell-hover" :hover-stay-time="50">
-			<text class="cell-tit">头像</text>
+			<text class="cell-tit">{{setMsg.avatar}}</text>
 			<!-- <text class="cell-tip"> -->
 				<image class="cell-tip portrait" :src="userInfo.photoUrl || '/static/missing-face.png'"></image>
 			<!-- </text> -->
@@ -29,10 +29,20 @@
 	export default {
 		data() {
 			return {
-
 			};
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.setMsg.userInfo
+			})
+		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			setMsg() {
+				return this.$i18nMsg().index.set
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -45,8 +55,8 @@
 
 			//switch
 			switchChange(e) {
-				let statusTip = e.detail.value ? '打开' : '关闭';
-				this.$api.msg(`${statusTip}消息推送`);
+				let statusTip = e.detail.value ? this.i18n.open : this.i18n.closed;
+				this.$api.msg(statusTip+this.setMsg.msgPush);
 			},
 
 			//上传头像
@@ -61,7 +71,7 @@
 							photoUrl: photoUrl
 						}, res => {
 							if (res.body.status.statusCode === '0') {
-								this.$api.msg('头像已更改');
+								this.$api.msg(this.setMsg.uploadSuccess);
 								setTimeout(function() {
 									uni.switchTab({
 										url: '/pages/user/user'
@@ -72,7 +82,7 @@
 							}
 						});
 					} else {
-						this.$api.msg('头像上传失败');
+						this.$api.msg(this.setMsg.uploadError);
 					}
 				})
 			}

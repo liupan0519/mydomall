@@ -87,6 +87,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig']),
 			advertNavUrl(){
 				let data = {
@@ -98,6 +101,9 @@
 			} 
 		},
 		async onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.content.title
+			})
 			// 获取屏幕宽度
 			windowWidth = uni.getSystemInfoSync().windowWidth;
 			this.loadTabbars();
@@ -224,9 +230,9 @@
 			//新闻详情
 			navToDetails(item){
 				let url = '';
-				if(item.articleType==='1' && item.linkType=='自定义内容')	
+				if(item.articleType==='1' && item.linkType==this.i18n.notice.linkType1)	
 					url = '/pages/content/details?id='+item.articleUuid;
-				if(item.articleType==='1' && item.linkType=='外部链接')
+				if(item.articleType==='1' && item.linkType==this.i18n.notice.linkType2)
 					url = '/pages/content/webView?src='+item.content;
 				if(item.articleType==='2' || item.articleType==='3')
 					url = '/pages/content/videoDetails?id='+item.articleUuid;

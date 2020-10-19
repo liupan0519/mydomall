@@ -61,6 +61,9 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.aftersale.listTitle
+			})
 			this.searchOrderAfterSale();
 		},
 		//下拉刷新
@@ -73,6 +76,9 @@
 			}, 1000);
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

@@ -5,11 +5,11 @@
 		<view class="container">
 			<view class="point">
 				<view class="point-rule">
-					<navigator url="/pages/point/rule">活动规则</navigator>
+					<navigator url="/pages/point/rule">{{signMsg.rule}}</navigator>
 				</view>
 				<view class="point-wrapper">
 					<view class="point-text">
-						当前积分
+						{{signMsg.availablePoint}}
 					</view>
 					<navigator url="/pages/point/point-list" class="point-value">
 						{{userInfo.availablePoint}}
@@ -20,15 +20,15 @@
 			<view class="sign">
 				<view class="sign-button-wrapper">
 					<view class="sign-button-enable" v-if="!isSigned" @click="toggleSignPoint">
-						签到
+						{{signMsg.sign}}
 					</view>
 					<view class="sign-button-disable" v-if="isSigned">
-						已签到
+						{{signMsg.signed}}
 					</view>
 				</view>
 
 				<view class="sign-text">
-					已连续签到<font>{{signDateNum}}</font>天
+					{{signMsg.signDateNum}}<font>{{signDateNum}}</font>天
 				</view>
 			</view>
 			<view class="sign-history">
@@ -54,14 +54,13 @@
 	</view>
 </template>
 <script>
-	
 	import {
 		mapState,
 		mapMutations
 	} from 'vuex';
 	export default {
 		components: {
-			
+
 		},
 		data() {
 			return {
@@ -69,14 +68,22 @@
 				signDateNum: 0,
 				isSigned: true,
 				signList: [],
-				signSetting: {}
+				signSetting: {},
+				signMsg:this.i18n.point
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.user.signPoint
+			})
+		},
 		onShareAppMessage(res) {
 
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig'])
 		},
 		methods: {
@@ -101,7 +108,7 @@
 				};
 				this.$api.request.signPoint(searchOptions, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('签到成功, 获得积分' + res.body.data.signPoint);
+						this.$api.msg(this.signMsg.signSuccess+ res.body.data.signPoint);
 						this.getSignDateNum();
 						this.isPointSigned(new Date());
 					} else {
@@ -276,6 +283,7 @@
 			padding-top: 20upx;
 			color: $font-color-base;
 			font-size: $font-base;
+
 			font {
 				color: #FD8247;
 			}

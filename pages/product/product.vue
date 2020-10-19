@@ -23,8 +23,8 @@
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>销量: {{product.soldUnit}}</text>
-				<text>库存: {{product.totalUnit}}</text>
+				<text>{{i18n.sortList.sales}}: {{product.soldUnit}}</text>
+				<text>{{i18n.stock}}: {{product.totalUnit}}</text>
 				<u-icon size="32" name="share" @click="togglePopup('bottom', 'share')"></u-icon>
 			</view>
 		</view>
@@ -38,8 +38,8 @@
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>销量: {{productSku.skuSoldUnit}}</text>
-				<text>库存: {{productSku.skuTotalUnit}}</text>
+				<text>{{i18n.sortList.sales}}: {{productSku.skuSoldUnit}}</text>
+				<text>{{i18n.stock}}: {{productSku.skuTotalUnit}}</text>
 				<u-icon size="32" name="share" @click="togglePopup('bottom', 'share')"></u-icon>
 			</view>
 		</view>
@@ -47,14 +47,14 @@
 		<!--  领券 -->
 		<view class="coupon-section" @click="showCoupon = true" v-if="coupons.length>0">
 			<view>
-				<u-button type="error" style="margin-right:10px;height:20px;line-height: 20px;" size="mini">领券</u-button>
+				<u-button type="error" style="margin-right:10px;height:20px;line-height: 20px;" size="mini">{{i18n.coupon.coupons}}</u-button>
 			</view>
 			<view v-for="(item,index) in coupons" v-if="index<3">
 				<u-button type="error" style="margin-right:5px;height:20px;line-height: 20px;" plain size="mini">
-					<text v-if="item.conditionAmount>0">满{{item.conditionAmount}}</text>
-					<text v-else>立</text>
-					<text v-if="item.type=='CASH'">减{{item.benefitCash}}</text>
-					<text v-if="item.type=='DISCOUNT'">享{{item.benefitDiscount/10}}折</text>
+					<text v-if="item.conditionAmount>0">{{i18n.coupon.full}}{{item.conditionAmount}}</text>
+					<text v-else>{{i18n.coupon.rightAway}}</text>
+					<text v-if="item.type=='CASH'">{{i18n.coupon.less}}{{item.benefitCash}}</text>
+					<text v-if="item.type=='DISCOUNT'">{{i18n.coupon.enjoy}}{{item.benefitDiscount/10}}{{i18n.coupon.discount}}</text>
 					</u-button>
 			</view>
 			
@@ -64,7 +64,7 @@
 		</view>
 		<!-- 领优惠券弹出框 -->
 		<u-popup v-model="showCoupon" mode="bottom" :closeable="true" border-radius="14" width="100%" height="800">
-			<view class="coupon-title">领优惠券</view>
+			<view class="coupon-title">{{i18n.coupon.getCoupons}}</view>
 			<view class="coupon-list">
 				<view class="coupon-list-item" v-for="item in coupons">
 					<u-row>
@@ -75,22 +75,22 @@
 									<text class="discount" v-if="item.type=='DISCOUNT'">{{item.benefitDiscount/10}}</text>
 								</view>
 								<view class="c2">
-									<text v-if="item.conditionAmount>0"> 满{{item.conditionAmount}}元可用</text>
-									<text v-else> 无门槛</text>
+									<text v-if="item.conditionAmount>0"> {{i18n.coupon.full}}{{item.conditionAmount}}{{i18n.coupon.available}}</text>
+									<text v-else> {{i18n.coupon.noThreshold}}</text>
 								</view>
 							</view>
 						</u-col>
 						<u-col span="8" class="coupon-right">
 							<view class="c1">
-								<text v-if="item.benefitType=='0'">全场通用</text>
-								<text v-if="item.benefitType=='1'">指定商品</text>
+								<text v-if="item.benefitType=='0'">{{i18n.coupon.benefitType0}}</text>
+								<text v-if="item.benefitType=='1'">{{i18n.coupon.benefitType1}}</text>
 							</view>
 							<view class="c2">
-								<text v-if="item.validType==1"> 有效期至{{item.endDate}}</text>
-								<text v-if="item.validType==2"> 领取后{{item.validDays}}天内有效</text>
+								<text v-if="item.validType==1"> {{i18n.coupon.endDate}}{{item.endDate}}</text>
+								<text v-if="item.validType==2"> {{i18n.coupon.receive}}{{item.validDays}}{{i18n.coupon.validDays}}</text>
 							</view>
 							<view class="c3">
-								<u-button plain size="mini " type="error" @click="getCoupon(item)">立即领取</u-button>
+								<u-button plain size="mini " type="error" @click="getCoupon(item)">{{i18n.coupon.getCoupon}}</u-button>
 							</view>
 						</u-col>
 					</u-row>
@@ -100,7 +100,7 @@
 
 		<view class="c-list">
 			<view class="c-row b-b" @click="toggleSpec" v-if="product.skuEnabled">
-				<text class="tit">购买类型</text>
+				<text class="tit">{{i18n.order.buyType}}</text>
 				<view class="con">
 					<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
 						{{sku.skuAttrValue}}
@@ -110,7 +110,7 @@
 			</view>
 
 			<view class="c-row b-b">
-				<text class="tit">数量</text>
+				<text class="tit">{{i18n.order.number}}</text>
 				<view class="bz-list con">
 					<uni-number-box class="step" :min="1" :max="productSku.skuTotalUnit" :value="unit"
 					 :isMax="unit>=productSku.skuTotalUnit?true:false" :isMin="unit===1" @eventChange="numberChange" v-if="product.skuEnabled"></uni-number-box>
@@ -119,13 +119,13 @@
 				</view>
 			</view>
 			<view class="c-row b-b" v-if="product.productFreightDTO">
-				<text class="tit">快递</text>
+				<text class="tit">{{i18n.courier.courier}}</text>
 				<view class="bz-list con">
 					<text>{{product.productFreightDTO.name}}</text>
 				</view>
 			</view>
 			<view v-if="product.attrList.length>0" class="c-row b-b" @click="togglePopup('bottom', 'attr')">
-				<text class="tit">参数</text>
+				<text class="tit">{{i18n.product.attr}}</text>
 				<view class="bz-list con">
 					<text>{{product.attrList[0].productAttrName}} {{product.attrList[0].productAttrValue}}...</text>
 				</view>
@@ -134,9 +134,9 @@
 				</view>
 			</view>
 			<view class="c-row b-b">
-				<text class="tit">服务</text>
+				<text class="tit">{{i18n.courier.service}}</text>
 				<view class="bz-list con">
-					<text>7天无理由退换货 ·</text>
+					<text>{{i18n.courier.noReason}}</text>
 				</view>
 			</view>
 		</view>
@@ -144,9 +144,9 @@
 		<!-- 评价 -->
 		<view class="eva-section">
 			<view class="e-header">
-				<text class="tit">评价</text>
+				<text class="tit">{{i18n.evaluate}}</text>
 				<text>({{totalComment}})</text>
-				<text class="tip" @click="navTo('/pages/product/evaluate?id='+id)">查看全部</text>
+				<text class="tip" @click="navTo('/pages/product/evaluate?id='+id)">{{i18n.searchAll}}</text>
 				<text class="yticon icon-you"></text>
 			</view>
 			<view class="" v-for="comment in commentList">
@@ -167,7 +167,7 @@
 					<image @click="previewImage(url)" :src="url" mode="aspectFill" v-for="url in comment.imageUrlList"></image>
 				</view>
 				<view class="eva-reply" v-if="comment.replayContent">
-					<text>卖家回复: {{comment.replayContent}}</text>
+					<text>{{i18n.merchant.reply}}: {{comment.replayContent}}</text>
 				</view>
 			</view>
 		</view>
@@ -183,13 +183,13 @@
 				</view>
 			</view>
 			<view class="action" @click="navTo('/pages/merchant/detail?id='+product.merchantDTO.merchantUuid)">
-				进去逛逛
+				{{i18n.toIndex}}
 			</view>
 		</view>
 
 		<view class="detail-desc">
 			<view class="d-header">
-				<text>图文详情</text>
+				<text>{{i18n.product.productDescImages}}</text>
 			</view>
 			<view class="image-wrapper">
 				<image v-for="item in product.productDescImages" class="loaded" mode="widthFix" :src="item.url" />
@@ -202,21 +202,21 @@
 		<view class="page-bottom">
 			<navigator url="/pages/index/index" open-type="switchTab" class="p-b-btn">
 				<text class="yticon icon-xiatubiao--copy"></text>
-				<text>首页</text>
+				<text>{{i18n.product.index}}</text>
 			</navigator>
 			<navigator url="/pages/cart/cart" open-type="switchTab" class="p-b-btn">
 				<text class="yticon icon-gouwuche_"></text>
-				<text>购物车</text>
+				<text>{{i18n.product.cart}}</text>
 				<uni-badge type="error" v-if="cartNum>0" :text="cartNum+''"></uni-badge>
 			</navigator>
 			<view class="p-b-btn" :class="{active: isProductCollected}" @click="toFavorite">
 				<text class="yticon icon-shoucang"></text>
-				<text>收藏</text>
+				<text>{{i18n.product.toFavorite}}</text>
 			</view>
 
 			<view class="action-btn-group">
-				<button type="primary" class=" action-btn no-border buy-now-btn" @click="buy">立即购买</button>
-				<button type="primary" class=" action-btn no-border add-cart-btn" @click="addCart">加入购物车</button>
+				<button type="primary" class=" action-btn no-border buy-now-btn" @click="buy">{{i18n.product.buy}}</button>
+				<button type="primary" class=" action-btn no-border add-cart-btn" @click="addCart">{{i18n.product.addCart}}</button>
 			</view>
 		</view>
 
@@ -230,9 +230,9 @@
 					<image v-if="product.productMainImage" :src="product.productMainImage.url"></image>
 					<view class="right">
 						<text class="price">¥{{productSku.skuUnitPrice}}</text>
-						<text class="stock">库存：{{productSku.skuTotalUnit}}件</text>
+						<text class="stock">{{i18n.stock}}：{{productSku.skuTotalUnit}}{{i18n.productUnit}}</text>
 						<view class="selected">
-							已选：
+							{{i18n.selected}}：
 							<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
 								{{sku.skuAttrValue}}
 							</text>
@@ -247,8 +247,8 @@
 						</view>
 					</view>
 				</view>
-				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">完成</button>
-				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">无库存</button>
+				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">{{i18n.complete}}</button>
+				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">{{i18n.nostock}}</button>
 			</view>
 		</view>
 		<!-- 底部分享弹窗 -->
@@ -283,7 +283,7 @@
 					</view>
 				</view>
 			</view>
-			<button class="close-btn" @click="closeAttr">关闭</button>
+			<button class="close-btn" @click="closeAttr">{{i18n.closed}}</button>
 		</uni-popup>
 	</view>
 </template>
@@ -362,6 +362,9 @@
 			};
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.title
+			})
 
 			//接收传值,id里面放的是标题，因为测试数据并没写id 
 			let id = options.id||decodeURIComponent(options.scene);
@@ -381,6 +384,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo']),
 			shareHref() {
 				let pages = getCurrentPages()
@@ -666,7 +672,7 @@
 					receiveChannel: 'SELF'
 				}, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('领取成功');
+						this.$api.msg(this.i18n.coupon.getSuccess);
 					} else {
 						this.$api.msg(res.body.status.errorDesc);
 					}

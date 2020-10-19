@@ -1,10 +1,10 @@
 <template>
 	<view class="container">
 		<view class="row b-b">
-			<text class="tit">昵称</text>
-			<input class="input" type="text" maxlength="20" v-model="name" placeholder="不超过20个字符" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.set.name}}</text>
+			<input class="input" type="text" maxlength="20" v-model="name" :placeholder="i18n.set.namePH" placeholder-class="placeholder" />
 		</view>
-		<button class="add-btn" @click="save">保存</button>
+		<button class="add-btn" @click="save">{{i18n.setBtn}}</button>
 	</view>
 </template>
 
@@ -19,7 +19,15 @@
 				name: ''
 			};
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.user.setUserInfoName
+			})
+		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -31,7 +39,7 @@
 					name: this.name
 				}, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('信息已保存');
+						this.$api.msg(this.i18n.set.editInfo);
 						setTimeout(function() {
 							uni.switchTab({
 								url: '/pages/user/user'

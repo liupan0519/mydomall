@@ -7,7 +7,7 @@
 					<text class="title">{{detailData.title}}</text>
 					<view class="introduce">
 						<text>{{applicationConfig.appicationName}}</text>
-						<text>{{detailData.numberOfReading}}阅读</text>
+						<text>{{detailData.numberOfReading}}{{i18n.content.reading}}</text>
 						<text>{{detailData.publishTime}}</text>
 					</view>
 					
@@ -18,7 +18,7 @@
 				<view class="container" v-show="loading === false">
 					<!-- 推荐 -->
 					<view class="s-header">
-						<text class="tit">相关推荐</text>
+						<text class="tit">{{i18n.content.rec}}</text>
 					</view>
 					<view class="rec-section" v-for="item in newsList" :key="item.articleUuid">
 						<view class="rec-item" @click="navToDetails(item)">
@@ -63,9 +63,15 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig'])
 		},
 		onLoad(options){
+			uni.setNavigationBarTitle({
+				title: this.i18n.content.details
+			})
 			var id = options.id;
 			this.loadNewsDetail(id);
 			this.loadNewsList();
@@ -121,9 +127,9 @@
 			//新闻详情
 			navToDetails(item){
 				let url = '';
-				if(item.articleType==='1' && item.linkType=='自定义内容')	
+				if(item.articleType==='1' && item.linkType==this.i18n.notice.linkType1)	
 					url = '/pages/content/details?id='+item.articleUuid;
-				if(item.articleType==='1' && item.linkType=='外部链接')
+				if(item.articleType==='1' && item.linkType==this.i18n.notice.linkType2)
 					url = '/pages/content/webView?src='+item.content;
 				if(item.articleType==='2' || item.articleType==='3')
 					url = '/pages/content/videoDetails?id='+item.articleUuid;

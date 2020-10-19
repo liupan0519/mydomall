@@ -3,7 +3,7 @@
 		<view class="msg-section">
 			<view @click="navSysmessage" class="mix-list-cell b-b">
 				<text class="cell-icon yticon icon-notice" style="color: #e07472"></text>
-				<text class="cell-tit clamp">系统通知</text>
+				<text class="cell-tit clamp">{{i18n.notice.navSysmessage}}</text>
 				<uni-badge type="error" v-if="notesNumber>0" class="num" :text="notesNumber+''"></uni-badge>
 				<text class="cell-tip" v-if="notes.length>0">{{notes[0].content}}</text>
 				<text class="cell-more yticon icon-you"></text>
@@ -12,7 +12,7 @@
 		<view class="announcement-section">
 			<view @click="navAnnouncement" class="mix-list-cell b-b">
 				<text class="cell-icon yticon icon-dizhi" style="color: #9789f7"></text>
-				<text class="cell-tit clamp">官方资讯</text>
+				<text class="cell-tit clamp">{{i18n.notice.navAnnouncement}}</text>
 				<uni-badge type="error" v-if="announcementNumber>0" class="num" :text="announcementNumber+''"></uni-badge>
 				<text class="cell-tip" v-if="announcement.length>0">{{announcement[0].title}}</text>
 				<text class="cell-more yticon icon-you"></text>
@@ -21,7 +21,7 @@
 		<view class="notice-section">
 			<view @click="navNotice" class="mix-list-cell b-b">
 				<text class="cell-icon yticon icon-share" style="color: #5fcda2"></text>
-				<text class="cell-tit clamp">活动通知</text>
+				<text class="cell-tit clamp">{{i18n.notice.navNotice}}</text>
 				<uni-badge type="error" v-if="noticeNumber>0" class="num" :text="noticeNumber+''"></uni-badge>
 				<text class="cell-tip" v-if="notice.length>0">{{notice[0].title}}</text>
 				<text class="cell-more yticon icon-you"></text>
@@ -52,10 +52,16 @@
 			}
 		},
 		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.notice.listTitle
+			})
 			this.inquiryNotes();
 			this.inquiryArticle();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint'])
 		},
 		methods: {

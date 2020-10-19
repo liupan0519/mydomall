@@ -85,6 +85,9 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.aftersale.title
+			})
 			this.orderNo = option.orderNo;
 			this.saleNo = option.saleNo;
 			if(this.orderNo)
@@ -95,6 +98,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

@@ -3,7 +3,7 @@
 		<!-- 小程序头部兼容 -->
 		<!-- #ifdef MP||H5 -->
 		<view class="mp-search-box">
-			<input class="ser-input" type="text" value="输入关键字搜索" disabled @click="navSearch"/>
+			<input class="ser-input" type="text" :value="i18n.searchInput" disabled @click="navSearch" />
 		</view>
 		<!-- #endif -->
 
@@ -26,75 +26,76 @@
 			</view>
 		</view>
 		<view class="grid-wrapper">
-					<!-- 因为swiper特性的关系，请指定swiper的高度 ，swiper的高度并不会被内容撑开-->
-					<swiper class="grid-swiper" :indicator-dots="false">
-						<swiper-item>
-							<uni-grid :column="4" :show-border="false"  :square="false">
-							    <uni-grid-item>
-									<view class="grid-item-box" @click="navCoupon">
-										<image class="grid-image" src="/static/image/coupon.png"></image>
-										<text class="grid-text">领券中心</text>
-									</view>
-							    </uni-grid-item>
-								<!-- #ifdef MP-WEIXIN -->
-							    <uni-grid-item>
-							    	<view class="grid-item-box" @click="navLiveRooms">
-							    		<image class="grid-image" src="/static/image/live.png"></image>
-							    		<text class="grid-text">直播间</text>
-							    	</view>
-							    </uni-grid-item>
-								<!-- #endif -->
-								<uni-grid-item>
-									<view class="grid-item-box" @click="navGroupBuy">
-										<image class="grid-image" src="/static/image/pintuan.png"></image>
-										<text class="grid-text">拼团专区</text>
-										<view class="grid-dot">
-											<uni-badge style="width:30px" text="低价" type="warning" />
-										</view>
-									</view>
-								</uni-grid-item>
-								<uni-grid-item>
-									<view class="grid-item-box" @click="navSecKill">
-										<image class="grid-image" src="/static/image/seckill.png"></image>
-										<text class="grid-text">秒杀专区</text>
-										<view class="grid-dot">
-											<uni-badge style="width:30px" text="限时" type="error" />
-										</view>
-									</view>
-								</uni-grid-item>
-								<uni-grid-item>
-									<view class="grid-item-box" @click="navSign">
-										<image class="grid-image" src="/static/image/sign.png"></image>
-										<text class="grid-text">签到领积分</text>
-									</view>
-								</uni-grid-item>
-								<uni-grid-item>
-									<view class="grid-item-box" @click="navPoint">
-										<image class="grid-image" src="/static/image/mall.png"></image>
-										<text class="grid-text">积分商城</text>
-									</view>
-								</uni-grid-item>
-								<uni-grid-item>
-									<view class="grid-item-box" @click="navMerchant">
-										<image class="grid-image" src="/static/image/merchant.png"></image>
-										<text class="grid-text">精选商家</text>
-									</view>
-								</uni-grid-item>
-								<uni-grid-item>
-									<view class="grid-item-box" @click="navCustomerService">
-										<image class="grid-image" src="/static/image/kefu.png"></image>
-										<text class="grid-text">客服中心</text>
-									</view>
-								</uni-grid-item>
-							</uni-grid>
-						</swiper-item>
-					</swiper>
-				
-				</view>
-		<view class="m-t" v-if="announcement.length>0">
-			<uni-notice-bar scrollable="true" showIcon="true" showClose="true" showGetMore="true" :text="announcement[0].title" single="true" moreText="更多" @getmore="navAnnouncement"></uni-notice-bar>
+			<!-- 因为swiper特性的关系，请指定swiper的高度 ，swiper的高度并不会被内容撑开-->
+			<swiper class="grid-swiper" :indicator-dots="false">
+				<swiper-item>
+					<uni-grid :column="4" :show-border="false" :square="false">
+						<uni-grid-item>
+							<view class="grid-item-box" @click="navCoupon">
+								<image class="grid-image" src="/static/image/coupon.png"></image>
+								<text class="grid-text">{{i18n.couponCenter}}</text>
+							</view>
+						</uni-grid-item>
+						<!-- #ifdef MP-WEIXIN -->
+						<uni-grid-item>
+							<view class="grid-item-box" @click="navLiveRooms">
+								<image class="grid-image" src="/static/image/live.png"></image>
+								<text class="grid-text">{{i18n.studio}}</text>
+							</view>
+						</uni-grid-item>
+						<!-- #endif -->
+						<uni-grid-item>
+							<view class="grid-item-box" @click="navGroupBuy">
+								<image class="grid-image" src="/static/image/pintuan.png"></image>
+								<text class="grid-text">{{i18n.groups}}</text>
+								<view class="grid-dot">
+									<uni-badge style="width:30px" :text="i18n.lowPrice" type="warning" />
+								</view>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box" @click="navSecKill">
+								<image class="grid-image" src="/static/image/seckill.png"></image>
+								<text class="grid-text">{{i18n.spikes}}</text>
+								<view class="grid-dot">
+									<uni-badge style="width:30px" :text="i18n.limited" type="error" />
+								</view>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box" @click="navSign">
+								<image class="grid-image" src="/static/image/sign.png"></image>
+								<text class="grid-text">{{i18n.signin}}</text>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box" @click="navPoint">
+								<image class="grid-image" src="/static/image/mall.png"></image>
+								<text class="grid-text">{{i18n.pointsMall}}</text>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box" @click="navMerchant">
+								<image class="grid-image" src="/static/image/merchant.png"></image>
+								<text class="grid-text">{{i18n.merchants}}</text>
+							</view>
+						</uni-grid-item>
+						<uni-grid-item>
+							<view class="grid-item-box" @click="navCustomerService">
+								<image class="grid-image" src="/static/image/kefu.png"></image>
+								<text class="grid-text">{{i18n.cService}}</text>
+							</view>
+						</uni-grid-item>
+					</uni-grid>
+				</swiper-item>
+			</swiper>
+
 		</view>
-			
+		<view class="m-t" v-if="announcement.length>0">
+			<uni-notice-bar scrollable="true" showIcon="true" showClose="true" showGetMore="true" :text="announcement[0].title"
+			 single="true" :moreText="i18n.more" @getmore="navAnnouncement"></uni-notice-bar>
+		</view>
+
 		<view class="ad-1" v-if="ads.length>0">
 			<image @click="navAD(ads[0])" :src="ads[0].url" mode="scaleToFill"></image>
 		</view>
@@ -102,10 +103,10 @@
 		<view class="seckill-section m-t" v-if="secKills.length>0">
 			<view class="s-header">
 				<image class="s-img" src="/static/temp/secskill-img.jpg" mode="widthFix"></image>
-				<uni-countdown v-if="secKillFlag ==''" class="countdown" :day="secKillCountDown.days" :hour="secKillCountDown.hours" :minute="secKillCountDown.minutes"
-				 :second="secKillCountDown.seconds" color="#FFFFFF" background-color="#333333" />
-				<text class="end" v-if="secKillFlag=='END'">已结束</text>
-				<text class="end" v-if="secKillFlag=='START'">秒杀中</text>
+				<uni-countdown v-if="secKillFlag ==''" class="countdown" :day="secKillCountDown.days" :hour="secKillCountDown.hours"
+				 :minute="secKillCountDown.minutes" :second="secKillCountDown.seconds" color="#FFFFFF" background-color="#333333" />
+				<text class="end" v-if="secKillFlag=='END'">{{i18n.spike.end}}</text>
+				<text class="end" v-if="secKillFlag=='START'">{{i18n.spike.start}}</text>
 				<text class="yticon icon-you" @click="navSecKill()"></text>
 			</view>
 			<scroll-view class="floor-list" scroll-x>
@@ -125,7 +126,7 @@
 		<view class="f-header m-t" v-if="groupBuys.length>0">
 			<image src="/static/temp/h1.png"></image>
 			<view class="tit-box">
-				<text class="tit">精品团购</text>
+				<text class="tit">{{i18n.groupBy}}</text>
 				<text class="tit2">Boutique Group Buying</text>
 			</view>
 			<text class="yticon icon-you" @click="navGroupBuy()"></text>
@@ -146,7 +147,7 @@
 								<view class="progress-box">
 									<progress percent="72" activeColor="#fa436a" active stroke-width="6" />
 								</view>
-								<text>{{groupBuys[index].minUserCount}}人成团</text>
+								<text>{{groupBuys[index].minUserCount}}{{i18n.groupbuy.groupOf}}</text>
 							</view>
 						</view>
 
@@ -163,7 +164,7 @@
 								<view class="progress-box">
 									<progress percent="72" activeColor="#fa436a" active stroke-width="6" />
 								</view>
-								<text>{{groupBuys[index+1].minUserCount}}人成团</text>
+								<text>{{groupBuys[index+1].minUserCount}}{{i18n.groupbuy.groupOf}}</text>
 							</view>
 						</view>
 					</view>
@@ -196,72 +197,70 @@
 							<text class="price">￥{{product.unitPrice}}</text>
 						</view>
 						<view class="more" @click="navToGroupPage(group)">
-							<text>查看全部</text>
+							<text>{{i18n.searchAll}}</text>
 							<text>More+</text>
 						</view>
 					</view>
 				</scroll-view>
 			</view>
 		</view>
-		<u-tabs name="cateName" :show-bar="true" active-color="#FA436A" :list="cates" :is-scroll="true" :current="current" @change="change"></u-tabs>
-			<view class="goods-list">
-				<view 
-					v-for="(item, index) in goodsList" :key="index"
-					class="goods-item"
-				>
-					<view class="image-wrapper" @click="navToDetailPage(item)">
-						<image v-if="item.productMainImage" :src="item.productMainImage.url" mode="aspectFill"></image>
-					</view>
-					<text class="title clamp">{{item.productName}}</text>
-					<view class="price-box">
-						<text class="price">{{item.unitPrice}}</text>
-						<text>已售 {{item.soldUnit}}</text>
-					</view>
-					<navigator :url="'/pages/merchant/detail?id='+item.merchantDTO.merchantUuid" class="merchant">{{item.merchantDTO.merchantName}}</navigator>
+		<u-tabs name="cateName" :show-bar="true" active-color="#FA436A" :list="cates" :is-scroll="true" :current="current"
+		 @change="change"></u-tabs>
+		<view class="goods-list">
+			<view v-for="(item, index) in goodsList" :key="index" class="goods-item">
+				<view class="image-wrapper" @click="navToDetailPage(item)">
+					<image v-if="item.productMainImage" :src="item.productMainImage.url" mode="aspectFill"></image>
 				</view>
+				<text class="title clamp">{{item.productName}}</text>
+				<view class="price-box">
+					<text class="price">{{item.unitPrice}}</text>
+					<text>{{i18n.sold}} {{item.soldUnit}}</text>
+				</view>
+				<navigator :url="'/pages/merchant/detail?id='+item.merchantDTO.merchantUuid" class="merchant">{{item.merchantDTO.merchantName}}</navigator>
 			</view>
-			<uni-load-more :status="loadingType"></uni-load-more>
-			<u-mask :show="showGift" :mask-click-able="false">
-				<view class="gift">
-					<view class="gift-title">
-						新人有礼
-					</view>
-					<view class="gift-desc">
-						恭喜您获得以下福利!
-					</view>
-					<view class="gift-image">
-						<image src="../../static/image/gift.png" ></image>
-					</view>
-					
-					<view class="gift-content">
-						<view class="gift-item" v-for="gift in giftList" v-if="gift.welfareType=='POINT'||gift.welfareType=='COUPON'">
-							<!-- 积分 -->
-							<view class="gift-item-label" v-if="gift.welfareType=='POINT'">
-								积分
-							</view>
-							<view class="gift-item-value" v-if="gift.welfareType=='POINT'">
-								<button><text class="tip">{{gift.pointGiven}}</text></button>
-							</view>
-							<!-- 优惠券 -->
-							<view class="gift-item-label" v-if="gift.welfareType=='COUPON'">
-								优惠券{{gift.couponCount}}张
-							</view>
-							<view class="gift-item-value" v-if="gift.welfareType=='COUPON'">
-								<button>{{gift.couponDTO.name}}</button>
-							</view>
+		</view>
+		<uni-load-more :status="loadingType"></uni-load-more>
+		<u-mask :show="showGift" :mask-click-able="false">
+			<view class="gift">
+				<view class="gift-title">
+					{{i18n.newcomer.gift}}
+				</view>
+				<view class="gift-desc">
+					{{i18n.newcomer.congratulate}}
+				</view>
+				<view class="gift-image">
+					<image src="../../static/image/gift.png"></image>
+				</view>
+
+				<view class="gift-content">
+					<view class="gift-item" v-for="gift in giftList" v-if="gift.welfareType=='POINT'||gift.welfareType=='COUPON'">
+						<!-- 积分 -->
+						<view class="gift-item-label" v-if="gift.welfareType=='POINT'">
+							{{i18n.integral}}
+						</view>
+						<view class="gift-item-value" v-if="gift.welfareType=='POINT'">
+							<button><text class="tip">{{gift.pointGiven}}</text></button>
+						</view>
+						<!-- 优惠券 -->
+						<view class="gift-item-label" v-if="gift.welfareType=='COUPON'">
+							{{i18n.coupons}}{{gift.couponCount}}{{i18n.couponUnit}}
+						</view>
+						<view class="gift-item-value" v-if="gift.welfareType=='COUPON'">
+							<button>{{gift.couponDTO.name}}</button>
 						</view>
 					</view>
-					<view class="gift-message">
-						{{receiveGiftMessage}}
-					</view>
-					<view class="gift-action">
-						<u-button :loading="receiveLoading" :ripple="true" @click="receiveProfitWelfare">立即领取</u-button>
-					</view>
 				</view>
-				<view class="gift-close">
-					<u-icon size="60" name="close-circle" @click="showGift=false"></u-icon>
+				<view class="gift-message">
+					{{receiveGiftMessage}}
 				</view>
-			</u-mask>
+				<view class="gift-action">
+					<u-button :loading="receiveLoading" :ripple="true" @click="receiveProfitWelfare">{{i18n.coupon.getCoupon}}</u-button>
+				</view>
+			</view>
+			<view class="gift-close">
+				<u-icon size="60" name="close-circle" @click="showGift=false"></u-icon>
+			</view>
+		</u-mask>
 	</view>
 </template>
 
@@ -295,41 +294,49 @@
 				groupBuys: [],
 				productGroups: [],
 				ads: [],
-				notice:[],
-				announcement:[],
-				articleList: []	,//图文, 音视频列表
-				secKillFlag:'END',//秒杀结束标志符(END表示已结束)
-				current: 0,	//默认展示推荐商品
+				notice: [],
+				announcement: [],
+				articleList: [], //图文, 音视频列表
+				secKillFlag: 'END', //秒杀结束标志符(END表示已结束)
+				current: 0, //默认展示推荐商品
 				total: 0,
 				pageSize: 10,
 				pageNo: 1,
 				loadingType: 'more', //加载更多状态
-				goodsList:[],
-				showGift:false,	//新人礼物弹窗
-				giftList:[],
-				receiveLoading:false,
-				receiveGiftMessage:''
+				goodsList: [],
+				showGift: false, //新人礼物弹窗
+				giftList: [],
+				receiveLoading: false,
+				receiveGiftMessage: ''
 			};
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig'])
 		},
 		onLoad() {
+			// #ifdef MP 
+			uni.setNavigationBarTitle({
+				title: this.i18n.title
+			})
+			// #endif 
 			this.loadData();
 		},
-		onShow(){
-			if(this.hasLogin && !this.userInfo.profitWelfareReceived){
+		onShow() {
+			if (this.hasLogin && !this.userInfo.profitWelfareReceived) {
 				this.receiveGiftMessage = '';
 				this.inquiryProfitWelfare();
 			}
 		},
 		//加载更多
-		onReachBottom(){
-			if(this.loadingType === 'more'){
+		onReachBottom() {
+			if (this.loadingType === 'more') {
 				this.pageNo = this.pageNo + 1;
-				if(this.current==0){
+				if (this.current == 0) {
 					this.searchRecommendProduct();
-				}else{
+				} else {
 					this.searchProductByCate(this.cates[this.current].productCateUuid);
 				}
 			}
@@ -338,14 +345,14 @@
 			change(index) {
 				this.current = index;
 				this.resetPage();
-				if(index==0){
+				if (index == 0) {
 					this.searchRecommendProduct();
-				}else{
+				} else {
 					this.searchProductByCate(this.cates[index].productCateUuid);
 				}
 			},
 			//重置商品及分页
-			resetPage(){
+			resetPage() {
 				this.pageNo = 1;
 			},
 			/**
@@ -368,7 +375,7 @@
 					if (res.body.status.statusCode === '0') {
 						this.giftList = res.body.data.welfares;
 						//有待领取新人福利, 打开领取弹窗
-						if(this.giftList.length>0)
+						if (this.giftList.length > 0)
 							this.showGift = true;
 					} else {
 						console.log(res.body.status.errorDesc);
@@ -379,11 +386,11 @@
 			receiveProfitWelfare() {
 				this.receiveLoading = true;
 				this.$api.request.receiveProfitWelfare({
-					userUuid:this.userInfo.userUuid
+					userUuid: this.userInfo.userUuid
 				}, res => {
 					this.receiveLoading = false;
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('领取成功');
+						this.$api.msg(this.i18n.coupon.getSuccess);
 						this.receiveGiftMessage = '';
 						this.showGift = false;
 						//标记新人福利已领取
@@ -413,18 +420,20 @@
 						this.carouselList = res.body.data.swipers;
 						this.swiperLength = this.carouselList.length;
 						this.ads = res.body.data.ads;
-						this.cates = [{cateName:'推荐'}].concat(res.body.data.cates);
+						this.cates = [{
+							cateName: this.i18n.recommend
+						}].concat(res.body.data.cates);
 						this.groupBuys = res.body.data.groupBuys;
 						this.productGroups = res.body.data.groups;
 						this.secKills = res.body.data.secKills;
 						//用最近的秒杀商品作为秒杀倒计时数据
 						if (this.secKills.length > 0) {
-							for(var i=0; i<this.secKills.length; i++){
+							for (var i = 0; i < this.secKills.length; i++) {
 								var endTimeStr = this.secKills[i].endTime;
 								var endTime = new Date(Date.parse(endTimeStr.replace(/-/g, "/")));
 								var startTimeStr = this.secKills[i].startTime;
 								var startTime = new Date(Date.parse(startTimeStr.replace(/-/g, "/")));
-								if(endTime>=new Date()){	//未开始或者秒杀中
+								if (endTime >= new Date()) { //未开始或者秒杀中
 									var diff = that.$api.util.getCountDownTimes(this.secKills[i].startTime);
 									this.secKillCountDown = {
 										days: diff[0],
@@ -432,7 +441,7 @@
 										minutes: diff[2],
 										seconds: diff[3]
 									}
-									this.secKillFlag = startTime<=new Date()?'START':'';
+									this.secKillFlag = startTime <= new Date() ? 'START' : '';
 									break;
 								}
 							}
@@ -455,7 +464,7 @@
 					}
 				});
 			},
-			searchRecommendProduct(){
+			searchRecommendProduct() {
 				var keyArray = [];
 				keyArray.push('ON_SALE');
 				keyArray.push('RECOMMEND');
@@ -463,12 +472,12 @@
 					'keyArray': keyArray,
 					'onSale': true,
 					'recommend': true,
-					'startIndex': (this.pageNo-1)*this.pageSize,
+					'startIndex': (this.pageNo - 1) * this.pageSize,
 					'pageSize': this.pageSize,
 				};
 				this.searchProduct(searchData);
 			},
-			searchProductByCate(productCateUuid){
+			searchProductByCate(productCateUuid) {
 				var keyArray = [];
 				keyArray.push('ON_SALE');
 				keyArray.push('PRODUCT_CATE');
@@ -476,34 +485,34 @@
 					'keyArray': keyArray,
 					'onSale': true,
 					'productCateUuid': productCateUuid,
-					'startIndex': (this.pageNo-1)*this.pageSize,
+					'startIndex': (this.pageNo - 1) * this.pageSize,
 					'pageSize': this.pageSize,
 				};
 				this.searchProduct(searchData);
 			},
 			//搜索商品
-			searchProduct(searchData){
+			searchProduct(searchData) {
 				//加载中
 				this.loadingType = 'loading';
 				this.$api.request.goodsList(searchData, res => {
 					uni.stopPullDownRefresh();
 					if (res.body.status.statusCode === '0') {
 						var goodsList = res.body.data.products;
-						if(this.pageNo === 1)
+						if (this.pageNo === 1)
 							this.goodsList = goodsList;
 						else
 							this.goodsList = this.goodsList.concat(goodsList);
 						this.total = res.body.data.total;
-						if(this.goodsList.length>=this.total){
+						if (this.goodsList.length >= this.total) {
 							this.loadingType = 'noMore';
-						}else{
+						} else {
 							this.loadingType = 'more';
 						}
 					} else {
 						this.loadingType = 'more';
 						console.log(res.body.status.errorDesc);
 					}
-				},true);
+				}, true);
 			},
 			//首页广告
 			// inquiryAd() {
@@ -588,7 +597,7 @@
 			navToDetailPage(item) {
 				let id = item.productUuid;
 				uni.navigateTo({
-					url: '/pages/product/product?id='+id
+					url: '/pages/product/product?id=' + id
 				})
 			},
 			//轮播图链接
@@ -607,68 +616,68 @@
 				})
 			},
 			//领券中心
-			navCoupon(){
+			navCoupon() {
 				uni.navigateTo({
 					url: '/pages/coupon/list'
 				})
 			},
 			//积分兑换
-			navPoint(){
+			navPoint() {
 				uni.navigateTo({
 					url: '/pages/point/product-list'
 				})
 			},
 			//积分签到
-			navSign(){
+			navSign() {
 				if (!this.hasLogin) {
 					uni.navigateTo({
 						url: '/pages/public/login'
 					})
-				}else{
+				} else {
 					uni.navigateTo({
 						url: '/pages/point/sign'
 					})
 				}
 			},
 			//客服中心
-			navCustomerService(){
+			navCustomerService() {
 				uni.navigateTo({
 					url: '/pages/help/help'
 				})
 			},
 			//附近门店
-			navMerchant(){
+			navMerchant() {
 				uni.navigateTo({
 					url: '/pages/merchant/list'
 				})
 			},
 			//直播间
-			navLiveRooms(){
+			navLiveRooms() {
 				uni.navigateTo({
 					url: '/pages/live/room-list'
 				})
 			},
 			//限时秒杀
-			navSecKill(){
+			navSecKill() {
 				uni.navigateTo({
 					url: '/pages/product/seckillList'
 				})
 			},
 			//秒杀详情页
-			navSecKillDetail(item){
+			navSecKillDetail(item) {
 				let id = item.secKillProductUuid;
 				uni.navigateTo({
 					url: `/pages/product/seckill?id=${id}`
 				})
 			},
 			//精品团购
-			navGroupBuy(){
+			navGroupBuy() {
 				uni.navigateTo({
 					url: '/pages/product/groupbuyList'
 				})
 			},
 			//团购详情页
-			navGroupBuyDetail(item){
+			navGroupBuyDetail(item) {
 				let id = this.groupBuys[item].groupBuyProductUuid;
 				uni.navigateTo({
 					url: `/pages/product/groupbuy?id=${id}`
@@ -689,31 +698,31 @@
 				});
 			},
 			//跳转到发现页
-			navFind: function(){
+			navFind: function() {
 				uni.switchTab({
-					url:'/pages/content/index'
+					url: '/pages/content/index'
 				})
 			},
 			//图文或音视频详情
-			navToDetails(item){
+			navToDetails(item) {
 				let url = '';
-				if(item.articleType==='1' && item.linkType=='自定义内容')	
-					url = '/pages/content/details?id='+item.articleUuid;
-				if(item.articleType==='1' && item.linkType=='外部链接')
-					url = '/pages/content/webView?src='+item.content;
-				if(item.articleType==='2' || item.articleType==='3')
-					url = '/pages/content/videoDetails?id='+item.articleUuid;
+				if (item.articleType === '1' && item.linkType == i18n.customContent)
+					url = '/pages/content/details?id=' + item.articleUuid;
+				if (item.articleType === '1' && item.linkType == i18n.externalLink)
+					url = '/pages/content/webView?src=' + item.content;
+				if (item.articleType === '2' || item.articleType === '3')
+					url = '/pages/content/videoDetails?id=' + item.articleUuid;
 				uni.navigateTo({
-					url:url
+					url: url
 				})
 			},
 			//领取新人福利
-			getNewMemberGift(){
-				
+			getNewMemberGift() {
+
 			},
 			// #ifdef MP||H5
 			//小程序环境下点击搜索框
-			navSearch(){
+			navSearch() {
 				uni.navigateTo({
 					url: '/pages/index/search'
 				})
@@ -734,7 +743,7 @@
 			if (index === 0) {
 				// this.$api.msg('点击了扫描');
 				uni.scanCode({
-					success:function(res){
+					success: function(res) {
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
 						uni.navigateTo({
@@ -885,17 +894,19 @@
 			transform: translateX(-50%);
 		}
 	}
-	
-	.grid-wrapper{
+
+	.grid-wrapper {
 		background-color: #ffffff;
 		position: relative;
 		z-index: 5;
 		border-radius: 16upx 16upx 0 0;
 		margin-top: -20upx;
 	}
-	.grid-swiper{
+
+	.grid-swiper {
 		height: 344upx;
 	}
+
 	.grid-item-box {
 		flex: 1;
 		/* #ifndef APP-NVUE */
@@ -906,15 +917,17 @@
 		justify-content: center;
 		padding: 15px 0;
 	}
-	
-	.grid-image{
+
+	.grid-image {
 		width: 80upx;
 		height: 80upx;
 	}
-	.grid-text{
+
+	.grid-text {
 		color: $font-color-dark;
 		font-size: $font-sm;
 	}
+
 	.grid-dot {
 		position: absolute;
 		top: 5px;
@@ -971,7 +984,8 @@
 				border-radius: 2px;
 				background: rgba(0, 0, 0, .8);
 			}
-			.end{
+
+			.end {
 				font-size: 12px;
 				margin-left: 20px;
 				background-color: #333;
@@ -1215,38 +1229,45 @@
 			}
 		}
 	}
-/* 商品列表 */
-	.goods-list{
-		display:flex;
-		flex-wrap:wrap;
+
+	/* 商品列表 */
+	.goods-list {
+		display: flex;
+		flex-wrap: wrap;
 		padding: 30upx 30upx;
 		background: #fff;
-		.goods-item{
-			display:flex;
+
+		.goods-item {
+			display: flex;
 			flex-direction: column;
 			width: 48%;
 			padding-bottom: 40upx;
-			&:nth-child(2n+1){
+
+			&:nth-child(2n+1) {
 				margin-right: 4%;
 			}
 		}
-		.image-wrapper{
+
+		.image-wrapper {
 			width: 100%;
 			height: 330upx;
 			border-radius: 3px;
 			overflow: hidden;
-			image{
+
+			image {
 				width: 100%;
 				height: 100%;
 				opacity: 1;
 			}
 		}
-		.title{
+
+		.title {
 			font-size: $font-base;
 			color: $font-color-dark;
 			line-height: 80upx;
 		}
-		.price-box{
+
+		.price-box {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -1254,88 +1275,104 @@
 			font-size: 24upx;
 			color: $font-color-light;
 		}
-		.price{
+
+		.price {
 			font-size: $font-lg;
 			color: $uni-color-primary;
 			line-height: 1;
-			&:before{
+
+			&:before {
 				content: '￥';
 				font-size: 26upx;
 			}
 		}
-		.merchant{
+
+		.merchant {
 			margin-top: 20upx;
 			color: $font-color-light;
 		}
 	}
+
 	//新人福利
-	.gift{
+	.gift {
 		margin: 30% 17% 10% 17%;
 		padding: 15px;
 		background-color: #B42A28;
 		border-radius: 10px;
-		.gift-title{
+
+		.gift-title {
 			color: #FCCB90;
 			font-size: $font-base;
 			font-weight: 700;
 			text-align: center;
 		}
-		.gift-desc{
+
+		.gift-desc {
 			color: #FCCB90;
 			font-size: $font-sm;
 			text-align: center;
 		}
-		.gift-image{
+
+		.gift-image {
 			margin-top: 10px;
 			text-align: center;
-			image{
+
+			image {
 				width: 75px;
 				height: 75px;
 			}
 		}
-			
-		.gift-content{
+
+		.gift-content {
 			margin-top: 20px;
-			.gift-item{
+
+			.gift-item {
 				background-color: #F5D5A2;
-				padding:10px;
+				padding: 10px;
 				margin-top: 10px;
 				height: 35px;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				.gift-item-label{
-					color:#C12E25;
+
+				.gift-item-label {
+					color: #C12E25;
 					font-size: $font-sm;
 				}
-				.gift-item-value{
+
+				.gift-item-value {
 					text-align: center;
-					button{
+
+					button {
 						background-color: #B42A28;
 						color: #FBC78F;
 						font-size: $font-base;
 						height: 30px;
 						line-height: 30px;
-						.tip{
-							&:after{
-								content:'积分';
+
+						.tip {
+							&:after {
+								content: '积分';
 								font-size: $font-sm;
 							}
 						}
 					}
-				}	
+				}
 			}
 		}
-		.gift-message{
+
+		.gift-message {
 			margin-top: 10px;
 			color: #F8C180;
 			font-size: $font-base;
 			text-align: center;
 		}
-		.gift-action{
+
+		.gift-action {
 			margin-top: 30px;
 			text-align: center;
-			button{
+
+			button {
 				background-color: #F8C180;
 				color: #7B4F15;
 				height: 35px;
@@ -1345,7 +1382,8 @@
 			}
 		}
 	}
-	.gift-close{
+
+	.gift-close {
 		display: flex;
 		justify-content: center;
 		margin-top: 20px;

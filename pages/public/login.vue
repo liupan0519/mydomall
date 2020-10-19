@@ -7,7 +7,7 @@
 		<view class="wrapper">
 			<view class="left-top-sign">REGISTER</view>
 			<view class="welcome">
-				欢迎使用{{applicationConfig.applicationName}}
+				{{publicMsg.welcome}}{{applicationConfig.applicationName}}
 			</view>
 			<view class="wrapper">
 				<view class="application-logo">
@@ -17,7 +17,7 @@
 					{{applicationConfig.applicationDesc}}
 				</view>
 			</view>
-			<button open-type="getUserInfo" class="confirm-btn" @getuserinfo="getuserinfo" withCredentials="true">微信登录</button>
+			<button open-type="getUserInfo" class="confirm-btn" @getuserinfo="getuserinfo" withCredentials="true">{{publicMsg.wxlogin}}</button>
 		</view>
 	</view>
 	<!-- #endif -->
@@ -30,27 +30,27 @@
 		<view class="wrapper">
 			<view class="left-top-sign">LOGIN</view>
 			<view class="welcome">
-				欢迎使用{{applicationConfig.applicationName}}
+				{{publicMsg.welcome}}{{applicationConfig.applicationName}}
 			</view>
 			<view class="input-content">
 				<view class="input-item">
-					<text class="tit">手机号码</text>
-					<input type="number" :value="mobile" placeholder="请输入手机号码" maxlength="11" data-key="mobile" @input="inputChange" />
+					<text class="tit">{{i18n.telephone}}</text>
+					<input type="number" :value="mobile":placeholder="publicMsg.mobileNoPH"  maxlength="11" data-key="mobile" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<text class="tit">密码</text>
-					<input type="mobile" value="" placeholder="8-20位字母数字下划线组合" placeholder-class="input-empty" maxlength="20" password
+					<text class="tit">{{publicMsg.pwd}}</text>
+					<input type="mobile" value="" :placeholder="publicMsg.validatePassword" placeholder-class="input-empty" maxlength="20" password
 					 data-key="password" @input="inputChange" @confirm="toLogin" />
 				</view>
 			</view>
-			<button class="confirm-btn" @click="toLogin" :disabled="logining">登录</button>
+			<button class="confirm-btn" @click="toLogin" :disabled="logining">{{publicMsg.login}}</button>
 			<view class="forget-section" @click="toForgetPassword">
-				忘记密码?
+				{{publicMsg.toForgetPassword}}
 			</view>
 		</view>
 		<view class="register-section" v-if="applicationConfig.applicationPublicRegisterEnabled">
-			还没有账号?
-			<text @click="toRegister">马上注册</text>
+			{{publicMsg.noAccount}}
+			<text @click="toRegister">{{publicMsg.toRegister2}}</text>
 		</view>
 	</view>
 	<!-- #endif -->
@@ -73,12 +73,21 @@
 			}
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.publicMsg.loginTitle
+			})
 			var to = options.to
 			if (to) {
 				this.to = unescape(to);
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			publicMsg() {
+				return this.$i18nMsg().index.publics
+			},
 			...mapState(['applicationConfig'])
 		},
 		methods: {
@@ -105,10 +114,10 @@
 								if (!loginRes.body.data.personalPhone) {
 									uni.showModal({
 										title: '',
-										content: '您还未绑定手机，绑定后体验更佳!',
+										content:that.publicMsg.noBind,
 										showCancel: false,
 										cancelText: '',
-										confirmText: '立即绑定',
+										confirmText:that.publicMsg.toBind,
 										confirmColor: '#666666',
 										success: res => {
 											uni.navigateTo({
@@ -144,11 +153,11 @@
 				requestData.code = this.wechatUserInfo.code;
 				requestData.name = this.wechatUserInfo.nickName;
 				requestData.photoUrl = this.wechatUserInfo.avatarUrl;
-				let sex = '未知';
+				let sex = that.publicMsg.noBind;
 				if (this.wechatUserInfo.gender === 1)
-					sex = '男';
+					sex = that.publicMsg.gender1;
 				else if (this.wechatUserInfo.gender === 2)
-					sex = '女';
+					sex = that.publicMsg.gender2;
 				requestData.sex = sex;
 			},
 			inputChange(e) {
@@ -172,14 +181,15 @@
 				this.logining = true;
 				const {
 					mobile,
-					password
+					password,
+					publicMsg
 				} = this;
 				var isFormValid = true;
 				if (!this.$api.util.validateMobileNo(mobile)) {
-					this.$api.msg('手机号码格式错误');
+					this.$api.msg(publicMsg.validateMobileNo);
 					isFormValid = false;
 				} else if (!this.$api.util.validatePassword(password)) {
-					this.$api.msg('密码为8-20位字母数字下划线组合');
+					this.$api.msg(publicMsg.validatePassword);
 					isFormValid = false;
 				}
 				if (!isFormValid) {

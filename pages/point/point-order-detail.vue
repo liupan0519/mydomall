@@ -56,46 +56,46 @@
 		<!-- 金额明细 -->
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">商品积分</text>
-				<text class="cell-tip">{{order.actualPoint}}积分</text>
+				<text class="cell-tit clamp">{{i18n.integralPro}}</text>
+				<text class="cell-tip">{{order.actualPoint}}{{i18n.integral}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">收货类型</text>
+				<text class="cell-tit clamp">{{i18n.courier.deliveryType}}</text>
 				<text class="cell-tip">{{order.deliveryTypeDesc}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">运费</text>
+				<text class="cell-tit clamp">{{i18n.order.freightAmount}}</text>
 				<text class="cell-tip">￥{{order.freightAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">实付金额</text>
+				<text class="cell-tit clamp">{{i18n.order.actualAmount}}</text>
 				<text class="cell-tip red">￥{{order.actualAmount}}</text>
 			</view>
 		</view>
 		
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">下单时间</text>
+				<text class="cell-tit clamp">{{i18n.order.orderTime}}</text>
 				<text class="cell-tip">{{order.orderTime}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">订单编号</text>
+				<text class="cell-tit clamp">{{i18n.order.orderNo}}</text>
 				<text class="cell-tip">{{order.orderNo}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">付款时间</text>
+				<text class="cell-tit clamp">{{i18n.order.paymentTime}}</text>
 				<text class="cell-tip">{{order.paymentTime||''}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">发货时间</text>
+				<text class="cell-tit clamp">{{i18n.order.deliveryTime}}</text>
 				<text class="cell-tip">{{order.deliveryTime||''}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">收货时间</text>
+				<text class="cell-tit clamp">{{i18n.order.confirmTime}}</text>
 				<text class="cell-tip">{{order.confirmTime||''}}</text>
 			</view>
 			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">备注</text>
+				<text class="cell-tit clamp">{{i18n.order.memo}}</text>
 				<text class="cell-tip red">{{order.memo}}</text>
 			</view>
 		</view>
@@ -115,11 +115,17 @@
 			}
 		},
 		onLoad(option) {
+				uni.setNavigationBarTitle({
+					title: this.i18n.point.orderDetailTitle
+				})
 			//订单数据
 			this.orderNo = option.orderNo;
 			this.inquiryOrder(this.orderNo);
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

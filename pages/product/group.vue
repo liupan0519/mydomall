@@ -19,7 +19,7 @@
 				<text class="title clamp">{{item.productName}}</text>
 				<view class="price-box">
 					<text class="price">{{item.unitPrice}}</text>
-					<text>已售 {{item.soldUnit}}</text>
+					<text>{{i18n.sold}} {{item.soldUnit}}</text>
 				</view>
 			</view>
 		</view>
@@ -38,8 +38,15 @@
 				group:{}
 			};
 		},
-		
+		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			}
+		},
 		onLoad(options){
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.listTitle
+			})
 			this.groupId = options.groupId;
 			this.inquiryGroup();
 		},
