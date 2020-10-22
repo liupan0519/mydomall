@@ -7,7 +7,7 @@
 			<view>
 				<view class="row">
 					<view class="label">
-						物流公司:
+						{{i18n.courier.courierName}}:
 					</view>
 					<view class="value">
 						{{courierInfo.result.expName}}
@@ -15,7 +15,7 @@
 				</view>
 				<view class="row">
 					<view class="label">
-						联系电话:
+						{{i18n.address.telephone}}:
 					</view>
 					<view class="value">
 						<a :href="'tel:'+courierInfo.result.expPhone">{{courierInfo.result.expPhone}}</a>
@@ -23,7 +23,7 @@
 				</view>
 				<view class="row">
 					<view class="label">
-						物流单号:
+						{{i18n.courier.courierNo}}:
 					</view>
 					<view class="value">
 						{{courierInfo.result.number}}
@@ -61,11 +61,17 @@
 			uniSteps,empty
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.order.courierTitle
+			})
 			//订单数据
 			this.courierNo = option.courierNo;
 			this.inquiryCourier(this.courierNo);
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

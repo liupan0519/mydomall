@@ -8,58 +8,58 @@
 		<!-- 金额明细 -->
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">提现金额</text>
+				<text class="cell-tit clamp">{{withdrawMsg.withdrawAmount}}</text>
 				<text class="cell-tip">￥{{withdraw.withdrawAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">手续费</text>
+				<text class="cell-tit clamp">{{withdrawMsg.taxRate}}</text>
 				<text class="cell-tip">￥{{withdraw.taxAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">实付金额</text>
+				<text class="cell-tit clamp">{{withdrawMsg.paymentAmount}}</text>
 				<text class="cell-tip red">￥{{withdraw.paymentAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">提现到</text>
+				<text class="cell-tit clamp">{{withdrawMsg.paymentMethodStr}}</text>
 				<text class="cell-tip">{{withdraw.paymentMethodStr}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="withdraw.paymentMethod=='BANK'">
-				<text class="cell-tit clamp">开户银行</text>
+				<text class="cell-tit clamp">{{withdrawMsg.bankName}}</text>
 				<text class="cell-tip">{{withdraw.bankName}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="withdraw.paymentMethod=='BANK'">
-				<text class="cell-tit clamp">账号名称</text>
+				<text class="cell-tit clamp">{{withdrawMsg.bankAccountName}}</text>
 				<text class="cell-tip">{{withdraw.bankAccountName}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="withdraw.paymentMethod=='BANK'">
-				<text class="cell-tit clamp">银行卡号</text>
+				<text class="cell-tit clamp">{{withdrawMsg.bankAccountNo}}</text>
 				<text class="cell-tip">{{withdraw.bankAccountNo}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="withdraw.paymentMethod=='ALIPAY'">
-				<text class="cell-tit clamp">支付宝账号</text>
+				<text class="cell-tit clamp">{{withdrawMsg.alipayId}}</text>
 				<text class="cell-tip">{{withdraw.alipayId}}</text>
 			</view>
 		</view>
 		
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">申请时间</text>
+				<text class="cell-tit clamp">{{withdrawMsg.withdrawTime}}</text>
 				<text class="cell-tip">{{withdraw.withdrawTime}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">申请编号</text>
+				<text class="cell-tit clamp">{{withdrawMsg.withdrawNo}}</text>
 				<text class="cell-tip">{{withdraw.withdrawNo}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="withdraw.verifyTime">
-				<text class="cell-tit clamp">审核时间</text>
+				<text class="cell-tit clamp">{{withdrawMsg.verifyTime}}</text>
 				<text class="cell-tip">{{withdraw.verifyTime}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="withdraw.completeTime">
-				<text class="cell-tit clamp">打款时间</text>
+				<text class="cell-tit clamp">{{withdrawMsg.completeTime}}</text>
 				<text class="cell-tip">{{withdraw.completeTime}}</text>
 			</view>
-			<view class="yt-list-cell b-b"">
-				<text class="cell-tit clamp">备注</text>
+			<view class="yt-list-cell b-b">
+				<text class="cell-tit clamp">{{i18n.order.memo}}</text>
 				<text class="cell-tip">{{withdraw.memo}}</text>
 			</view>
 		</view>
@@ -79,11 +79,20 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.withdrawMsg.detail
+			})
 			//订单数据
 			this.id = option.id;
 			this.inquiryMerchantWithdraw(this.id);
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			withdrawMsg() {
+				return this.$i18nMsg().index.withdraw
+			},
 			...mapState(['hasLogin', 'merchantInfo'])
 		},
 		methods: {

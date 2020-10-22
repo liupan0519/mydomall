@@ -11,16 +11,42 @@
 	} from 'vuex';
 	export default {
 		methods: {
-			...mapMutations(['login','updateApplicationConfig'])
+			...mapMutations(['login','updateApplicationConfig']),
+			setTabBarText() {
+				uni.setTabBarItem({
+					index: 0,
+					text: this.i18n.indexTitle
+				})
+				uni.setTabBarItem({
+					index: 1,
+					text: this.i18n.product.productTabar
+				})
+				uni.setTabBarItem({
+					index: 2,
+					text: this.i18n.content.title
+				})
+				uni.setTabBarItem({
+					index: 3,
+					text: this.i18n.user.title
+				})
+			}
 		},
 		computed: {
-			
+			i18n() {
+				return this.$i18nMsg().index
+			}
 		},
 		onLaunch: function() {
 			//设置竖屏
 			// #ifdef APP-PLUS
 			plus.screen.lockOrientation('portrait-primary');
 			// #endif
+			
+			uni.setNavigationBarTitle({
+				title: this.i18n.title
+			})
+			this.setTabBarText()
+			
 			//获取应用全局设置
 			this.$api.request.applicationConfig({}, res => {
 				if (res.body.status.statusCode === '0') {

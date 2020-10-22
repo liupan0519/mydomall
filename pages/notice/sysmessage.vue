@@ -2,22 +2,22 @@
 	<view class="content">
 		<view class="empty" v-if="notes.length==0">
 			<view>
-				<text>——暂无信息——</text>
+				<text>{{i18n.notice.empty}}</text>
 			</view>
 		</view>
 		<view v-if="notes.length>0">
 			<view class="list_i" @click="markRead(item)" v-if="item.noteStatus=='UNREAD'" v-for="item in notes">
 				<view class="list_ii">{{item.sendTime}}</view>
 				<view class="list_ick">
-					<view>系统通知<text style="color:red;font-size:15px;">*</text></view>
+					<view>{{i18n.notice.navSysmessage}}<text style="color:red;font-size:15px;">*</text></view>
 					<view class="list_il"> {{item.content}}</view>
 				</view>
 			</view>
-			<view class="opp">——以下为已读——</view>
+			<view class="opp">{{i18n.notice.opp}}</view>
 			<view class="list_i" v-if="item.noteStatus=='READ'" v-for="item in notes">
 				<view class="list_ii">{{item.sendTime}}</view>
 				<view class="list_ick">
-					<view>系统通知</view>
+					<view>{{i18n.notice.navSysmessage}}</view>
 					<view class="list_il"> {{item.content}}</view>
 				</view>
 			</view>
@@ -43,9 +43,15 @@
 			}
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.notice.navSysmessage
+			})
 			this.notes = JSON.parse(decodeURIComponent(options.data));
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint'])
 		},
 		methods: {

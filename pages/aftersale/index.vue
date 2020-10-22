@@ -3,7 +3,7 @@
 		<!-- 订单列表 -->
 		<view class="order-item">
 			<view class="i-top b-b">
-				<text class="time">订单号: {{order.orderNo}}</text>
+				<text class="time">{{aftersaleMsg.orderNo}}: {{order.orderNo}}</text>
 			</view>
 
 			<scroll-view v-if="order.orderProductDTOList&&order.orderProductDTOList.length > 1" class="goods-box" scroll-x>
@@ -23,38 +23,38 @@
 			</view>
 
 			<view class="price-box">
-				共
+				{{i18n.total}}
 				<text class="num">{{order.productUnit}}</text>
-				件商品 实付款
+				{{i18n.products}} {{i18n.order.actualAmount}}
 				<text class="price">{{order.actualAmount}}</text>
 			</view>
 		</view>
 		<view class="row b-b">
-			<text class="tit">退款类型</text>
+			<text class="tit">{{aftersaleMsg.afterSaleType}}</text>
 			<radio-group class="input" @change="radioChange">
 				<label>
-					<radio color="#fa436a" value="1" :checked="afterSaleType=='1'"/><text>仅退款</text>
+					<radio color="#fa436a" value="1" :checked="afterSaleType=='1'"/><text>{{aftersaleMsg.refundOnly}}</text>
 				</label>
 				<!-- 待发货状态只需要退款即可 -->
 				<label v-if="order.orderStatus != '1'">
-					<radio color="#fa436a" value="2" :checked="afterSaleType=='2'"/><text>退款退货</text>
+					<radio color="#fa436a" value="2" :checked="afterSaleType=='2'"/><text>{{aftersaleMsg.refundReturn}}</text>
 				</label>
 			</radio-group>
 		</view>
 		<view class="row">
-			<text class="tit">退款金额</text>
-			<input class="input" type="number" v-model="afterSaleAmount" placeholder="退款金额" placeholder-class="placeholder" />
+			<text class="tit">{{aftersaleMsg.afterSaleAmount}}</text>
+			<input class="input" type="number" v-model="afterSaleAmount" :placeholder="aftersaleMsg.afterSaleAmount" placeholder-class="placeholder" />
 		</view>
 		<view class="aftersale-image">
-			<text>上传凭证</text>
+			<text>{{aftersaleMsg.upload}}</text>
 			<robby-image-upload v-model="imageUrlList" fileKeyName="files" :header="header" :formData="formData" :server-url="uploadUrl"></robby-image-upload>
 		</view>
 		<view class="aftersale-desc">
-			<text>问题描述</text>
-			<textarea v-model="afterSaleDescription" :maxlength="500" rows="5" placeholder="请您在此描述问题(最多500字)" placeholder-class="placeholder"></textarea>
+			<text>{{aftersaleMsg.afterSaleDes}}</text>
+			<textarea v-model="afterSaleDescription" :maxlength="500" rows="5" :placeholder="aftersaleMsg.afterSaleDesPH" placeholder-class="placeholder"></textarea>
 		</view>
-		<button class="add-btn" @click="apply" v-if="!editModel">申请退款</button>
-		<button class="add-btn" @click="update" v-if="editModel">确认修改</button>
+		<button class="add-btn" @click="apply" v-if="!editModel">{{aftersaleMsg.apply}}</button>
+		<button class="add-btn" @click="update" v-if="editModel">{{aftersaleMsg.update}}</button>
 	</view>
 </template>
 
@@ -83,6 +83,9 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.aftersaleMsg.title
+			})
 			this.orderNo = option.orderNo;
 			this.saleNo = option.saleNo;
 			if(this.orderNo)
@@ -93,6 +96,12 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			aftersaleMsg() {
+				return this.$i18nMsg().index.aftersale
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -122,12 +131,12 @@
 			apply() {
 				//校验退款金额
 				if(this.afterSaleAmount<=0 || this.afterSaleAmount>this.order.productAmount){
-					this.$api.msg('退款金额有误');
+					this.$api.msg(this.aftersaleMsg.errorAfterSaleAmount);
 					return;
 				}
 				//校验凭证
 				if(this.imageUrlList.length===0){
-					this.$api.msg('未上传凭证');
+					this.$api.msg(this.aftersaleMsg.errorUpload);
 					return;
 				}
 
@@ -142,7 +151,7 @@
 				}
 				this.$api.request.applyAfterSale(options, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('退款申请已提交');
+						this.$api.msg(this.aftersaleMsg.applyAfterSale);
 						setTimeout(() => {
 							uni.navigateTo({
 								url: '/pages/aftersale/list'
@@ -158,12 +167,12 @@
 			update() {
 				//校验退款金额
 				if(this.afterSaleAmount<=0 || this.afterSaleAmount>this.order.productAmount){
-					this.$api.msg('退款金额有误');
+					this.$api.msg(this.aftersaleMsg.errorAfterSaleAmount);
 					return;
 				}
 				//校验凭证
 				if(this.imageUrlList.length===0){
-					this.$api.msg('未上传凭证');
+					this.$api.msg(this.aftersaleMsg.errorUpload);
 					return;
 				}
 			
@@ -176,7 +185,7 @@
 				}
 				this.$api.request.updateAfterSale(options, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('退款单已修改');
+						this.$api.msg(this.aftersaleMsg.updateAfterSale);
 						setTimeout(() => {
 							uni.navigateTo({
 								url: '/pages/aftersale/list'

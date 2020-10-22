@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<text class="success-icon yticon icon-xuanzhong2"></text>
-		<text class="tit">支付成功</text>
+		<text class="tit">{{i18n.pay.success}}</text>
 		
 		<view class="btn-group">
 			<navigator url="/pages/order/order?state=0" open-type="redirect" class="mix-btn">查看订单</navigator>
@@ -17,8 +17,15 @@
 				
 			}
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.pay.success
+			})
+		},
 		methods: {
-			
+			i18n() {
+				return this.$i18nMsg().index
+			}
 		}
 	}
 </script>

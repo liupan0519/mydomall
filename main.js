@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import store from './store'
 import App from './App'
+import VueI18n from "vue-i18n"
 import util from './config/util'
 import dateutil from './config/dateutil'
 import * as request from './config/api'
@@ -10,6 +11,8 @@ import uView from "uview-ui";
 import Json from './Json' //测试用数据
 
 Vue.use(uView);
+Vue.use(VueI18n)  
+
 /**
  *  因工具函数属于公司资产, 所以直接在Vue实例挂载几个常用的函数
  *  所有测试用数据均存放于根目录json.js
@@ -53,9 +56,25 @@ Vue.prototype.$fire = new Vue();
 Vue.prototype.$store = store;
 Vue.prototype.$api = {msg, json, prePage,util,dateutil,request};
 
+
+const i18n = new VueI18n({
+    locale : 'zh-CN', //语言标识
+    messages: {
+        'en-US' : require('config/lang/en.js') , //英文语言包
+        'zh-CN' : require('config/lang/zh.js')  //中文繁体语言包
+    }
+})
+
+Vue.prototype._i18n = i18n
+
+Vue.prototype.$i18nMsg = function(){
+    return i18n.messages[i18n.locale]
+}
+
 App.mpType = 'app'
 
 const app = new Vue({
+	i18n,
     ...App
 })
 app.$mount()

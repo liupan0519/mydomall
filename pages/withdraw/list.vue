@@ -6,10 +6,10 @@
 					<text class="balance">￥{{merchantInfo.availableBalance}}</text>
 				</view>
 				<view class="u-box">
-					<text class="name">可提现余额</text>
+					<text class="name">{{i18n.withdraw.availableBalance}}</text>
 				</view>
 			</view>
-			<text class="apply" @click="navTo('/pages/withdraw/apply')">提现</text>
+			<text class="apply" @click="navTo('/pages/withdraw/apply')">{{i18n.withdraw.apply}}</text>
 		</view>
 		<view class="withdraw-history">
 			<view @click="navTo('/pages/withdraw/detail?id='+item.merchantWithdrawUuid)"  class="list b-b" v-for="(item, index) in withdrawList" :key="index">
@@ -59,6 +59,9 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.withdrawMsg.apply
+			})
 			this.searchMerchantWithdraw();
 		},
 		onReachBottom() {
@@ -71,6 +74,9 @@
 			this.searchMerchantWithdraw();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'merchantInfo'])
 		},
 		methods: {

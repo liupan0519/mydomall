@@ -25,7 +25,7 @@
 					<view class="top">
 						<!-- <text class="name">{{addressData.name}}</text>
 						<text class="mobile">{{addressData.telephone}}</text> -->
-						<text>请选择地址</text>
+						<text>{{i18n.address.selectAddress}}</text>
 					</view>
 					<!-- <text class="address">{{addressData.street}}</text> -->
 				</view>
@@ -40,7 +40,7 @@
 					<view class="top">
 						<text class="name">{{merchantData.merchantName}}</text>
 					</view>
-					<text class="address">{{merchantData.merchantAddress}}公里</text>
+					<text class="address">{{merchantData.merchantAddress}}{{i18n.km}}</text>
 				</view>
 				<text class="yticon icon-you"></text>
 			</view>
@@ -50,7 +50,7 @@
 					<view class="top">
 						<!-- <text class="name">{{addressData.name}}</text>
 						<text class="mobile">{{addressData.telephone}}</text> -->
-						<text>请选择门店</text>
+						<text>{{i18n.address.selectDeliveryLongitude}}</text>
 					</view>
 					<!-- <text class="address">{{addressData.street}}</text> -->
 				</view>
@@ -91,14 +91,14 @@
 			<view class="yt-list-cell b-b">
 				<!-- <view class="yt-list-cell b-b" @click="toggleMask('show')"> -->
 				<view class="cell-icon">
-					券
+					{{i18n.coupon.icon}}
 				</view>
-				<text class="cell-tit clamp">优惠券</text>
+				<text class="cell-tit clamp">{{i18n.coupons}}</text>
 				<text class="cell-tip active" v-if="coupons.length==0">
-					<text>无可用优惠券</text>
+					<text>{{i18n.coupon.notAvailable}}</text>
 				</text>
 				<text class="cell-tip active" v-if="coupons.length>0" @click="togglePopup('bottom', 'coupon')">
-					<text v-if="!selectedCoupon.userCouponUuid">不使用优惠券</text>
+					<text v-if="!selectedCoupon.userCouponUuid">{{i18n.coupon.notUse}}</text>
 					<text v-if="selectedCoupon.userCouponUuid">
 						{{selectedCoupon.couponDTO.name}}
 					</text>
@@ -119,32 +119,32 @@
 		<!-- 金额明细 -->
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">商品金额</text>
+				<text class="cell-tit clamp">{{i18n.order.productAmount}}</text>
 				<text class="cell-tip red">￥{{productAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">优惠金额</text>
+				<text class="cell-tit clamp">{{i18n.order.deductAmount}}</text>
 				<text class="cell-tip">￥{{deductAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">运费</text>
+				<text class="cell-tit clamp">{{i18n.order.freightAmount}}</text>
 				<text class="cell-tip" v-if="tabCurrentIndex==0">￥{{freightAmount}}</text>
 				<text class="cell-tip" v-if="tabCurrentIndex==1">￥0</text>
 			</view>
 			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">备注</text>
-				<input class="desc" type="text" v-model="memo" placeholder="请填写备注信息" placeholder-class="placeholder" />
+				<text class="cell-tit clamp">{{i18n.order.memo}}</text>
+				<input class="desc" type="text" v-model="memo" :placeholder="i18n.order.memoPlaceHolder" placeholder-class="placeholder" />
 			</view>
 		</view>
 
 		<!-- 底部 -->
 		<view class="footer">
 			<view class="price-content">
-				<text>实付款</text>
+				<text>{{i18n.order.actualAmount}}</text>
 				<text class="price-tip">￥</text>
 				<text class="price">{{actualAmount}}</text>
 			</view>
-			<text class="submit" @click="submit">提交订单</text>
+			<text class="submit" @click="submit">{{i18n.order.submit}}</text>
 		</view>
 
 		<!-- 优惠券面板 -->
@@ -161,15 +161,15 @@
 							<text>{{item.couponDTO.name}}</text>
 						</view>
 						<view class="stock">
-							<text v-if="item.couponDTO.benefitType=='0'">所有商品</text>
-							<text v-if="item.couponDTO.benefitType=='1'">指定商品</text>
+							<text v-if="item.couponDTO.benefitType=='0'">{{i18n.coupon.benefitType0}}</text>
+							<text v-if="item.couponDTO.benefitType=='1'">{{i18n.coupon.benefitType1}}</text>
 						</view>
 						<view class="valid">
-							<text v-if="item.couponDTO.conditionAmount>0"> 满{{item.couponDTO.conditionAmount}}元可用</text>
-							<text v-else> 无金额限制</text>
+							<text v-if="item.couponDTO.conditionAmount>0"> {{i18n.coupon.full}}{{item.couponDTO.conditionAmount}}{{i18n.coupon.available}}</text>
+							<text v-else>{{i18n.coupon.noThreshold}}</text>
 						</view>
 						<view class="valid">
-							<text> {{item.endDate}}到期</text>
+							<text> {{i18n.coupon.endDate}}{{item.endDate}}</text>
 						</view>
 					</view>
 				</view>
@@ -191,7 +191,7 @@
 				tabCurrentIndex:0,
 				navList: [{
 						state: '1',
-						text: '快递配送'
+						text: this.$i18nMsg().index.populateDeliveryType.state1
 					}],
 				cartIds: [],
 				carts: [], //结算的商品
@@ -214,6 +214,9 @@
 			uniPopup
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.order.createOrder
+			})
 			//商品数据
 			var cart_id = JSON.parse(option.data);
 			if (cart_id.length < 0) {
@@ -226,7 +229,7 @@
 			if(this.applicationConfig.applicationMerchantEnabled){
 				this.navList.push({
 						state: '2',
-						text: '门店自提'
+						text: this.$i18nMsg().index.populateDeliveryType.state3
 					})
 			}
 			this.inquiryProductByCartId(this.cartIds);
@@ -234,6 +237,9 @@
 			this.searchCoupon();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'applicationConfig'])
 		},
 		watch: {
@@ -408,11 +414,11 @@
 			submit() {
 				//检查收货地址是否选择
 				if (this.tabCurrentIndex==0&&!this.addressData.userDeliveryAddressUuid) {
-					this.$api.msg('未选择收货地址');
+					this.$api.msg(this.i18n.order.merchantAddress1);
 					return;
 				}
 				if (this.tabCurrentIndex==1&&!this.merchantData.merchantUuid) {
-					this.$api.msg('未选择提货门店');
+					this.$api.msg(this.i18n.order.merchantAddress2);
 					return;
 				}
 				//post订单数据到后台

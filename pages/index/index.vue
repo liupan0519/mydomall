@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="tj-bg">
 			<view class="tj-title">
-				余额(元)
+				{{userMsg.balanceTit}}
 			</view>
 			<view class="tj-value">
 				{{merchantInfo.availableBalance||0.00}}
@@ -10,55 +10,55 @@
 			<view  class="tj-sction">
 				<view class="tj-item">
 					<text class="num">{{dashboardData.orderCount || 0}}</text>
-					<text>今日付款订单</text>
+					<text>{{userMsg.todayOrderCount}}</text>
 				</view>
 				<view class="tj-item">
 					<text class="num">{{dashboardData.orderAmount||0.00}}</text>
-					<text>今日付款金额(元)</text>
+					<text>{{userMsg.todayOrderAmount}}</text>
 				</view>
 			</view>
 			
 		</view>
 		<view class="m-t">
-			<uni-notice-bar  scrollable="true" showIcon="true" showClose="false" showGetMore="true" v-if="dashboardData.toDeliverOrderCount>0" :text="'你有'+dashboardData.toDeliverOrderCount+'笔订单待发货'" single="true" moreText="去处理" @getmore="navTo('/pages/order/order?state=2')"></uni-notice-bar>
-			<uni-notice-bar  scrollable="true" showIcon="true" showClose="false" showGetMore="false" v-if="dashboardData.toDeliverOrderCount<=0" text="恭喜你, 订单都已经发货了" color="#19be6b" single="true" ></uni-notice-bar>
+			<uni-notice-bar  scrollable="true" showIcon="true" showClose="false" showGetMore="true" v-if="dashboardData.toDeliverOrderCount>0" :text="userMsg.have+dashboardData.toDeliverOrderCount+userMsg.waitDelivery" single="true" :moreText="userMsg.shipped" @getmore="navTo('/pages/order/order?state=2')"></uni-notice-bar>
+			<uni-notice-bar  scrollable="true" showIcon="true" showClose="false" showGetMore="false" v-if="dashboardData.toDeliverOrderCount<=0" :text="userMsg.shipped" color="#19be6b" single="true" ></uni-notice-bar>
 		</view>
 		<u-grid :border="false" :col="3">
 			<u-grid-item @click="navTo('/pages/order/order?state=2')">
 				<u-icon name="car-fill" color="#2b85e4" size="80"></u-icon>
-				<view class="grid-text">发货</view>
+				<view class="grid-text">{{userMsg.ship}}</view>
 			</u-grid-item>
 			<u-grid-item @click="navTo('/pages/withdraw/list')">
 				<u-icon name="red-packet-fill" color="#dd6161" size="80"></u-icon>
-				<view class="grid-text">提现</view>
+				<view class="grid-text">{{userMsg.toWithdraw}}</view>
 			</u-grid-item>
 			<u-grid-item>
 				<u-icon name="scan" color="#2b85e4" size="80" @click="scanQRCode"></u-icon>
-				<view class="grid-text">核销</view>
+				<view class="grid-text">{{userMsg.scanQRCode}}</view>
 			</u-grid-item>
 			<u-grid-item @click="navTo('/pages/product/list')">
 				<u-icon name="grid-fill" color="#dd6161" size="80"></u-icon>
-				<view class="grid-text">商品</view>
+				<view class="grid-text">{{userMsg.productList}}</view>
 			</u-grid-item>
 			<u-grid-item @click="navTo('/pages/order/order?state=')">
 				<u-icon name="grid-fill" color="#f29100" size="80"></u-icon>
-				<view class="grid-text">订单</view>
+				<view class="grid-text">{{userMsg.orderList}}</view>
 			</u-grid-item>
 			<u-grid-item @click="navTo('/pages/aftersale/list')">
 				<u-icon name="file-text-fill" color="#18b566" size="80"></u-icon>
-				<view class="grid-text">售后</view>
+				<view class="grid-text">{{userMsg.aftersaleList}}</view>
 			</u-grid-item>
 			<u-grid-item @click="navTo('/pages/data/data')">
 				<u-icon name="tags-fill" color="#18b566" size="80"></u-icon>
-				<view class="grid-text">数据</view>
+				<view class="grid-text">{{userMsg.data}}</view>
 			</u-grid-item>
 			<u-grid-item @click="navTo('/pages/notice/list')">
 				<u-icon name="volume-fill" color="#2b85e4" size="80"></u-icon>
-				<view class="grid-text">通知</view>
+				<view class="grid-text">{{i18n.notice.listTitle}}</view>
 			</u-grid-item>
 			<u-grid-item @click="navTo('/pages/set/set')">
 				<u-icon name="setting-fill" color="#82848a" size="80"></u-icon>
-				<view class="grid-text">设置</view>
+				<view class="grid-text">{{i18n.set.title}}</view>
 			</u-grid-item>
 		</u-grid>
 		<u-toast ref="msg" />
@@ -87,9 +87,18 @@
 			};
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			userMsg() {
+				return this.$i18nMsg().index.user
+			},
 			...mapState(['hasLogin', 'merchantInfo', 'footPrint', 'applicationConfig'])
 		},
 		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.merchantTitle
+			})
 			if(this.hasLogin){
 				this.loadData();
 			}

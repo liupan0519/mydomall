@@ -10,7 +10,7 @@
 					<image @click="navAD(adList[0])" :src="adList[0].url" mode="scaleToFill"></image>
 				</view>
 				<view class="title" v-if="brandList.length>0">
-					<text>热门品牌</text>
+					<text>{{i18n.brands}}</text>
 				</view>
 				<view class="t-list" v-if="brandList.length>0">
 					<view @click="navToBrand(titem.productBrandUuid)" class="t-item" v-for="titem in brandList"
@@ -20,7 +20,7 @@
 					</view>
 				</view>
 				<view class="title" v-if="tlist.length>0">
-					<text>常用分类</text>
+					<text>{{i18n.type}}</text>
 				</view>
 				<view class="t-list" v-if="tlist.length>0">
 					<view @click="navToProduct(titem.productCateUuid)" class="t-item" v-for="titem in tlist"
@@ -45,7 +45,15 @@
 			}
 		},
 		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.i18n.category.title
+			})
 			this.inquiryProductCate();
+		},
+		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			}
 		},
 		methods: {
 			inquiryProductCate() {

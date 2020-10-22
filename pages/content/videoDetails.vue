@@ -40,7 +40,7 @@
 				<view class="container" v-show="loading === false">
 					<!-- 推荐 -->
 					<view class="s-header">
-						<text class="tit">相关推荐</text>
+						<text class="tit">{{i18n.content.rec}}</text>
 					</view>
 					<view class="rec-section" v-for="item in newsList" :key="item.articleUuid">
 						<view class="rec-item" @click="navToDetails(item)">
@@ -118,56 +118,62 @@
 			}
 		},
 		computed: {
-			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig'])
-		},
-		onLoad(options){
-			var id = options.id;
-			this.loadNewsDetail(id);
-			this.loadNewsList();
-		},
-		methods: {
-			loadNewsList(tagName){
-				let that = this;
-				this.$api.request.articleList({
-					tagDTO:{
-						tagName: tagName
-					},
-					startIndex:0,
-					pageSize:5
-				}, function(res) {
-					if (res.body.status.statusCode === '0') {
-						that.newsList = res.body.data.articles;
-						that.loading = false;
-					}
-				})
+				i18n() {
+					return this.$i18nMsg().index
+				},
+				...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig'])
 			},
-			//获取文章详情
-			loadNewsDetail(id){
-				let that = this;
-				this.$api.request.articleInfo({
-					articleUuid:id
-				}, function(res) {
-					if (res.body.status.statusCode === '0') {
-						that.detailData = res.body.data;
-						that.loadNewsList(that.detailData.tagDTO.tagName);
-					}
+			onLoad(options){
+				uni.setNavigationBarTitle({
+					title: this.i18n.content.details
 				})
+				var id = options.id;
+				this.loadNewsDetail(id);
+				this.loadNewsList();
 			},
-			//新闻详情
-			navToDetails(item){
-				let url = '';
-				if(item.articleType==='1' && item.linkType=='自定义内容')	
-					url = '/pages/content/details?id='+item.articleUuid;
-				if(item.articleType==='1' && item.linkType=='外部链接')
-					url = '/pages/content/webView?src='+item.content;
-				if(item.articleType==='2' || item.articleType==='3')
-					url = '/pages/content/videoDetails?id='+item.articleUuid;
-				uni.navigateTo({
-					url:url
-				})
+			methods: {
+				loadNewsList(tagName){
+					let that = this;
+					this.$api.request.articleList({
+						tagDTO:{
+							tagName: tagName
+						},
+						startIndex:0,
+						pageSize:5
+					}, function(res) {
+						if (res.body.status.statusCode === '0') {
+							that.newsList = res.body.data.articles;
+							that.loading = false;
+						}
+					})
+				},
+				//获取文章详情
+				loadNewsDetail(id){
+					let that = this;
+					this.$api.request.articleInfo({
+						articleUuid:id
+					}, function(res) {
+						if (res.body.status.statusCode === '0') {
+							that.detailData = res.body.data;
+							that.loadNewsList(that.detailData.tagDTO.tagName);
+						}
+					})
+				},
+				//新闻详情
+				navToDetails(item){
+					let url = '';
+					if(item.articleType==='1' && item.linkType==this.i18n.notice.linkType1)	
+						url = '/pages/content/details?id='+item.articleUuid;
+					if(item.articleType==='1' && item.linkType==this.i18n.notice.linkType2)
+						url = '/pages/content/webView?src='+item.content;
+					if(item.articleType==='2' || item.articleType==='3')
+						url = '/pages/content/videoDetails?id='+item.articleUuid;
+					uni.navigateTo({
+						url:url
+					})
+				}
 			}
 		}
-	}
 </script>
 
 <style lang="scss">

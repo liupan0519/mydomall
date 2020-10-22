@@ -1,11 +1,11 @@
 <template>
 	<view class="container">
 		<view class="list-cell b-b m-t" @click="navTo('/pages/set/setMerchantInfo')" hover-class="cell-hover" :hover-stay-time="50">
-			<text class="cell-tit">个人资料</text>
+			<text class="cell-tit">{{setMsg.userInfo}}</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view>
 		<view class="list-cell b-b" @click="navTo('/pages/set/setMerchantSecurity')" hover-class="cell-hover" :hover-stay-time="50">
-			<text class="cell-tit">账户安全</text>
+			<text class="cell-tit">{{setMsg.userSecurity}}</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view>
 <!-- 	<view class="list-cell b-b m-t" @click="navTo('/pages/address/address')" hover-class="cell-hover" :hover-stay-time="50">
@@ -17,16 +17,16 @@
 			<text class="cell-more yticon icon-you"></text>
 		</view> -->
 		<view class="list-cell">
-			<text class="cell-tit">当前版本</text>
+			<text class="cell-tit">{{setMsg.applicationVersion}}</text>
 			<text class="cell-tip">{{applicationConfig.applicationVersion}}</text>
 			<!-- <text class="cell-more yticon icon-you"></text> -->
 		</view>
 		<view class="list-cell b-b" @click="navTo('/pages/set/setAbout')" hover-class="cell-hover" :hover-stay-time="50">
-			<text class="cell-tit">关于我们</text>
+			<text class="cell-tit">{{setMsg.about}}</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view>
 		<view class="list-cell log-out-btn" @click="toLogout">
-			<text class="cell-tit">退出登录</text>
+			<text class="cell-tit">{{setMsg.logout}}</text>
 		</view>
 	</view>
 </template>
@@ -41,7 +41,15 @@
 				
 			};
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.setMsg.title
+			})
+		},
 		computed: {
+			setMsg() {
+				return this.$i18nMsg().index.set
+			},
 			...mapState(['hasLogin', 'userInfo','applicationConfig'])
 		},
 		methods:{
@@ -55,7 +63,7 @@
 			//退出登录
 			toLogout(){
 				uni.showModal({
-				    content: '确定要退出登录么',
+				    content: this.setMsg.toLogout,
 				    success: (e)=>{
 				    	if(e.confirm){
 				    		this.logout();

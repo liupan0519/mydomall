@@ -25,7 +25,7 @@
 					<view class="top">
 						<!-- <text class="name">{{addressData.name}}</text>
 						<text class="mobile">{{addressData.telephone}}</text> -->
-						<text>请选择地址</text>
+						<text>{{i18n.address.selectAddress}}</text>
 					</view>
 					<!-- <text class="address">{{addressData.street}}</text> -->
 				</view>
@@ -50,7 +50,7 @@
 					<view class="top">
 						<!-- <text class="name">{{addressData.name}}</text>
 						<text class="mobile">{{addressData.telephone}}</text> -->
-						<text>请选择门店</text>
+						<text>{{i18n.address.selectDeliveryLongitude}}</text>
 					</view>
 					<!-- <text class="address">{{addressData.street}}</text> -->
 				</view>
@@ -82,32 +82,32 @@
 		<!-- 金额明细 -->
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">商品金额</text>
+				<text class="cell-tit clamp">{{i18n.order.productAmount}}</text>
 				<text class="cell-tip red">￥{{productAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">优惠金额</text>
+				<text class="cell-tit clamp">{{i18n.order.deductAmount}}</text>
 				<text class="cell-tip">￥{{deductAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">运费</text>
+				<text class="cell-tit clamp">{{i18n.order.freightAmount}}</text>
 				<text class="cell-tip" v-if="tabCurrentIndex==0">￥{{freightAmount}}</text>
 				<text class="cell-tip" v-if="tabCurrentIndex==1">￥0</text>
 			</view>
 			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">备注</text>
-				<input class="desc" type="text" v-model="memo" placeholder="请填写备注信息" placeholder-class="placeholder" />
+				<text class="cell-tit clamp">{{i18n.order.memo}}</text>
+				<input class="desc" type="text" v-model="memo" :placeholder="i18n.order.memoPlaceHolder" placeholder-class="placeholder" />
 			</view>
 		</view>
 
 		<!-- 底部 -->
 		<view class="footer">
 			<view class="price-content">
-				<text>实付款</text>
+				<text>{{i18n.order.actualAmount}}</text>
 				<text class="price-tip">￥</text>
 				<text class="price">{{actualAmount}}</text>
 			</view>
-			<text class="submit" @click="submit">提交订单</text>
+			<text class="submit" @click="submit">{{i18n.order.submit}}</text>
 		</view>
 
 	</view>
@@ -125,7 +125,7 @@
 				tabCurrentIndex:0,
 				navList: [{
 						state: '1',
-						text: '快递配送'
+						text: this.$i18nMsg().index.populateDeliveryType.state1
 					}],
 				quanlificationId: '',
 				seckillId: '',
@@ -285,11 +285,11 @@
 			submit() {
 				//检查收货地址是否选择
 				if (this.tabCurrentIndex==0&&!this.addressData.userDeliveryAddressUuid) {
-					this.$api.msg('未选择收货地址');
+					this.$api.msg(this.i18n.order.merchantAddress1);
 					return;
 				}
 				if (this.tabCurrentIndex==1&&!this.merchantData.merchantUuid) {
-					this.$api.msg('未选择提货门店');
+					this.$api.msg(this.i18n.order.merchantAddress2);
 					return;
 				}
 				//post订单数据到后台

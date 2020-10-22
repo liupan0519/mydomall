@@ -1,16 +1,16 @@
 <template>
 	<view class="content">
 		<view class="row">
-			<text class="tit">快递公司</text>
+			<text class="tit">{{i18n.courier.courierName}}</text>
 			<picker class="input" @change="bindPickerChange" :value="index" :range="couriers">
 			                        <view class="uni-input">{{couriers[index]}}</view>
 			                    </picker>
 		</view>
 		<view class="row">
-			<text class="tit">快递单号</text>
-			<input class="input" v-model="courierNo" placeholder="物流单号" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.courier.courierNo}}</text>
+			<input class="input" v-model="courierNo" :placeholder="i18n.courier.courierNo" placeholder-class="placeholder" />
 		</view>
-		<button class="add-btn" @click="courierOrderAfterSale">确认</button>
+		<button class="add-btn" @click="courierOrderAfterSale">{{i18n.confirmBtn}}</button>
 	</view>
 </template>
 
@@ -33,10 +33,16 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.order.courierTitle
+			})
 			this.saleNo = option.saleNo;
 			this.inquiryOrderAfterSale(this.saleNo);
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -58,7 +64,7 @@
 			},
 			courierOrderAfterSale() {
 				if(!this.courierName || !this.courierNo){
-					this.$api.msg('物流信息未填写完整');
+					this.$api.msg( this.i18n.courier.courierError);
 					return;
 				}
 				this.$api.request.courierAfterSale({
@@ -67,7 +73,7 @@
 					courierNo: this.courierNo
 				}, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('物流信息已提交');
+						this.$api.msg( this.i18n.courier.courierSubmit);
 						setTimeout(()=>{
 							uni.navigateTo({
 								url: '/pages/aftersale/list'

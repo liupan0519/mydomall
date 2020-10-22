@@ -6,7 +6,7 @@
 		
 		<view class="goods-list">
 			<view class="header">
-				<image src="../../static/image/groupbuy_icon.png" mode="aspectFill"></image><text>超级团购</text>
+				<image src="../../static/image/groupbuy_icon.png" mode="aspectFill"></image><text>{{i18n.groupbuy.superGroup}}</text>
 			</view>
 			<view 
 				v-for="(item, index) in groupBuys" :key="index"
@@ -18,8 +18,8 @@
 				<text class="title clamp">{{item.productDTO.productName}}</text>
 				<view class="price-box">
 					<text class="price">{{item.unitPrice}}<text class="standard">￥{{item.productDTO.unitPrice}}</text></text>
-					<text class="note">{{item.minUserCount}}人成团</text>
-					<text class="action" @click="navGroupBuy(item)">去开团</text>
+					<text class="note">{{item.minUserCount}}{{i18n.groupbuy.groupOf}}</text>
+					<text class="action" @click="navGroupBuy(item)">{{i18n.groupbuy.toJoin}}</text>
 				</view>
 			</view>
 		</view>
@@ -39,8 +39,15 @@
 				groupBuys:[]
 			};
 		},
-		
+		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			}
+		},
 		onLoad(options){
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.groupbuyList
+			})
 			this.inquiryGroupBuy();
 		},
 		methods: {

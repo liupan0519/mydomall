@@ -10,23 +10,23 @@
 				{{applicationConfig.applicationName}}
 			</view>
 			<view class="welcome">
-				欢迎商家入驻！
+				{{publicMsg.welcomeMerchant}}
 			</view>
 			<view class="input-content">
 				<view class="input-item">
-					<text class="tit">商家名称</text>
-					<input type="text" :value="merchantName" placeholder="请输入商家名称" maxlength="30" data-key="merchantName" @input="inputChange" />
+					<text class="tit">{{i18n.merchant.merchantName}}</text>
+					<input type="text" :value="merchantName" :placeholder="i18n.merchant.merchantNamePH" maxlength="30" data-key="merchantName" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<text class="tit">联系人</text>
-					<input type="text" :value="contactName" placeholder="请输入联系人姓名" maxlength="11" data-key="contactName" @input="inputChange" />
+					<text class="tit">{{i18n.address.name}}</text>
+					<input type="text" :value="contactName" :placeholder="i18n.address.namePH" maxlength="11" data-key="contactName" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<text class="tit">手机号码</text>
-					<input type="number" :value="mobileNo" placeholder="请输入手机号码" maxlength="11" data-key="mobileNo" @input="inputChange" />
+					<text class="tit">{{i18n.telephone}}</text>
+					<input type="number" :value="mobileNo" :placeholder="publicMsg.mobileNoPH" maxlength="11" data-key="mobileNo" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<text class="tit">所在城市</text>
+					<text class="tit">{{i18n.address.longitude}}</text>
 					<view style="font-size: 15px;color:#303133" @click="showAddressRegion">
 						{{province}}  {{city}}  {{district}}
 					</view>
@@ -42,8 +42,8 @@
 					></w-picker>
 				</view>
 				<view class="input-item">
-					<text class="tit">详细地址</text>
-					<input disabled @click="map()" type="text" :value="merchantAddress" placeholder="点击选择商家地址" placeholder-class="input-empty" maxlength="20"
+					<text class="tit">{{i18n.address.street}}</text>
+					<input disabled @click="map()" type="text" :value="merchantAddress" :placeholder="i18n.addresserrorStreetMerchant" placeholder-class="input-empty" maxlength="20"
 					 data-key="merchantAddress" @input="inputChange" />
 				</view>
 			</view>
@@ -84,6 +84,9 @@
 			}
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.publicMsg.loginTitle
+			})
 			var to = options.to;
 			if(to){
 				this.to = unescape(to);
@@ -91,6 +94,12 @@
 			this.inquirySuscribeMsg();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			publicMsg() {
+				return this.$i18nMsg().index.publics
+			},
 			...mapState(['applicationConfig'])
 		},
 		methods: {
@@ -162,20 +171,21 @@
 					district,
 					merchantAddress,
 					latitude,
-					longitude
+					longitude,
+					publicMsg
 				} = this;
 				var isFormValid = true;
 				if (!merchantName) {
-					this.$api.msg('请输入商家名称');
+					this.$api.msg(publicMsg.merchantNamePH);
 					isFormValid = false;
 				} else if (!contactName) {
-					this.$api.msg('请输入联系人');
+					this.$api.msg(this.i18n.address.namePH);
 					isFormValid = false;
 				} else if (!this.$api.util.validateMobileNo(mobileNo)) {
-					this.$api.msg('手机号码格式错误');
+					this.$api.msg(publicMsg.validateMobileNo);
 					isFormValid = false;
 				} else if (!merchantAddress) {
-					this.$api.msg('请选择商家地址');
+					this.$api.msg(this.i18n.address.errorStreetMerchant2);
 					isFormValid = false;
 				}
 				if (!isFormValid) {

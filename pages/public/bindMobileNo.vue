@@ -7,31 +7,31 @@
 		<view class="wrapper">
 			<view class="left-top-sign">MOBILE</view>
 			<view class="welcome">
-				绑定手机号码！
+				{{publicMsg.bindMobileNo}}
 			</view>
 			<view class="input-content">
 				<view class="input-item">
 					<view class="mobileno-input">
 						<view class="mobileno-input-left">
-							<text class="tit">手机号码</text>
-							<input type="number" :value="mobileNo" placeholder="请输入手机号码" maxlength="11" data-key="mobileNo" @input="inputChange" />
+							<text class="tit">{{i18n.telephone}}</text>
+							<input type="number" :value="mobileNo" :placeholder="publicMsg.mobileNoPH" maxlength="11" data-key="mobileNo" @input="inputChange" />
 						</view>
 						<view class="mobileno-input-right">
-							<a class="sendCodeBtn" @click="sendCode" v-if="verification">发送验证码</a>
-							<a class="sendCodeBtn" v-if="!verification">{{ timer }} 秒后重新获取</a>
+							<a class="sendCodeBtn" @click="sendCode" v-if="verification">{{publicMsg.sendCode}}</a>
+							<a class="sendCodeBtn" v-if="!verification">{{ timer }} {{publicMsg.verification}}</a>
 						</view>
 					</view>
 
 
 				</view>
 				<view class="input-item">
-					<text class="tit">验证码</text>
-					<input type="number" :value="verificationCode" placeholder="请输入验证码" maxlength="6" data-key="verificationCode"
+					<text class="tit">{{publicMsg.code}}</text>
+					<input type="number" :value="verificationCode" :placeholder="publicMsg.codePH" maxlength="6" data-key="verificationCode"
 					 @input="inputChange" />
 
 				</view>
 			</view>
-			<button class="confirm-btn" @click="toBindMobileNo" :disabled="submitting">提交</button>
+			<button class="confirm-btn" @click="toBindMobileNo" :disabled="submitting">{{publicMsg.submitting}}</button>
 
 		</view>
 	</view>
@@ -55,12 +55,21 @@
 			}
 		},
 		onLoad(options){
+			uni.setNavigationBarTitle({
+				title: this.publicMsg.bindTitle
+			})
 			var to = options.to
 			if(to){
 				this.to = unescape(to);
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			publicMsg() {
+				return this.$i18nMsg().index.publics
+			},
 			...mapState(['applicationConfig','hasMerchant','merchantInfo'])
 		},
 		methods: {
@@ -69,10 +78,11 @@
 			sendCode() {
 				const {
 					mobileNo,
-					verificationCode
+					verificationCode,
+					publicMsg
 				} = this;
 				if (!this.$api.util.validateMobileNo(mobileNo)) {
-					this.$api.msg('手机号码格式错误');
+					this.$api.msg(publicMsg.validateMobileNo);
 					return
 				}
 				this.$api.request.sms({
@@ -81,7 +91,7 @@
 					mobileNo: mobileNo
 				}, loginRes => {
 					if (loginRes.body.status.statusCode === '0') {
-						this.$api.msg('验证码已发送');
+						this.$api.msg(publicMsg.statusCode);
 						this.timer = 5
 						this.verification = false
 						this.countDown() // 执行验证码计时
@@ -131,14 +141,15 @@
 				const {
 					mobileNo,
 					verificationCode,
+					publicMsg
 				} = this;
 				var isFormValid = true;
 				if (!this.$api.util.validateMobileNo(mobileNo)) {
-					this.$api.msg('手机号码格式错误');
+					this.$api.msg(publicMsg.validateMobileNo);
 					isFormValid = false;
 				}
 				if (!this.$api.util.validateVerificationCode(verificationCode)) {
-					this.$api.msg('请输入6位数字的验证码');
+					this.$api.msg(publicMsg.validateVerificationCode);
 					isFormValid = false;
 				}
 				if (!isFormValid) {
@@ -160,7 +171,7 @@
 							personalPhoneCountryCode: '86'
 						}, resetRes => {
 							if (resetRes.body.status.statusCode === '0') {
-								this.$api.msg('绑定成功');
+								this.$api.msg(publicMsg.bindSuccess);
 								setTimeout(function() {
 									that.afterBind();
 								}, 2000)

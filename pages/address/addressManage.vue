@@ -1,12 +1,12 @@
 <template>
 	<view class="content">
 		<view class="row b-b">
-			<text class="tit">联系人</text>
-			<input class="input" :maxlength="10" type="text" v-model="addressData.name" placeholder="收货人姓名" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.address.name}}</text>
+			<input class="input" :maxlength="10" type="text" v-model="addressData.name" :placeholder="i18n.address.name2" placeholder-class="placeholder" />
 		</view>
 		<view class="row b-b">
-			<text class="tit">手机号</text>
-			<input class="input" type="number" v-model="addressData.telephone" placeholder="收货人手机号码" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.telephone}}</text>
+			<input class="input" type="number" v-model="addressData.telephone" :placeholder="i18n.address.telephone2" placeholder-class="placeholder" />
 		</view>
 		<!-- <view class="row b-b">
 			<text class="tit">地址</text>
@@ -16,7 +16,7 @@
 			<text class="yticon icon-shouhuodizhi"></text>
 		</view> -->
 		<view class="row b-b">
-			<text class="tit">省市区</text>
+			<text class="tit">{{i18n.province}}</text>
 			<view class="input">
 				{{addressData.province}}  {{addressData.city}}  {{addressData.area}}
 			</view>
@@ -33,19 +33,19 @@
 			></w-picker>
 		</view>
 		<view class="row b-b"> 
-			<text class="tit">详细地址</text>
-			<input :maxlength="100" class="input" type="text" v-model="addressData.street" placeholder="省市区及详细地址" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.address.street}}</text>
+			<input :maxlength="100" class="input" type="text" v-model="addressData.street" :placeholder="i18n.address.street" placeholder-class="placeholder" />
 		</view>
 		<view class="row b-b">
-			<text class="tit">邮政编码</text>
-			<input class="input" type="text" :maxlength="6" v-model="addressData.zipcode" placeholder="邮政编码" placeholder-class="placeholder" />
+			<text class="tit">{{i18n.address.zipcode}}</text>
+			<input class="input" type="text" :maxlength="6" v-model="addressData.zipcode" :placeholder="i18n.address.zipcode" placeholder-class="placeholder" />
 		</view>
 		<view class="row default-row">
-			<text class="tit">设为默认</text>
+			<text class="tit">{{i18n.address.setDefault}}</text>
 			<switch :checked="addressData.default" color="#09A0F7" @change="switchChange" />
 		</view>
-		<button class="add-btn" @click="confirm">保存</button>
-		<button v-if="manageType==='edit'" class="del-btn" @click="del">删除</button>
+		<button class="add-btn" @click="confirm">{{i18n.saveBtn}}</button>
+		<button v-if="manageType==='edit'" class="del-btn" @click="del">{{i18n.delBtn}}</button>
 	</view>
 </template>
 
@@ -73,19 +73,23 @@
 			}
 		},
 		onLoad(option){
-			let title = '新增收货地址';
+			let title = this.i18n.address.addBtn;
 			if(option.type==='edit'){
-				title = '编辑收货地址'
+				title = this.i18n.address.editBtn
 				this.addressData = JSON.parse(option.data);
 				this.defaultRegion=[this.addressData.province,this.addressData.city,this.addressData.area];
 			}
 			this.manageType = option.type;
+			
 			debugger
 			uni.setNavigationBarTitle({
 				title
 			})
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		components:{
@@ -117,22 +121,23 @@
 			//提交
 			confirm(){
 				let data = this.addressData;
-				if(!data.name){
-					this.$api.msg('请填写收货人姓名');
+				if (!data.name) {
+					this.$api.msg(this.i18n.address.errorName);
 					return;
 				}
-				if(!this.$api.util.validateMobileNo(data.telephone)){
-					this.$api.msg('请输入正确的手机号码');
+				if (!this.$api.util.validateMobileNo(data.telephone)) {
+					this.$api.msg(this.i18n.address.errorTel);
 					return;
 				}
 				// if(!data.address){
 				// 	this.$api.msg('请在地图选择所在位置');
 				// 	return;
 				// }
-				if(!data.street){
-					this.$api.msg('请填写详细地址');
+				if (!data.street) {
+					this.$api.msg(this.i18n.address.errorStreet);
 					return;
 				}
+				
 				
 				let options = this.addressData;
 				if(this.manageType=='edit'){
@@ -145,8 +150,8 @@
 				}
 				this.$api.request.saveUserShip(options, res => {
 					if (res.body.status.statusCode === '0') {
-						var msg = '地址添加成功';
-						if(this.manageType=='edit') msg = '地址修改成功';
+						var msg = this.i18n.address.successAdd;
+						if(this.manageType=='edit') msg =  this.i18n.address.successEdit;
 						this.$api.msg(msg);
 						setTimeout(()=>{
 							this.$api.prePage().refreshList();
@@ -166,7 +171,7 @@
 				}
 				this.$api.request.removeShip(options, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('地址删除成功');
+						this.$api.msg(this.i18n.address.successDel);
 						setTimeout(()=>{
 							this.$api.prePage().refreshList();
 							uni.navigateBack();

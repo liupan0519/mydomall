@@ -19,15 +19,15 @@
 							<text>{{item.couponDTO.name}}</text>
 						</view>
 						<view class="stock">
-							<text v-if="item.couponDTO.benefitType=='0'">所有商品</text>
-							<text v-if="item.couponDTO.benefitType=='1'">指定商品</text>
+							<text v-if="item.couponDTO.benefitType=='0'">{{couponMsg.benefitType0}}</text>
+							<text v-if="item.couponDTO.benefitType=='1'">{{couponMsg.benefitType1}}</text>
 						</view>
 						<view class="valid">
-							<text v-if="item.couponDTO.conditionAmount>0"> 满{{item.couponDTO.conditionAmount}}元可用</text>
-							<text v-else> 无金额限制</text>
+							<text v-if="item.couponDTO.conditionAmount>0"> {{couponMsg.full}}{{item.couponDTO.conditionAmount}}{{couponMsg.available}}</text>
+							<text v-else> {{couponMsg.noThreshold}}</text>
 						</view>
 						<view class="valid">
-							<text> {{item.endDate}}到期</text>
+							<text> {{couponMsg.endDate}}{{item.endDate}}</text>
 						</view>
 						<image v-if="isExpired" src="../../static/image/expired.png" mode="aspectFill"></image>
 						<image v-if="isUsed" src="../../static/image/used.png" mode="aspectFill"></image>
@@ -55,15 +55,15 @@
 			return {
 				navList: [{
 						state: '1',
-						text: '可使用'
+						text: this.$i18nMsg().index.coupon.state1
 					},
 					{
 						state: '2',
-						text: '已过期'
+						text: this.$i18nMsg().index.coupon.state2
 					},
 					{
 						state: '3',
-						text: '已使用'
+						text: this.$i18nMsg().index.coupon.state3
 					}],
 				tabCurrentIndex:0,
 				isExpired: false,
@@ -77,6 +77,9 @@
 		},
 
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.user.coupon
+			})
 			this.tabClick(0);
 		},
 		onReachBottom() {
@@ -86,6 +89,12 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			couponMsg() {
+				return this.$i18nMsg().index.coupon
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint'])
 		},
 		methods: {

@@ -35,18 +35,18 @@
 						<text>{{item.name}}</text>
 					</view>
 					<view class="stock">
-						<text v-if="item.benefitType=='0'">所有商品</text>
-						<text v-if="item.benefitType=='1'">指定商品</text>
+						<text v-if="item.benefitType=='0'">{{i18n.coupon.benefitType0}}</text>
+						<text v-if="item.benefitType=='1'">{{i18n.coupon.benefitType1}}</text>
 					</view>
 					<view class="valid">
-						<text v-if="item.conditionAmount>0"> 满{{item.conditionAmount}}元可用</text>
-						<text v-else> 无金额限制</text>
+						<text v-if="item.conditionAmount>0"> {{i18n.coupon.full}}{{item.conditionAmount}}{{i18n.coupon.available}}</text>
+						<text v-else>{{i18n.coupon.noThreshold}}</text>
 					</view>
 <!-- 					<view class="stock">
 						<text>剩余{{item.totalCount}}张</text>
 					</view> -->
 					
-					<view class="buy" @click="getCoupon(item)">立即领取</view>
+					<view class="buy" @click="getCoupon(item)">{{i18n.coupon.getCoupon}}</view>
 				</view>
 			</view>
 		</view>
@@ -75,6 +75,9 @@
 		},
 
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.couponCenter
+			})
 			this.searchCoupon();
 		},
 		onReachBottom(){
@@ -84,6 +87,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint'])
 		},
 		methods: {
@@ -121,7 +127,7 @@
 					receiveChannel: 'SELF'
 				}, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('领取成功');
+						this.$api.msg(this.i18n.coupon.getSuccess);
 					} else {
 						this.$api.msg(res.body.status.errorDesc);
 					}

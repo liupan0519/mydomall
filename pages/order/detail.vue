@@ -54,78 +54,78 @@
 		<!-- 金额明细 -->
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">商品金额</text>
+				<text class="cell-tit clamp">{{i18n.order.productAmount}}</text>
 				<text class="cell-tip">￥{{order.productAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">运费</text>
+				<text class="cell-tit clamp">{{i18n.order.freightAmount}}</text>
 				<text class="cell-tip">￥{{order.freightAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">优惠金额</text>
+				<text class="cell-tit clamp">{{i18n.order.deductAmount}}</text>
 				<text class="cell-tip">￥{{order.deductAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">实付金额</text>
+				<text class="cell-tit clamp">{{i18n.order.actualAmount}}</text>
 				<text class="cell-tip red">￥{{order.actualAmount}}</text>
 			</view>
 		</view>
 		
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">收货类型</text>
+				<text class="cell-tit clamp">{{i18n.courier.deliveryType}}</text>
 				<text class="cell-tip">{{order.deliveryTypeDesc}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="order.deliveryType=='1'">
-				<text class="cell-tit clamp">快递公司</text>
+				<text class="cell-tit clamp">{{i18n.courier.courierName}}</text>
 				<text class="cell-tip">{{order.courierName}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="order.deliveryType=='1'">
-				<text class="cell-tit clamp">快递单号</text>
+				<text class="cell-tit clamp">{{i18n.courier.courierNo}}</text>
 				<text class="cell-tip">{{order.courierNo}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="order.deliveryType=='2'">
-				<text class="cell-tit clamp">配送员姓名</text>
+				<text class="cell-tit clamp">{{i18n.courier.shopperName}}</text>
 				<text class="cell-tip">{{order.shopperName}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="order.deliveryType=='2'">
-				<text class="cell-tit clamp">配送员手机号码</text>
+				<text class="cell-tit clamp">{{i18n.courier.shopperMobileNo}}</text>
 				<text class="cell-tip" @click="call(order.shopperMobileNo)">{{order.shopperMobileNo}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="order.deliveryType=='3'">
-				<text class="cell-tit clamp">提货人姓名</text>
+				<text class="cell-tit clamp">{{i18n.address.deliveryName}}</text>
 				<text class="cell-tip">{{order.deliveryName}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="order.deliveryType=='3'">
-				<text class="cell-tit clamp">提货人手机号码</text>
+				<text class="cell-tit clamp">{{i18n.address.extractTel}}</text>
 				<text class="cell-tip">{{order.deliveryContactNo}}</text>
 			</view>
 		</view>
 		
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">下单时间</text>
+				<text class="cell-tit clamp">{{i18n.order.orderTime}}</text>
 				<text class="cell-tip">{{order.orderTime}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">订单编号</text>
+				<text class="cell-tit clamp">{{i18n.order.orderNo}}</text>
 				<text class="cell-tip">{{order.orderNo}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">付款时间</text>
+				<text class="cell-tit clamp">{{i18n.order.paymentTime}}</text>
 				<text class="cell-tip">{{order.paymentTime||''}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">发货时间</text>
+				<text class="cell-tit clamp">{{i18n.order.deliveryTime}}</text>
 				<text class="cell-tip">{{order.deliveryTime||''}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
-				<text class="cell-tit clamp">收货时间</text>
+				<text class="cell-tit clamp">{{i18n.order.confirmTime}}</text>
 				<text class="cell-tip">{{order.confirmTime||''}}</text>
 			</view>
 			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">备注</text>
-				<text class="cell-tip red">{{order.memo}}</text>
+				<text class="cell-tit clamp">{{i18n.order.memo}}</text>
+				<text class="cell-tip red">{{order.memo||''}}</text>
 			</view>
 		</view>
 	</view>
@@ -144,11 +144,17 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.order.viewOrder
+			})
 			//订单数据
 			this.orderNo = option.orderNo;
 			this.inquiryOrder(this.orderNo);
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'merchantInfo'])
 		},
 		methods: {

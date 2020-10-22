@@ -1,7 +1,7 @@
 <template>
 	<view class="content b-t">
 		<view class="m-list">
-			<view @click="selectMerchant(item)" class="list b-b" v-for="(item, index) in merchantList" :key="index"">
+			<view @click="selectMerchant(item)" class="list b-b" v-for="(item, index) in merchantList" :key="index">
 				<view class="wrapper" >
 					<view class="merchant-box">
 						<text class="merchant">{{item.merchantName}}</text>
@@ -14,7 +14,7 @@
 					</view>
 				</view>
 				<view class="distance">
-					<view>{{item.distance}}公里</view>
+					<view>{{item.distance}}{{i18n.km}}</view>
 				</view>
 			</view>
 		</view>
@@ -43,6 +43,9 @@
 		},
 		onLoad(option) {
 			let that = this;
+			uni.setNavigationBarTitle({
+				title: that.$i18n.merchant.listTitle
+			})
 			uni.getLocation({
 				type: 'gcj02',
 				success: function(res) {
@@ -57,6 +60,9 @@
 			});
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

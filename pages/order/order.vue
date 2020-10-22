@@ -16,12 +16,12 @@
 					<!-- 订单列表 -->
 					<view v-for="(item,index) in orderList" :key="index" class="order-item">
 						<view class="i-top b-b">
-							<uni-tag text="普通" type="success" size="small" v-if="item.orderType=='0'"></uni-tag>
-							<uni-tag text="秒杀" type="error" size="small" v-if="item.orderType=='1'"></uni-tag>
-							<uni-tag text="拼团" type="warning" size="small" v-if="item.orderType=='2'"></uni-tag>
+							<uni-tag :text="orderMsg.orderType0" type="success" size="small" v-if="item.orderType=='0'"></uni-tag>
+							<uni-tag :text="orderMsg.orderType1" type="error" size="small" v-if="item.orderType=='1'"></uni-tag>
+							<uni-tag :text="orderMsg.orderType2" type="warning" size="small" v-if="item.orderType=='2'"></uni-tag>
 							<text class="time">{{item.orderTime}}</text>
 							<text class="state" v-if="!item.afterSale" :style="{color:item.orderStatusColor}">{{item.orderStatusDesc}}</text>
-							<text class="state" v-if="item.afterSale">已申请退款</text>
+							<text class="state" v-if="item.afterSale">{{orderMsg.afterSale}}</text>
 							<text v-if="item.orderStatus==='4'" class="del-btn yticon icon-iconfontshanchu1" @click="deleteOrder(item)"></text>
 						</view>
 
@@ -43,19 +43,19 @@
 						</view>
 
 						<view class="price-box">
-							共
+							{{i18n.total}}
 							<text class="num">{{item.productUnit}}</text>
-							件商品 实付款
+							{{i18n.products}} {{i18n.order.actualAmount}}
 							<text class="price">{{item.actualAmount}}</text>
 						</view>
 						<view class="action-box b-t" v-if="!item.afterSale">
 							<!-- 待收货状态可以收货 -->
-							<button @click="deliver(item)" class="action-btn recom" v-if="item.orderStatus=='1'">发货</button>
-							<button @click="viewOrder(item)" class="action-btn">订单详情</button>
+							<button @click="deliver(item)" class="action-btn recom" v-if="item.orderStatus=='1'">{{orderMsg.orderStatus1}}</button>
+							<button @click="viewOrder(item)" class="action-btn">{{orderMsg.viewOrder}}</button>
 						</view>
 						<view class="action-box b-t" v-if="item.afterSale">
-							<button @click="viewAfterSale(item)" class="action-btn">查看退款</button>
-							<button @click="viewOrder(item)" class="action-btn">订单详情</button>
+							<button @click="viewAfterSale(item)" class="action-btn">{{orderMsg.viewAfterSale}}</button>
+							<button @click="viewOrder(item)" class="action-btn">{{orderMsg.viewOrder}}</button>
 						</view>	
 					</view>
 
@@ -89,31 +89,31 @@
 				loadingType: '',
 				navList: [{
 						state: '',
-						text: '全部',
+						text: this.$i18nMsg().index.navList.all,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '0',
-						text: '待付款',
+						text: this.$i18nMsg().index.navList.state0,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '1',
-						text: '待发货',
+						text: this.$i18nMsg().index.navList.state1,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '2',
-						text: '待收货',
+						text: this.$i18nMsg().index.navList.state2,
 						loadingType: 'more',
 						orderList: []
 					},
 					{
 						state: '3',
-						text: '待评价',
+						text: this.$i18nMsg().index.navList.state3,
 						loadingType: 'more',
 						orderList: []
 					}
@@ -122,6 +122,9 @@
 		},
 
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.orderMsg.title
+			})
 			this.tabCurrentIndex = Number(options.state);
 			this.searchOrder(this.translateTabIndex(this.tabCurrentIndex));
 		},
@@ -132,6 +135,12 @@
 			this.searchOrder(this.translateTabIndex(this.tabCurrentIndex));
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			orderMsg() {
+				return this.$i18nMsg().index.order
+			},
 			...mapState(['hasLogin', 'merchantInfo', 'footPrint'])
 		},
 		methods: {
@@ -213,7 +222,7 @@
 			deleteOrder(item) {
 				let that = this;
 				uni.showModal({
-					content: '确认要删除订单吗？',
+					content:  that.orderMsg.deleteCon,
 					success: (e) => {
 						if (e.confirm) {
 							this.$api.request.delOrder({
@@ -221,7 +230,7 @@
 								orderNo: item.orderNo
 							}, res => {
 								if (res.body.status.statusCode === '0') {
-									that.$api.msg('订单已成功删除');
+									that.$api.msg(that.orderMsg.deleteOrder);
 									that.resetPage();
 									that.searchOrder(that.translateTabIndex(that.tabCurrentIndex));
 								} else {
@@ -239,7 +248,7 @@
 			//取消订单
 			cancelOrder(item) {
 				let that = this;
-				var content = '确认要取消订单吗？';
+				var content = that.orderMsg.cancelCon;
 				uni.showModal({
 					content: content,
 					success: (e) => {
@@ -248,7 +257,7 @@
 								orderNo: item.orderNo
 							}, res => {
 								if (res.body.status.statusCode === '0') {
-									that.$api.msg('订单已成功取消');
+									that.$api.msg(that.orderMsg.cancelOrderSuccess);
 									that.resetPage();
 									that.searchOrder(that.translateTabIndex(that.tabCurrentIndex));
 								} else {
@@ -281,7 +290,7 @@
 			},
 			applyAfterSale(item){
 				uni.showModal({
-					content: '发起退款前请与客服仔细沟通, 达成一致后再发起退款申请, 是否继续申请退款？',
+					content: that.orderMsg.applyAfterSale,
 					success: (e) => {
 						if (e.confirm) {
 							uni.navigateTo({

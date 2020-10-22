@@ -17,12 +17,12 @@
 				<text class="price-tip">¥</text>
 				<text class="price">{{product.unitPrice}}</text>
 				<text class="m-price">¥{{product.unitPriceStandard}}</text>
-				<text v-if="product.onSale" class="sale">已上架</text>
+				<text v-if="product.onSale" class="sale">{{i18n.product.onSale}}</text>
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>销量: {{product.soldUnit}}</text>
-				<text>库存: {{product.totalUnit}}</text>
+				<text>{{i18n.sortList.sales}}: {{product.soldUnit}}</text>
+				<text>{{i18n.stock}}: {{product.totalUnit}}</text>
 				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
@@ -33,12 +33,12 @@
 				<text class="price-tip">¥</text>
 				<text class="price">{{productSku.skuUnitPrice}}</text>
 				<text class="m-price">¥{{productSku.skuUnitPriceStandard}}</text>
-				<text v-if="product.onSale" class="sale">已上架</text>
+				<text v-if="product.onSale" class="sale">{{i18n.product.onSale}}</text>
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>销量: {{productSku.skuSoldUnit}}</text>
-				<text>库存: {{productSku.skuTotalUnit}}</text>
+				<text>{{i18n.sortList.sales}}: {{productSku.skuSoldUnit}}</text>
+				<text>{{i18n.stock}}: {{productSku.skuTotalUnit}}</text>
 				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
@@ -49,10 +49,10 @@
 				<text class="yticon icon-xingxing"></text>
 				<!-- 返 -->
 			</view>
-			<text class="tit">将该商品分享给朋友</text>
+			<text class="tit">{{i18n.product.shareTit}}</text>
 			<!-- <text class="yticon icon-bangzhu1"></text> -->
 			<view class="share-btn">
-				立即分享
+				{{i18n.product.shareBtn}}
 				<text class="yticon icon-you"></text>
 			</view>
 
@@ -60,7 +60,7 @@
 
 		<view class="c-list">
 			<view class="c-row b-b" @click="toggleSpec" v-if="product.skuEnabled">
-				<text class="tit">购买类型</text>
+				<text class="tit">{{i18n.order.buyType}}</text>
 				<view class="con">
 					<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
 						{{sku.skuAttrValue}}
@@ -92,13 +92,13 @@
 				</view>
 			</view> -->
 			<view class="c-row b-b">
-				<text class="tit">快递</text>
+				<text class="tit">{{i18n.courier.courier}}</text>
 				<view class="bz-list con">
 					<text v-if="product.productFreightDTO">{{product.productFreightDTO.name}}</text>
 				</view>
 			</view>
 			<view v-if="product.attrList.length>0" class="c-row b-b" @click="togglePopup('bottom', 'attr')">
-				<text class="tit">参数</text>
+				<text class="tit">{{i18n.product.attr}}</text>
 				<view class="bz-list con">
 					<text>{{product.attrList[0].productAttrName}} {{product.attrList[0].productAttrValue}}...</text>
 				</view>
@@ -107,9 +107,9 @@
 				</view>
 			</view>
 			<view class="c-row b-b">
-				<text class="tit">服务</text>
+				<text class="tit">{{i18n.courier.service}}</text>
 				<view class="bz-list con">
-					<text>7天无理由退换货 ·</text>
+					<text>7{{i18n.courier.noReason}}</text>
 				</view>
 			</view>
 		</view>
@@ -117,9 +117,9 @@
 		<!-- 评价 -->
 		<view class="eva-section">
 			<view class="e-header">
-				<text class="tit">评价</text>
+				<text class="tit">{{i18n.evaluate}}</text>
 				<text>({{totalComment}})</text>
-				<text class="tip" @click="navTo('/pages/product/evaluate?id='+id)">查看全部</text>
+				<text class="tip" @click="navTo('/pages/product/evaluate?id='+id)">{{i18n.searchAll}}</text>
 				<text class="yticon icon-you"></text>
 			</view>
 			<view class="" v-for="comment in commentList">
@@ -140,7 +140,7 @@
 					<image @click="previewImage(url)" :src="url" mode="aspectFill" v-for="url in comment.imageUrlList"></image>
 				</view>
 				<view class="eva-reply" v-if="comment.replayContent">
-					<text>卖家回复: {{comment.replayContent}}</text>
+					<text>{{i18n.merchant.reply}}: {{comment.replayContent}}</text>
 				</view>
 			</view>
 		</view>
@@ -162,7 +162,7 @@
 
 		<view class="detail-desc">
 			<view class="d-header">
-				<text>图文详情</text>
+				<text>{{i18n.product.productDescImages}}</text>
 			</view>
 			<view class="image-wrapper">
 				<image v-for="item in product.productDescImages" class="loaded" mode="widthFix" :src="item.url" />
@@ -203,9 +203,9 @@
 					<image v-if="product.productMainImage" :src="product.productMainImage.url"></image>
 					<view class="right">
 						<text class="price">¥{{productSku.skuUnitPrice}}</text>
-						<text class="stock">库存：{{productSku.skuTotalUnit}}件</text>
+						<text class="stock">{{i18n.stock}}：{{productSku.skuTotalUnit}}件</text>
 						<view class="selected">
-							已选：
+							{{i18n.selected}}：
 							<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
 								{{sku.skuAttrValue}}
 							</text>
@@ -220,8 +220,8 @@
 						</view>
 					</view>
 				</view>
-				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">完成</button>
-				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">无库存</button>
+				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">{{i18n.complete}}</button>
+				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">{{i18n.nostock}}</button>
 			</view>
 		</view>
 		<!-- 底部分享弹窗 -->
@@ -256,7 +256,7 @@
 					</view>
 				</view>
 			</view>
-			<button class="close-btn" @click="closeAttr">关闭</button>
+			<button class="close-btn" @click="closeAttr">{{i18n.closed}}</button>
 		</uni-popup>
 	</view>
 </template>
@@ -330,6 +330,9 @@
 			};
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.title
+			})
 
 			//接收传值,id里面放的是标题，因为测试数据并没写id 
 			let id = options.id;
@@ -341,6 +344,9 @@
 			}
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo']),
 			shareHref() {
 				let pages = getCurrentPages()

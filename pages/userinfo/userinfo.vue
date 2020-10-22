@@ -22,7 +22,15 @@
 				
 			};
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: this.userMsg.userinfo
+			})
+		},
 		computed:{
+			userMsg() {
+				return this.$i18nMsg().index.user
+			},
 			...mapState(['userInfo']),
 		}
 	}

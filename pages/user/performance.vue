@@ -4,7 +4,7 @@
 		<view class="list b-b" v-for="(item, index) in performanceList" :key="index">
 			<view class="wrapper">
 				<view class="performance-box">
-					<text class="performance">团队销售业绩</text>
+					<text class="performance">{{i18n.user.performance}}</text>
 				</view>
 				<view class="u-box">
 					<text class="name">{{item.performanceDate}}</text>
@@ -40,6 +40,9 @@
 			}
 		},
 		onLoad(option) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.user.performanceTitle
+			})
 			this.searchUserPerformance();
 		},
 		onReachBottom() {
@@ -52,6 +55,9 @@
 			this.searchUserPerformance();
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {

@@ -1,16 +1,16 @@
 <template>
 	<view class="app">
 		<view class="price-box">
-			<text>支付金额</text>
+			<text>{{i18n.pay.amount}}</text>
 			<text class="price">{{order.actualAmount}}</text>
 		</view>
 
 		<view class="pay-type-list">
-			<view class="type-item b-b" @click="changePayType(1)">
+			<view class="type-item b-b" @click="changePayType(1)"> 
 				<text class="icon yticon icon-weixinzhifu"></text>
 				<view class="con">
-					<text class="tit">微信支付</text>
-					<text>推荐使用微信支付</text>
+					<text class="tit">{{i18n.pay.wxpay}}</text>
+					<text>{{i18n.pay.recommendWxpay}}</text>
 				</view>
 				<label class="radio">
 					<radio value="" color="#fa436a" :checked='payType == 1' />
@@ -21,7 +21,7 @@
 			<view class="type-item b-b" @click="changePayType(2)">
 				<text class="icon yticon icon-alipay"></text>
 				<view class="con">
-					<text class="tit">支付宝支付</text>
+					<text class="tit">{{i18n.pay.alipay}}</text>
 				</view>
 				<label class="radio">
 					<radio value="" color="#fa436a" :checked='payType == 2' />
@@ -32,8 +32,8 @@
 			<view class="type-item" @click="changePayType(3)">
 				<text class="icon yticon icon-erjiye-yucunkuan"></text>
 				<view class="con">
-					<text class="tit">余额支付</text>
-					<text>可用余额 ¥{{userInfo.availableBalance}}</text>
+					<text class="tit">{{i18n.pay.balancePay}}</text>
+					<text>{{i18n.pay.availableBalance}} ¥{{userInfo.availableBalance}}</text>
 				</view>
 				<label class="radio">
 					<radio value="" color="#fa436a" :checked='payType == 3' />
@@ -42,10 +42,10 @@
 			</view>
 		</view>
 		<!-- #ifdef MP-WEIXIN -->
-		<text class="mix-btn" @click="confirmWx">确认支付</text>
+		<text class="mix-btn" @click="confirmWx">{{i18n.pay.confirm}}</text>
 		<!-- #endif -->
 		<!-- #ifndef MP-WEIXIN -->
-		<text class="mix-btn" @click="confirm">确认支付</text>
+		<text class="mix-btn" @click="confirm">{{i18n.pay.confirm}}</text>
 		<!-- #endif -->
 	</view>
 </template>
@@ -66,9 +66,15 @@
 			};
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig'])
 		},
 		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: this.i18n.pay.title
+			})
 			this.orderNo = options.orderNo;		//非拆分订单
 			this.pOrderNo = options.pOrderNo;	//拆分订单
 			if(this.orderNo)

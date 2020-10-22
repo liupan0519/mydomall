@@ -7,41 +7,41 @@
 		<view class="wrapper">
 			<view class="left-top-sign">REGISTER</view>
 			<view class="welcome">
-				找回密码！
+				{{publicMsg.forgetPwd}}
 			</view>
 			<view class="input-content">
 				<view class="input-item">
 					<view class="mobileno-input">
 						<view class="mobileno-input-left">
-							<text class="tit">手机号码</text>
-							<input type="number" :value="mobileNo" placeholder="请输入手机号码" maxlength="11" data-key="mobileNo" @input="inputChange" />
+							<text class="tit">{{i18n.telephone}}</text>
+							<input type="number" :value="mobileNo" :placeholder="publicMsg.mobileNoPH" maxlength="11" data-key="mobileNo" @input="inputChange" />
 						</view>
 						<view class="mobileno-input-right">
-							<a class="sendCodeBtn" @click="sendCode" v-if="verification">发送验证码</a>
-							<a class="sendCodeBtn" v-if="!verification">{{ timer }} 秒后重新获取</a>
+							<a class="sendCodeBtn" @click="sendCode" v-if="verification">{{publicMsg.sendCode}}</a>
+							<a class="sendCodeBtn" v-if="!verification">{{ timer }} {{publicMsg.verification}}</a>
 						</view>
 					</view>
 
 
 				</view>
 				<view class="input-item">
-					<text class="tit">验证码</text>
-					<input type="number" :value="verificationCode" placeholder="请输入验证码" maxlength="6" data-key="verificationCode"
+					<text class="tit">{{publicMsg.code}}</text>
+					<input type="number" :value="verificationCode" :placeholder="publicMsg.codePH" maxlength="6" data-key="verificationCode"
 					 @input="inputChange" />
 
 				</view>
 				<view class="input-item">
-					<text class="tit">设置新密码</text>
-					<input type="text" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
+					<text class="tit">{{publicMsgnewPwd}}</text>
+					<input type="text" value="" :placeholder="publicMsg.newPwdPH" placeholder-class="input-empty" maxlength="20" password
 					 data-key="password" @input="inputChange" />
 				</view>
 				<view class="input-item">
-					<text class="tit">重复新密码</text>
-					<input type="text" value="" placeholder="8-20位字符组合" placeholder-class="input-empty" maxlength="20" password
+					<text class="tit">{{publicMsg.newPwd2}}</text>
+					<input type="text" value="" :placeholder="publicMsg.newPwdPH" placeholder-class="input-empty" maxlength="20" password
 					 data-key="rePassword" @input="inputChange" />
 				</view>
 			</view>
-			<button class="confirm-btn" @click="toForgetPassword" :disabled="submitting">提交</button>
+			<button class="confirm-btn" @click="toForgetPassword" :disabled="submitting">{{publicMsg.submitting}}</button>
 
 		</view>
 	</view>
@@ -65,7 +65,17 @@
 			}
 		},
 		onLoad() {
-
+			uni.setNavigationBarTitle({
+				title: this.publicMsg.forgetTitle
+			})
+		},
+		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
+			publicMsg() {
+				return this.$i18nMsg().index.publics
+			}
 		},
 		methods: {
 			...mapMutations(['login']),
@@ -75,10 +85,11 @@
 					mobileNo,
 					password,
 					verificationCode,
-					rePassword
+					rePassword,
+					publicMsg
 				} = this;
 				if (!this.$api.util.validateMobileNo(mobileNo)) {
-					this.$api.msg('手机号码格式错误');
+					this.$api.msg(publicMsg.validateMobileNo);
 					return
 				}
 				this.$api.request.sms({
@@ -87,7 +98,7 @@
 					mobileNo: mobileNo
 				}, loginRes => {
 					if (loginRes.body.status.statusCode === '0') {
-						this.$api.msg('验证码已发送');
+						this.$api.msg(publicMsg.statusCode);
 						this.timer = 5
 						this.verification = false
 						this.countDown() // 执行验证码计时
@@ -126,21 +137,22 @@
 					mobileNo,
 					verificationCode,
 					password,
-					rePassword
+					rePassword,
+					publicMsg
 				} = this;
 				var isFormValid = true;
 				if (!this.$api.util.validateMobileNo(mobileNo)) {
-					this.$api.msg('手机号码格式错误');
+					this.$api.msg(publicMsg.validateMobileNo);
 					isFormValid = false;
 				}
 				if (!this.$api.util.validateVerificationCode(verificationCode)) {
-					this.$api.msg('请输入6位数字的验证码');
+					this.$api.msg(publicMsg.validateVerificationCode);
 					isFormValid = false;
 				} else if (!this.$api.util.validatePassword(password)) {
-					this.$api.msg('密码为8-20位字母数字下划线组合');
+					this.$api.msg(publicMsg.validatePassword);
 					isFormValid = false;
 				} else if (password != rePassword) {
-					this.$api.msg('两次密码输入不一致');
+					this.$api.msg(publicMsg.validatePassword2);
 					isFormValid = false;
 				}
 				if (!isFormValid) {
@@ -162,7 +174,7 @@
 							newPassword: password
 						}, resetRes => {
 							if (resetRes.body.status.statusCode === '0') {
-								this.$api.msg('密码已重置');
+								this.$api.msg(publicMsg.resetPassword);
 								setTimeout(function() {
 									wx.navigateTo({
 										url: '/pages/public/login'

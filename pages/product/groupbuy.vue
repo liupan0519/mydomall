@@ -19,7 +19,7 @@
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>库存: {{groupbuy.stock}}</text>
+				<text>{{i18n.stock}}: {{groupbuy.stock}}</text>
 				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
@@ -33,14 +33,14 @@
 				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>库存: {{groupbuy.stock}}</text>
+				<text>{{i18n.stock}}: {{groupbuy.stock}}</text>
 				<!-- <text>浏览量: 768</text> -->
 			</view>
 		</view>
 
 		<view class="c-list">
 			<view class="c-row b-b" @click="toggleSpec" v-if="product.skuEnabled">
-				<text class="tit">购买类型</text>
+				<text class="tit">{{i18n.order.buyType}}</text>
 				<view class="con">
 					<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
 						{{sku.skuAttrValue}}
@@ -63,7 +63,7 @@
 				</view>
 			</view> -->
 			<view class="c-row b-b">
-				<text class="tit">数量</text>
+				<text class="tit">{{i18n.order.num}}</text>
 				<view class="bz-list con">
 					<uni-number-box class="step" :min="1" :max="productSku.skuTotalUnit" :value="unit"
 					 :isMax="unit>=productSku.skuTotalUnit?true:false" :isMin="unit===1" @eventChange="numberChange" v-if="product.skuEnabled"></uni-number-box>
@@ -72,13 +72,13 @@
 				</view>
 			</view>
 			<view class="c-row b-b">
-				<text class="tit">快递</text>
+				<text class="tit">{{i18n.courier.courier}}</text>
 				<view class="bz-list con">
 					<text v-if="product.productFreightDTO">{{product.productFreightDTO.name}}</text>
 				</view>
 			</view>
 			<view v-if="product.attrList.length>0" class="c-row b-b" @click="togglePopup('bottom', 'attr')">
-				<text class="tit">参数</text>
+				<text class="tit">{{i18n.product.attr}}</text>
 				<view class="bz-list con">
 					<text>{{product.attrList[0].productAttrName}} {{product.attrList[0].productAttrValue}}...</text>
 				</view>
@@ -127,7 +127,7 @@
 
 		<view class="detail-desc">
 			<view class="d-header">
-				<text>图文详情</text>
+				<text>{{i18n.product.productDescImages}}</text>
 			</view>
 			<view class="image-wrapper">
 				<image v-for="item in product.productDescImages" class="loaded" mode="widthFix" :src="item.url" />
@@ -138,8 +138,8 @@
 
 		<!-- 底部操作菜单 -->
 		<view class="page-bottom">
-				<text class="action-btn no-border buy-now-btn" v-if="!groupId" @click="buy">立即开团</text>
-				<text class="action-btn no-border buy-now-btn" v-if="groupId" @click="buy">立即参团</text>
+				<text class="action-btn no-border buy-now-btn" v-if="!groupId" @click="buy">{{i18n.groupbuy.startGroup}}</text>
+				<text class="action-btn no-border buy-now-btn" v-if="groupId" @click="buy">{{i18n.groupbuy.joinNow}}</text>
 		</view>
 
 
@@ -152,9 +152,9 @@
 					<image v-if="product.productMainImage" :src="product.productMainImage.url"></image>
 					<view class="right">
 						<text class="price">¥{{groupbuy.unitPrice}}</text>
-						<text class="stock">库存：{{groupbuy.stock}}件</text>
+						<text class="stock">{{i18n.stock}}：{{groupbuy.stock}}{{i18n.productUnit}}</text>
 						<view class="selected">
-							已选：
+							{{i18n.selected}}：
 							<text class="selected-text" v-for="sku in productSku.skuAttrValueList">
 								{{sku.skuAttrValue}}
 							</text>
@@ -169,8 +169,8 @@
 						</view>
 					</view>
 				</view>
-				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">完成</button>
-				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">无库存</button>
+				<button v-if="productSku.skuTotalUnit>0" class="btn" @click="toggleSpec">{{i18n.complete}}</button>
+				<button v-if="productSku.skuTotalUnit===0" class="btn disabled" disabled="disabled">{{i18n.nostock}}</button>
 			</view>
 		</view>
 		
@@ -184,7 +184,7 @@
 					</view>
 				</view>
 			</view>
-			<button class="close-btn" @click="closeAttr">关闭</button>
+			<button class="close-btn" @click="closeAttr">{{i18n.closed}}</button>
 		</uni-popup>
 	</view>
 </template>
@@ -239,6 +239,9 @@
 		},
 		onLoad(options) {
 
+			uni.setNavigationBarTitle({
+				title: this.i18n.product.groupbuy
+			})
 			let id = options.id;
 			if (id) {
 				this.id = id;
@@ -247,6 +250,9 @@
 			this.groupId = options.groupId;
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo']),
 			shareHref() {
 				let pages = getCurrentPages()
