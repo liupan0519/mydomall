@@ -8,6 +8,7 @@ import './components/ican-H5Api/ican-H5Api'
 import uView from "uview-ui";
 import Json from './Json' 
 
+
 Vue.use(uView);
 Vue.use(VueI18n)  
 
@@ -56,7 +57,7 @@ Vue.prototype.$api = {msg, json, prePage,util,request};
 const i18n = new VueI18n({
     locale : 'zh-CN', //语言标识
     messages: {
-        'en-US' : require('config/lang/en.js') , //英文语言包
+        'en-US' : require('config/lang/en.js')  , //英文语言包
         'zh-CN' : require('config/lang/zh.js')  //中文繁体语言包
     }
 })

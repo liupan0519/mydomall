@@ -10,25 +10,25 @@
 		</view>
 		<view class="desc-wrapper">
 			<view v-if="groupBuy.status=='1'">
-				{{i18n.groupbuy.detail.gap}}{{groupBuy.groupBuyProductDTO.minUserCount - groupBuy.groupBuyUserList.length}}{{i18n.groupbuy.detail.gapRemark}}人拼团成功, 快去邀请好友吧!
+				{{i18n.groupbuy.detail.gap}}{{groupBuy.groupBuyProductDTO.minUserCount - groupBuy.groupBuyUserList.length}}{{i18n.groupbuy.detail.gapRemark}}
 			</view>
 			<view v-if="groupBuy.status=='2'">
-				{{i18n.groupbuy.detail.fail}}拼团失败, 未在有效期邀请到足够朋友参加!
+				{{i18n.groupbuy.detail.fail}}
 			</view>
 			<view v-if="groupBuy.status=='3'">
-				{{i18n.groupbuy.detail.success}}拼团成功, 您还可以看看其他拼团商品!
+				{{i18n.groupbuy.detail.success}}
 			</view>
 		</view>
 		<view class="btn-group">
-			<view @click="togglePopup('bottom', 'share')" v-if="groupBuy.status=='1'" url="/pages/order/order?state=0" open-type="redirect" class="mix-btn">{{i18n.groupbuy.detail.invite}}邀请好友拼团</view>
-			<navigator v-if="groupBuy.status=='2'" url="/pages/product/groupbuyList" class="mix-btn">{{i18n.groupbuy.detail.more}}查看更多拼团商品</navigator>
-			<navigator v-if="groupBuy.status=='3'" url="/pages/product/groupbuyList" class="mix-btn">{{i18n.groupbuy.detail.more}}查看更多拼团商品</navigator>
+			<view @click="togglePopup('bottom', 'share')" v-if="groupBuy.status=='1'" url="/pages/order/order?state=0" open-type="redirect" class="mix-btn">{{i18n.groupbuy.detail.invite}}</view>
+			<navigator v-if="groupBuy.status=='2'" url="/pages/product/groupbuyList" class="mix-btn">{{i18n.groupbuy.detail.more}}</navigator>
+			<navigator v-if="groupBuy.status=='3'" url="/pages/product/groupbuyList" class="mix-btn">{{i18n.groupbuy.detail.more}}</navigator>
 			<view class="note" v-if="groupBuy.status=='1'">
 				<uni-countdown class="countdown" :day="groupBuy.groupBuyCountDown.days" :hour="groupBuy.groupBuyCountDown.hours" :minute="groupBuy.groupBuyCountDown.minutes"
 				 :second="groupBuy.groupBuyCountDown.seconds" color="#FFFFFF" background-color="#333333" />
 			</view>
-			<view class="note" v-if="groupBuy.status=='2'">{{groupBuy.endTime}} {{i18n.groupbuy.detail.end}}拼团结束</view>
-			<view class="note" v-if="groupBuy.status=='3'">{{groupBuy.endTime}} {{i18n.groupbuy.detail.end}}拼团结束</view>
+			<view class="note" v-if="groupBuy.status=='2'">{{groupBuy.endTime}} {{i18n.groupbuy.detail.end}}</view>
+			<view class="note" v-if="groupBuy.status=='3'">{{groupBuy.endTime}} {{i18n.groupbuy.detail.end}}</view>
 		</view>
 		
 		<!-- 底部分享弹窗 -->

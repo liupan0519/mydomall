@@ -32,7 +32,6 @@
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
-
 			navTo(url) {
 				uni.navigateTo({
 					url: url

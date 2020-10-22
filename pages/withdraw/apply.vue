@@ -109,9 +109,6 @@
 			
 		},
 		computed: {
-			i18n() {
-				return this.$i18nMsg().index
-			},
 			withdrawMsg() {
 				return this.$i18nMsg().index.withdraw
 			},

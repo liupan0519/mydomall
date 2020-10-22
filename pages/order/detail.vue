@@ -109,7 +109,7 @@
 				<text class="cell-tip" @click="openLocation(order.deliveryLatitude,order.deliveryLongitude)">{{order.deliveryStreet}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="order.deliveryType=='3'">
-				<text class="cell-tit clamp">{{i18n.address.deliveryLongitude}}</text>
+				<text class="cell-tit clamp">{{i18n.address.deliveryName}}</text>
 				<text class="cell-tip">{{order.deliveryName}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="order.deliveryType=='3'">

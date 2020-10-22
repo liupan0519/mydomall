@@ -3,7 +3,7 @@
 		<!-- 订单列表 -->
 		<view class="order-item">
 			<view class="i-top b-b">
-				<text class="time">售后单号: {{afterSale.saleNo}}</text>
+				<text class="time">{{aftersaleMsg.orderSale}}: {{afterSale.saleNo}}</text>
 				<text class="state" :style="{color:afterSale.statusColor}">{{afterSale.statusDesc}}</text>
 			</view>
 
@@ -24,38 +24,38 @@
 			</view>
 
 			<view class="price-box">
-				共
+				{{i18n.total}}
 				<text class="num">{{afterSale.orderDTO.productUnit}}</text>
-				件商品 实付款
+				{{i18n.products}} {{i18n.order.actualAmount}}
 				<text class="price">{{afterSale.orderDTO.productAmount}}</text>
 			</view>
 		</view>
 		<view class="row b-b">
-			<text class="tit">申请时间</text>
+			<text class="tit">{{aftersaleMsg.timeApplication}}</text>
 			<text class="input">{{afterSale.timeApplication}}</text>
 		</view>
 		<view class="row">
-			<text class="tit">售后类型</text>
+			<text class="tit">{{aftersaleMsg.afterSaleTypeDesc}}</text>
 			<text class="input">{{afterSale.afterSaleTypeDesc}}</text>
 		</view>
 		<view class="row">
-			<text class="tit">退款金额</text>
+			<text class="tit">{{aftersaleMsg.orderSale}}</text>
 			<text class="price">{{afterSale.afterSaleAmount}}</text>
 		</view>
 		<view class="row" v-if="afterSale.afterSaleType==='2'">
-			<text class="tit">退货物流</text>
+			<text class="tit">{{aftersaleMsg.courierNo}}</text>
 			<text class="input">{{afterSale.courierName}}({{afterSale.courierNo}})</text>
 		</view>
 		<view class="aftersale-image">
-			<text>凭证</text>
+			<text>{{aftersaleMsg.certificate}}</text>
 			<robby-image-upload :enableDel="false" :enableAdd="false" :enableDrag="false" v-model="imageUrlList" fileKeyName="files" :header="header" :formData="formData" :server-url="uploadUrl"></robby-image-upload>
 		</view>
 		<view class="aftersale-desc">
-			<text>问题描述</text>
+			<text>{{aftersaleMsg.afterSaleDescription}}</text>
 			<textarea class="input" disabled :value="afterSale.afterSaleDescription" rows="5" ></textarea>
 		</view>
 		<view class="aftersale-desc" v-if="afterSale.status==='2'">
-			<text>退款失败原因</text>
+			<text>{{aftersaleMsg.rejectReason}}</text>
 			<textarea class="input" disabled :value="afterSale.rejectReason" rows="5" ></textarea>
 		</view>
 	</view>
@@ -86,7 +86,7 @@
 		},
 		onLoad(option) {
 			uni.setNavigationBarTitle({
-				title: this.i18n.aftersale.detailTitle
+				title: this.aftersaleMsg.detailTitle
 			})
 			this.saleNo = option.id;
 			this.inquiryOrderAfterSale(this.saleNo);
@@ -94,6 +94,9 @@
 		computed: {
 			i18n() {
 				return this.$i18nMsg().index
+			},
+			aftersaleMsg() {
+				return this.$i18nMsg().index.aftersale
 			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
@@ -129,12 +132,12 @@
 				switch (afterSaleType) {
 					case '1':
 						{
-						afterSaleTypeDesc = '仅退款';
+						afterSaleTypeDesc = this.aftersaleMsg.refundOnly;
 						break;
 						}
 					case '2':
 						{
-						afterSaleTypeDesc = '退款退货';
+						afterSaleTypeDesc = this.aftersaleMsg.refundReturn;
 						break;
 						}
 				}
@@ -146,28 +149,28 @@
 				switch (status) {
 					case '0':
 						{
-						statusDesc = '退款中';
+						statusDesc = this.aftersaleMsg.refunding;
 						break;
 						}
 					case '1':
 						{
-						statusDesc = '待买家退货';
+						statusDesc = this.aftersaleMsg.returnBuyer;
 						break;
 						}
 					case '2':
 						{
-							statusDesc = '退款失败';
+							statusDesc = this.aftersaleMsg.refundFailed;
 							statusColor = '#fa436a';
 							break;
 						}
 					case '3':
 						{
-							statusDesc = '待确认收货';
+							statusDesc = this.aftersaleMsg.pendingReceipt;
 							break;
 						}
 					case '9':
 						{
-							statusDesc = '退款成功';
+							statusDesc = this.aftersaleMsg.refundSuccess;
 							statusColor = '#5FCDA2';
 							break;
 						}

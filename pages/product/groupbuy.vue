@@ -53,7 +53,7 @@
 			</view>
 			
 			<view class="c-row b-b">
-				<text class="tit">{{i18n.order.num}}</text>
+				<text class="tit">{{i18n.order.number}}</text>
 				<view class="bz-list con">
 					<uni-number-box class="step" :min="1" :max="productSku.skuTotalUnit" :value="unit"
 					 :isMax="unit>=productSku.skuTotalUnit?true:false" :isMin="unit===1" @eventChange="numberChange" v-if="product.skuEnabled"></uni-number-box>
@@ -62,7 +62,7 @@
 				</view>
 			</view>
 			<view class="c-row b-b" v-if="product.productFreightDTO">
-				<text class="tit">{{i18n.order.number}}</text>
+				<text class="tit">{{i18n.courier.courier}}</text>
 				<view class="bz-list con">
 					<text>{{product.productFreightDTO.name}}</text>
 				</view>
@@ -152,7 +152,7 @@
 					<image v-if="product.productMainImage" :src="product.productMainImage.url"></image>
 					<view class="right">
 						<text class="price">¥{{groupbuy.unitPrice}}</text>
-						<text class="stock">{{i18n.stock}}：{{groupbuy.stock}}件</text>
+						<text class="stock">{{i18n.stock}}：{{groupbuy.stock}}{{i18n.productUnit}}</text>
 						<view class="selected">
 							{{i18n.selected}}：
 							<text class="selected-text" v-for="sku in productSku.skuAttrValueList">

@@ -12,18 +12,137 @@
 	} from 'vuex';
 	export default {
 		methods: {
-			...mapMutations(['login', 'updateApplicationConfig'])
+			...mapMutations(['login', 'updateApplicationConfig']),
+			setTabBarText() {
+				uni.setTabBarItem({
+					index: 0,
+					text: this.i18n.indexTitle
+				})
+				uni.setTabBarItem({
+					index: 1,
+					text: this.i18n.category.title
+				})
+				uni.setTabBarItem({
+					index: 2,
+					text: this.i18n.content.title
+				})
+				uni.setTabBarItem({
+					index: 3,
+					text: this.i18n.product.cart
+				})
+				uni.setTabBarItem({
+					index: 4,
+					text: this.i18n.user.title
+				})
+			},
+			/**
+			 * 处理推送消息
+			 */
+			handlePush() {
+				// #ifdef APP-PLUS
+				const _self = this
+				const _handlePush = function(message) {
+					// 获取自定义信息
+					let payload = message.payload
+					try {
+						// JSON解析
+						payload = JSON.parse(payload)
+						// 携带自定义信息跳转应用页面
+						uni.navigateTo({
+							url: '/pages/xxx?data=' + JSON.stringify(payload)
+						})
+
+					} catch (e) {}
+				}
+				// 事件处理
+				plus.push.addEventListener('click', _handlePush)
+				plus.push.addEventListener('receive', _handlePush)
+				// #endif
+			},
+			/**
+			 * app整包更新检测
+			 */
+			appUpgrade(platform) {
+				if (platform !== 'android') {
+					return
+				}
+				//#ifdef APP-PLUS
+				plus.runtime.getProperty(plus.runtime.appid, (wgtinfo) => {
+					let params = {
+						appid: plus.runtime.appid,
+						version: wgtinfo.versionCode,
+						platform: platform
+					}
+					this.$minApi.findUpgradeApp(params).then(appRes => {
+						if (appRes.appid) {
+							uni.showModal({
+								title: "下载更新提示",
+								content: appRes.note,
+								showCancel: false,
+								confirmText: '确定',
+								success: sucRes => {
+									if (sucRes.confirm) {
+										plus.runtime.openURL(appRes.url)
+										// uni.downloadFile({
+										//     url: appRes.url,
+										//     success: res => {}
+										// })
+									}
+								}
+							})
+						}
+					})
+				})
+				//#endif
+			},
+
+			/**
+			 * 初始化系统
+			 */
+			initSystem() {
+				const self = this
+				uni.getSystemInfo({
+					success: function(e) {
+						// app整包更新检测
+						self.appUpgrade(e.platform)
+						// #ifndef MP
+						Vue.prototype.StatusBar = e.statusBarHeight;
+						if (e.platform == 'android') {
+							Vue.prototype.CustomBar = e.statusBarHeight + 50;
+						} else {
+							Vue.prototype.CustomBar = e.statusBarHeight + 45;
+						};
+						// #endif
+						// #ifdef MP-WEIXIN
+						Vue.prototype.StatusBar = e.statusBarHeight;
+						let custom = wx.getMenuButtonBoundingClientRect();
+						Vue.prototype.Custom = custom;
+						Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
+						// #endif		
+						// #ifdef MP-ALIPAY
+						Vue.prototype.StatusBar = e.statusBarHeight;
+						Vue.prototype.CustomBar = e.statusBarHeight + e.titleBarHeight;
+						// #endif
+					}
+				})
+			}
 		},
 		computed: {
-			/* i18n() {
+			i18n() {
 				return this.$i18nMsg().index
-			} */
+			}
 		},
 		onLaunch: function() {
 			//设置竖屏
 			// #ifdef APP-PLUS
 			plus.screen.lockOrientation('portrait-primary');
 			// #endif
+
+
+			uni.setNavigationBarTitle({
+				title: this.i18n.title
+			})
+			this.setTabBarText()
 			//获取应用全局设置
 			this.$api.request.applicationConfig({}, res => {
 				if (res.body.status.statusCode === '0') {

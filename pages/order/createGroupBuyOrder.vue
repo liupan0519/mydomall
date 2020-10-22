@@ -141,7 +141,7 @@
 				deliveryData:{},	//配送地址
 				deliveryAmount: 0.00, //配送费
 				memo: '', //备注
-				memoPlaceHolder: this.i18n.order.memoPlaceHolder,
+				memoPlaceHolder: this.$i18nMsg().index.order.memoPlaceHolder,
 				type: ''
 			}
 		},

@@ -19,7 +19,7 @@
 				<text class="title clamp"><u-tag :text="item.minUserCount+i18n.groupbuy.minUserCount" mode="dark" size="mini" type="error" />{{item.productDTO.productName}}</text>
 				<view class="price-box">
 					<text class="price">{{item.unitPrice}}<text class="standard">￥{{item.productDTO.unitPrice}}</text></text>
-					<text class="note">{{i18n.groupbuy.spelled}}{{item.soldUnit}}件{{i18n.productUnit}}</text>
+					<text class="note">{{i18n.groupbuy.spelled}}{{item.soldUnit}}{{i18n.productUnit}}</text>
 					<text class="action">{{i18n.groupbuy.toJoin}}</text>
 				</view>
 			</view>

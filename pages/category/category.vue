@@ -60,7 +60,6 @@
 				this.$api.request.productCate({}, res => {
 					if (res.body.status.statusCode === '0') {
 						this.cateList = res.body.data.cates;
-						//默认选中
 						if(this.cateList.length>0){
 							this.tabtap(this.cateList[0]);
 						}

@@ -18,7 +18,7 @@
 				<view class="container" v-show="loading === false">
 					<!-- 推荐 -->
 					<view class="s-header">
-						<text class="tit">{{i18n.content.strings}}</text>
+						<text class="tit">{{i18n.content.rec}}</text>
 					</view>
 					<view class="rec-section" v-for="item in newsList" :key="item.articleUuid">
 						<view class="rec-item" @click="navToDetails(item)">

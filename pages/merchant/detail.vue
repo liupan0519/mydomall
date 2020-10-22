@@ -33,7 +33,7 @@
 			<view v-for="(item,index) in couponList" v-if="index<3">
 				<u-button type="error" style="margin-right:5px;height:20px;line-height: 20px;" plain size="mini">
 					<text v-if="item.conditionAmount>0">{{i18n.coupon.full}}{{item.conditionAmount}}</text>
-					<text v-else>立</text>
+					<text v-else>{{i18n.coupon.rightAway}}</text>
 					<text v-if="item.type=='CASH'">{{i18n.coupon.less}}{{item.benefitCash}}</text>
 					<text v-if="item.type=='DISCOUNT'">{{i18n.coupon.enjoy}}{{item.benefitDiscount/10}}{{i18n.coupon.discount}}</text>
 					</u-button>
@@ -45,7 +45,7 @@
 		</view>
 		<!-- 领优惠券弹出框 -->
 		<u-popup v-model="showCoupon" mode="bottom" :closeable="true" border-radius="14" width="100%" height="800">
-			<view class="coupon-title">{{i18n.coupon.getCoupons}}领优惠券</view>
+			<view class="coupon-title">{{i18n.coupon.getCoupons}}</view>
 			<view class="coupon-list">
 				<view class="coupon-list-item" v-for="item in couponList">
 					<u-row>
@@ -149,11 +149,11 @@
 				merchant:{},
 				isFollowed: false,
 				tabList: [{
-					name: this.i18n.recommend
+					name: this.$i18nMsg().index.recommend
 				}, {
-					name: this.i18n.allPro
+					name: this.$i18nMsg().index.allPro
 				}, {
-					name: this.i18n.evaluate
+					name: this.$i18nMsg().index.evaluate
 				}],
 				current: 0,
 				total: 0,
@@ -385,7 +385,7 @@
 						}, res => {
 						if (res.body.status.statusCode === '0') {
 							this.isFollowed = true;
-							this.$api.msg(this.i18n.merchant.detail.followSuccess);
+							this.$api.msg(this.i18n.merchant.followSuccess);
 						} else {
 							console.log(res.body.status.errorDesc);
 						}
@@ -408,7 +408,7 @@
 						}, res => {
 						if (res.body.status.statusCode === '0') {
 							this.isFollowed = false;
-							this.$api.msg(thi.i18n.merchant.detail.cancelFollow);
+							this.$api.msg(thi.i18n.merchant.cancelFollow);
 						} else {
 							console.log(res.body.status.errorDesc);
 						}

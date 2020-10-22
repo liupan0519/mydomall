@@ -17,7 +17,7 @@
 		data() {
 			return {
 				richText:'',
-				strings: `<p>${this.contentMsg.strings}</p>`
+				strings: `<p>${this.$i18nMsg().index.content.strings}</p>`
 			};
 		},
 		

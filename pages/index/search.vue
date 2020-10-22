@@ -42,6 +42,11 @@
 				focus: true,
 			}
 		},
+		onLoad() {
+				uni.setNavigationBarTitle({
+					title: this.i18n.search
+				})
+		},
 		computed: {
 			i18n() {
 				return this.$i18nMsg().index
@@ -126,9 +131,6 @@
 		},
 		//页面卸载触发
 		onUnload() {
-			uni.setNavigationBarTitle({
-				title: this.i18n.search
-			})
 			// this.$db.set('search_term', '');
 			uni.setStorageSync('search_term', '');
 		}

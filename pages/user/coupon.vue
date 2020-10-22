@@ -65,15 +65,15 @@
 			return {
 				navList: [{
 						state: '1',
-						text: this.i18n.coupon.state1
+						text: this.$i18nMsg().index.coupon.state1
 					},
 					{
 						state: '2',
-						text: this.i18n.coupon.state2
+						text: this.$i18nMsg().index.coupon.state2
 					},
 					{
 						state: '3',
-						text: this.i18n.coupon.state3
+						text: this.$i18nMsg().index.coupon.state3
 					}],
 				tabCurrentIndex:0,
 				isExpired: false,

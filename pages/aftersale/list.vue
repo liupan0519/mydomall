@@ -4,7 +4,7 @@
 		<!-- 售后/退款列表 -->
 		<view v-for="(item,index) in afterSales" :key="index" class="order-item">
 			<view class="i-top b-b">
-				<text class="time">售后单号: {{item.saleNo}}</text>
+				<text class="time">{{aftersaleMsg.orderSale}}: {{item.saleNo}}</text>
 				<text class="state" :style="{color:item.statusColor}">{{item.statusDesc}}</text>
 			</view>
 
@@ -25,15 +25,15 @@
 			</view>
 
 			<view class="price-box">
-				退款金额
+				{{aftersaleMsg.afterSaleAmount}}
 				<text class="price">{{item.afterSaleAmount}}</text>
 			</view>
 			<view class="action-box b-t">
-				<button class="action-btn"  v-if="item.status == '0' || item.status == '2'" @click="cancelOrderAfterSale(item)">撤销申请</button>
-				<button class="action-btn"  v-if="item.status === '0'" @click="editOrderAfterSale(item)">修改申请</button>
-				<button class="action-btn"  v-if="item.status === '2'" @click="editOrderAfterSale(item)">重新申请</button>
-				<button class="action-btn"  v-if="item.status === '1'" @click="courierOrderAfterSale(item)">我已寄出</button>
-				<button class="action-btn" @click="viewOrderAfterSale(item)">查看详情</button>
+				<button class="action-btn"  v-if="item.status == '0' || item.status == '2'" @click="cancelOrderAfterSale(item)">{{aftersaleMsg.cancelOrderAfterSale}}</button>
+				<button class="action-btn"  v-if="item.status === '0'" @click="editOrderAfterSale(item)">{{aftersaleMsg.editOrderAfterSale}}</button>
+				<button class="action-btn"  v-if="item.status === '2'" @click="editOrderAfterSale(item)">{{aftersaleMsg.editOrderAfterSale}}</button>
+				<button class="action-btn"  v-if="item.status === '1'" @click="courierOrderAfterSale(item)">{{aftersaleMsg.courierOrderAfterSale}}</button>
+				<button class="action-btn" @click="viewOrderAfterSale(item)">{{aftersaleMsg.viewOrderAfterSale}}</button>
 			</view>
 		</view>
 		<uni-load-more :status="loadingType"></uni-load-more>
@@ -79,6 +79,9 @@
 			i18n() {
 				return this.$i18nMsg().index
 			},
+			aftersaleMsg() {
+				return this.$i18nMsg().index.aftersale
+			},
 			...mapState(['hasLogin', 'userInfo'])
 		},
 		methods: {
@@ -91,12 +94,12 @@
 				debugger
 				//校验退款金额
 				if (this.afterSaleAmount <= 0 || this.afterSaleAmount > this.order.productAmount) {
-					this.$api.msg('退款金额有误');
+					this.$api.msg(this.aftersaleMsg.errorAfterSaleAmount);
 					return;
 				}
 				//校验凭证
 				if (this.imageUrlList.length === 0) {
-					this.$api.msg('未上传凭证');
+					this.$api.msg(this.aftersaleMsg.errorUpload);
 					return;
 				}
 
@@ -111,7 +114,7 @@
 				}
 				this.$api.request.applyAfterSale(options, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg('售后申请已提交');
+						this.$api.msg(this.aftersaleMsg.applyAfterSale);
 						setTimeout(() => {
 							uni.navigateTo({
 								url: '/pages/aftersale/detail'
@@ -174,14 +177,14 @@
 			cancelOrderAfterSale(item){
 				let that = this;
 				uni.showModal({
-					content: '确定要撤销申请吗？',
+					content:  this.aftersaleMsg.cancelAfterSale,
 					success: (e) => {
 						if (e.confirm) {
 							this.$api.request.cancelAfterSale({
 								saleNo: item.saleNo
 							}, res => {
 								if (res.body.status.statusCode === '0') {
-									that.$api.msg('售后单已成功撤销');
+									that.$api.msg(this.aftersaleMsg.cancelAfterSaleSuccess);
 									that.resetPage();
 									that.searchOrderAfterSale();
 								} else {
@@ -203,28 +206,28 @@
 				switch (status) {
 					case '0':
 						{
-						statusDesc = '退款中';
+						statusDesc = this.aftersaleMsg.refunding;
 						break;
 						}
 					case '1':
 						{
-						statusDesc = '待买家退货';
+						statusDesc = this.aftersaleMsg.returnBuyer;
 						break;
 						}
 					case '2':
 						{
-							statusDesc = '退款失败';
+							statusDesc = this.aftersaleMsg.refundFailed;
 							statusColor = '#fa436a';
 							break;
 						}
 					case '3':
 						{
-							statusDesc = '待确认收货';
+							statusDesc = this.aftersaleMsg.pendingReceipt;
 							break;
 						}
 					case '9':
 						{
-							statusDesc = '退款成功';
+							statusDesc = this.aftersaleMsg.refundSuccess;
 							statusColor = '#5FCDA2';
 							break;
 						}
