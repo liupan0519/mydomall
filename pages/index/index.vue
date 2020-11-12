@@ -2,8 +2,11 @@
 	<view class="container">
 		<!-- 小程序头部兼容 -->
 		<!-- #ifdef MP||H5 -->
-		<view class="mp-search-box">
-			<input class="ser-input" type="text" :value="i18n.searchInput" disabled @click="navSearch" />
+		<view class="mp-search-box" style="display: flex;">
+			<view class="" style="flex: 2;color: #fff; line-height:56rpx" @click="pickerCity">
+				北京市
+			</view>
+			<input  class="ser-input" type="text" :value="i18n.searchInput" disabled @click="navSearch" />
 		</view>
 		<!-- #endif -->
 
@@ -12,7 +15,7 @@
 			<!-- 标题栏和状态栏占位符 -->
 			<view class="titleNview-placing"></view>
 			<!-- 背景色区域 -->
-			<view class="titleNview-background" style="background:#E37A64"></view>
+			<view class="titleNview-background" style="background:#82c7a1"></view>
 			<swiper :autoplay="true" :interval="2000" class="carousel" circular @change="swiperChange">
 				<swiper-item v-for="(item, index) in carouselList" :key="index" class="carousel-item" @click="navSwiper(item)">
 					<image :src="item.url" />
@@ -47,7 +50,7 @@
 						<uni-grid-item>
 							<view class="grid-item-box" @click="navGroupBuy">
 								<image class="grid-image" src="/static/image/pintuan.png"></image>
-								<text class="grid-text">{{i18n.groups}}</text>
+								<text class="grid-text">{{i18n.group}}</text>
 								<view class="grid-dot">
 									<uni-badge style="width:30px" :text="i18n.lowPrice" type="warning" />
 								</view>
@@ -114,7 +117,7 @@
 					<view v-for="(item, index) in secKills" :key="index" class="floor-item" @click="navSecKillDetail(item)">
 						<image :src="item.productDTO.productMainImage.url" mode="aspectFill"></image>
 						<text class="title clamp">{{item.productDTO.productName}}</text>
-						<text class="price">￥{{item.unitPrice}}</text>
+						<text class="price">{{item.unitPrice}}円</text>
 						<text>
 						</text>
 					</view>
@@ -139,13 +142,13 @@
 						<view class="t-box">
 							<text class="title clamp">{{groupBuys[index].productDTO.productName}}</text>
 							<view class="price-box">
-								<text class="price">￥{{groupBuys[index].unitPrice}}</text>
-								<text class="m-price">￥{{groupBuys[index].productDTO.unitPrice}}</text>
+								<text class="price">{{groupBuys[index].unitPrice}}円</text>
+								<text class="m-price">{{groupBuys[index].productDTO.unitPrice}}円</text>
 							</view>
 
 							<view class="pro-box">
 								<view class="progress-box">
-									<progress percent="72" activeColor="#fa436a" active stroke-width="6" />
+									<progress percent="72" :activeColor="baseColor" active stroke-width="6" />
 								</view>
 								<text>{{groupBuys[index].minUserCount}}{{i18n.groupbuy.groupOf}}</text>
 							</view>
@@ -157,12 +160,12 @@
 						<view class="t-box">
 							<text class="title clamp">{{groupBuys[index+1].productDTO.productName}}</text>
 							<view class="price-box">
-								<text class="price">￥{{groupBuys[index+1].unitPrice}}</text>
-								<text class="m-price">￥{{groupBuys[index+1].productDTO.unitPrice}}</text>
+								<text class="price">{{groupBuys[index+1].unitPrice}}円</text>
+								<text class="m-price">{{groupBuys[index+1].productDTO.unitPrice}}円</text>
 							</view>
 							<view class="pro-box">
 								<view class="progress-box">
-									<progress percent="72" activeColor="#fa436a" active stroke-width="6" />
+									<progress percent="72" :activeColor="baseColor" active stroke-width="6" />
 								</view>
 								<text>{{groupBuys[index+1].minUserCount}}{{i18n.groupbuy.groupOf}}</text>
 							</view>
@@ -194,7 +197,7 @@
 						<view v-for="product in group.productList" class="floor-item" @click="navToDetailPage(product)">
 							<image :src="product.productMainImage.url" mode="aspectFill"></image>
 							<text class="title clamp">{{product.productName}}</text>
-							<text class="price">￥{{product.unitPrice}}</text>
+							<text class="price">{{product.unitPrice}}円</text>
 						</view>
 						<view class="more" @click="navToGroupPage(group)">
 							<text>{{i18n.searchAll}}</text>
@@ -204,7 +207,7 @@
 				</scroll-view>
 			</view>
 		</view>
-		<u-tabs name="cateName" :show-bar="true" active-color="#FA436A" :list="cates" :is-scroll="true" :current="current"
+		<u-tabs name="cateName" :show-bar="true" :active-color="baseColor" :list="cates" :is-scroll="true" :current="current"
 		 @change="change"></u-tabs>
 		<view class="goods-list">
 			<view v-for="(item, index) in goodsList" :key="index" class="goods-item">
@@ -317,10 +320,27 @@
 			...mapState(['hasLogin', 'userInfo', 'footPrint', 'applicationConfig'])
 		},
 		onLoad() {
+			let that = this;
 			// #ifdef MP 
 			uni.setNavigationBarTitle({
-				title: this.i18n.title
+				title: that.i18n.title
 			})
+			// #endif 
+
+
+			//#ifdef APP-PLUS
+			let webView = this.$mp.page.$getAppWebview();
+			var tn = webView.getStyle().titleNView;
+			if (tn.buttons) {
+				uni.getSystemInfo({
+					success: function(res) {
+						tn.searchInput.placeholder = that.i18n.searchInput;
+						webView.setStyle({
+							titleNView: tn
+						});
+					}
+				})
+			}
 			// #endif 
 			this.loadData();
 		},
@@ -587,6 +607,11 @@
 			// 		}
 			// 	});
 			// },
+			pickerCity(){
+				uni.navigateTo({
+					url: 'pickerCity'
+				})
+			},
 			//轮播图切换修改背景色
 			swiperChange(e) {
 				const index = e.detail.current;
@@ -752,16 +777,9 @@
 					}
 				})
 			} else if (index === 1) {
-				// #ifdef APP-PLUS
-				const pages = getCurrentPages();
-				const page = pages[pages.length - 1];
-				const currentWebview = page.$getAppWebview();
-				currentWebview.hideTitleNViewButtonRedDot({
-					index
-				});
-				// #endif
+			
 				uni.navigateTo({
-					url: '/pages/notice/list'
+					url: 'pickerCity'
 				})
 			}
 		}
@@ -780,7 +798,7 @@
 		padding: 0 80upx;
 
 		.ser-input {
-			flex: 1;
+			flex: 6;
 			height: 56upx;
 			line-height: 56upx;
 			text-align: center;
@@ -1281,8 +1299,8 @@
 			color: $uni-color-primary;
 			line-height: 1;
 
-			&:before {
-				content: '￥';
+			&:after {
+				content: '円';
 				font-size: 26upx;
 			}
 		}
