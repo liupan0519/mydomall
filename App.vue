@@ -152,12 +152,12 @@
 				}
 			});
 
-			var lan = uni.getStorageSync('locale')
-			if (!lan) {
+			/* var lan = uni.getStorageSync('locale')
+			if(!lan){
+				lan = "ja-JP"
 				try {
-					/* const res = uni.getSystemInfoSync();
-					lan = res.language */
-					lan = 'ja-JP';
+					const res = uni.getSystemInfoSync();
+					lan = res.language
 				} catch (e) {
 					lan = "ja-JP"
 					console.log('error=' + e)
@@ -171,9 +171,12 @@
 			}
 			if (lan == 'ja' || lan == 'ja-JP') {
 				this.$i18n.locale = 'ja-JP'
+			} */
+			
+			var lan = uni.getStorageSync('locale')
+			if(!lan){
+				uni.setStorageSync('locale', this.$i18n.locale);
 			}
-			uni.setStorageSync('locale', this.$i18n.locale);
-
 			var tokenId = uni.getStorageSync('userToken');
 			if (tokenId) {
 				//使用token就可以查询用户信息
