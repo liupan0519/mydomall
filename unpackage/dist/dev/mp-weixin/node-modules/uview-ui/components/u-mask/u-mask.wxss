@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+image.data-v-7775dba7 {
+  display: inline-block;
+  will-change: transform;
+}
+view.data-v-7775dba7,
+text.data-v-7775dba7 {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.u-mask.data-v-7775dba7 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+}
+.u-mask-show.data-v-7775dba7 {
+  opacity: 1;
+}
+.u-mask-zoom.data-v-7775dba7 {
+  -webkit-transform: scale(1.2, 1.2);
+          transform: scale(1.2, 1.2);
+}
+

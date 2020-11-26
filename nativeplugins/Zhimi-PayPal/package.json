@@ -1,0 +1,62 @@
+{
+	"name": "PayPal支付插件",  
+	"id": "Zhimi-PayPal",  
+	"version": "1.0",  
+	"description": "PayPal支付插件",  
+	"_dp_type":"nativeplugin",  
+	"_dp_nativeplugin":{ 
+		"android": {
+			"plugins": [  
+				{
+					"type": "module",  
+					"name": "Zhimi-PayPal",  
+					"class": "com.zhimi.paypal.PayPalModule"  
+				}
+			],  
+			"hooksClass": "",  
+			"integrateType": "aar",  
+			"dependencies": [
+				"com.paypal.sdk:paypal-android-sdk:2.16.0",
+				"com.squareup.retrofit2:retrofit:2.3.0",
+				"com.squareup.retrofit2:converter-gson:2.3.0"
+			],
+			"compileOptions": {
+			    "sourceCompatibility": "1.8",
+			    "targetCompatibility": "1.8"
+			},
+			"minSdkVersion": "21",  
+			"permissions": [] 
+		},
+		"ios": {
+			"plugins": [
+				{
+					"type": "module",
+					"name": "Zhimi-PayPal",
+					"class": "PayPalModule"
+				}
+			],  
+			"hooksClass": "",
+			"integrateType": "library", 
+			"frameworks": [
+				"SafariServices.framework",
+				"MessageUI.framework",
+				"SystemConfiguration.framework",
+				"MobileCoreServices.framework"
+			],
+			"embedFrameworks": [
+			],
+			"headers":[
+				"PayPalConfiguration.h",
+				"PayPalFuturePaymentViewController.h",
+				"PayPalMobile.h",
+				"PayPalOAuthScopes.h",
+				"PayPalPayment.h",
+				"PayPalPaymentViewController.h",
+				"PayPalProfileSharingViewController.h"
+			],
+			"privacies": [
+			], 
+			"deploymentTarget": "9.0"
+		}
+	}
+}

@@ -1,0 +1,65 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+image.data-v-239d3faa {
+  display: inline-block;
+  will-change: transform;
+}
+view.data-v-239d3faa,
+text.data-v-239d3faa {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.u-divider.data-v-239d3faa {
+  width: 100%;
+  position: relative;
+  text-align: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  overflow: hidden;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+}
+.u-divider-line.data-v-239d3faa {
+  border-bottom: 1px solid #e4e7ed;
+  -webkit-transform: scale(1, 0.5);
+          transform: scale(1, 0.5);
+  -webkit-transform-origin: center;
+          transform-origin: center;
+}
+.u-divider-line--bordercolor--primary.data-v-239d3faa {
+  border-color: #2979ff;
+}
+.u-divider-line--bordercolor--success.data-v-239d3faa {
+  border-color: #19be6b;
+}
+.u-divider-line--bordercolor--error.data-v-239d3faa {
+  border-color: #2979ff;
+}
+.u-divider-line--bordercolor--info.data-v-239d3faa {
+  border-color: #909399;
+}
+.u-divider-line--bordercolor--warning.data-v-239d3faa {
+  border-color: #ff9900;
+}
+.u-divider-text.data-v-239d3faa {
+  white-space: nowrap;
+  padding: 0 16rpx;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+}
+
