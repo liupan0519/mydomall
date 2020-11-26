@@ -10,7 +10,21 @@
 			<input class="input" type="number" v-model="addressData.telephone" :placeholder="i18n.address.telephone2"
 			 placeholder-class="placeholder" />
 		</view>
-		<view class="row b-b">
+		<view class="row b-b" v-if="i18n.lang=='ja'">
+			<text class="tit">{{i18n.province}}</text>
+			<view class="uni-list-cell-db">
+				<picker @change="bindPickerChange" :value="index" :range="array" range-key="label">
+					<view class="uni-input">{{array[index].label}}</view>
+				</picker>
+			</view>
+		</view>
+
+		<view class="row b-b" v-if="i18n.lang=='ja'">
+			<text class="tit">{{i18n.address.city}}</text>
+			<input :maxlength="100" class="input" type="text" v-model="addressData.city" :placeholder="i18n.address.city"
+			 placeholder-class="placeholder" />
+		</view>
+		<view class="row b-b" v-if="i18n.lang=='zh'">
 			<text class="tit">{{i18n.province}}</text>
 			<view class="input">
 				{{addressData.province}} {{addressData.city}} {{addressData.area}}
@@ -27,7 +41,7 @@
 		</view>
 		<view class="row b-b">
 			<text class="tit">{{i18n.address.zipcode}}</text>
-			<input class="input" type="text" :maxlength="6" v-model="addressData.zipcode" :placeholder="i18n.address.zipcode"
+			<input class="input" type="number" :maxlength="8" v-model="addressData.zipcode" :placeholder="i18n.address.zipcodePH"
 			 placeholder-class="placeholder" />
 		</view>
 		<view class="row default-row">
@@ -41,6 +55,7 @@
 
 <script>
 	import wPicker from "@/components/w-picker/w-picker.vue";
+	import provinceArray from "../../static/province.js";
 	import {
 		mapState,
 		mapMutations
@@ -49,6 +64,8 @@
 		data() {
 			return {
 				manageType: '',
+				index: 0,
+				array: provinceArray,
 				addressData: {
 					name: '',
 					telephone: '',
@@ -64,13 +81,25 @@
 		},
 		onLoad(option) {
 			let title = this.i18n.address.addBtn;
+			if (this.i18n.lang === 'ja'&&option.type === 'add') {
+				this.addressData.city = ''
+				this.addressData.area = 0
+			}
 			if (option.type === 'edit') {
-				title = this.i18n.address.editBtn
+				let tempArea = parseInt(JSON.parse(option.data).area);
+				title = this.i18n.address.editBtn;
+				if (this.i18n.lang === 'ja') {
+					if (isNaN(tempArea)) {
+						this.index = 0
+					} else {
+						this.index = tempArea;
+					}
+				}
 				this.addressData = JSON.parse(option.data);
 				this.defaultRegion = [this.addressData.province, this.addressData.city, this.addressData.area];
 			}
 			this.manageType = option.type;
-			debugger
+			//debugger
 			uni.setNavigationBarTitle({
 				title
 			})
@@ -85,6 +114,12 @@
 			wPicker
 		},
 		methods: {
+			bindPickerChange: function(e) {
+				//console.log('picker发送选择改变，携带值为：' + e.detail.value)
+				this.index = e.detail.value;
+				this.$set(this.addressData, 'province', this.array[this.index].label);
+				this.$set(this.addressData, 'area', e.detail.value + "");
+			},
 			showAddressRegion() {
 				this.$refs['region'].show();
 			},
@@ -109,6 +144,7 @@
 
 			//提交
 			confirm() {
+				console.log(this.i18n.lang);
 				let data = this.addressData;
 				if (!data.name) {
 					this.$api.msg(this.i18n.address.errorName);
@@ -122,9 +158,20 @@
 				// 	this.$api.msg('请在地图选择所在位置');
 				// 	return;
 				// }
+
+				if (!data.city) {
+					this.$api.msg(this.i18n.address.errorCity);
+					return;
+				}
 				if (!data.street) {
 					this.$api.msg(this.i18n.address.errorStreet);
 					return;
+				}
+				if (this.i18n.lang === 'ja') {
+					if (!data.zipcode) {
+						this.$api.msg(this.i18n.address.errorZipcode);
+						return;
+					}
 				}
 
 				let options = this.addressData;
@@ -136,6 +183,8 @@
 						userUuid: this.userInfo.userUuid
 					}
 				}
+				//console.log(options)
+				//return;
 				this.$api.request.saveUserShip(options, res => {
 					if (res.body.status.statusCode === '0') {
 						var msg = this.i18n.address.successAdd;
@@ -244,7 +293,7 @@
 		color: #fff;
 		background-color: $base-color;
 		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 
 
