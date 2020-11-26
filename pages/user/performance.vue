@@ -11,7 +11,7 @@
 				</view>
 			</view>
 
-			<text class="amount">￥{{item.performanceAmount}}</text>
+			<text class="amount">¥{{item.performanceAmount}}</text>
 		</view>
 
 		<uni-load-more :status="loadingType"></uni-load-more>
@@ -189,6 +189,6 @@
 		color: #fff;
 		background-color: $base-color;
 		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 </style>

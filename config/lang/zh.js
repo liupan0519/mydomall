@@ -32,7 +32,6 @@ export const index = {
 	studio: '直播间',
 	group: '拼团专区',
 	lowPrice: '低价',
-	groups: '秒杀专区',
 	spikes: '秒杀专区',
 	limited: '限时',
 	signin: '签到领积分',
@@ -62,7 +61,33 @@ export const index = {
 	complete: '完成',
 	closed: '关闭',
 	open: '打开',
+	pickerCity:'选择城市',
+	picker:{
+		cancel:'取消',
+		define:'确定',
+		year:'年',
+		month:'月',
+		day:'日',
+		hour:'时',
+		minute:'分',
+		second:'秒',
+		prompt:'提示',
+		validTime:'选择时间必须大于当前时间',
+		to:'至',
+		waiting:'请稍后..',
+		uploadError:'上传中出现问题，已终止上传',
+		returnError:'接口返回错误',
+		networkError:'网络链接错误',
+		pictureCancel:'确定要放弃这张图片么？',
+		updatePrompt:'下载更新提示',
+	},
 	userLocation: '你的位置信息将用于查询附近的门店',
+	share:{
+		weixin:'微信好友',
+		WXSenceTimeline:'微信朋友圈',
+		poster:'生成二维码',
+		copyUrl:'复制链接'
+	},
 	spike: {
 		end: '已结束',
 		start: '秒杀中',
@@ -90,11 +115,14 @@ export const index = {
 		name2: "收货人姓名",
 		telephone2: "收货人手机号码",
 		address2: "收货人地址",
+		city:"郡市区(島)",
 		street: "详细地址",
 		zipcode: "邮政编码",
+		zipcodePH: "(例)1402000",
 		errorName: '请填写收货人姓名',
 		errorTel: '请输入正确的手机号码',
 		errorStreet: '请填写详细地址',
+		errorCity:'郡市区(島)を入力',
 		errorStreetMerchant: '点击选择商家地址',
 		errorStreetMerchant2: '请选择商家地址',
 		selectAddress: '请选择地址',
@@ -152,14 +180,14 @@ export const index = {
 		update: '确认修改',
 		errorAfterSaleAmount: '退款金额有误',
 		errorUpload: '未上传凭证',
-		applyAfterSale: '退款申请已提交',
+		applyRefund: '退款申请已提交',//applyAfterSale
 		updateAfterSale: '退款单已修改',
 		cancelOrderAfterSale: '撤销申请',
 		editOrderAfterSale: '修改申请',
-		editOrderAfterSale: '重新申请',
+		reOrderAfterSale: '重新申请',
 		courierOrderAfterSale: '我已寄出',
 		viewOrderAfterSale: '查看详情',
-		applyAfterSale: '售后申请已提交',
+		applyAfterSale: '售后申请已提交',//applyAfterSale
 		cancelAfterSale: '确定要撤销申请吗',
 		cancelAfterSaleSuccess: '售后单已成功撤销',
 		approveOrderAfterSale: '同意退款',
@@ -348,7 +376,7 @@ export const index = {
 		cancelOrderSuccess: '订单已成功取消',
 		receiveCon: '确认已收货吗？',
 		receive: '确认收货成功',
-		applyAfterSale: '发起退款前请与客服仔细沟通, 达成一致后再发起退款申请, 是否继续申请退款？',
+		applyAfterSaleDesc: '发起退款前请与客服仔细沟通, 达成一致后再发起退款申请, 是否继续申请退款？',//applyAfterSale
 		merchantAddress1: '未选择收货地址',
 		merchantAddress2: '未选择提货门店',
 		orderType0: '普通',
@@ -376,7 +404,8 @@ export const index = {
 		state3: '待评价',
 		state4: '已取消',
 		state5: '已完成',
-		state6: '退款/售后'
+		state6: '退款/售后',
+		state7:'交易成功'
 	},
 	point: {
 		ruleTitle: '积分签到规则',
@@ -469,13 +498,19 @@ export const index = {
 		toBind: '立即绑定',
 		unknown: '未知',
 		gender1: '男',
-		gender2: '女'
+		gender2: '女',
+		pullUpShow:'上拉显示更多',
+		loading:'正在加载...',
+		noMoreData:'没有更多数据了'
+		
 	},
 	set: {
 		title: '设置',
 		userInfo: '个人资料',
 		merchantInfo: '商家资料',
 		userSecurity: '账户安全',
+		langStr: '语言',
+		currentLang: '中文',
 		notificationEnabled: '消息推送',
 		applicationVersion: '当前版本',
 		about: '关于我们',
@@ -599,5 +634,10 @@ export const index = {
 		dataOrderCount: '订单数量',
 		dataOrderAmount: '订单金额',
 		ranking: '销售排行榜'
+	},
+	currency: {
+		style: 'currency',
+		currency: 'JPY',
+		currencyDisplay: 'symbol'
 	}
 }

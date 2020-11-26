@@ -13,20 +13,17 @@
 						"searchInput": {
 							"backgroundColor": "rgba(231, 231, 231,.7)",
 							"borderRadius": "16px",
-							"placeholder": "请输入商品 如：iphone",
 							"disabled": true,
 							"placeholderColor": "#606266"
 						},
-						"buttons": [
-							{
+						"buttons": [{
 								"fontSrc": "/static/yticon.ttf",
 								"text": "\ue60d",
 								"fontSize": "26",
 								"color": "#303133",
-								"float": "left",
+								"float": "right",
 								"background": "rgba(0,0,0,0)"
-							},
-							{
+							}, {
 								"fontSrc": "/static/yticon.ttf",
 								"text": "\ue744",
 								"fontSize": "27",
@@ -34,6 +31,14 @@
 								"background": "rgba(0,0,0,0)",
 								"redDot": true
 							}
+							/* {
+								"text": "北京市",
+								"fontSize": "16",
+								"select": true,
+								"width": "auto",
+								"float": "left",
+								"background": "rgba(0,0,0,0)"
+							} */
 						]
 					}
 				}
@@ -106,13 +111,13 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/user/balance",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/user/performance",
 			"style": {
@@ -124,43 +129,43 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/user/invited",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/withdraw/list",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/withdraw/apply",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/withdraw/detail",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/merchant/nearby",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/merchant/list",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		},{
+		}, {
 			"path": "pages/merchant/detail",
 			"style": {
 				"navigationBarTitleText": ""
@@ -520,8 +525,22 @@
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": ""
 			}
+		}, {
+			"path": "pages/index/pickerCity",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "components/pickerAddress/pickerAddress",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	],
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		/* "navigationBarTitleText": "好好新鲜商城", */
@@ -530,7 +549,7 @@
 	},
 	"tabBar": {
 		"color": "#C0C4CC",
-		"selectedColor": "#fa436a",
+		"selectedColor": "#55aa7f",
 		"borderStyle": "white",
 		"backgroundColor": "#ffffff",
 		"list": [{
@@ -560,19 +579,17 @@
 			}
 		]
 	},
-	"permission": { 
-					"scope.userLocation": {
-					  "desc": "你的位置信息将用于查询附近的门店"
-					}
-				 },
-	"condition" : { //模式配置，仅开发期间生效
+	"permission": {
+		"scope.userLocation": {
+			"desc": "你的位置信息将用于查询附近的门店"
+		}
+	},
+	"condition": { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [
-			{
-				"name": "", //模式名称
-				"path": "", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
-			}
-		]
+		"list": [{
+			"name": "", //模式名称
+			"path": "", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到
+		}]
 	}
 }

@@ -822,7 +822,7 @@
 		width: 690upx;
 		height: 80upx;
 		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 		background-color: $base-color;
 
 		.uni-badge {
@@ -896,6 +896,6 @@
 		color: #fff;
 		background-color: $base-color;
 		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 </style>

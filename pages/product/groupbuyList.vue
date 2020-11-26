@@ -18,7 +18,7 @@
 				</view>
 				<text class="title clamp"><u-tag :text="item.minUserCount+i18n.groupbuy.minUserCount" mode="dark" size="mini" type="error" />{{item.productDTO.productName}}</text>
 				<view class="price-box">
-					<text class="price">{{item.unitPrice}}<text class="standard">￥{{item.productDTO.unitPrice}}</text></text>
+					<text class="price">{{item.unitPrice}}<text class="standard">¥{{item.productDTO.unitPrice}}</text></text>
 					<text class="note">{{i18n.groupbuy.spelled}}{{item.soldUnit}}{{i18n.productUnit}}</text>
 					<text class="action">{{i18n.groupbuy.toJoin}}</text>
 				</view>
@@ -192,7 +192,7 @@
 			.action{
 				background-color: $base-color;
 				border-radius: 10upx;
-				box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+				box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 				color: #fff;
 				padding: 10upx;
 				font-size: $font-base;

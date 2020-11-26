@@ -3,7 +3,7 @@
 		<view class="nav">
 			<u-row>
 				<u-col span="6">
-					<u-tabs :show-bar="true" active-color="#FA436A" :list="tabList" :is-scroll="true" :current="current" @change="change"></u-tabs>
+					<u-tabs :show-bar="true" :active-color="baseColor" :list="tabList" :is-scroll="true" :current="current" @change="change"></u-tabs>
 				</u-col>
 				<u-col span="6">
 					<u-search v-if="current==0" :placeholder="i18n.searchMerchant" :clearabled="true" :show-action="false" :action-text="i18n.search" :animation="true" v-model="searchKey" @search="search"></u-search>

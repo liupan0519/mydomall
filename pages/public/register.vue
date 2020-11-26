@@ -226,14 +226,15 @@
 				});
 			},
 			populateWechatUserInfo(requestData){
+				
 				requestData.code = this.wechatUserInfo.code;
 				requestData.name = this.wechatUserInfo.nickName;
 				requestData.photoUrl = this.wechatUserInfo.avatarUrl;
-				let sex = that.publicMsg.noBind;
+				let sex = this.publicMsg.noBind;
 				if(this.wechatUserInfo.gender===1)
-					sex = that.publicMsg.gender1;
+					sex = this.publicMsg.gender1;
 				else if(this.wechatUserInfo.gender===2)
-					sex = that.publicMsg.gender2;
+					sex = this.publicMsg.gender2;
 				requestData.sex = sex;
 			},
 			

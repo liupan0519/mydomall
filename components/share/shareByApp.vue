@@ -11,7 +11,7 @@
 			</view>
 		</view>
 		<view class="button-bottom">
-			<button class="btn btn-w btn-square" @click="close()">关闭</button>
+			<button class="btn btn-w btn-square" @click="close()">{{i18n.closed}}</button>
 		</view>
 	</view>	
 </template>
@@ -52,6 +52,12 @@ export default {
 			providerList: [] // 分享通道 包含生成海报
 		}
 	},
+	computed:{
+		
+			i18n() {
+				return this.$i18nMsg().index
+			}
+	},
 	mounted () {
 		/**
 		 * 
@@ -66,14 +72,14 @@ export default {
 					switch (e.provider[i]) {
 						case 'weixin':
 							data.push({
-								name: '微信好友',
+								name: this.i18n.share.weixin,
 								cate: 'share',
 								id: 'weixin',
 								img: '../../static/image/ic-wechat.png',
 								sort: 0
 							})
 							data.push({
-								name: '微信朋友圈',
+								name: this.i18n.share.WXSenceTimeline,
 								cate: 'share',
 								id: 'weixin',
 								type:'WXSenceTimeline',
@@ -96,7 +102,7 @@ export default {
 				}
 				
 				data.push({
-					name: '生成二维码',
+					name: this.i18n.share.poster,
 					cate: 'poster',
 					id: 'poster',
 					img: '../../static/image/poster.png',

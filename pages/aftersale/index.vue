@@ -33,11 +33,11 @@
 			<text class="tit">{{aftersaleMsg.afterSaleType}}</text>
 			<radio-group class="input" @change="radioChange">
 				<label>
-					<radio color="#fa436a" value="1" :checked="afterSaleType=='1'"/><text>{{aftersaleMsg.refundOnly}}</text>
+					<radio :color="baseColor" value="1" :checked="afterSaleType=='1'"/><text>{{aftersaleMsg.refundOnly}}</text>
 				</label>
 				<!-- 待发货状态只需要退款即可 -->
 				<label v-if="order.orderStatus != '1'">
-					<radio color="#fa436a" value="2" :checked="afterSaleType=='2'"/><text>{{aftersaleMsg.refundReturn}}</text>
+					<radio :color="baseColor" value="2" :checked="afterSaleType=='2'"/><text>{{aftersaleMsg.refundReturn}}</text>
 				</label>
 			</radio-group>
 		</view>
@@ -153,7 +153,7 @@
 				}
 				this.$api.request.applyAfterSale(options, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg(this.aftersaleMsg.applyAfterSale);
+						this.$api.msg(this.aftersaleMsg.applyRefund);
 						setTimeout(() => {
 							uni.navigateTo({
 								url: '/pages/aftersale/list'
@@ -405,9 +405,9 @@
 		margin: 60upx auto;
 		font-size: $font-lg;
 		color: #fff;
-		background-color: #fa436a;
+		background-color: $base-color;
 		border-radius: 10upx;
-		box-shadow: 1px 2px 5px #fa436a;
+		box-shadow: 1px 2px 5px $base-color;
 	}
 
 </style>

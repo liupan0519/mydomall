@@ -7,18 +7,18 @@
 				<button open-type="share" class="share-btn">
 					<image src="../../static/image/ic-wechat.png" mode=""></image>
 					<view class="desc">
-						微信好友
+						{{i18n.share.weixin}}
 					</view>
 				</button>
 
 			</view>
 			<view class="share-item" @click="createPoster()">
 				<image src="../../static/image/poster.png" mode=""></image>
-				<view class="">生成二维码</view>
+				<view class="">{{i18n.share.poster}}</view>
 			</view>
 		</view>
 		<view class="button-bottom">
-			<button class="btn btn-w btn-square" @click="close()">关闭</button>
+			<button class="btn btn-w btn-square" @click="close()">{{i18n.closed}}</button>
 		</view>
 
 	</view>
@@ -86,6 +86,9 @@
 			
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			...mapState(['hasLogin', 'userInfo', 'applicationConfig'])
 		},
 		methods: {

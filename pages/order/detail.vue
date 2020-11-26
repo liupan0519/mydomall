@@ -56,8 +56,8 @@
 					</text>
 					<text class="spec" v-if="!product.productDTO.skuEnabled">-</text>
 					<view class="price-box">
-						<!-- <text class="price" v-if="product.productDTO.skuEnabled">￥{{product.productSkuDTO.skuUnitPrice}}</text>
-						<text class="price" v-if="!product.productDTO.skuEnabled">￥{{product.productDTO.unitPrice}}</text> -->
+						<!-- <text class="price" v-if="product.productDTO.skuEnabled">¥{{product.productSkuDTO.skuUnitPrice}}</text>
+						<text class="price" v-if="!product.productDTO.skuEnabled">¥{{product.productDTO.unitPrice}}</text> -->
 						<text class="price" v-if="!product.productDTO.skuEnabled">￥{{product.productUnitPrice}}</text>
 						<text class="number">x {{product.productUnit}}</text>
 					</view>
@@ -179,6 +179,7 @@
 				this.$api.request.orderDetail({
 					orderNo: orderNo
 				}, res => {
+					console.log(res);
 					if (res.body.status.statusCode === '0') {
 						this.order = res.body.data;
 						this.order.orderStatusDesc = this.$api.util.translateOrderStatus(this.order.orderStatus).orderStatusDesc;

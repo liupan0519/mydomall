@@ -15,7 +15,7 @@
 						<text class="name">{{addressData.name}}</text>
 						<text class="mobile">{{addressData.telephone}}</text>
 					</view>
-					<text class="address">{{addressData.province}}{{addressData.city}}{{addressData.area}}{{addressData.street}}</text>
+					<text class="address">{{addressData.province}}{{addressData.city}}<text v-if="i18n.lang=='zh'">{{addressData.area}}</text>{{addressData.street}}</text>
 				</view>
 				<text class="yticon icon-you"></text>
 			</view>
@@ -105,7 +105,7 @@
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">{{i18n.order.productAmount}}</text>
-				<text class="cell-tip red">￥{{productAmount}}</text>
+				<text class="cell-tip red">{{productAmount}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">{{i18n.order.deductAmount}}</text>

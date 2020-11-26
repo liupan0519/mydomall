@@ -152,22 +152,28 @@
 				}
 			});
 
-			var lan = 'zh'
-			try {
-				const res = uni.getSystemInfoSync();
-				lan = res.language
-			} catch (e) {
-				console.log('error=' + e)
+			var lan = uni.getStorageSync('locale')
+			if (!lan) {
+				try {
+					/* const res = uni.getSystemInfoSync();
+					lan = res.language */
+					lan = 'ja-JP';
+				} catch (e) {
+					lan = "ja-JP"
+					console.log('error=' + e)
+				}
 			}
-			console.log('lan=' + lan);
-			if (lan == 'en') {
+			if (lan == 'en' || lan == 'en-US') {
 				this.$i18n.locale = 'en-US'
 			}
-			if (lan == 'zh-Hans-CN' || lan == 'zh') {
+			if (lan == 'zh-Hans-CN' || lan == 'zh' || lan == 'zh-CN') {
 				this.$i18n.locale = 'zh-CN'
 			}
+			if (lan == 'ja' || lan == 'ja-JP') {
+				this.$i18n.locale = 'ja-JP'
+			}
+			uni.setStorageSync('locale', this.$i18n.locale);
 
-			console.log(this.$i18n.locale)
 			var tokenId = uni.getStorageSync('userToken');
 			if (tokenId) {
 				//使用token就可以查询用户信息
@@ -199,27 +205,27 @@
 </style>
 <style lang='scss'>
 	/* 图片载入替代方案 */
-	.image-wrapper {
-		font-size: 0;
-		background: #f3f3f3;
-		border-radius: 4px;
-
-		image {
-			width: 100%;
-			height: 100%;
-			transition: .6s;
-			opacity: 0;
-
-			&.loaded {
-				opacity: 1;
+		.image-wrapper {
+			font-size: 0;
+			background: #f3f3f3;
+			border-radius: 4px;
+	
+			image {
+				width: 100%;
+				height: 100%;
+				transition: .6s;
+				opacity: 0;
+	
+				&.loaded {
+					opacity: 1;
+				}
 			}
 		}
-	}
-
-	/* #ifdef H5 */
-	uni-page-head {
-		display: none;
-	}
-
-	/* #endif */
+	
+		/* #ifdef H5 */
+		uni-page-head {
+			display: none;
+		}
+	
+		/* #endif */
 </style>

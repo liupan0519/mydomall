@@ -4,7 +4,7 @@
 			<text class="tit">{{i18n.set.name}}</text>
 			<input class="input" type="text" maxlength="20" v-model="name" :placeholder="i18n.set.namePH" placeholder-class="placeholder" />
 		</view>
-		<button class="add-btn" @click="save">{{i18n.setBtn}}</button>
+		<button class="add-btn" @click="save">{{i18n.saveBtn}}</button>
 	</view>
 </template>
 
@@ -73,7 +73,7 @@
 
 		.tit {
 			flex-shrink: 0;
-			width: 120upx;
+			width: 190upx;
 			font-size: 30upx;
 			color: $font-color-dark;
 		}
@@ -101,6 +101,6 @@
 		color: #fff;
 		background-color: $base-color;
 		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 </style>

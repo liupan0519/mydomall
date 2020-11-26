@@ -1,9 +1,18 @@
-export const apiBaseUrl = 'https://api.howfresh.jp/b2b2c/'
-//export const apiBaseUrl = 'http://b2b2c.mydomall.com/b2b2c/'
+/* 生产环境 */
+/* export const apiBaseUrl = 'https://api.howfresh.jp/b2b2c/' */
+
+/* 测试环境 */
+export const apiBaseUrl = 'https://stage.hf.api.mydomall.com/b2b2c/'
+
+/* 本地环境 */
+/* export const apiBaseUrl = 'http://192.168.3.31:8083/' */
+
+
+
 
 // 需要登陆的，都写到这里，否则就是不需要登陆的接口
 const generateUuid = (randomFlag, min, max) => {
-	var str = '',
+	var str = '', 
 		range = min,
 		arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 	//随机产生
@@ -95,7 +104,9 @@ const methodsToken = [
 	'consumer/cancelFollowMerchant',
 	'consumer/inquiryFollowedMerchant',
 	'consumer/inquiryProfitWelfare',
-	'consumer/receiveProfitWelfare'
+	'consumer/receiveProfitWelfare',
+	'paypal/queryPaypalOrder',
+	'paypal/paypalNotify'
 ];
 
 const post = (method, data, callback, hideLoading) => {
@@ -138,6 +149,7 @@ const post = (method, data, callback, hideLoading) => {
 		success: (response) => {
 			if(!hideLoading)
 				uni.hideLoading();
+			/* console.log(apiBaseUrl + method+":"+JSON.stringify(response)) */
 			const result = response.data
 			if (!result.body.status.statusCode === '0') {
 				// 登录信息过期或者未登录
@@ -205,7 +217,7 @@ const pluginsPost = (method, data, callback, hideLoading) => {
 		method: 'POST',
 		success: (response) => {
 			uni.hideLoading();
-			const result = response.data
+			const result = response.data;
 			if (!result.status) {
 				// 登录信息过期或者未登录
 				if (result.data === 14007 || result.data === 14006) {
@@ -255,37 +267,37 @@ const showError = error => {
 	let errorMsg = ''
 	switch (error.status) {
 		case 400:
-			errorMsg = '请求参数错误'
+			errorMsg = '请求参数错误'//请求参数错误
 			break
 		case 401:
-			errorMsg = '未授权，请登录'
+			errorMsg = '未授权，请登录'//未授权，请登录
 			break
 		case 403:
-			errorMsg = '跨域拒绝访问'
+			errorMsg = '跨域拒绝访问'//跨域拒绝访问
 			break
 		case 404:
-			errorMsg = `请求地址出错: ${error.config.url}`
+			errorMsg = `请求地址出错: ${error.config.url}`//请求地址出错
 			break
 		case 408:
-			errorMsg = '请求超时'
+			errorMsg = '请求超时'//请求超时
 			break
 		case 500:
-			errorMsg = '服务器内部错误'
+			errorMsg = '服务器内部错误'//服务器内部错误
 			break
 		case 501:
-			errorMsg = '服务未实现'
+			errorMsg = '服务未实现'//服务未实现
 			break
 		case 502:
-			errorMsg = '网关错误'
+			errorMsg = '网关错误'//网关错误
 			break
 		case 503:
-			errorMsg = '服务不可用'
+			errorMsg = '服务不可用'//服务不可用
 			break
 		case 504:
-			errorMsg = '网关超时'
+			errorMsg = '网关超时'//网关超时
 			break
 		case 505:
-			errorMsg = 'HTTP版本不受支持'
+			errorMsg = 'HTTP版本不受支持'//HTTP版本不受支持
 			break
 		default:
 			errorMsg = error.msg
@@ -673,6 +685,16 @@ export const alipay = (data, callback, hideLoading) => post('consumer/initAlipay
 
 // 支付宝APP端接口
 export const alipayApp = (data, callback, hideLoading) => post('consumer/initAlipayApp', data, callback, hideLoading);
+
+// paypalAPP端接口
+export const paypalApp = (data, callback, hideLoading) => post('paypal/queryPaypalOrder', data, callback, hideLoading);
+
+// paypalAppToken接口
+export const paypalAppToken = (data, callback, hideLoading) => post('paypal/createPaypalOrder', data, callback, hideLoading);
+
+
+// paypal/paypalNotify
+export const paypalAPPNotify = (data, callback, hideLoading) => post('paypal/paypalNotify', data, callback, hideLoading);
 
 // 模拟支付成功接口
 export const balancePay = (data, callback, hideLoading) => post('consumer/balancePay', data, callback, hideLoading);

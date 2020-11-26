@@ -7,6 +7,7 @@ import * as request from './config/api'
 import './components/ican-H5Api/ican-H5Api'
 import uView from "uview-ui";
 import Json from './Json' 
+/* import vconsole from 'vconsole' // 引入vconsole */
 
 
 Vue.use(uView);
@@ -52,18 +53,20 @@ App.mpType = 'app';
 Vue.prototype.$fire = new Vue();
 Vue.prototype.$store = store;
 Vue.prototype.$api = {msg, json, prePage,util,request};
+/* Vue.prototype.$vconsole = new vconsole() // 使用vconsole */
 
 
 const i18n = new VueI18n({
-    locale : 'zh-CN', //语言标识
+    locale : 'ja-JP', //语言标识
     messages: {
         'en-US' : require('config/lang/en.js')  , //英文语言包
-        'zh-CN' : require('config/lang/zh.js')  //中文繁体语言包
-    }
+        'zh-CN' : require('config/lang/zh.js'),  //中文繁体语言包
+        'ja-JP' : require('config/lang/ja.js')  //日文语言包
+    } 
 })
 
+Vue.prototype.baseColor="#55aa7f";
 Vue.prototype._i18n = i18n
-
 Vue.prototype.$i18nMsg = function(){
     return i18n.messages[i18n.locale]
 }

@@ -31,7 +31,7 @@
 			<view class="action-box b-t">
 				<button class="action-btn"  v-if="item.status == '0' || item.status == '2'" @click="cancelOrderAfterSale(item)">{{aftersaleMsg.cancelOrderAfterSale}}</button>
 				<button class="action-btn"  v-if="item.status === '0'" @click="editOrderAfterSale(item)">{{aftersaleMsg.editOrderAfterSale}}</button>
-				<button class="action-btn"  v-if="item.status === '2'" @click="editOrderAfterSale(item)">{{aftersaleMsg.editOrderAfterSale}}</button>
+				<button class="action-btn"  v-if="item.status === '2'" @click="editOrderAfterSale(item)">{{aftersaleMsg.reOrderAfterSale}}</button>
 				<button class="action-btn"  v-if="item.status === '1'" @click="courierOrderAfterSale(item)">{{aftersaleMsg.courierOrderAfterSale}}</button>
 				<button class="action-btn" @click="viewOrderAfterSale(item)">{{aftersaleMsg.viewOrderAfterSale}}</button>
 			</view>
@@ -114,7 +114,7 @@
 				}
 				this.$api.request.applyAfterSale(options, res => {
 					if (res.body.status.statusCode === '0') {
-						this.$api.msg(this.aftersaleMsg.applyAfterSale);
+						this.$api.msg(this.aftersaleMsg.applyRefund);
 						setTimeout(() => {
 							uni.navigateTo({
 								url: '/pages/aftersale/detail'

@@ -979,7 +979,7 @@
 			padding: 0 10px;
 			margin: 5px 0;
 			border-radius: 5px;
-			background-color: #FA436A;
+			background-color: $base-color;
 			color: #fff;
 			height: 30px;
 			line-height: 30px;
@@ -1313,9 +1313,9 @@
 			height: 76upx;
 			border-radius: 100px;
 			overflow: hidden;
-			box-shadow: 0 20upx 40upx -16upx #fa436a;
-			box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
-			background: linear-gradient(to right, #ffac30, #fa436a, #F56C6C);
+			box-shadow: 0 20upx 40upx -16upx #55aa7f;
+			box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
+			background: linear-gradient(to right,  #55a6aa, #55aa7f, #6aaa55);
 			margin-left: 20upx;
 			position: relative;
 
@@ -1362,6 +1362,6 @@
 		color: #fff;
 		background-color: $base-color;
 		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 </style>

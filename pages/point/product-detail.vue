@@ -887,9 +887,9 @@
 		align-items: center;
 		width: 690upx;
 		height: 100upx;
-		box-shadow: 0 20upx 40upx -16upx #fa436a;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
-		background: linear-gradient(to right, #ffac30, #fa436a, #F56C6C);
+		box-shadow: 0 20upx 40upx -16upx #55aa7f;
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
+		background: linear-gradient(to right,  #55a6aa, #55aa7f, #6aaa55);
 
 		.uni-badge {
 			position: absolute;
@@ -962,6 +962,6 @@
 		color: #fff;
 		background-color: $base-color;
 		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 </style>

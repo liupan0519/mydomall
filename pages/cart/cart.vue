@@ -6,14 +6,14 @@
 						<view v-if="hasLogin" class="empty-tips">
 							<text>{{i18n.cart.nodata}}</text>
 							<view style="margin-top:10px">
-								<u-button :ripple="true" type="error" size="mini" @click="navToIndex">{{i18n.toIndex}}</u-button>
+								<u-button :ripple="true" type="success" size="mini" @click="navToIndex">{{i18n.toIndex}}</u-button>
 							</view>
 							<!-- <navigator class="navigator" v-if="hasLogin" url="../index/index" open-type="switchTab">随便逛逛></navigator> -->
 						</view>
 						<view v-else class="empty-tips">
 							<text>{{i18n.cart.nodata}}</text>
 							<view style="margin-top:10px">
-								<u-button :ripple="true" type="error" size="mini" @click="navToLogin">{{i18n.toLogin}}</u-button>
+								<u-button :ripple="true" type="success" size="mini" @click="navToLogin">{{i18n.toLogin}}</u-button>
 							</view>
 							<!-- <view class="navigator" @click="navToLogin">去登录></view> -->
 						</view>

@@ -3,10 +3,7 @@
 		<!-- 小程序头部兼容 -->
 		<!-- #ifdef MP||H5 -->
 		<view class="mp-search-box" style="display: flex;">
-			<view class="" style="flex: 2;color: #fff; line-height:56rpx" @click="pickerCity">
-				北京市
-			</view>
-			<input  class="ser-input" type="text" :value="i18n.searchInput" disabled @click="navSearch" />
+			<input class="ser-input" type="text" :value="i18n.searchInput" disabled @click="navSearch" />
 		</view>
 		<!-- #endif -->
 
@@ -100,7 +97,7 @@
 		</view>
 
 		<view class="ad-1" v-if="ads.length>0">
-			<image @click="navAD(ads[0])" :src="ads[0].url" mode="scaleToFill"></image>
+			<image @click="navAD(ads[0])" :src="ads[0].url" mode="aspectFill"></image>
 		</view>
 		<!-- 秒杀楼层 -->
 		<view class="seckill-section m-t" v-if="secKills.length>0">
@@ -117,7 +114,7 @@
 					<view v-for="(item, index) in secKills" :key="index" class="floor-item" @click="navSecKillDetail(item)">
 						<image :src="item.productDTO.productMainImage.url" mode="aspectFill"></image>
 						<text class="title clamp">{{item.productDTO.productName}}</text>
-						<text class="price">{{item.unitPrice}}円</text>
+						<text class="price">￥{{item.unitPrice}}</text>
 						<text>
 						</text>
 					</view>
@@ -142,8 +139,8 @@
 						<view class="t-box">
 							<text class="title clamp">{{groupBuys[index].productDTO.productName}}</text>
 							<view class="price-box">
-								<text class="price">{{groupBuys[index].unitPrice}}円</text>
-								<text class="m-price">{{groupBuys[index].productDTO.unitPrice}}円</text>
+								<text class="price">￥{{groupBuys[index].unitPrice}}</text>
+								<text class="m-price">￥{{groupBuys[index].productDTO.unitPrice}}</text>
 							</view>
 
 							<view class="pro-box">
@@ -160,8 +157,8 @@
 						<view class="t-box">
 							<text class="title clamp">{{groupBuys[index+1].productDTO.productName}}</text>
 							<view class="price-box">
-								<text class="price">{{groupBuys[index+1].unitPrice}}円</text>
-								<text class="m-price">{{groupBuys[index+1].productDTO.unitPrice}}円</text>
+								<text class="price">￥{{groupBuys[index+1].unitPrice}}</text>
+								<text class="m-price">￥{{groupBuys[index+1].productDTO.unitPrice}}</text>
 							</view>
 							<view class="pro-box">
 								<view class="progress-box">
@@ -190,14 +187,14 @@
 			</view>
 			<view class="hot-floor">
 				<view class="floor-img-box">
-					<image class="floor-img" :src="group.backgroundUrl" mode="scaleToFill"></image>
+					<image class="floor-img" :src="group.backgroundUrl" mode="aspectFill"></image>
 				</view>
 				<scroll-view class="floor-list" scroll-x>
 					<view class="scoll-wrapper">
 						<view v-for="product in group.productList" class="floor-item" @click="navToDetailPage(product)">
 							<image :src="product.productMainImage.url" mode="aspectFill"></image>
 							<text class="title clamp">{{product.productName}}</text>
-							<text class="price">{{product.unitPrice}}円</text>
+							<text class="price">￥{{product.unitPrice}}</text>
 						</view>
 						<view class="more" @click="navToGroupPage(group)">
 							<text>{{i18n.searchAll}}</text>
@@ -607,7 +604,7 @@
 			// 		}
 			// 	});
 			// },
-			pickerCity(){
+			pickerCity() {
 				uni.navigateTo({
 					url: 'pickerCity'
 				})
@@ -777,10 +774,21 @@
 					}
 				})
 			} else if (index === 1) {
-			
+				// #ifdef APP-PLUS
+				const pages = getCurrentPages();
+				const page = pages[pages.length - 1];
+				const currentWebview = page.$getAppWebview();
+				currentWebview.hideTitleNViewButtonRedDot({
+					index
+				});
+				// #endif
 				uni.navigateTo({
-					url: 'pickerCity'
+					url: '/pages/notice/list'
 				})
+
+				/* uni.navigateTo({
+					url: 'pickerCity'
+				}) */
 			}
 		}
 		// #endif
@@ -1299,8 +1307,8 @@
 			color: $uni-color-primary;
 			line-height: 1;
 
-			&:after {
-				content: '円';
+			&:before {
+				content: '￥';
 				font-size: 26upx;
 			}
 		}

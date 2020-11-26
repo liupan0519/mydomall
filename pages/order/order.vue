@@ -147,7 +147,7 @@
 			})
 			this.tabCurrentIndex = Number(options.state);
 			//查询全部订单时这里调用, 查询其他状态时因为tabCurrentIndex改变会触发changeTab方法调用查询
-			if(this.tabCurrentIndex === 0)
+			//if(this.tabCurrentIndex === 0)
 				this.searchOrder(this.translateTabIndex(this.tabCurrentIndex));
 		},
 		//下拉刷新
@@ -341,7 +341,7 @@
 			},
 			applyAfterSale(item){
 				uni.showModal({
-					content: that.orderMsg.applyAfterSale,
+					content: this.orderMsg.applyAfterSaleDesc,
 					success: (e) => {
 						if (e.confirm) {
 							uni.navigateTo({
@@ -588,11 +588,11 @@
 			}
 
 			&.recom {
-				background: #fff9f9;
+				background: $base-bgcolor;
 				color: $base-color;
 
 				&:after {
-					border-color: #f7bcc8;
+					border-color: $base-color;
 				}
 			}
 		}

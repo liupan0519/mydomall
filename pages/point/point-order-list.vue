@@ -305,7 +305,7 @@
 			},
 			applyAfterSale(item) {
 				uni.showModal({
-					content: that.orderMsg.applyAfterSale,
+					content: that.orderMsg.applyAfterSaleDesc,
 					success: (e) => {
 						if (e.confirm) {
 							uni.navigateTo({

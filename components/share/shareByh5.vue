@@ -3,15 +3,15 @@
 		<view class="share-pop">
 			<view class="share-item" @click="copyUrl()">
 				<image src="../../static/image/share-f.png" mode=""></image>
-				<view class="">复制链接</view>
+				<view class="">{{i18n.share.poster}}</view>
 			</view>
 			<view class="share-item" @click="createPoster()">
 				<image src="../../static/image/poster.png" mode=""></image>
-				<view class="">生成二维码</view>
+				<view class="">{{i18n.share.poster}}</view>
 			</view>
 		</view>
 		<view class="button-bottom">
-			<button class="btn btn-w btn-square" @click="close()">关闭</button>
+			<button class="btn btn-w btn-square" @click="close()">{{i18n.closed}}</button>
 		</view>
 	</view>	
 </template>
@@ -65,6 +65,11 @@ export default {
 			type:Number,
 			default:0
 		}
+	},
+	computed:{
+			i18n() {
+				return this.$i18nMsg().index
+			}
 	},
 	mounted () {
 		/**

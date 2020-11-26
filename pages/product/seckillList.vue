@@ -205,7 +205,7 @@
 			.action{
 				background-color: $base-color;
 				border-radius: 10upx;
-				box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+				box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 				color: #fff;
 				padding: 10upx;
 				font-size: $font-base;

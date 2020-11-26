@@ -14,7 +14,7 @@
 						<text class="name">{{addressData.name}}</text>
 						<text class="mobile">{{addressData.telephone}}</text>
 					</view>
-					<text class="address">{{addressData.province}}{{addressData.city}}{{addressData.area}}{{addressData.street}}</text>
+					<text class="address">{{addressData.province}}{{addressData.city}} <text v-if="i18n.lang=='zh'">{{addressData.area}}</text>{{addressData.street}}</text>
 				</view>
 				<text class="yticon icon-you"></text>
 			</view>

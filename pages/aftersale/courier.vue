@@ -147,8 +147,8 @@
 		margin: 60upx auto;
 		font-size: $font-lg;
 		color: #fff;
-		background-color: #fa436a;
+		background-color: $base-color;
 		border-radius: 10upx;
-		box-shadow: 1px 2px 5px #fa436a;
+		box-shadow: 1px 2px 5px $base-color;
 	}
 </style>

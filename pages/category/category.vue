@@ -7,7 +7,7 @@
 		</scroll-view>
 		<scroll-view scroll-with-animation scroll-y class="right-aside">
 				<view class="ad" v-if="adList.length>0">
-					<image @click="navAD(adList[0])" :src="adList[0].url" mode="scaleToFill"></image>
+					<image @click="navAD(adList[0])" :src="adList[0].url" mode="aspectFill"></image>
 				</view>
 				<view class="title" v-if="brandList.length>0">
 					<text>{{i18n.brands}}</text>
@@ -15,7 +15,7 @@
 				<view class="t-list" v-if="brandList.length>0">
 					<view @click="navToBrand(titem.productBrandUuid)" class="t-item" v-for="titem in brandList"
 					 :key="titem.productBrandUuid">
-						<image :src="titem.logoUrl"></image>
+						<image :src="titem.logoUrl" mode="aspectFill"></image>
 						<text>{{titem.name}}</text>
 					</view>
 				</view>
@@ -25,7 +25,7 @@
 				<view class="t-list" v-if="tlist.length>0">
 					<view @click="navToProduct(titem.productCateUuid)" class="t-item" v-for="titem in tlist"
 					 :key="titem.productCateUuid">
-						<image :src="titem.catePicUrl"></image>
+						<image :src="titem.catePicUrl" mode="aspectFill"></image>
 						<text>{{titem.cateName}}</text>
 					</view>
 				</view>

@@ -3,8 +3,8 @@
 		<view class="mask" :class="{'show':showPicker}" @tap="maskTap" @touchmove.stop.prevent catchtouchmove="true"></view>
 		<view class="w-picker-cnt" :class="{'show':showPicker}">
 			<view class="w-picker-hd" @touchmove.stop.prevent catchtouchmove="true">
-			  <view class="w-picker-btn" @tap="pickerCancel">取消</view>
-			  <view class="w-picker-btn" :style="{'color':themeColor}" @tap="pickerConfirm">确定</view>
+			  <view class="w-picker-btn" @tap="pickerCancel">{{i18n.cancel}}</view>
+			  <view class="w-picker-btn" :style="{'color':themeColor}" @tap="pickerConfirm">{{i18n.define}}</view>
 			</view>
 			<view class="w-picker-view" v-if="mode=='linkage'">
 				<picker-view :indicator-style="itemHeight" :value="pickVal" @change="bindChange"  @touchstart="touchStart" @touchend="touchEnd">
@@ -64,7 +64,7 @@
 						<view class="w-picker-item" v-for="(item,index) in data.days" :key="index">{{item}}日</view>
 					</picker-view-column>
 					<picker-view-column>
-						<view class="w-picker-item" v-for="(item,index) in data.hours" :key="index">{{item}}时</view>
+						<view class="w-picker-item" v-for="(item,index) in data.hours" :key="index">{{item}}{{i18n.hour}}</view>
 					</picker-view-column>
 					<picker-view-column>
 						<view class="w-picker-item" v-for="(item,index) in data.minutes" :key="index">{{item}}分</view>
@@ -102,7 +102,7 @@
 			<view class="w-picker-view" v-if="mode=='time'">
 				<picker-view :indicator-style="itemHeight" :value="pickVal" @change="bindChange" @touchstart="touchStart" @touchend="touchEnd">
 					<picker-view-column>
-						<view class="w-picker-item" v-for="(item,index) in data.hours" :key="index">{{item}}时</view>
+						<view class="w-picker-item" v-for="(item,index) in data.hours" :key="index">{{item}}{{i18n.hour}}</view>
 					</picker-view-column>
 					<picker-view-column>
 						<view class="w-picker-item" v-for="(item,index) in data.minutes" :key="index">{{item}}分</view>
@@ -138,7 +138,7 @@
 						<view class="w-picker-item" v-for="(item,index) in data.date" :key="index">{{item.label}}</view>
 					</picker-view-column>
 					<picker-view-column>
-						<view class="w-picker-item" v-for="(item,index) in data.hours" :key="index">{{item.label}}时</view>
+						<view class="w-picker-item" v-for="(item,index) in data.hours" :key="index">{{item.label}}{{i18n.hour}}</view>
 					</picker-view-column>
 					<picker-view-column>
 						<view class="w-picker-item" v-for="(item,index) in data.minutes" :key="index">{{item.label}}分</view>
@@ -154,7 +154,7 @@
 						<view class="w-picker-item" v-for="(item,index) in data.areas" :key="index">{{item.label}}</view>
 					</picker-view-column>
 					<picker-view-column>
-						<view class="w-picker-item" v-for="(item,index) in data.hours" :key="index">{{item.label}}时</view>
+						<view class="w-picker-item" v-for="(item,index) in data.hours" :key="index">{{item.label}}{{i18n.hour}}</view>
 					</picker-view-column>
 				</picker-view>
 			</view>
@@ -191,7 +191,9 @@
 			};
 		},
 		computed:{
-			
+			i18n() {
+				return this.$i18nMsg().index.picker
+			}
 		},
 		props:{
 			mode:{
@@ -477,8 +479,8 @@
 						let bTime=new Date(this.resultStr.replace(/-/g,'/')).getTime();
 						if(aTime>bTime){
 							uni.showModal({
-								title:"提示",
-								content:"选择时间必须大于当前时间",
+								title:this.i18n.prompt,
+								content:this.i18n.validTime,
 								confirmColor:this.themeColor
 							});
 							return;
@@ -585,7 +587,7 @@
 							_this.data.tdays=days;
 						};
 						_this.checkArr=[fyear,fmonth,fday,tyear,tmonth,tday];
-						_this.resultStr=`${fyear+'-'+fmonth+'-'+fday+'至'+tyear+'-'+tmonth+'-'+tday}`;
+						_this.resultStr=`${fyear+'-'+fmonth+'-'+fday+this.i18n.to+tyear+'-'+tmonth+'-'+tday}`;
 						break;
 					case "half":
 						year=_this.data.years[arr[0]]||_this.data.years[_this.data.years.length-1];
@@ -863,7 +865,7 @@
 						let tmonth=data.tmonths[dVal[5]]||data.tmonths[data.tmonths.length-1];
 						let tday=data.tdays[dVal[6]]||data.tdays[data.tdays.length-1];
 						_this.checkArr=[fYear,fmonth,fday,tYear,tmonth,tday];
-						_this.resultStr=`${fYear+'-'+fmonth+'-'+fday+'至'+tYear+'-'+tmonth+'-'+tday}`;
+						_this.resultStr=`${fYear+'-'+fmonth+'-'+fday+this.i18n.to+tYear+'-'+tmonth+'-'+tday}`;
 						break;
 					case "half":
 						year=data.years[dVal[0]]||data.years[data.years.length-1];

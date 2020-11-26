@@ -28,7 +28,7 @@
 				</view>
 				<view class="tit">
 					<text class="yticon icon-iLinkapp-"></text>
-					<text v-if="hasLogin" @click="navTo('/pages/user/level')">{{userInfo.userLevelName}} ></text>
+					<text v-if="hasLogin" @click="navTo('/pages/user/level')">{{userInfo.userLevelName}}</text>
 					<text v-if="!hasLogin">{{userMsg.tourist}}</text>
 				</view>
 				<text class="e-m"></text>
@@ -589,7 +589,7 @@
 		.yticon {
 			font-size: 48upx;
 			margin-bottom: 18upx;
-			color: #fa436a;
+			color: $base-color;
 		}
 
 		.icon-shouhoutuikuan {

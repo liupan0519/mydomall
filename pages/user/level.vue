@@ -234,7 +234,7 @@
 		margin-top: 40upx;
 		padding: 10px 0;
 		background-color: #FA436A;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 		@extend %section;
 
 		.tj-item {
@@ -280,7 +280,7 @@
 	}
 
 	.arc-title-dot-light {
-		border-left: 10upx solid #FA436A;
+		border-left: 10upx solid $base-color;
 		padding-left: 10upx;
 		font-size: 28upx;
 		color: $font-color-base
