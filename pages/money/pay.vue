@@ -6,7 +6,7 @@
 		</view>
 
 		<view class="pay-type-list">
-			<view class="type-item b-b" @click="changePayType(1)"  v-if="i18n.lang=='zh'">
+			<view class="type-item b-b" @click="changePayType(1)" v-if="i18n.lang=='zh'">
 				<text class="icon yticon icon-weixinzhifu"></text>
 				<view class="con">
 					<text class="tit">{{i18n.pay.wxpay}}</text>
@@ -18,7 +18,7 @@
 				</label>
 			</view>
 			<!-- #ifndef MP-WEIXIN -->
-			<view class="type-item b-b" @click="changePayType(2)"  v-if="i18n.lang=='zh'">
+			<view class="type-item b-b" @click="changePayType(2)" v-if="i18n.lang=='zh'">
 				<text class="icon yticon icon-alipay"></text>
 				<view class="con">
 					<text class="tit">{{i18n.pay.alipay}}</text>
@@ -29,7 +29,8 @@
 				</label>
 			</view>
 			<view class="type-item b-b" id="paypal-button" @click="changePayType(4)">
-				<text class="icon yticon icon-alipay"></text>
+				<!-- <text class="icon yticon icon-alipay"></text> -->
+				<image src="../../static/image/paypal.png" class="icon-img"></image>
 				<view class="con">
 					<text class="tit">PayPal支付</text>
 				</view>
@@ -57,14 +58,12 @@
 		<!-- #ifndef MP-WEIXIN -->
 		<text class="mix-btn" @click="confirm">{{i18n.pay.confirm}}</text>
 		<!-- #endif -->
-
-		<!-- <PayPal amount="10.00" currency="JPY" :client="credentials" env="sandbox" :button-style="buttonStyle"
-		 @payment-authorized="paymentAuthorized" @payment-completed="paymentCompleted" @payment-cancelled="paymentCancelled">
-		</PayPal> -->
 	</view>
 </template>
 
 <script>
+	//插件对象
+	var sdkwx = uni.requireNativePlugin('Zhimi-PayPal');
 	/* import PayPal from 'vue-paypal-checkout'
 	console.log(PayPal) */
 	import {
@@ -79,16 +78,6 @@
 	export default {
 		data() {
 			return {
-				credentials: {
-					sandbox: 'AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-',
-					production: 'AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-'
-				},
-				buttonStyle: {
-					label: 'pay',
-					size: 'small',
-					shape: 'rect',
-					color: 'blue'
-				},
 				payType: 4,
 				orderNo: '',
 				pOrderNo: '',
@@ -119,11 +108,12 @@
 			//初始化
 			var clientId = "AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-";
 			sdkwx.init({
-				environment:"sandbox",//mock离线环境 sandbox沙盒环境 live正式环境
-				clientId:clientId,
-				merchantName:"Howfresh"/* ,
-				merchantPrivacyPolicyUri:"https://www.example.com/privacy",
-				merchantUserAgreementUri:"https://www.example.com/legal" */
+				environment: "sandbox", //mock离线环境 sandbox沙盒环境 live正式环境
+				clientId: clientId,
+				merchantName: "Howfresh"
+				/* ,
+								merchantPrivacyPolicyUri:"https://www.example.com/privacy",
+								merchantUserAgreementUri:"https://www.example.com/legal" */
 			});
 		},
 
@@ -392,24 +382,49 @@
 			},
 			paypalApp() {
 				let that = this;
-				/* console.log("paypalApp:");
-				let that = this;
-				const paypal = uni.requireNativePlugin('jay-paypal2');
-				paypal.init("AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-",
-					"AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-");
-				paypal.show({
-					"goodsName": "Test",
-					"PayPalEnvironment": "Sandbox",
-					"marketPrice": "60",
-					"invoiceNumber": "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=23162351LY0827450"
+				sdkwx.payment({
+					amount: that.order.actualAmount, //金额
+					currencyCode: "JPY", //货币类型
+					shortDescription: "Howfresh", //简述
+					paymentIntent: "sale", //意图，sale支付  authorize order
+					custome: that.orderNo||that.pOrderNo,
 				}, result => {
-					that.$api.msg(result);
-					setTimeout(function() {
-						that.$api.msg(JSON.stringify(result))
-					}, 20000)
+					if (result.code === 0) {
+						let paypalID = result.data.proofOfPayment.id;
+						that.$api.request.paypalAPPNotify({
+							orderNo: that.orderNo,
+							pOrderNo: that.pOrderNo,
+							paypalID: paypalID
+						}, res => {
+							that.$api.msg(res);
+							if (res.body.status.statusCode === '0') {
+								uni.showToast({
+									title: 'success'
+								})
+								setTimeout(() => {
+									uni.redirectTo({
+										url: '/pages/money/paySuccess'
+									});
+								}, 1000);
+							} else {
+								setTimeout(() => {
+									uni.redirectTo({
+										url: '/pages/order/order'
+									});
+								}, 1000);
+							}
+						});
+
+					} else {
+						alert('fail');
+						setTimeout(() => {
+							uni.redirectTo({
+								url: '/pages/order/order'
+							});
+						}, 1000);
+					}
 				});
-				return; */
-				that.$api.request.paypalApp({
+				/* that.$api.request.paypalApp({
 					orderNo: that.orderNo,
 					pOrderNo: that.pOrderNo
 				}, res => {
@@ -425,47 +440,12 @@
 							console.log(`createPaypalOrder:${JSON.stringify(res)}`)
 							if (res.body.status.statusCode === '0') {
 								let paypalToken = res.body.data.orderId;
-								const paypal = uni.requireNativePlugin('jay-paypal2');
-								paypal.init("AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-",
-									"AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-");
-								paypal.show({
-									"goodsName": "Howfresh",
-									"PayPalEnvironment": "Sandbox",
-									"marketPrice": "200",
-									"invoiceNumber": "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token="+paypalToken
-								}, result => {
-									that.$api.msg(result);
-									that.$api.request.paypalAPPNotify({
-										orderNo: that.orderNo,
-										pOrderNo: that.pOrderNo,
-										paypalID: result.id
-									}, res => {
-										that.$api.msg(res);
-										if (res.body.status.statusCode === '0') {
-											uni.showToast({
-												title: 'success'
-											})
-											setTimeout(() => {
-												uni.redirectTo({
-													url: '/pages/money/paySuccess'
-												});
-											}, 1000);
-										} else {
-											setTimeout(() => {
-												uni.redirectTo({
-								 					url: '/pages/order/order'
-												});
-											}, 1000);
-										}
-									});
-								});
 							}
 						});
-
 					} else {
 						that.$api.msg(res.body.status.errorDesc);
 					}
-				});
+				}); */
 
 			},
 			//余额支付
@@ -569,6 +549,12 @@
 		.icon {
 			width: 100upx;
 			font-size: 52upx;
+		}
+		
+		.icon-img{
+			width: 52upx;
+			height: 52upx;
+			margin-right: 48upx;
 		}
 
 		.icon-erjiye-yucunkuan {
