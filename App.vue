@@ -55,6 +55,35 @@
 					console.log('获取应用全局设置失败');
 				}
 			});
+			
+			/* var lan = uni.getStorageSync('locale')
+			if(!lan){
+				lan = "ja-JP"
+				try {
+					const res = uni.getSystemInfoSync();
+					lan = res.language
+				} catch (e) {
+					lan = "ja-JP"
+					console.log('error=' + e)
+				}
+			}
+			if (lan == 'en'||lan=='en-US') {
+				this.$i18n.locale = 'en-US'
+			}
+			if (lan == 'zh-Hans-CN' || lan == 'zh'||lan=='zh-CN') {
+				this.$i18n.locale = 'zh-CN'
+			}
+			if (lan == 'ja'||lan=='ja-JP') {
+				this.$i18n.locale = 'ja-JP'
+			} 
+			uni.setStorageSync('locale', this.$i18n.locale);
+			*/
+			
+			var lan = uni.getStorageSync('locale')
+			if(!lan){
+				uni.setStorageSync('locale', this.$i18n.locale);
+			}
+			
 			var merchantInfo = uni.getStorageSync('merchantInfo');
 			if(merchantInfo && merchantInfo.merchantUuid){
 				//使用token就可以查询用户信息
@@ -70,10 +99,10 @@
 			}
 		},
 		onShow: function() {
-			console.log('App Show')
+			//console.log('App Show')
 		},
 		onHide: function() {
-			console.log('App Hide')
+			//console.log('App Hide')
 		},
 	}
 </script>
