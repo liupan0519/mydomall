@@ -1,0 +1,79 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+page {
+  padding-bottom: 40rpx;
+  background-color: #f8f8f8;
+}
+.content {
+  position: relative;
+}
+.nav {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: #fff;
+}
+.sort {
+  width: 100%;
+}
+.merchant-wrapper {
+  margin-top: 100rpx;
+}
+.merchant-item {
+  margin: 20rpx;
+  background-color: #fff;
+}
+.top-section {
+  background-color: #fff;
+  padding: 20rpx;
+}
+.top-section .distance {
+  text-align: right;
+  font-size: 24rpx;
+  color: #909399;
+}
+.top-section .desc {
+  font-size: 24rpx;
+  color: #909399;
+  margin-top: 10rpx;
+}
+.product-list {
+  white-space: nowrap;
+  padding: 40rpx 20rpx 20rpx 20rpx;
+}
+.scoll-wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+}
+.empty-product {
+  width: 200rpx;
+  font-size: 24rpx;
+  color: #909399;
+}
+.product-item {
+  width: 150rpx;
+  margin-right: 20rpx;
+  font-size: 26rpx;
+  color: #303133;
+  line-height: 1.8;
+}
+.product-item image {
+  width: 150rpx;
+  height: 150rpx;
+  -webkit-border-radius: 6rpx;
+          border-radius: 6rpx;
+}
+.product-item .price {
+  color: #55aa7f;
+}
+

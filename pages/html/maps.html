@@ -1,0 +1,102 @@
+<!-- <!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>Google Map</title>
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDogTbRdjzs-TOldsj-ubuFK4CNp8jbYWg&callback=initMap&libraries=&v=weekly" defer></script>
+		<style type="text/css">
+			#map {
+				height: calc(100% - 50px);
+			}
+
+			html,
+			body {
+				height: calc(100% - 50px);
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="btn-list" style="display: flex;align-items: center;">
+			<image @click="" data-action="navigateBack" style="width: 20px;padding: 5px 0 5px 10px;position: absolute;left: 0;"
+			 src="./img/back.png"></image>
+			<div style="width: 100%;text-align: center;height: 50px;line-height: 50px;">
+				<h4 style="margin: 0 0;">Map</h4>
+			</div>
+		</div>
+		<div id="map"></div>
+	</body>
+</html>
+<script>
+	function getQuery(name) {
+		// 正则：[找寻'&' + 'url参数名字' = '值' + '&']（'&'可以不存在）
+		let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		let r = window.location.search.substr(1).match(reg);
+		if (r != null) {
+			// 对参数值进行解码
+			return decodeURIComponent(r[2]);
+		}
+		return null;
+	}
+
+	let map;
+
+	function initMap() {
+		const uluru = {
+			lat: Number(getQuery('lat')),
+			lng: Number(getQuery('log'))
+		};
+		map = new google.maps.Map(document.getElementById("map"), {
+			center: {
+				lat: Number(getQuery('lat')),
+				lng: Number(getQuery('log'))
+			},
+			zoom: 16,
+			center: uluru,
+		});
+		const marker = new google.maps.Marker({
+			position: uluru,
+			map: map,
+		});
+	}
+
+	var userAgent = navigator.userAgent;
+	if (userAgent.indexOf('AlipayClient') > -1) {
+		// 支付宝小程序的 JS-SDK 防止 404 需要动态加载，如果不需要兼容支付宝小程序，则无需引用此 JS 文件。
+		document.writeln('<script src="https://appx/web-view.min.js"' + '>' + '<' + '/' + 'script>');
+	} else if (/QQ/i.test(userAgent) && /miniProgram/i.test(userAgent)) {
+		// QQ 小程序
+		document.write(
+			'<script type="text/javascript" src="https://qqq.gtimg.cn/miniprogram/webview_jssdk/qqjssdk-1.0.0.js"><\/script>'
+		);
+	} else if (/miniProgram/i.test(userAgent) && /micromessenger/i.test(userAgent)) {
+		// 微信小程序 JS-SDK 如果不需要兼容微信小程序，则无需引用此 JS 文件。
+		document.write('<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"><\/script>');
+	} else if (/toutiaomicroapp/i.test(userAgent)) {
+		// 头条小程序 JS-SDK 如果不需要兼容头条小程序，则无需引用此 JS 文件。
+		document.write(
+			'<script type="text/javascript" src="https://s3.pstatp.com/toutiao/tmajssdk/jssdk-1.0.1.js"><\/script>');
+	} else if (/swan/i.test(userAgent)) {
+		// 百度小程序 JS-SDK 如果不需要兼容百度小程序，则无需引用此 JS 文件。
+		document.write(
+			'<script type="text/javascript" src="https://b.bdstatic.com/searchbox/icms/searchbox/js/swan-2.0.18.js"><\/script>'
+		);
+	} else if (/quickapp/i.test(userAgent)) {
+		// quickapp
+		document.write('<script type="text/javascript" src="https://quickapp/jssdk.webview.min.js"><\/script>');
+	}
+
+	// 待触发 `UniAppJSBridgeReady` 事件后，即可调用 uni 的 API。
+	document.addEventListener('UniAppJSBridgeReady', function() {
+		document.querySelector('.btn-list').addEventListener('click', function(evt) {
+			var target = evt.target;
+			uni.navigateBack({
+				delta: 1
+			});
+		});
+	});
+</script>
+<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"></script>
+ -->

@@ -1,0 +1,4058 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name PayPalCheckout
+import AuthenticationServices
+import CoreGraphics
+import Foundation
+import ObjectiveC
+@_exported import PayPalCheckout
+import SafariServices
+import Swift
+import UIKit
+import WebKit
+public struct LSATResult : Swift.Decodable {
+  public let upgradeLowScopeAccessToken: Swift.Bool
+  public let correlationID: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+}
+extension DispatchQueue {
+  public static func mainSync(_ execute: () -> Swift.Void)
+}
+public enum WebExperienceType {
+  case sfSafariViewController, wkWebView
+  public static func == (a: PayPalCheckout.WebExperienceType, b: PayPalCheckout.WebExperienceType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc @_hasMissingDesignatedInitializers public class WebExperienceRouter : ObjectiveC.NSObject, SafariServices.SFSafariViewControllerDelegate {
+  @objc deinit
+  public func start(experience: PayPalCheckout.WebExperienceType, with package: PayPalCheckout.URLPackage)
+  @objc public func safariViewController(_ controller: SafariServices.SFSafariViewController, didCompleteInitialLoad didLoadSuccessfully: Swift.Bool)
+  @objc public func safariViewController(_ controller: SafariServices.SFSafariViewController, initialLoadDidRedirectTo URL: Foundation.URL)
+  @objc public func safariViewControllerDidFinish(_ controller: SafariServices.SFSafariViewController)
+  @objc override dynamic public init()
+}
+@objc(PPCPaymentButtonEdges) public enum PaymentButtonEdges : Swift.Int, Swift.CaseIterable, Swift.CustomStringConvertible {
+  case hardEdges
+  case softEdges
+  case rounded
+  public var description: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.PaymentButtonEdges]
+  public static var allCases: [PayPalCheckout.PaymentButtonEdges] {
+    get
+  }
+}
+public class OutboundNetworkStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public enum BrandedBackgroundConfigErrors : Swift.Error {
+  case missingPlaceHolderImageForURL(reason: Swift.String)
+}
+public struct BrandedBackgroundConfig {
+  public var brandedBackgroundImageURLPlaceholder: UIKit.UIImage?
+  public var brandedBackgroundImageURL: Foundation.URL?
+  public var brandedBackgroundImage: UIKit.UIImage?
+  public var logoImage: UIKit.UIImage?
+  public var logoPositioning: PayPalCheckout.LogoPositioningConfig?
+  public var backgroundImageColor: UIKit.UIColor?
+  public init(brandedBackgroundImage: UIKit.UIImage? = nil, logoImage: UIKit.UIImage? = nil, logoPositioning: PayPalCheckout.LogoPositioningConfig? = nil, backgroundImageColor: UIKit.UIColor? = nil, brandedBackgroundImageURLPlaceholder: UIKit.UIImage? = nil, brandedBackgroundImageURL: Foundation.URL? = nil)
+}
+@objc(PPCShippingChangeState) public enum ShippingChangeState : Swift.Int, Swift.Codable {
+  case processing
+  case approved
+  case rejected
+  case cancelled
+  case error
+  case undetermined
+  public var stringValue: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class RateProtectionInfoPage : PayPalCheckout.ContentPage {
+  @objc deinit
+}
+public protocol PaymentButtonProvider : AnyObject {
+  var view: PayPalCheckout.PaymentButton? { get set }
+  func prepare(with config: PayPalCheckout.CheckoutConfig)
+  func start()
+}
+public typealias EventID = Swift.String
+public typealias EventListener = (PayPalCheckout.EventTypeData, Swift.Error?) -> Swift.Void
+public enum EventPlayback : Swift.CaseIterable {
+  case all
+  case last
+  case successful
+  case lastSuccessful
+  case failures
+  case none
+  public static func == (a: PayPalCheckout.EventPlayback, b: PayPalCheckout.EventPlayback) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public typealias AllCases = [PayPalCheckout.EventPlayback]
+  public static var allCases: [PayPalCheckout.EventPlayback] {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class Events {
+  @objc deinit
+  public static func clearEventData()
+  public static func clearEventListeners()
+  public static func clearEventListener(id: PayPalCheckout.EventID)
+  public static func listen(_ type: PayPalCheckout.EventType, id: PayPalCheckout.EventID, playback: PayPalCheckout.EventPlayback = .lastSuccessful, listener: @escaping PayPalCheckout.EventListener)
+  public static func fire(_ event: PayPalCheckout.EventTypeData, error: Swift.Error? = nil, block: (() -> Swift.Void)? = nil)
+}
+public struct GQLAddAddressPayload : PayPalCheckout.UserCheckoutPayload, Swift.Equatable, Swift.Codable {
+  public var user: PayPalCheckout.User? {
+    get
+  }
+  public var session: PayPalCheckout.CheckoutSession {
+    get
+  }
+  public static func == (a: PayPalCheckout.GQLAddAddressPayload, b: PayPalCheckout.GQLAddAddressPayload) -> Swift.Bool
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct AddAddressResult : Swift.Decodable, Swift.Equatable {
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.AddAddressResult, b: PayPalCheckout.AddAddressResult) -> Swift.Bool
+}
+public struct GQLUserCheckoutPayload : PayPalCheckout.UserCheckoutPayload, Swift.Equatable, Swift.Codable {
+  public var user: PayPalCheckout.User? {
+    get
+  }
+  public var session: PayPalCheckout.CheckoutSession {
+    get
+  }
+  public static func == (a: PayPalCheckout.GQLUserCheckoutPayload, b: PayPalCheckout.GQLUserCheckoutPayload) -> Swift.Bool
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public protocol UserCheckoutPayload {
+  var user: PayPalCheckout.User? { get }
+  var session: PayPalCheckout.CheckoutSession { get }
+}
+public struct UserCheckoutResult : Swift.Decodable, Swift.Equatable {
+  public var payload: PayPalCheckout.UserCheckoutPayload {
+    get
+  }
+  public var isBillingAgreement: Swift.Bool {
+    get
+  }
+  public var hasNoAvailableFI: Swift.Bool {
+    get
+  }
+  public var hasNoAvailableShipping: Swift.Bool {
+    get
+  }
+  public var unsupportedContingencies: [Swift.String] {
+    get
+  }
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.UserCheckoutResult, b: PayPalCheckout.UserCheckoutResult) -> Swift.Bool
+}
+public class InitializeUIStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class DeliveryView : UIKit.UIView, PayPalCheckout.ContentView, PayPalCheckout.ViewModelView, PayPalCheckout.ActionableRow {
+  public var id: Swift.String {
+    get
+  }
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var isVisible: Swift.Bool {
+    get
+  }
+  public var isPaysheetRow: Swift.Bool {
+    get
+  }
+  @objc deinit
+  public func updateAddressLabels()
+  public func updateData()
+  public func shouldSelectRow() -> Swift.Bool
+  public func didSelectRow()
+  public func willChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  public func didChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+}
+public class MoveToFinishingPage : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public typealias StaticIdentifier = Swift.String
+public protocol StaticIdentifiable {
+  static var id: PayPalCheckout.StaticIdentifier { get }
+  var staticId: PayPalCheckout.StaticIdentifier { get }
+}
+extension StaticIdentifiable {
+  public static var id: PayPalCheckout.StaticIdentifier {
+    get
+  }
+  public var staticId: PayPalCheckout.StaticIdentifier {
+    get
+  }
+}
+public func == (lhs: PayPalCheckout.StaticIdentifiable, rhs: PayPalCheckout.StaticIdentifiable) -> Swift.Bool
+public func != (lhs: PayPalCheckout.StaticIdentifiable, rhs: PayPalCheckout.StaticIdentifiable) -> Swift.Bool
+public class AuthenticateStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public typealias URLPackage = (initialURL: Foundation.URL, completionURL: Swift.String?, pageURL: Swift.String?, route: PayPalCheckout.WebRoute)
+@objc(PPCShippingChangeAddress) @objcMembers final public class ShippingChangeAddress : ObjectiveC.NSObject, PayPalCheckout.ShippingAddress, Swift.Codable {
+  @objc final public var isPrimary: Swift.Bool
+  @objc final public var isSelected: Swift.Bool
+  @objc final public var isDefault: Swift.Bool
+  @objc final public var isDisabled: Swift.Bool
+  @objc final public var isInvalid: Swift.Bool
+  @objc final public var fullAddress: Swift.String
+  @objc final public var addressID: Swift.String?
+  @objc final public var fullName: Swift.String?
+  @objc final public var line1: Swift.String?
+  @objc final public var line2: Swift.String?
+  @objc final public var city: Swift.String?
+  @objc final public var state: Swift.String?
+  @objc final public var postalCode: Swift.String?
+  @objc final public var country: Swift.String?
+  @objc public init(isPrimary: Swift.Bool, isSelected: Swift.Bool, isDefault: Swift.Bool, isDisabled: Swift.Bool, isInvalid: Swift.Bool, fullAddress: Swift.String, country: Swift.String?, addressID: Swift.String? = nil, fullName: Swift.String? = nil, line1: Swift.String? = nil, line2: Swift.String? = nil, city: Swift.String? = nil, state: Swift.String? = nil, postalCode: Swift.String? = nil)
+  @objc deinit
+  @objc override dynamic public init()
+  public init(from decoder: Swift.Decoder) throws
+  final public func encode(to encoder: Swift.Encoder) throws
+}
+final public class ClientConfigQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.ClientConfigResponse
+  public init(clientID: Swift.String, payToken: Swift.String)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers final public class PaysheetViewController : UIKit.UIViewController, PayPalCheckout.ContentView, AuthenticationServices.ASWebAuthenticationPresentationContextProviding, UIKit.UIGestureRecognizerDelegate {
+  final public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  final public var isVisible: Swift.Bool {
+    get
+  }
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc deinit
+  @objc override final public func dismiss(animated: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @objc override final public func viewDidLoad()
+  @objc override final public func viewWillAppear(_ animated: Swift.Bool)
+  @objc override final public func viewDidAppear(_ animated: Swift.Bool)
+  final public func setBrandedBackground()
+  @objc final public func gestureRecognizer(_ gestureRecognizer: UIKit.UIGestureRecognizer, shouldReceive touch: UIKit.UITouch) -> Swift.Bool
+  final public func willChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  final public func changingHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  final public func didChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  @available(iOS 13, *)
+  @objc final public func presentationAnchor(for session: AuthenticationServices.ASWebAuthenticationSession) -> AuthenticationServices.ASPresentationAnchor
+  public static func desiredHeaderFooterHeight(_ location: PayPalCheckout.FixedLocation, contentView: PayPalCheckout.ContentView) -> CoreGraphics.CGFloat
+  public static func swapInNewHeaderFooterViews(_ location: PayPalCheckout.FixedLocation, contentView: PayPalCheckout.ContentView, newPage: PayPalCheckout.ContentPage, completionHandler: (() -> Swift.Void)? = nil)
+  @objc override final public var supportedInterfaceOrientations: UIKit.UIInterfaceOrientationMask {
+    @objc get
+  }
+}
+@objc @_inheritsConvenienceInitializers public class HeaderTitleLabel : PayPalCheckout.UnconstrainedTextLabel {
+  override public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  override public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+@objc @_inheritsConvenienceInitializers public class UnconstrainedTextLabel : UIKit.UILabel, PayPalCheckout.ContentView {
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  public func setLabelText(_ content: Swift.String, _ args: [Swift.String] = [])
+  public func setLabelText(_ content: Swift.String, _ args: Swift.String...)
+  convenience public init(_ content: Swift.String, _ args: Swift.String...)
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public struct ButtonState {
+  public typealias Action = (PayPalCheckout.ButtonState) -> Swift.Void
+  public enum Color {
+    case blue
+    case blueBorderOnly
+    public static func == (a: PayPalCheckout.ButtonState.Color, b: PayPalCheckout.ButtonState.Color) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+  }
+  public var text: Swift.String
+  public var color: PayPalCheckout.ButtonState.Color
+  public var action: PayPalCheckout.ButtonState.Action
+  public init(text: Swift.String, color: PayPalCheckout.ButtonState.Color, action: @escaping PayPalCheckout.ButtonState.Action)
+}
+public protocol EventPayload {
+  associatedtype Data
+  var type: PayPalCheckout.EventType { get set }
+  var data: Self.Data? { get set }
+  var error: Swift.Error? { get set }
+}
+public class EventData<Data> : PayPalCheckout.EventPayload {
+  public var type: PayPalCheckout.EventType
+  public var data: Data?
+  public var error: Swift.Error?
+  public init(_ type: PayPalCheckout.EventType, _ data: Data? = nil, _ error: Swift.Error? = nil)
+  @objc deinit
+  convenience public init(_ type: PayPalCheckout.EventType, error: Swift.Error?)
+}
+public typealias ECTokenCall = ([Swift.String : Any]?, Foundation.URLResponse?, Swift.Error?) -> Swift.Void
+public enum ECTokenGen {
+  public static func generate<T>(_ type: T.Type, _ closure: @escaping (T?, Foundation.URLResponse?, Swift.Error?) -> Swift.Void) where T : Swift.Decodable, T : Swift.Encodable
+}
+public func log(_ printItems: Any..., audience: PayPalCheckout.LogAudience = .firstParty, gating: PayPalCheckout.LogGating = .debugging, separator: Swift.String = " ", terminator: Swift.String = "\n")
+public func log(_ level: PayPalCheckout.LogLevel, _ printItems: Any..., audience: PayPalCheckout.LogAudience = .firstParty, gating: PayPalCheckout.LogGating = .debugging, separator printSeparator: Swift.String = " ", terminator printTerminator: Swift.String = "\n")
+public func log(_ level: PayPalCheckout.LogLevel, _ items: [Any], audience: PayPalCheckout.LogAudience = .firstParty, gating: PayPalCheckout.LogGating = .debugging, separator: Swift.String = " ", terminator: Swift.String = "\n")
+public class DismissPaysheetStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public typealias ColorSheet = [PayPalCheckout.ColorType : UIKit.UIColor]
+extension Dictionary where Key == PayPalCheckout.ColorType, Value == UIKit.UIColor {
+  public func color(for type: PayPalCheckout.ColorType) -> UIKit.UIColor
+}
+public typealias HTTPHeaders = [PayPalCheckout.HTTPHeader : Swift.String]
+public enum HTTPHeader : Swift.String {
+  case Accept
+  case AcceptCharset
+  case AcceptEncoding
+  case AcceptLanguage
+  case AcceptRanges
+  case AccessControlAllowCredentials
+  case AccessControlAllowHeaders
+  case AccessControlAllowMethods
+  case AccessControlAllowOrigin
+  case AccessControlExposeHeaders
+  case AccessControlMaxAge
+  case AccessControlRequestHeaders
+  case AccessControlRequestMethod
+  case Age
+  case Allow
+  case AltSvc
+  case Authorization
+  case CacheControl
+  case ClearSiteData
+  case Connection
+  case ContentDisposition
+  case ContentEncoding
+  case ContentLanguage
+  case ContentLength
+  case ContentLocation
+  case ContentRange
+  case ContentSercurityPolicy
+  case ContentSecurityPolicyReportOnly
+  case ContentType
+  case Cookie
+  case CrossOriginResourcePolicy
+  case DNT
+  case Date
+  case ETag
+  case EarlyData
+  case Expect
+  case ExpectCT
+  case Expires
+  case FeaturePolicy
+  case Forwarded
+  case From
+  case Host
+  case IfMatch
+  case IfModifiedSince
+  case IfNoneMatch
+  case IfRange
+  case IfUnmodifiedSince
+  case Index
+  case KeepAlive
+  case LargeAllocation
+  case LastModified
+  case Location
+  case Origin
+  case Pragma
+  case ProxyAuthenticate
+  case ProxyAuthorization
+  case PublicKeyPins
+  case PublicKeyPinsReportOnly
+  case Range
+  case Referer
+  case ReferrerPolicy
+  case RetryAfter
+  case SecWebSocketAccept
+  case Server
+  case ServerTiming
+  case SetCookie
+  case SourceMap
+  case StrictTransportSecurity
+  case TE
+  case TimingAllowOrigin
+  case Tk
+  case Trailer
+  case TransferEncoding
+  case UpgradeInsecureRequests
+  case UserAgent
+  case Vary
+  case Via
+  case WWWAuthenticate
+  case Warning
+  case XContentTypeOptions
+  case XDNSPrefetchControl
+  case XForwardedFor
+  case XForwardedHost
+  case XForwardedProto
+  case XFrameProto
+  case XXSSProtection
+  case AppName
+  case AppVersion
+  case CorelationId
+  case AuthToken
+  case PayToken
+  public static func credentials(_ value: Swift.String, _ type: Swift.String = "Basic", _ encoding: PayPalCheckout.HTTPHeaderBase64Encoding = .passthru, _ dict: PayPalCheckout.HTTPHeaders? = nil) -> PayPalCheckout.HTTPHeaders
+  public static func jsonType(_ dict: PayPalCheckout.HTTPHeaders? = nil) -> PayPalCheckout.HTTPHeaders
+  public static func language(_ language: Swift.String = "en-US", _ dict: PayPalCheckout.HTTPHeaders? = nil) -> PayPalCheckout.HTTPHeaders
+  public static func corsServer(_ domain: Swift.String = "*", _ dict: PayPalCheckout.HTTPHeaders? = nil) -> PayPalCheckout.HTTPHeaders
+  public static func corsClient(_ origin: Swift.String, _ referrer: Swift.String? = nil, _ methods: [PayPalCheckout.HTTPMethod]? = nil, _ headers: [PayPalCheckout.HTTPHeader]? = nil, _ dict: PayPalCheckout.HTTPHeaders? = nil) -> PayPalCheckout.HTTPHeaders
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension Dictionary where Key == PayPalCheckout.HTTPHeader, Value == Swift.String {
+  public static var jsonType: PayPalCheckout.HTTPHeaders {
+    get
+  }
+  public static func credentials(_ value: Swift.String, _ type: Swift.String = "Basic", _ encoding: PayPalCheckout.HTTPHeaderBase64Encoding = .passthru, _ dict: PayPalCheckout.HTTPHeaders? = nil) -> PayPalCheckout.HTTPHeaders
+  public var jsonType: PayPalCheckout.HTTPHeaders {
+    get
+  }
+  public func credentials(_ value: Swift.String, _ type: Swift.String = "Basic", _ encoding: PayPalCheckout.HTTPHeaderBase64Encoding = .passthru) -> PayPalCheckout.HTTPHeaders
+  public func and(_ dict: PayPalCheckout.HTTPHeaders) -> PayPalCheckout.HTTPHeaders
+}
+public enum LogAudience : Swift.Int {
+  case everyone
+  case thirdParty
+  case firstParty
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension UILabel {
+  convenience public init(font: UIKit.UIFont)
+  public func applyPayPalConfig(colorType: PayPalCheckout.ColorType = .label)
+}
+@_hasMissingDesignatedInitializers public class State {
+  public var environment: PayPalCheckout.Environment {
+    get
+  }
+  public var mutationState: PayPalCheckout.GraphQLMutationState
+  public var payToken: PayPalCheckout.PayToken
+  public var payerID: Swift.String?
+  public var paymentID: Swift.String?
+  public var billingToken: Swift.String?
+  public var authToken: PayPalCheckout.AuthToken
+  public var lsatAccessToken: Swift.String
+  public var isSmartWalletEnabled: Swift.Bool
+  public var upgradedToken: Swift.Bool
+  public var dcvv: Swift.String?
+  public var webRedirectUriString: Swift.String
+  public var webReturnUriString: Swift.String
+  public var hideShipping: Swift.Bool
+  public var isChangeShippingAddressAllowed: Swift.Bool
+  public var shippingAddresses: [PayPalCheckout.ShippingAddress]?
+  public var unavailableShippingAddresses: [PayPalCheckout.ShippingAddress]
+  public var shippingMethods: [Swift.String]
+  public var shippingChangeState: PayPalCheckout.ShippingChangeState
+  public var presentingViewController: UIKit.UIViewController?
+  public var startupDate: Foundation.Date?
+  public var didCancel: Swift.Bool {
+    get
+    set
+  }
+  public var inSession: Swift.Bool
+  public var correlationIDs: PayPalCheckout.CorrelationIDs {
+    get
+  }
+  public static var environment: PayPalCheckout.Environment {
+    get
+  }
+  public static var mutationState: PayPalCheckout.GraphQLMutationState {
+    get
+  }
+  public static var payToken: PayPalCheckout.PayToken {
+    get
+    set
+  }
+  public static var payerID: Swift.String? {
+    get
+    set
+  }
+  public static var paymentID: Swift.String? {
+    get
+    set
+  }
+  public static var billingToken: Swift.String? {
+    get
+    set
+  }
+  public static var authToken: PayPalCheckout.AuthToken {
+    get
+    set
+  }
+  public static var lsatAccessToken: Swift.String {
+    get
+    set
+  }
+  public static var isSmartWalletEnabled: Swift.Bool {
+    get
+    set
+  }
+  public static var upgradedToken: Swift.Bool {
+    get
+    set
+  }
+  public static var dcvv: Swift.String? {
+    get
+    set
+  }
+  public static var webRedirectUriString: Swift.String {
+    get
+    set
+  }
+  public static var webReturnUriString: Swift.String {
+    get
+    set
+  }
+  public static var startupDate: Foundation.Date? {
+    get
+    set
+  }
+  public static var didCancel: Swift.Bool {
+    get
+    set
+  }
+  public static var isNativeEligible: Swift.Bool {
+    get
+  }
+  public static var correlationIDs: PayPalCheckout.CorrelationIDs {
+    get
+  }
+  @objc deinit
+  public static func url(from route: PayPalCheckout.WebRoute) -> Foundation.URL?
+  public static func uriString(from route: PayPalCheckout.WebRoute) -> Swift.String?
+}
+public protocol BankAccountBeneficiary {
+  var fullName: Swift.String { get }
+}
+public protocol BankAccountIssuer {
+  var name: Swift.String { get }
+  var city: Swift.String { get }
+  var country: Swift.String { get }
+  var branchLocation: Swift.String? { get }
+}
+public protocol BankAccountCreditor {
+  var id: Swift.String { get }
+  var name: Swift.String { get }
+  var address: PayPalCheckout.Address { get }
+}
+public protocol BankAccount {
+  var id: Swift.String { get }
+  var nickname: Swift.String? { get }
+  var type: PayPalCheckout.BankAccountType { get }
+  var routingNumber: Swift.String { get }
+  var accountNumber: Swift.String { get }
+  var accountNumberShort: Swift.String { get }
+  var bankIdentifierCode: Swift.String { get }
+  var currencyCode: Swift.String { get }
+  var beneficiaries: [PayPalCheckout.BankAccountBeneficiary] { get }
+  var billingAddress: PayPalCheckout.Address? { get }
+  var issuer: PayPalCheckout.BankAccountIssuer? { get }
+  var creditor: PayPalCheckout.BankAccountCreditor? { get }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class ShippingDetailsPage : PayPalCheckout.ContentPage {
+  @objc deinit
+}
+public class OutputListener {
+  public var contents: Swift.String
+  public init()
+  @objc deinit
+}
+extension OutputListener {
+  public func openConsolePipe()
+  public func closeConsolePipe()
+  public var stdoutFileDescriptor: Swift.Int32 {
+    get
+  }
+  public var stderrFileDescriptor: Swift.Int32 {
+    get
+  }
+}
+public struct CarouselImageDownloader : PayPalCheckout.ImageDownloadable {
+  public static func downloadImage(with url: Foundation.URL)
+}
+public struct CarouselImageCacher : PayPalCheckout.ImageCacheable {
+  @discardableResult
+  public static func cacheImage(with data: Foundation.Data) -> Swift.Bool
+}
+public struct CarouselImageRetriever : PayPalCheckout.ImageRetrievable {
+  public static func retrieveImages(with url: Foundation.URL) -> Swift.Bool
+}
+public struct CarouselImageRemover : PayPalCheckout.ImageRemoveable {
+  @discardableResult
+  public static func removeImage(with file: Foundation.URL) -> Swift.Bool
+}
+public class InboundNetworkStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class RateChangeView : UIKit.UIView, PayPalCheckout.FadingContentView, PayPalCheckout.ViewModelView, PayPalCheckout.ActionableRow {
+  public var id: Swift.String {
+    get
+  }
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  @objc deinit
+  public func updateData()
+  public func didSelectRow()
+}
+@_hasMissingDesignatedInitializers public class ContentConfig {
+  public var primaryFont: UIKit.UIFont
+  public var secondaryFont: UIKit.UIFont
+  public var tertiaryFont: UIKit.UIFont
+  public var quaternaryFont: UIKit.UIFont
+  public var boldFont: UIKit.UIFont
+  public var headerFont: UIKit.UIFont
+  final public let systemFont15: UIKit.UIFont
+  final public let systemFont30: UIKit.UIFont
+  final public let systemFont24: UIKit.UIFont
+  final public let systemFont13: UIKit.UIFont
+  public var cardPrimaryFont: UIKit.UIFont
+  public var cardSecondaryFont: UIKit.UIFont
+  public var cardBankNameFont: UIKit.UIFont
+  public var cardAddNewFont: UIKit.UIFont
+  public var starLabelFont: UIKit.UIFont
+  public var profileTitleLabelFont: UIKit.UIFont
+  public var profilePageLinksFont: UIKit.UIFont
+  public var colorSheet: PayPalCheckout.ColorSheet
+  public var primaryColor: UIKit.UIColor {
+    get
+  }
+  public var blackText: UIKit.UIColor {
+    get
+  }
+  public var successColor: UIKit.UIColor {
+    get
+  }
+  public var warningColor: UIKit.UIColor {
+    get
+  }
+  public var errorColor: UIKit.UIColor {
+    get
+  }
+  public var translucentColor: UIKit.UIColor {
+    get
+  }
+  public var transparentColor: UIKit.UIColor {
+    get
+  }
+  public var labelColor: UIKit.UIColor {
+    get
+  }
+  public var secondaryLabelColor: UIKit.UIColor {
+    get
+  }
+  public var tertiaryLabelColor: UIKit.UIColor {
+    get
+  }
+  public var quaternaryLabelColor: UIKit.UIColor {
+    get
+  }
+  public var labelOnLightBackground: UIKit.UIColor {
+    get
+  }
+  public var labelOnDarkBackground: UIKit.UIColor {
+    get
+  }
+  public var buttonNormalTextColor: UIKit.UIColor {
+    get
+  }
+  public var callToActionBlueButton0070BA: UIKit.UIColor {
+    get
+  }
+  public var placeholderTextColor: UIKit.UIColor {
+    get
+  }
+  public var linkColor: UIKit.UIColor {
+    get
+  }
+  public var separatorColor: UIKit.UIColor {
+    get
+  }
+  public var opaqueSeparatorColor: UIKit.UIColor {
+    get
+  }
+  public var systemFillColor: UIKit.UIColor {
+    get
+  }
+  public var secondarySystemFillColor: UIKit.UIColor {
+    get
+  }
+  public var tertiarySystemFillColor: UIKit.UIColor {
+    get
+  }
+  public var quaternarySystemFillColor: UIKit.UIColor {
+    get
+  }
+  public var systemBackgroundColor: UIKit.UIColor {
+    get
+  }
+  public var secondarySystemBackgroundColor: UIKit.UIColor {
+    get
+  }
+  public var tertiarySystemBackgroundColor: UIKit.UIColor {
+    get
+  }
+  public var systemGroupedBackgroundColor: UIKit.UIColor {
+    get
+  }
+  public var secondarySystemGroupedBackgroundColor: UIKit.UIColor {
+    get
+  }
+  public var tertiarySystemGroupedBackgroundColor: UIKit.UIColor {
+    get
+  }
+  public var systemRed: UIKit.UIColor {
+    get
+  }
+  public var systemOrange: UIKit.UIColor {
+    get
+  }
+  public var systemYellow: UIKit.UIColor {
+    get
+  }
+  public var systemGreen: UIKit.UIColor {
+    get
+  }
+  public var systemTeal: UIKit.UIColor {
+    get
+  }
+  public var systemBlue: UIKit.UIColor {
+    get
+  }
+  public var systemIndigo: UIKit.UIColor {
+    get
+  }
+  public var systemPurple: UIKit.UIColor {
+    get
+  }
+  public var systemPink: UIKit.UIColor {
+    get
+  }
+  public var systemGray: UIKit.UIColor {
+    get
+  }
+  public var systemGray2: UIKit.UIColor {
+    get
+  }
+  public var systemGray3: UIKit.UIColor {
+    get
+  }
+  public var systemGray4: UIKit.UIColor {
+    get
+  }
+  public var systemGray5: UIKit.UIColor {
+    get
+  }
+  public var systemGray6: UIKit.UIColor {
+    get
+  }
+  public var lightGrayHexEAECED: UIKit.UIColor {
+    get
+  }
+  public var darkGrayHex979797: UIKit.UIColor {
+    get
+  }
+  public var lightGrayHexCBD2D6: UIKit.UIColor {
+    get
+  }
+  public var lightOrange: UIKit.UIColor {
+    get
+  }
+  public var darkOrange: UIKit.UIColor {
+    get
+  }
+  public var animationTiming: Foundation.TimeInterval
+  public var cornerRadius: CoreGraphics.CGFloat
+  public var observedCornerRadius: CoreGraphics.CGFloat?
+  public var ctaBorderWidth: CoreGraphics.CGFloat
+  public var topMargin: CoreGraphics.CGFloat
+  public var contentViewSideMargin: CoreGraphics.CGFloat
+  public var gridSize: CoreGraphics.CGFloat
+  public var inset: CoreGraphics.CGFloat {
+    get
+    set
+  }
+  public var labelInsets: UIKit.UIEdgeInsets {
+    get
+    set
+  }
+  public var iconGridSize: CoreGraphics.CGRect {
+    get
+    set
+  }
+  public var buttonGridSize: CoreGraphics.CGRect {
+    get
+    set
+  }
+  public var tableCellIconSize: CoreGraphics.CGRect {
+    get
+    set
+  }
+  public var tableCellButtonSize: CoreGraphics.CGRect {
+    get
+    set
+  }
+  final public let carouselSelectionZoom: CoreGraphics.CGFloat
+  public var carouselSelectedImageSize: CoreGraphics.CGRect
+  public var carouselUnselectedImageSize: CoreGraphics.CGRect {
+    get
+  }
+  public var carouselImageSize: CoreGraphics.CGRect {
+    get
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(PPCPaymentButton) @objcMembers public class PaymentButton : UIKit.UIButton {
+  @objc public func setCheckoutConfig(_ config: PayPalCheckout.CheckoutConfig)
+  weak public var delegate: PayPalCheckout.PaymentButtonDelegate?
+  @objc override dynamic public var isHighlighted: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  public var provider: PayPalCheckout.PaymentButtonProvider? {
+    get
+    set
+  }
+  @objc public func checkoutFinished()
+  @objc final public let config: PayPalCheckout.PaymentButtonConfig
+  @objc public var isLoading: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  convenience public init(type: PayPalCheckout.PaymentButtonType = .paypalGold, edges: PayPalCheckout.PaymentButtonEdges = .softEdges, size: PayPalCheckout.PaymentButtonSize = .collapsed, insets: UIKit.NSDirectionalEdgeInsets? = nil, prefix: Swift.String = "", suffix: Swift.String = "")
+  @objc required public init(config: PayPalCheckout.PaymentButtonConfig)
+  @objc deinit
+  @objc override dynamic public func layoutSubviews()
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+}
+public protocol ViewModelView : AnyObject {
+  func updateData()
+  func resetState()
+}
+public protocol ViewModel : AnyObject {
+}
+extension ViewModelView {
+  public func updateData()
+  public func resetState()
+}
+@_hasMissingDesignatedInitializers public class ShippingVM : PayPalCheckout.ShippingViewModel {
+  weak public var view: PayPalCheckout.ShippingView?
+  public var streetAddressAndUnit: Swift.String
+  public var city: Swift.String
+  public var state: Swift.String
+  public var zipCode: Swift.String
+  public var country: Swift.String
+  public var fullName: Swift.String
+  public var fullAddress: Swift.String
+  public var shipToPrompt: Swift.String
+  public var shipToAndFullName: Swift.String {
+    get
+  }
+  public var shippingIcon: UIKit.UIImage?
+  public var detailArrow: UIKit.UIImage? {
+    get
+  }
+  @objc deinit
+  public func apply(address: PayPalCheckout.ShippingAddress?)
+  public func requestData()
+}
+public protocol ProfileViewViewModel : PayPalCheckout.ViewModel {
+  var userFullName: Swift.String { get }
+  var userEmail: Swift.String { get }
+  var profileTitle: Swift.String { get }
+  var policyLinkTitle: Swift.String { get }
+  var privacyLinkTitle: Swift.String { get }
+  var termsLinkTitle: Swift.String { get }
+  var policiesLink: Foundation.URL? { get }
+  var privacyLink: Foundation.URL? { get }
+  var termsLink: Foundation.URL? { get }
+}
+@_hasMissingDesignatedInitializers public class ProfileViewVM : PayPalCheckout.ProfileViewViewModel {
+  public var userFullName: Swift.String {
+    get
+  }
+  public var userEmail: Swift.String {
+    get
+  }
+  public var profileTitle: Swift.String {
+    get
+  }
+  public var policyLinkTitle: Swift.String {
+    get
+  }
+  public var privacyLinkTitle: Swift.String {
+    get
+  }
+  public var termsLinkTitle: Swift.String {
+    get
+  }
+  public var policiesLink: Foundation.URL? {
+    get
+  }
+  public var privacyLink: Foundation.URL? {
+    get
+  }
+  public var termsLink: Foundation.URL? {
+    get
+  }
+  @objc deinit
+}
+public enum RequestError : Swift.Error {
+  case noData
+  case decodingFailure(Swift.Error)
+  case statusCode(Swift.Int)
+  case other(Swift.Error)
+}
+extension UIViewController {
+  public static func getTopMostViewController(readFromConfig: Swift.Bool = false, found: @escaping (UIKit.UIViewController) -> Swift.Void)
+}
+@objc @_hasMissingDesignatedInitializers final public class BrandedBackgroundView : UIKit.UIView {
+  public init(config: PayPalCheckout.BrandedBackgroundConfig)
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+}
+final public class CurrencyConversionQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.UserCheckoutResult
+  public init(clientID: Swift.String, authToken: Swift.String, payToken: Swift.String, conversionType: Swift.String)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+public struct PayPalSessionTokenResponse : Swift.Decodable, Swift.Hashable {
+  public struct Payload : Swift.Decodable, Swift.Hashable {
+    public struct Firebase : Swift.Hashable {
+      public struct Authentication : Swift.Decodable, Swift.Hashable {
+        public let sessionToken: Swift.String
+        public init(from decoder: Swift.Decoder) throws
+        public var hashValue: Swift.Int {
+          get
+        }
+        public func hash(into hasher: inout Swift.Hasher)
+        public static func == (a: PayPalCheckout.PayPalSessionTokenResponse.Payload.Firebase.Authentication, b: PayPalCheckout.PayPalSessionTokenResponse.Payload.Firebase.Authentication) -> Swift.Bool
+      }
+      public let authentication: PayPalCheckout.PayPalSessionTokenResponse.Payload.Firebase.Authentication
+      public var hashValue: Swift.Int {
+        get
+      }
+      public func hash(into hasher: inout Swift.Hasher)
+      public static func == (a: PayPalCheckout.PayPalSessionTokenResponse.Payload.Firebase, b: PayPalCheckout.PayPalSessionTokenResponse.Payload.Firebase) -> Swift.Bool
+    }
+    public let firebase: PayPalCheckout.PayPalSessionTokenResponse.Payload.Firebase
+    public init(from decoder: Swift.Decoder) throws
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+    public static func == (a: PayPalCheckout.PayPalSessionTokenResponse.Payload, b: PayPalCheckout.PayPalSessionTokenResponse.Payload) -> Swift.Bool
+  }
+  public struct Extensions : Swift.Hashable {
+    public let correlationID: Swift.String
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+    public static func == (a: PayPalCheckout.PayPalSessionTokenResponse.Extensions, b: PayPalCheckout.PayPalSessionTokenResponse.Extensions) -> Swift.Bool
+  }
+  public let data: PayPalCheckout.PayPalSessionTokenResponse.Payload
+  public let extensions: PayPalCheckout.PayPalSessionTokenResponse.Extensions
+  public init(from decoder: Swift.Decoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: PayPalCheckout.PayPalSessionTokenResponse, b: PayPalCheckout.PayPalSessionTokenResponse) -> Swift.Bool
+}
+extension PayPalSessionTokenResponse.Extensions : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+extension PayPalSessionTokenResponse.Payload.Firebase : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct ELMOResponse : Swift.Decodable, Swift.Equatable {
+  public let data: PayPalCheckout.ELMOExperimentResponse
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.ELMOResponse, b: PayPalCheckout.ELMOResponse) -> Swift.Bool
+}
+public struct ELMOExperimentResponse : Swift.Decodable, Swift.Equatable {
+  public let elmoExperiment: PayPalCheckout.ELMOExperiment
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.ELMOExperimentResponse, b: PayPalCheckout.ELMOExperimentResponse) -> Swift.Bool
+}
+public struct ELMOExperiment : Swift.Decodable, Swift.Equatable {
+  public let treatments: [PayPalCheckout.Treatment]
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.ELMOExperiment, b: PayPalCheckout.ELMOExperiment) -> Swift.Bool
+}
+public struct Treatment : Swift.Decodable, Swift.Equatable {
+  public let experimentId: Swift.String
+  public let experimentName: Swift.String
+  public let factors: [[Swift.String : Swift.String]]
+  public let version: Swift.String
+  public let treatmentId: Swift.String
+  public let treatmentName: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.Treatment, b: PayPalCheckout.Treatment) -> Swift.Bool
+}
+public struct SmartWalletResponse : Swift.Decodable, Swift.Equatable {
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.SmartWalletResponse, b: PayPalCheckout.SmartWalletResponse) -> Swift.Bool
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class HomePage : PayPalCheckout.ContentPage {
+  @objc deinit
+}
+public enum FallbackReason : Swift.String {
+  case pojoError
+  case checkoutResponseErrors
+  case unsupportedFlow
+  case cancelUrl
+  case ineligibleTraffic
+  case nonUserCancelledFlow
+  case unknownCheckoutIssue
+  case payToken
+  case currencyConvertFail
+  case userCheckoutFailPayloadService
+  case firebaseToken
+  case userCheckoutFailFinishService
+  case hermesWeb
+  case updateClientConfigFailure
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension FallbackType {
+  public var reason: PayPalCheckout.FallbackReason {
+    get
+  }
+}
+public typealias CustomContentLayout = (PayPalCheckout.ContentView) -> CoreGraphics.CGFloat
+public enum ContentLayout {
+  case verticallyStacked
+  case horizontallyStacked
+  case custom(PayPalCheckout.CustomContentLayout)
+}
+public func fetch(_ url: Swift.String, method: PayPalCheckout.HTTPMethod = .get, parameters: [Swift.String : Swift.String]? = nil, headers: [PayPalCheckout.HTTPHeader : Swift.String]? = nil, body: Foundation.Data? = nil, urlSessionDelegate: Foundation.URLSessionDelegate? = nil, fetchQueue: Dispatch.DispatchQueue = DispatchQueue.global(qos: .userInitiated), completionQueue: Dispatch.DispatchQueue? = DispatchQueue.main, completion: @escaping (Foundation.Data?, Foundation.URLResponse?, Swift.Error?) -> Swift.Void)
+public func fetchJSON(_ url: Swift.String, method: PayPalCheckout.HTTPMethod = .get, parameters: [Swift.String : Swift.String]? = nil, headers: [PayPalCheckout.HTTPHeader : Swift.String]? = nil, body: Foundation.Data? = nil, urlSessionDelegate: Foundation.URLSessionDelegate? = nil, fetchQueue: Dispatch.DispatchQueue = DispatchQueue.global(qos: .userInitiated), completionQueue: Dispatch.DispatchQueue? = DispatchQueue.main, completion: @escaping ([Swift.String : Any]?, Foundation.URLResponse?, Swift.Error?) -> Swift.Void)
+public func fetchBody(_ url: Swift.String, method: PayPalCheckout.HTTPMethod = .get, parameters: [Swift.String : Swift.String]? = nil, headers: [PayPalCheckout.HTTPHeader : Swift.String]? = nil, body: Foundation.Data? = nil, urlSessionDelegate: Foundation.URLSessionDelegate? = nil, fetchQueue: Dispatch.DispatchQueue = DispatchQueue.global(qos: .userInitiated), completionQueue: Dispatch.DispatchQueue? = DispatchQueue.main, completion: @escaping (Swift.String?, Foundation.URLResponse?, Swift.Error?) -> Swift.Void)
+public func fetchGraphql(_ url: Swift.String, urlParametersOrNil: [Swift.String : Swift.String]?, gqlQuery: Swift.String, gqlVariables: [Swift.String : Any]? = nil, headers: PayPalCheckout.HTTPHeaders = [.ContentType: "application/json"], urlSessionDelegate: Foundation.URLSessionDelegate? = nil, fetchQueue: Dispatch.DispatchQueue = DispatchQueue.global(qos: .userInitiated), completionQueue: Dispatch.DispatchQueue? = DispatchQueue.main, completion: @escaping ([Swift.String : Any]?, Foundation.Data?, Foundation.URLResponse?, Swift.Error?) -> Swift.Void)
+public protocol Server : Swift.CustomStringConvertible {
+  var url: Foundation.URL { get }
+}
+public protocol Request {
+  func execute<T>(session: Foundation.URLSession, queue: Dispatch.DispatchQueue, file: Swift.String, function: Swift.String, line: Swift.Int, query: T?, trackErrors: Swift.Bool, completion: @escaping (Swift.Result<T.QuerySuccess, PayPalCheckout.RequestError>) -> Swift.Void) where T : PayPalCheckout.Query
+}
+public protocol Query : Swift.Encodable {
+  associatedtype QuerySuccess : Swift.Decodable
+  var query: Swift.String { get }
+  var variables: PayPalCheckout.JSONPackage { get }
+  var operationName: Swift.String { get }
+  var headers: [PayPalCheckout.GQLHTTPHeader : Swift.String] { get }
+  var method: PayPalCheckout.HTTPMethod { get }
+  var debugId: Swift.String? { get set }
+  func execute(server: PayPalCheckout.GraphQLServer, session: Foundation.URLSession, queue: Dispatch.DispatchQueue, file: Swift.String, function: Swift.String, line: Swift.Int, completion: @escaping (Swift.Result<Self.QuerySuccess, PayPalCheckout.RequestError>) -> Swift.Void)
+}
+public class ConfigureUIStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public enum ThreeDSPaymentExperience : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case iframe
+  case redirect
+  case hopfree
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.ThreeDSPaymentExperience]
+  public static var allCases: [PayPalCheckout.ThreeDSPaymentExperience] {
+    get
+  }
+}
+public enum ThreeDSContingencySourceType : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case unknown
+  case paymentContext
+  case paypalRisk
+  case card
+  case cardState
+  case authorization
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.ThreeDSContingencySourceType]
+  public static var allCases: [PayPalCheckout.ThreeDSContingencySourceType] {
+    get
+  }
+}
+public enum ThreeDSContingencyReasonType : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case unknown
+  case regulatoryMandate
+  case merchantRequested
+  case paypalPolicy
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.ThreeDSContingencyReasonType]
+  public static var allCases: [PayPalCheckout.ThreeDSContingencyReasonType] {
+    get
+  }
+}
+@objc open class AspectRatioImageView : UIKit.UIImageView, PayPalCheckout.AlignableImageView {
+  public var insets: UIKit.UIEdgeInsets
+  public var imageAlignment: PayPalCheckout.ImageAlignment {
+    get
+    set
+  }
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  convenience public init(_ image: UIKit.UIImage? = nil, alignment: PayPalCheckout.ImageAlignment = .start, insets: UIKit.UIEdgeInsets = .zero)
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @available(*, unavailable)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+  @objc override dynamic public init(image: UIKit.UIImage?)
+  @available(iOS 3.0, *)
+  @objc override dynamic public init(image: UIKit.UIImage?, highlightedImage: UIKit.UIImage?)
+}
+public class GraphQLMutationState {
+  public var merchantId: Swift.String?
+  public var preferredFundingOption: PayPalCheckout.FundingOption?
+  public var selectedPlan: PayPalCheckout.Plan?
+  public var currencyConversion: PayPalCheckout.CurrencyConversionType?
+  public var billingAddress: PayPalCheckout.Address?
+  public var selectedAddress: PayPalCheckout.ShippingAddress?
+  public var intent: Swift.String?
+  public var payMode: PayPalCheckout.PayMode?
+  public init()
+  @objc deinit
+}
+public class MappedNetworkInput<Key, Value> : PayPalCheckout.NetworkInput, Swift.ExpressibleByDictionaryLiteral where Key : Swift.Hashable {
+  public var inputType: PayPalCheckout.NetworkInputType
+  public var input: [Key : Value]?
+  required public init(dictionaryLiteral elements: (Key, Value)...)
+  @objc deinit
+}
+extension NetworkInput {
+  public func asMappedInput<Key, Value>() -> [Key : Value]? where Key : Swift.Hashable
+}
+public typealias NetworkOperationCompletion = (PayPalCheckout.NetworkResult) -> Swift.Void
+public struct NetworkOperation : Swift.Identifiable, Swift.Equatable {
+  public var id: Swift.String {
+    get
+  }
+  public var name: PayPalCheckout.StaticIdentifier
+  public var type: PayPalCheckout.NetworkActionType
+  public var actionName: Swift.String?
+  public var synchronicity: PayPalCheckout.NetworkSynchronicity
+  public var operation: (PayPalCheckout.NetworkInput?, PayPalCheckout.NetworkOperationCompletion?) -> Swift.Void
+  public init(_ named: PayPalCheckout.StaticIdentifier, type: PayPalCheckout.NetworkActionType = .Inbound, actionName: Swift.String? = nil, synchronicity: PayPalCheckout.NetworkSynchronicity = .asynchronous, operation: @escaping (PayPalCheckout.NetworkInput?, PayPalCheckout.NetworkOperationCompletion?) -> Swift.Void)
+  public static func == (lhs: PayPalCheckout.NetworkOperation, rhs: PayPalCheckout.NetworkOperation) -> Swift.Bool
+  public typealias ID = Swift.String
+}
+open class ContentPage : PayPalCheckout.StaticIdentifiable {
+  open class var id: PayPalCheckout.StaticIdentifier {
+    get
+  }
+  public var staticId: PayPalCheckout.StaticIdentifier {
+    get
+  }
+  open var headerLayout: PayPalCheckout.ContentLayout
+  open var headerViews: [PayPalCheckout.ContentView]
+  open var mainViews: [PayPalCheckout.ContentView]
+  open var footerLayout: PayPalCheckout.ContentLayout
+  open var footerViews: [PayPalCheckout.ContentView]
+  open var buttonStates: [PayPalCheckout.ButtonStateKey : PayPalCheckout.ButtonState] {
+    get
+    set
+  }
+  open var primaryButtonState: PayPalCheckout.ButtonState? {
+    get
+    set
+  }
+  open var currentButtonStateKey: PayPalCheckout.ButtonStateKey {
+    get
+    set
+  }
+  open var currentButtonState: PayPalCheckout.ButtonState? {
+    get
+  }
+  open var id: Swift.String {
+    get
+  }
+  public init()
+  @objc deinit
+  public func hasView(id: PayPalCheckout.StaticIdentifier, in section: PayPalCheckout.ContentSection) -> Swift.Bool
+  public func indexOfView(id: PayPalCheckout.StaticIdentifier, in section: PayPalCheckout.ContentSection) -> Swift.Int?
+  public func getView(id: PayPalCheckout.StaticIdentifier, in section: PayPalCheckout.ContentSection) -> PayPalCheckout.ContentView?
+  public func findView(id: PayPalCheckout.StaticIdentifier, in section: PayPalCheckout.ContentSection) -> PayPalCheckout.ContentView?
+  public func appendView(_ view: PayPalCheckout.ContentView, in section: PayPalCheckout.ContentSection)
+  public func appendViews(_ views: [PayPalCheckout.ContentView], in section: PayPalCheckout.ContentSection)
+  public func insertView(_ view: PayPalCheckout.ContentView, in section: PayPalCheckout.ContentSection, at index: Swift.Int)
+  public func insertViews(_ views: [PayPalCheckout.ContentView], in section: PayPalCheckout.ContentSection, at index: Swift.Int)
+  public func removeView(from section: PayPalCheckout.ContentSection, at index: Swift.Int) -> PayPalCheckout.ContentView
+  public func removeView(from section: PayPalCheckout.ContentSection, with viewId: PayPalCheckout.StaticIdentifier)
+  public func removeAllViews(from section: PayPalCheckout.ContentSection) -> [PayPalCheckout.ContentView]
+}
+public enum HTTPHeaderBase64Encoding {
+  case encoded
+  case decoded
+  case passthru
+  public static func == (a: PayPalCheckout.HTTPHeaderBase64Encoding, b: PayPalCheckout.HTTPHeaderBase64Encoding) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public protocol ConfirmCreditCardCvvContingency {
+  var encryptedid: Swift.String { get }
+  var lastFourDigits: Swift.String { get }
+  var type: PayPalCheckout.CardIssuer { get }
+}
+public protocol OpenBankingContingency {
+  var encryptedId: Swift.String { get }
+}
+public protocol StrongCustomerAuthenticationRequiredContingency {
+  var contextId: Swift.String? { get }
+}
+public protocol PaymentContingencies {
+  var threeDomainSecure: PayPalCheckout.ThreeDomainSecureContingency? { get }
+  var threeDSContingencyData: PayPalCheckout.ThreeDomainSecureResolutionContingency? { get }
+  var confirmCreditCardCvvData: PayPalCheckout.ConfirmCreditCardCvvContingency? { get }
+  var sepaMandateAcceptanceNeeded: PayPalCheckout.BankAccount? { get }
+  var needConsentForBankAccountInfoRetrieval: PayPalCheckout.OpenBankingContingency? { get }
+  var needRealTimeBalanceForBankAccount: PayPalCheckout.OpenBankingContingency? { get }
+  var strongCustomerAuthenticationRequired: PayPalCheckout.StrongCustomerAuthenticationRequiredContingency? { get }
+}
+@objc @_inheritsConvenienceInitializers public class DeliverySelectionHeaderView : PayPalCheckout.UnconstrainedTextLabel {
+  override public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  override public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+extension UIView {
+  public var recursiveSubviews: [UIKit.UIView] {
+    get
+  }
+  public func recursiveConstraints(for contentPage: PayPalCheckout.ContentPage) -> [UIKit.NSLayoutConstraint]
+  public func findRelativeView(withId staticIdentifier: PayPalCheckout.StaticIdentifier) -> UIKit.UIView?
+}
+@objc @_hasMissingDesignatedInitializers public class ProfileImageBubble : UIKit.UIImageView, PayPalCheckout.ContentView {
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var fadeOnPageChange: Swift.Bool {
+    get
+  }
+  public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc deinit
+  @objc override dynamic public func traitCollectionDidChange(_ previousTraitCollection: UIKit.UITraitCollection?)
+  @objc override dynamic public init(image: UIKit.UIImage?)
+  @available(iOS 3.0, *)
+  @objc override dynamic public init(image: UIKit.UIImage?, highlightedImage: UIKit.UIImage?)
+}
+public typealias ActionClosureWrapperFn = (UIKit.UIControl?) -> Swift.Void
+public typealias GestureClosureWrapperFn = (UIKit.UIGestureRecognizer?) -> Swift.Void
+@objc public class ActionClosureWrapper : ObjectiveC.NSObject {
+  final public let closure: PayPalCheckout.ActionClosureWrapperFn
+  public var selector: ObjectiveC.Selector {
+    get
+  }
+  public init(_ closure: @escaping PayPalCheckout.ActionClosureWrapperFn)
+  @objc deinit
+  @objc public func invoke(_ sender: UIKit.UIControl)
+  @objc override dynamic public init()
+}
+@objc public class GestureClosureWrapper : ObjectiveC.NSObject {
+  final public let closure: PayPalCheckout.GestureClosureWrapperFn
+  public var selector: ObjectiveC.Selector {
+    get
+  }
+  public init(_ closure: @escaping PayPalCheckout.GestureClosureWrapperFn)
+  @objc deinit
+  @objc public func invoke(_ sender: UIKit.UIGestureRecognizer)
+  @objc override dynamic public init()
+}
+extension UIControl {
+  public func addAction(for controlEvents: UIKit.UIControl.Event = .touchUpInside, _ closure: @escaping PayPalCheckout.ActionClosureWrapperFn)
+}
+public enum UIViewGestureType {
+  case tap(_: Swift.Int, _: Swift.Int)
+  case pinch
+  case rotation
+  case swipe(_: UIKit.UISwipeGestureRecognizer.Direction, _: Swift.Int)
+  case pan(_: Swift.Int, _: Swift.Int)
+  case edge(_: UIKit.UIRectEdge)
+  case longPress(_: Foundation.TimeInterval, _: Swift.Int, _: Swift.Int, _: CoreGraphics.CGFloat)
+  case custom(_: UIKit.UIGestureRecognizer)
+}
+public struct ExternalTracking {
+  public let clientID: Swift.String
+  public let identifier: Swift.String
+  public let externalTrackingEntries: [PayPalCheckout.ExternalTrackingProperty]
+  public init(clientID: Swift.String, identifier: Swift.String, externalTrackingEntries: [PayPalCheckout.ExternalTrackingProperty])
+}
+public enum TrackApp {
+  public static func addCardWebPageLaunched(success: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func addShippingWebPageLaunched(success: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func cardColorIsDark(_ isDark: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func tappedOutsideSheet(success: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func tappedLogoutButton(success: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func payloadSuccess(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func payloadFailure(error: Swift.Error, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func authAttempted(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func authResponse(hasAccessToken: Swift.Bool, error: Swift.Error?, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func begin(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func startingNativeCheckoutFunnel(message: Swift.String?, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func fireBaseProcessAttempted(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func fireBaseProcessConnected(success: Swift.Bool = true, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func fireBaseProcessTimeout(reason: Swift.String, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func fireBasePropertiesAcquired(success: Swift.Bool, reason: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func flowCompleted(from: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func willUpgradeLSAT(success: Swift.Bool, reason: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func didUpgradeLSAT(success: Swift.Bool, reason: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func didUpdateClientConfig(success: Swift.Bool, reason: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func eligibilityCheck(success: Swift.Bool, message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func paymentOutcome(success: Swift.Bool, message: Swift.String?, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func shownAddCardButton(isPayNow: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func balanceViewShown(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func preferenceShown(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func carouselShown(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func detailsArrowShown(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func productDetailsArrowClicked(expanding: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func updateCurrencyVisiblilty(optionsShown: Swift.Bool = false, conversionShown: Swift.Bool = false, includeTransition: Swift.Bool = false, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func updateCurrencyValues(message: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func invoiceShown(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func ctaButtonShown(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func prepareReview(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func shippingViewLoaded(fromShippingPage: Swift.Bool = false, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func usedInitialsForProfile(_ usedInitials: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func profileShown(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func addAddressInWeb(success: Swift.Bool = true, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func appBackgrounded(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func appForegrounded(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func willFallBackToWeb(state: Swift.String, reason: Swift.String, category: Swift.String, message: Swift.String, debugId: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func firebaseSent(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func nativeCheckoutClosing(success: Swift.Bool, from: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func autoAuth(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func transitionToWebAuth(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func elmoExperimentDynamicBackgroundImages(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func universalLinkPropertiesAcquired(success: Swift.Bool, reason: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+}
+@objc(PPCPaymentButtonType) public enum PaymentButtonType : Swift.Int, Swift.CaseIterable, Swift.CustomStringConvertible {
+  case paypalGold
+  case paypalWhite
+  case paypalBlack
+  case paypalBlue
+  case paypalCredit
+  case venmo
+  public var description: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.PaymentButtonType]
+  public static var allCases: [PayPalCheckout.PaymentButtonType] {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers public class PaysheetContainerCell : UIKit.UITableViewCell, PayPalCheckout.StaticIdentifiable {
+  @objc deinit
+  @available(iOS 3.0, *)
+  @objc override dynamic public init(style: UIKit.UITableViewCell.CellStyle, reuseIdentifier: Swift.String?)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+@_hasMissingDesignatedInitializers @objc(PPCShippingMethod) @objcMembers final public class ShippingMethod : ObjectiveC.NSObject, Swift.Codable {
+  @objc final public let id: Swift.String
+  @objc final public let label: Swift.String
+  @objc final public let selected: Swift.Bool
+  @objc final public let type: PayPalCheckout.ShippingType
+  @objc final public let amount: PayPalCheckout.ShippingAmount?
+  @objc deinit
+  @objc override dynamic public init()
+  public init(from decoder: Swift.Decoder) throws
+  final public func encode(to encoder: Swift.Encoder) throws
+}
+@objc(PPCExperience) public enum Experience : Swift.Int {
+  case native
+  case hostedWebView
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class LoadingPage<Kind> : PayPalCheckout.ContentPage, PayPalCheckout.Transitionable where Kind : PayPalCheckout.StaticIdentifiable {
+  @objc deinit
+}
+public class ApproveWebCheckoutStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+@_hasMissingDesignatedInitializers @objc(PPCApproval) @objcMembers public class Approval : ObjectiveC.NSObject {
+  @objc final public let payerID: Swift.String
+  @objc final public let ecToken: Swift.String
+  @objc final public let intent: Swift.String
+  @objc final public let returnURL: Foundation.URL?
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct MessageData : Swift.Codable {
+  public var orderID: Swift.String
+  public var facilitatorAccessToken: Swift.String
+  public var pageUrl: Swift.String
+  public var commit: Swift.Bool
+  public var webCheckoutUrl: Swift.String
+  public var userAgent: Swift.String
+  public var buttonSessionID: Swift.String
+  public var buttonVersion: Swift.String
+  public var env: Swift.String
+  public var stageHost: Swift.String
+  public var apiStageHost: Swift.String
+  public var forceEligible: Swift.Bool
+  public init(orderId: Swift.String, facilitatorAccessToken: Swift.String, pageUrl: Swift.String, commit: Swift.Bool, webCheckoutUrl: Swift.String, userAgent: Swift.String, buttonSessionID: Swift.String, buttonVersion: Swift.String, env: Swift.String, stageHost: Swift.String, apiStageHost: Swift.String, forceEligible: Swift.Bool)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum Transition {
+  public enum Start : PayPalCheckout.StaticIdentifiable {
+  }
+  public enum Finishing : PayPalCheckout.StaticIdentifiable {
+  }
+  public enum Shutdown : PayPalCheckout.StaticIdentifiable {
+  }
+  public enum Error : PayPalCheckout.StaticIdentifiable {
+  }
+}
+public enum SDKIOErrors : Swift.Error {
+  case unexpectedPayload(reason: Swift.String)
+  case unknownError(reason: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers public class RateChangePolicyHeaderView : PayPalCheckout.UnconstrainedTextLabel {
+  override public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  override public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+public class ShutdownFirebaseStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public protocol FundingSource {
+  var fundingInstrument: PayPalCheckout.FundingInstrument? { get }
+  var fundingMethodType: PayPalCheckout.FundingInstrumentMethodType { get }
+  var amount: PayPalCheckout.Amount { get }
+}
+public protocol FundingOption {
+  var fundingInstrument: PayPalCheckout.FundingInstrument { get }
+  var plans: PayPalCheckout.PlanTypes { get }
+  var allPlans: [PayPalCheckout.Plan] { get }
+  var planMap: [Swift.String : PayPalCheckout.Plan] { get }
+  var id: Swift.String? { get }
+}
+public protocol FundingInstrument {
+  var id: Swift.String? { get }
+  var name: Swift.String? { get }
+  var label: Swift.String? { get }
+  var formattedType: Swift.String? { get }
+  var lastDigits: Swift.String? { get }
+  var type: PayPalCheckout.FundingInstrumentType? { get }
+  var subType: PayPalCheckout.FundingInstrumentSubType? { get }
+  var imageURL: Foundation.URL? { get }
+  var isPreferred: Swift.Bool { get }
+}
+public struct OnCancel : Swift.Codable {
+  public var expressCheckoutToken: Swift.String
+  public init(expressCheckoutToken: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum ColorType {
+  case buttonNormalText
+  case callToActionBlueButton0070BA
+  case lightGrayHexEAECED
+  case darkGrayHex979797
+  case lightOrange
+  case lightGrayHexCBD2D6
+  case darkOrange
+  case label
+  case secondaryLabel
+  case tertiaryLabel
+  case quaternaryLabel
+  case placeholderText
+  case blackText
+  case link
+  case separator
+  case opaqueSeparator
+  case systemFill
+  case secondarySystemFill
+  case tertiarySystemFill
+  case quaternarySystemFill
+  case systemBackground
+  case secondarySystemBackground
+  case tertiarySystemBackground
+  case systemGroupedBackground
+  case secondarySystemGroupedBackground
+  case tertiarySystemGroupedBackground
+  case systemRed
+  case systemOrange
+  case systemYellow
+  case systemGreen
+  case systemTeal
+  case systemBlue
+  case systemIndigo
+  case systemPurple
+  case systemPink
+  case systemGray
+  case systemGray2
+  case systemGray3
+  case systemGray4
+  case systemGray5
+  case systemGray6
+  case primary
+  case success
+  case warning
+  case error
+  case translucent
+  case transparent
+  case labelOnLightBackground
+  case labelOnDarkBackground
+  public var color: UIKit.UIColor {
+    get
+  }
+  public static func == (a: PayPalCheckout.ColorType, b: PayPalCheckout.ColorType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum DefaultNetworkOperations {
+  public static var finishTransactionOperation: PayPalCheckout.NetworkOperation {
+    get
+  }
+  public static var setConversionOperation: PayPalCheckout.NetworkOperation {
+    get
+  }
+  public static var graphQLPayloadOperation: PayPalCheckout.NetworkOperation {
+    get
+  }
+}
+public enum NetworkStatus {
+  case Success
+  case Failure
+  case InProgress
+  public static func == (a: PayPalCheckout.NetworkStatus, b: PayPalCheckout.NetworkStatus) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+extension UIView {
+  public static func sequences(duration1: Foundation.TimeInterval, options1: UIKit.UIView.AnimationOptions, animation1: @escaping (() -> Swift.Void), completion1: ((Swift.Bool) -> Swift.Void)? = nil, duration2: Foundation.TimeInterval? = nil, options2: UIKit.UIView.AnimationOptions? = nil, animation2: @escaping (() -> Swift.Void) = { }, completion2: ((Swift.Bool) -> Swift.Void)? = nil, duration3: Foundation.TimeInterval? = nil, options3: UIKit.UIView.AnimationOptions? = nil, animation3: @escaping (() -> Swift.Void) = { }, completion3: ((Swift.Bool) -> Swift.Void)? = nil, duration4: Foundation.TimeInterval? = nil, options4: UIKit.UIView.AnimationOptions? = nil, animation4: @escaping (() -> Swift.Void) = { }, completion4: ((Swift.Bool) -> Swift.Void)? = nil)
+}
+public class ResetEnvironmentStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public typealias NSASMap = [Foundation.NSAttributedString.Key : Any]
+extension NSMutableAttributedString {
+  @discardableResult
+  public func bold(_ boldPart: Swift.String, _ specifiedFont: UIKit.UIFont? = nil, _ size: CoreGraphics.CGFloat? = nil) -> Foundation.NSMutableAttributedString
+}
+extension NSAttributedString {
+  convenience public init(format: Foundation.NSAttributedString, _ args: Foundation.NSAttributedString...)
+}
+extension String {
+  @discardableResult
+  public func attributed(_ defAttributes: [Foundation.NSAttributedString.Key : Any]? = nil) -> Foundation.NSMutableAttributedString
+}
+public class BackgroundImageConfigurationTask : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CarouselView : UIKit.UIView, UIKit.UICollectionViewDelegate, PayPalCheckout.ViewModelView, PayPalCheckout.ContentView, Swift.Identifiable, PayPalCheckout.StaticIdentifiable {
+  public var id: Swift.String {
+    get
+  }
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var isVisible: Swift.Bool {
+    get
+  }
+  @objc deinit
+  @objc override dynamic public func traitCollectionDidChange(_ previousTraitCollection: UIKit.UITraitCollection?)
+  @objc override dynamic public func layoutSubviews()
+  @objc public func collectionView(_ collectionView: UIKit.UICollectionView, didSelectItemAt indexPath: Foundation.IndexPath)
+  @objc public func scrollViewDidScroll(_ scrollView: UIKit.UIScrollView)
+  @objc public func scrollViewDidEndScrollingAnimation(_ scrollView: UIKit.UIScrollView)
+  public typealias ID = Swift.String
+}
+public enum ContentSection : Swift.String, Swift.Identifiable {
+  case header
+  case main
+  case footer
+  public var id: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias ID = Swift.String
+}
+public typealias ContentConstrainer = (UIKit.UIView, PayPalCheckout.ContentPage) -> [UIKit.NSLayoutConstraint]
+public protocol ContentView : AnyObject, PayPalCheckout.StaticIdentifiable {
+  typealias Animation = (@escaping () -> Swift.Void) -> Swift.Void
+  typealias AnimatingEvent = (PayPalCheckout.HeightChange, Swift.Bool, Foundation.TimeInterval) -> Swift.Void
+  typealias AnimationCompletion = (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void
+  var id: Swift.String { get }
+  var desiredHeight: CoreGraphics.CGFloat { get }
+  var isVisible: Swift.Bool { get }
+  var contentView: UIKit.UIView { get }
+  var contentConstraints: PayPalCheckout.ContentConstrainer { get }
+  var isPaysheetRow: Swift.Bool { get }
+  var fadeOnPageChange: Swift.Bool { get }
+  var willChangeHeightAnimation: Self.AnimatingEvent? { get }
+  var changingHeightAnimation: Self.AnimatingEvent? { get }
+  var didChangeHeightAnimation: Self.AnimatingEvent? { get }
+  func willChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  func changingHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  func didChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+}
+extension ContentView {
+  public var id: Swift.String {
+    get
+  }
+  public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  public var isPaysheetRow: Swift.Bool {
+    get
+  }
+  public var fadeOnPageChange: Swift.Bool {
+    get
+  }
+  public var willChangeHeightAnimation: Self.AnimatingEvent? {
+    get
+  }
+  public var changingHeightAnimation: Self.AnimatingEvent? {
+    get
+  }
+  public var didChangeHeightAnimation: Self.AnimatingEvent? {
+    get
+  }
+  public func willChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  public func changingHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  public func didChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+}
+extension ContentView where Self : UIKit.UIView {
+  public var contentView: UIKit.UIView {
+    get
+  }
+  public var isVisible: Swift.Bool {
+    get
+  }
+}
+extension ContentView where Self : UIKit.UIViewController {
+  public var contentView: UIKit.UIView {
+    get
+  }
+  public var isVisible: Swift.Bool {
+    get
+  }
+}
+public protocol ThreeDSJwtSpecification {
+  var jwtIssuer: Swift.String { get }
+  var jwtOrgUnitId: Swift.String { get }
+  var type: Swift.String? { get }
+  var jwtDuration: Swift.String { get }
+}
+public protocol ThreeDSContingencyContextData {
+  var source: PayPalCheckout.ThreeDSContingencySourceType? { get }
+  var reason: PayPalCheckout.ThreeDSContingencyReasonType? { get }
+  var referenceId: Swift.String { get }
+  var deviceDataCollectionUrl: Foundation.URL? { get }
+  var jwtSpecification: PayPalCheckout.ThreeDSJwtSpecification? { get }
+}
+public protocol ThreeDSPaymentCardData {
+  var id: Swift.String? { get }
+  var type: PayPalCheckout.CardIssuer { get }
+  var number: Swift.String? { get }
+  var encryptedNumber: Swift.String { get }
+  var bankIdentificationNumber: Swift.String? { get }
+  var billingAddress: PayPalCheckout.ShippingAddress? { get }
+  var expireYear: Swift.String? { get }
+  var expireMonth: Swift.String? { get }
+  var currencyCode: Swift.String? { get }
+  var cardProductClass: PayPalCheckout.FundingInstrumentSubType? { get }
+  var partialFpan: Swift.Bool { get }
+}
+public protocol ThreeDSResolution {
+  var type: Swift.String? { get }
+  var resolutionName: Swift.String { get }
+  var paymentCard: PayPalCheckout.ThreeDSPaymentCardData? { get }
+  var contingencyContext: PayPalCheckout.ThreeDSContingencyContextData? { get }
+}
+public protocol ThreeDomainSecureResolutionContingency {
+  var name: Swift.String? { get }
+  var causeName: Swift.String { get }
+  var resolution: PayPalCheckout.ThreeDSResolution? { get }
+}
+public protocol ThreeDomainSecureContingency {
+  var status: PayPalCheckout.APICallStatus? { get }
+  var encryptedId: Swift.String { get }
+  var redirectUrl: Foundation.URL? { get }
+  var method: PayPalCheckout.HTTPMethod? { get }
+  var parameter: Swift.String? { get }
+  var experience: PayPalCheckout.ThreeDSPaymentExperience? { get }
+  var requestParams: [Swift.String : Swift.String] { get }
+}
+public enum NetworkInputType {
+  case mapped
+  case ordered
+  case unknown
+  public static func == (a: PayPalCheckout.NetworkInputType, b: PayPalCheckout.NetworkInputType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public protocol NetworkInput : AnyObject {
+  var inputType: PayPalCheckout.NetworkInputType { get }
+}
+extension NetworkInput {
+  public var inputType: PayPalCheckout.NetworkInputType {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class ContentRouter {
+  public typealias PageChangeHandler = (PayPalCheckout.ContentPage, PayPalCheckout.ContentPage) -> Swift.Void
+  public var currentPage: PayPalCheckout.ContentPage {
+    get
+  }
+  public var pages: [PayPalCheckout.ContentPage] {
+    get
+    set
+  }
+  public subscript(index: PayPalCheckout.StaticIdentifier) -> PayPalCheckout.ContentPage {
+    get
+    set(newPage)
+  }
+  @objc deinit
+  public func presentPage(_ pageId: PayPalCheckout.StaticIdentifier)
+  public func presentPreviousPage()
+  public func updatePage()
+  public func addPage(_ page: PayPalCheckout.ContentPage)
+  public func removePage(_ pageId: PayPalCheckout.StaticIdentifier)
+  public func removePage(_ type: PayPalCheckout.ContentPage.Type)
+  public func remove(viewId: PayPalCheckout.StaticIdentifier, from pageId: PayPalCheckout.StaticIdentifier, in section: PayPalCheckout.ContentSection, didSucceed: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func append(view: PayPalCheckout.ContentView, to pageId: PayPalCheckout.StaticIdentifier, in section: PayPalCheckout.ContentSection, didSucceed: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func insert(view: PayPalCheckout.ContentView, to pageId: PayPalCheckout.StaticIdentifier, in section: PayPalCheckout.ContentSection, aboveSubviewId: PayPalCheckout.StaticIdentifier, didSucceed: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func insert(view: PayPalCheckout.ContentView, to pageId: PayPalCheckout.StaticIdentifier, in section: PayPalCheckout.ContentSection, belowSubviewId: PayPalCheckout.StaticIdentifier, didSucceed: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func swapView(at pageId: PayPalCheckout.StaticIdentifier, section: PayPalCheckout.ContentSection, oldViewId: PayPalCheckout.StaticIdentifier, newView: PayPalCheckout.ContentView)
+  public func addSubscriber(forKey key: Swift.AnyHashable, handler: @escaping PayPalCheckout.ContentRouter.PageChangeHandler)
+  public func removeSubscriber(forKey key: Swift.AnyHashable)
+}
+public typealias WebExperienceCompletion = (PayPalCheckout.WebRoute) -> Swift.Void
+public typealias WebSocketAuthentication = (Swift.String) -> Swift.Void
+public typealias SetPropsRTDBMessageClosure = (PayPalCheckout.SetPropsRTDBMessageCompletionHandler?) -> Swift.Void
+public typealias StopObservingSetPropsRTDBMessageClosure = () -> Swift.Void
+public typealias SetPropsRTDBMessageCompletionHandler = (Swift.Error?) -> Swift.Void
+public typealias OnApproveRTDBMessageClosure = (PayPalCheckout.OnApprove) -> Swift.Void
+public typealias OnCancelRTDBMessageClosure = (PayPalCheckout.OnCancel) -> Swift.Void
+public typealias OnErrorRTDBMessageClosure = (PayPalCheckout.OnError) -> Swift.Void
+public typealias ProcessConfigurator = (PayPalCheckout.CheckoutProcesses) -> Swift.Void
+public typealias PageConfigurator = (PayPalCheckout.ContentRouter) -> Swift.Void
+public enum PresentationMode {
+  case modal
+  case embedded
+  public static let `default`: PayPalCheckout.PresentationMode
+  public static func == (a: PayPalCheckout.PresentationMode, b: PayPalCheckout.PresentationMode) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public typealias CheckoutProcessItem = PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback
+public protocol CheckoutProcess {
+  func index(of itemType: PayPalCheckout.CheckoutProcessItem.Type) -> Swift.Int?
+  func append(_ item: PayPalCheckout.CheckoutProcessItem)
+  func insert(_ item: PayPalCheckout.CheckoutProcessItem, at index: Swift.Int)
+  func remove(at index: Swift.Int) -> PayPalCheckout.CheckoutProcessItem
+}
+public protocol CheckoutProcesses {
+  var startup: PayPalCheckout.CheckoutProcess { get }
+  var authentication: PayPalCheckout.CheckoutProcess { get }
+  var finishing: PayPalCheckout.CheckoutProcess { get }
+  var shutdown: PayPalCheckout.CheckoutProcess { get }
+  var webShutdown: PayPalCheckout.CheckoutProcess { get }
+  var logout: PayPalCheckout.CheckoutProcess { get }
+  var error: PayPalCheckout.CheckoutProcess { get }
+}
+public typealias ExtendedConfig = PayPalCheckout.ExtendedCheckoutConfig
+@objc @_hasMissingDesignatedInitializers public class ExtendedCheckoutConfig : PayPalCheckout.CheckoutConfig {
+  public var networkOperations: [PayPalCheckout.NetworkOperation]
+  public var brandedBackgroundCheckoutConfig: PayPalCheckout.BrandedBackgroundConfig?
+  @objc public var sessionUID: Swift.String?
+  @objc public var buttonSessionID: Swift.String?
+  @objc public var pageUrl: Swift.String?
+  public var configureProcess: PayPalCheckout.ProcessConfigurator?
+  public var configureView: PayPalCheckout.PageConfigurator?
+  public var presentationMode: PayPalCheckout.PresentationMode
+  public var externalLogs: [PayPalCheckout.ExternalTracking]?
+  @objc public var supportsWebFallbacks: Swift.Bool
+  public var messageData: PayPalCheckout.MessageData?
+  @objc public var usesFirebase: Swift.Bool {
+    @objc get
+  }
+  @objc deinit
+}
+public struct JSONPackage : Swift.Codable, Swift.ExpressibleByDictionaryLiteral, Swift.Equatable {
+  public typealias Key = Swift.String
+  public typealias Value = Any
+  public let dictionary: [Swift.String : Any]
+  public init(dictionary: [Swift.String : Any])
+  public init(dictionaryLiteral elements: (PayPalCheckout.JSONPackage.Key, PayPalCheckout.JSONPackage.Value)...)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (lhs: PayPalCheckout.JSONPackage, rhs: PayPalCheckout.JSONPackage) -> Swift.Bool
+}
+public class MoveToErrorPageStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public enum SDKGeneralErrors : Swift.Error {
+  case missingService
+  case missingViewController
+  case invalidClient
+  case unknownError(reason: Swift.String)
+  case sharedValuesNotSet
+  case missingAsset(error: Swift.Error?)
+  case localeUnchanged
+  case userImageUrlUnavilable
+}
+public struct AnalyticsConfig {
+  public var serverURL: Foundation.URL?
+  public var cacheFolderURL: Foundation.URL?
+  public var userAgent: Swift.String
+  public var product: Swift.String?
+  public var merchantAppVersion: Swift.String?
+  public var sdkVersion: Swift.String?
+  public var buttonVersion: Swift.String?
+  public var contextId: Swift.String?
+  public var sessionUid: Swift.String?
+  public var buttonSessionId: Swift.String?
+  public var encryptedCustomerId: Swift.String?
+  public var encryptedMerchantId: Swift.String?
+  public var accountCountry: Swift.String?
+  public var appName: Swift.String?
+  public var packageName: Swift.String?
+  public var osVersion: Swift.String?
+  public var deviceId: Swift.String?
+  public init()
+}
+extension URLRequest : PayPalCheckout.Request {
+  public func execute<T>(session: Foundation.URLSession = .shared, queue: Dispatch.DispatchQueue = .global(qos: .userInitiated), file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line, query: T? = nil, trackErrors: Swift.Bool = true, completion: @escaping (Swift.Result<T.QuerySuccess, PayPalCheckout.RequestError>) -> Swift.Void) where T : PayPalCheckout.Query
+}
+extension Query {
+  public var params: [Swift.String : Any] {
+    get
+  }
+  public var method: PayPalCheckout.HTTPMethod {
+    get
+  }
+  public var operationName: Swift.String {
+    get
+  }
+  public var dictionary: [Swift.String : Any] {
+    get
+  }
+  public func encode(to encoder: Swift.Encoder) throws
+  public func execute(server: PayPalCheckout.GraphQLServer = GraphQLServer.current, session: Foundation.URLSession = .shared, queue: Dispatch.DispatchQueue = .global(qos: .userInitiated), file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line, completion: @escaping (Swift.Result<Self.QuerySuccess, PayPalCheckout.RequestError>) -> Swift.Void)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CarouselFlowLayout : UIKit.UICollectionViewFlowLayout {
+  @objc override dynamic public init()
+  @objc deinit
+  @objc override dynamic public func prepare()
+  @objc override dynamic public func layoutAttributesForElements(in rect: CoreGraphics.CGRect) -> [UIKit.UICollectionViewLayoutAttributes]?
+  @objc override dynamic public func targetContentOffset(forProposedContentOffset proposedContentOffset: CoreGraphics.CGPoint, withScrollingVelocity velocity: CoreGraphics.CGPoint) -> CoreGraphics.CGPoint
+  @objc override dynamic public func shouldInvalidateLayout(forBoundsChange newBounds: CoreGraphics.CGRect) -> Swift.Bool
+  @objc override dynamic public func invalidationContext(forBoundsChange newBounds: CoreGraphics.CGRect) -> UIKit.UICollectionViewLayoutInvalidationContext
+}
+public class NetworkQuery {
+  final public let clientID: Swift.String
+  final public let authToken: Swift.String
+  final public let query: Swift.String
+  final public let variables: PayPalCheckout.JSONPackage
+  public var debugId: Swift.String?
+  public var headers: [PayPalCheckout.GQLHTTPHeader : Swift.String] {
+    get
+  }
+  public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+  @objc deinit
+}
+final public class CheckoutCompleteQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.CheckoutCompleteResult
+  public init(clientID: Swift.String, authToken: Swift.String, payToken: Swift.String)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+@_hasMissingDesignatedInitializers @objc(PPCShippingChangeError) @objcMembers final public class ShippingChangeError : Foundation.NSError {
+  @objc final public let reason: Swift.String
+  @objc public init(reason: Swift.String, code: Swift.Int, userInfo: [Swift.String : Any]? = nil)
+  @objc deinit
+  @objc override dynamic public init(domain: Swift.String, code: Swift.Int, userInfo dict: [Swift.String : Any]? = nil)
+}
+public enum NetworkActionType : Swift.CaseIterable {
+  case Inbound
+  case Outbound
+  case InboundOutbound
+  case ActionBlock
+  public static func == (a: PayPalCheckout.NetworkActionType, b: PayPalCheckout.NetworkActionType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public typealias AllCases = [PayPalCheckout.NetworkActionType]
+  public static var allCases: [PayPalCheckout.NetworkActionType] {
+    get
+  }
+}
+public struct ImageAlignment : Swift.OptionSet {
+  public typealias RawValue = Swift.Int
+  public let rawValue: PayPalCheckout.ImageAlignment.RawValue
+  public static let start: PayPalCheckout.ImageAlignment
+  public static let end: PayPalCheckout.ImageAlignment
+  public static let top: PayPalCheckout.ImageAlignment
+  public static let bottom: PayPalCheckout.ImageAlignment
+  public static let centerX: PayPalCheckout.ImageAlignment
+  public static let centerY: PayPalCheckout.ImageAlignment
+  public static let center: PayPalCheckout.ImageAlignment
+  public static let all: [PayPalCheckout.ImageAlignment]
+  public init(rawValue: PayPalCheckout.ImageAlignment.RawValue)
+  public typealias Element = PayPalCheckout.ImageAlignment
+  public typealias ArrayLiteralElement = PayPalCheckout.ImageAlignment
+}
+public class SmartWalletStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CarouselCell : UIKit.UICollectionViewCell, PayPalCheckout.ContentView {
+  public enum LabelType {
+    case primary
+    case secondary
+    case bankName
+    case addCard
+    public static func == (a: PayPalCheckout.CarouselCell.LabelType, b: PayPalCheckout.CarouselCell.LabelType) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+  }
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  @objc deinit
+  @objc override dynamic public func prepareForReuse()
+  @objc override dynamic public func hitTest(_ point: CoreGraphics.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
+}
+public enum FetchError : Swift.Error, Swift.CustomStringConvertible {
+  case GraphQLError(Any)
+  case UnableToUseProvidedURL
+  case JSONParseError
+  case CannotMakeStringFromData
+  public var description: Swift.String {
+    get
+  }
+}
+public struct PropSettings<T> : Swift.Codable where T : Swift.Decodable, T : Swift.Encodable {
+  public let id: Swift.String
+  public var messageData: T?
+  public var sessionUID: Swift.String
+  public var messageUID: Swift.String
+  public var sourceApp: Swift.String
+  public var sourceAppVersion: Swift.String
+  public var targetApp: Swift.String
+  public var requestUID: Swift.String
+  public var messageName: Swift.String
+  public var messageType: Swift.String
+  public let sourceOS: Swift.String
+  public init(sessionuid: Swift.String, messageuid: Swift.String, sourceapp: Swift.String, sourceappversion: Swift.String, targetapp: Swift.String, requestuid: Swift.String, messagename: Swift.String, messagetype: Swift.String, messageData: T?)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc @_inheritsConvenienceInitializers public class HeaderSubTitleLabel : PayPalCheckout.UnconstrainedTextLabel {
+  override public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+public typealias AuthInitializer = (Swift.String?, Swift.Error?) -> Swift.Void
+public class PayPalAuthHandler {
+  public init()
+  @objc deinit
+  public func logout()
+  public func onStart(completion: @escaping PayPalCheckout.AuthInitializer)
+  public func onFinish(url: Foundation.URL?) -> Swift.Bool
+}
+public typealias CheckoutStrings = PayPalCheckout.I18n
+public enum I18n {
+  @PayPalCheckout.L10n public static var balanceCurrencyDisallowedAlert: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var balanceMissing: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var balanceUseYourCurrency: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplApplyForpayIn4: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplApplyForPayPalCredit: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplApplyNow: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplContinueToApplication: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplCreditApprovalTerms: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplNoInterest: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplNoInterestDynamic: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplPayLater: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplPayOverTime: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplPayOverTimeDynamic: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplPaymentMethodRightsAndPolicies: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplPI4InterestFreePaymentsDynamic: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplSeeTerms: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplSubjectToCreditApproval: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var bnplTakeYouToPayPalToApply: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var cancelCheckout: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var companyPoliciesTitleLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var companyPolicyTitle: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var companyPrivacyTitleLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var companyTermsTitleLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var companyViewPaymentRights: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var companyViewRightsPart1: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var companyViewRightsPart2: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceConversionRate: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceConversionRateCouldChange: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceGotIt: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceIfDoesNotWorkUseAnother: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceIfLowBalanceChargeAnother: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceLearnMore: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var compliancePayInCurrencyUsingCardIssuerConversion: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceRateProtectionDescriptionLong: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceRateProtectionDescriptionShort: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceRateProtectionInfo: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceRateProtectionQuestion: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceSeeMore: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var complianceUseCurrency: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionCurrencyConversionSpread: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionCurrencyForThisPurchaseTitle: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionPayPalConversionRateLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionPayPalConversionRateNoParam: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionSeeConversionOptionsLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionTotalBeforeCardIssuerConversion: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionTotalBeforeConverting: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionTotalBeforeConvertingWithParam: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionYouWillPay: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionYouWillPayWithParam: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var convertWithCardIssuer: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var conversionConvertWithCardIssuerPrompt: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var dialogAddCard: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var dialogAddShippingAddress: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var dialogCancel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var dialogContinueToWeb: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var dialogOk: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var errorMessageTitle: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var errorMessageSubTitle: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentAddCardButton: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentAddCard: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentApplyNowButton: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentBankLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentBalanceLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentCheckingLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentCreditLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentDebitLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentExpired: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentPreferred: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentPrepaidLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentSavingsLabel: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingInstrumentUpdateCard: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingSelectorCarouselNo: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var fundingSelectorCarouselYes: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var logoutCheckout: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var navigationContinueButton: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var navigationLogoutButton: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetLoginLoggingInMessage: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetLoginHiUser: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetLoginWelcomeSlogan: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPadBuyNowPayLater: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPadNoInterestOrFees: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPadPayAfterDays: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPadWellDebit: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPadYouAgreeToTerms: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayInWithCurrency: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowHandling: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowInsurance: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowItemDescription: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowItemPrice: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowItemTotal: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowQuantity: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowShippingAndHandling: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowShippingDiscount: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowTax: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNowTotal: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetPayNow: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetShippingShipTo: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var paysheetFinishingUp: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var profilePageLegalTitle: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingAddNewShippingAddress: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingAddShippingAddress: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingAlphabeticallySort: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingByDistanceSort: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingMerchantCantShipToAddress: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingMethod: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingPickItUp: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingRecentlyUsedSort: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingShipIt: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingShippingAddressTitle: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shippingUnavailable: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shutdown1: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var shutdown2: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var startup1: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var startup2: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var startup3: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var webFallbackNotSupportedAlertActionTitle: Swift.String {
+    get
+  }
+  @PayPalCheckout.L10n public static var webFallbackNotSupportedAlertTitle: Swift.String {
+    get
+  }
+}
+public protocol ShippingViewModel : PayPalCheckout.StaticIdentifiable, PayPalCheckout.ViewModel {
+  var fullName: Swift.String { get }
+  var fullAddress: Swift.String { get }
+  var streetAddressAndUnit: Swift.String { get }
+  var city: Swift.String { get }
+  var state: Swift.String { get }
+  var zipCode: Swift.String { get }
+  var country: Swift.String { get }
+  var shippingIcon: UIKit.UIImage? { get }
+  var detailArrow: UIKit.UIImage? { get }
+  var shipToPrompt: Swift.String { get }
+  var shipToAndFullName: Swift.String { get }
+}
+@_hasMissingDesignatedInitializers public class ShippingViewVM : PayPalCheckout.ShippingViewModel {
+  public var streetAddressAndUnit: Swift.String
+  public var city: Swift.String
+  public var state: Swift.String
+  public var zipCode: Swift.String
+  public var country: Swift.String
+  weak public var view: PayPalCheckout.ViewModelView?
+  public var fullName: Swift.String
+  public var fullAddress: Swift.String
+  public var shipToPrompt: Swift.String
+  public var shipToAndFullName: Swift.String {
+    get
+  }
+  public var shippingIcon: UIKit.UIImage?
+  public var detailArrow: UIKit.UIImage? {
+    get
+  }
+  convenience public init(address: PayPalCheckout.ShippingAddress)
+  @objc deinit
+  public func apply(address: PayPalCheckout.ShippingAddress)
+  public func requestData()
+}
+public protocol AlignableImageView : UIKit.UIImageView, PayPalCheckout.ContentView {
+  var insets: UIKit.UIEdgeInsets { get set }
+  var imageAlignment: PayPalCheckout.ImageAlignment { get set }
+}
+extension AlignableImageView {
+  public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+}
+@propertyWrapper public struct L10n {
+  public init(wrappedValue value: Swift.String, _ comment: Swift.String = "")
+  public var wrappedValue: Swift.String {
+    get
+  }
+}
+@objc extension UIColor {
+  @objc dynamic public var current: UIKit.UIColor {
+    @objc get
+  }
+  @objc convenience dynamic public init(light: UIKit.UIColor, lightHighContrast: UIKit.UIColor? = nil, lightElevated: UIKit.UIColor? = nil, lightElevatedHighContrast: UIKit.UIColor? = nil, dark: UIKit.UIColor? = nil, darkHighContrast: UIKit.UIColor? = nil, darkElevated: UIKit.UIColor? = nil, darkElevatedHighContrast: UIKit.UIColor? = nil)
+}
+public struct ExternalTrackingProperty {
+  public init(_ key: Swift.String, _ value: Swift.String)
+  public init(_ key: Swift.String, _ value: Swift.Int)
+  public init(_ key: Swift.String, _ value: Swift.Double)
+  public init(_ key: Swift.String, _ value: Swift.Float)
+  public init(_ key: Swift.String, _ value: Swift.Bool)
+}
+public enum SDKFatalStepErrors : Swift.Error, Swift.CustomStringConvertible {
+  case failedToFetchECToken
+  case graphQLInboundFetchFailed
+  case failedToExecuteRegisteredInboundCall
+  public var description: Swift.String {
+    get
+  }
+  public static func == (a: PayPalCheckout.SDKFatalStepErrors, b: PayPalCheckout.SDKFatalStepErrors) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public struct EligibilityResponse : Swift.Decodable, Swift.Equatable {
+  public let eligibility: Swift.Bool
+  public let ineligibilityReason: Swift.String
+  public let correlationId: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.EligibilityResponse, b: PayPalCheckout.EligibilityResponse) -> Swift.Bool
+}
+public enum Analytics {
+  public static var isConfigured: Swift.Bool {
+    get
+  }
+  public static var logEvents: Swift.Bool
+  public static func set(config: PayPalCheckout.AnalyticsConfig)
+  public static func getConfig() -> PayPalCheckout.AnalyticsConfig
+  public static func log(_ fptiEvent: PayPalCheckout.AnalyticsFPTIEvent)
+  public static func logCalEvent(merchantId: Swift.String, checkoutToken: Swift.String, universalLink: Swift.String, jsSession: Swift.Bool)
+}
+@objc @_inheritsConvenienceInitializers public class AddAction : UIKit.UIButton, PayPalCheckout.ContentView {
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public struct OnApprove : Swift.Codable {
+  public var orderID: Swift.String
+  public var payerID: Swift.String?
+  public var paymentID: Swift.String?
+  public var billingToken: Swift.String?
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension URL {
+  public func asImage(_ onComplete: @escaping (UIKit.UIImage?) -> Swift.Void)
+}
+public protocol CurrencyViewModelView : PayPalCheckout.ViewModelView {
+  func setNeedsDataUpdate()
+}
+@_hasMissingDesignatedInitializers public class CurrencyVM {
+  public func update(conversion: PayPalCheckout.CurrencyConversion)
+  public func handle(session: PayPalCheckout.CheckoutSession)
+  @objc deinit
+}
+public enum HeightChange {
+  case noChange
+  case growing
+  case shrinking
+  public init(previous: CoreGraphics.CGFloat, new: CoreGraphics.CGFloat)
+  public static func == (a: PayPalCheckout.HeightChange, b: PayPalCheckout.HeightChange) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class EnvironmentConfig : ObjectiveC.NSObject, Foundation.NSCopying {
+  @objc deinit
+  @objc public var checksEligibility: Swift.Bool
+  @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  @objc override dynamic public init()
+}
+public typealias PaysheetContainerContentDeducer = (Swift.AnyHashable, PayPalCheckout.ContentPage) -> [PayPalCheckout.ContentView]
+@objc @_hasMissingDesignatedInitializers public class ContainerVM : ObjectiveC.NSObject {
+  @objc deinit
+  @objc public func numberOfSections(in tableView: UIKit.UITableView) -> Swift.Int
+  @objc public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @objc public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+  @objc public func tableView(_ tableView: UIKit.UITableView, titleForHeaderInSection section: Swift.Int) -> Swift.String?
+  @objc override dynamic public init()
+}
+@objc(PPCEnvironment) public enum Environment : Swift.Int, Swift.CaseIterable {
+  case live
+  case sandbox
+  case stage
+  public var baseURL: Swift.String {
+    get
+  }
+  public static var stageURL: Swift.String
+  public var name: Swift.String {
+    get
+  }
+  public enum Redirect : Swift.String {
+    case paypalxo
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func url() -> Foundation.URL?
+  public func url(_ path: Swift.String, _ queryParams: [Swift.String : Swift.String?]? = nil) -> Foundation.URL?
+  public func url(from route: PayPalCheckout.WebRoute, payToken: Swift.String, authToken: Swift.String) -> Foundation.URL?
+  public func uriString(from route: PayPalCheckout.WebRoute, payToken: Swift.String, authToken: Swift.String) -> Swift.String?
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.Environment]
+  public static var allCases: [PayPalCheckout.Environment] {
+    get
+  }
+}
+@objc(PPCShippingType) public enum ShippingType : Swift.Int, Swift.CaseIterable, Swift.Codable {
+  case shipping
+  case pickup
+  case unknown
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.ShippingType]
+  public static var allCases: [PayPalCheckout.ShippingType] {
+    get
+  }
+}
+public protocol PaymentButtonDelegate : AnyObject {
+  func onButtonStart()
+  func onButtonFinish(completion: (() -> Swift.Void)?)
+}
+public enum SharedUI {
+  public static var profileBubble: PayPalCheckout.ProfileImageBubble {
+    get
+  }
+  public static var footerCTA: PayPalCheckout.ContentView {
+    get
+  }
+}
+final public class ELMOFeatureFlagsQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.ELMOResponse
+  public init(clientID: Swift.String, authToken: Swift.String, guid: Swift.String, resource: Swift.String, app: Swift.String = "xobuyernodeserv", country: Swift.String = Locale.current.regionCode?.uppercased() ?? "")
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+public enum LogLevel : Swift.Int {
+  case info
+  case error
+  case log
+  case warn
+  case trace
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public class LogoutStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public enum WebRoute {
+  case addCard, addShippingAddress, credit, payLater, paymentMethodRights
+  case custom(url: Foundation.URL)
+  case fallback(type: PayPalCheckout.FallbackType)
+  public var shouldShowAlert: Swift.Bool {
+    get
+  }
+  public func path(for environment: PayPalCheckout.Environment) -> Swift.String?
+  public func param(for environment: PayPalCheckout.Environment) -> Swift.String?
+}
+public enum URLQueryItemKey : Swift.String {
+  case token
+  case environment
+  case locale
+  case fundingSource
+  case sessionID
+  case fundingOffered
+  case loggingLevel
+  case userID
+  case apiVersion
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension URL {
+  public var keyedQueryItems: [PayPalCheckout.URLQueryItemKey : Any] {
+    get
+  }
+  public func queryItem(for key: PayPalCheckout.URLQueryItemKey) -> Any?
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class SeventyTwoHourConversionPage : PayPalCheckout.ContentPage {
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class SplitBalanceVM {
+  @objc deinit
+}
+public class OrderedNetworkInput<Value> : PayPalCheckout.NetworkInput, Swift.ExpressibleByArrayLiteral {
+  public typealias ArrayLiteralElement = Value
+  public var inputType: PayPalCheckout.NetworkInputType
+  public var input: [Value]?
+  required public init(arrayLiteral values: Value...)
+  @objc deinit
+}
+extension NetworkInput {
+  public func asOrderedInput<V>() -> [V]?
+}
+@_hasMissingDesignatedInitializers public class DeliveryViewModel {
+  weak public var view: PayPalCheckout.DeliveryView?
+  public var deliveryTitle: Swift.String {
+    get
+  }
+  public var shippingIcon: UIKit.UIImage?
+  public var detailArrow: UIKit.UIImage? {
+    get
+  }
+  convenience public init(address: PayPalCheckout.ShippingAddress)
+  @objc deinit
+  public func requestData()
+}
+public protocol Address {
+  var line1: Swift.String? { get }
+  var line2: Swift.String? { get }
+  var city: Swift.String? { get }
+  var state: Swift.String? { get }
+  var country: Swift.String? { get }
+  var postalCode: Swift.String? { get }
+  var fullAddress: Swift.String { get }
+}
+public func == (lhs: PayPalCheckout.Address, rhs: PayPalCheckout.Address) -> Swift.Bool
+public protocol ShippingAddress : PayPalCheckout.Address {
+  var addressID: Swift.String? { get }
+  var fullName: Swift.String? { get }
+  var isPrimary: Swift.Bool { get }
+  var isSelected: Swift.Bool { get set }
+  var isDefault: Swift.Bool { get }
+  var isInvalid: Swift.Bool { get }
+  var isDisabled: Swift.Bool { get }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(PPCheckout) @objcMembers final public class Checkout : ObjectiveC.NSObject, PayPalCheckout.StaticIdentifiable {
+  @objc(sdkVersion) public static var version: Swift.String {
+    @objc get
+  }
+  @objc public static var config: PayPalCheckout.CheckoutConfig? {
+    @objc get
+  }
+  @objc public static var extendedConfig: PayPalCheckout.ExtendedCheckoutConfig? {
+    @objc get
+  }
+  @objc public static var configVerified: Swift.Bool {
+    get
+  }
+  @objc public static var userAgent: Swift.String {
+    get
+  }
+  @objc public static var cachePath: Foundation.URL? {
+    get
+  }
+  public static var setProps: PayPalCheckout.MessageData? {
+    get
+  }
+  @objc public static var sessionToken: Swift.String
+  @objc public static var payMode: PayPalCheckout.PayMode {
+    @objc get
+  }
+  public static var defaultButtonState: PayPalCheckout.ButtonStateKey {
+    get
+  }
+  public static var logLevel: PayPalCheckout.LogLevel
+  @objc deinit
+  @objc(setConfig:) public static func set(config: PayPalCheckout.CheckoutConfig)
+  @objc(start:) public static func start(experience: PayPalCheckout.Experience = .native)
+  @objc public static func finishing()
+  @objc public static func logout()
+  @objc public static func shutdown(fromWeb: Swift.Bool = false, completion: (() -> Swift.Void)? = nil)
+  @objc public static func error(completion: (() -> Swift.Void)? = nil)
+  public static func addShippingAddress(givenName: Swift.String, familyName: Swift.String, address: PayPalCheckout.Address, completion: ((Swift.Result<PayPalCheckout.UserCheckoutResult, PayPalCheckout.RequestError>) -> Swift.Void)? = nil)
+  public static func changeShippingAddress(to address: PayPalCheckout.ShippingAddress)
+  @discardableResult
+  public static func performIO(actionName: Swift.String, input: PayPalCheckout.NetworkInput? = nil, queue: Dispatch.DispatchQueue = DispatchQueue.main, completion: PayPalCheckout.NetworkOperationCompletion? = nil) -> Swift.Bool
+  @discardableResult
+  public static func performIO<Input, Key, Value>(actionName: Swift.String, map: Input, queue: Dispatch.DispatchQueue = DispatchQueue.main, completion: PayPalCheckout.NetworkOperationCompletion? = nil) -> Swift.Bool where Input : PayPalCheckout.MappedNetworkInput<Key, Value>, Key : Swift.Hashable
+  @discardableResult
+  public static func performIO<Input, Value>(actionName: Swift.String, list: Input, queue: Dispatch.DispatchQueue = DispatchQueue.main, completion: PayPalCheckout.NetworkOperationCompletion? = nil) -> Swift.Bool where Input : PayPalCheckout.OrderedNetworkInput<Value>
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class WebViewPage : PayPalCheckout.ContentPage {
+  @objc deinit
+}
+public protocol FIModelBase {
+  var image: UIKit.UIImage? { get }
+  var preferred: Swift.Bool { get }
+  var data: PayPalCheckout.FundingOption? { get }
+  var allowsPreferred: Swift.Bool { get }
+  var buttonCTADescriptor: PayPalCheckout.ButtonStateKey { get }
+  var allowsCurrencyConversion: Swift.Bool { get }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class DeliverySelectionPage : PayPalCheckout.ContentPage {
+  @objc deinit
+}
+public class MoveToHomepageStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public protocol ActionableRow {
+  func shouldSelectRow() -> Swift.Bool
+  func didSelectRow()
+}
+extension ActionableRow {
+  public func shouldSelectRow() -> Swift.Bool
+}
+final public class AddShippingAddressQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.AddAddressResult
+  public init(clientID: Swift.String, authToken: Swift.String, payToken: Swift.String, givenName: Swift.String, familyName: Swift.String, address: PayPalCheckout.Address)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+public enum FIType : Swift.CustomStringConvertible {
+  public typealias ButtonAction = () -> Swift.Void
+  case bank
+  case balance
+  case credit
+  case addCard
+  public var description: Swift.String {
+    get
+  }
+  public static func == (a: PayPalCheckout.FIType, b: PayPalCheckout.FIType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum EventTypeData {
+  case initialStateComplete
+  case gqlPayload(Swift.Result<PayPalCheckout.UserCheckoutResult, Swift.Error>)
+  case uiPageWillChange(oldPage: PayPalCheckout.ContentPage?, newPage: PayPalCheckout.ContentPage?)
+  case uiPageIsChanging(oldPage: PayPalCheckout.ContentPage?, newPage: PayPalCheckout.ContentPage?)
+  case uiPageDidChange(oldPage: PayPalCheckout.ContentPage?, newPage: PayPalCheckout.ContentPage?)
+  case uiCurrencyConversionChanged(Swift.Bool)
+  case uiSetCardAsPreferred(atPosition: Swift.Int)
+  case uiProfilePicAvailable(Swift.Result<UIKit.UIImage, Swift.Error>)
+  case openWeb(route: PayPalCheckout.WebRoute)
+  case logout
+  case shippingAddressAdded(PayPalCheckout.ShippingAddress?)
+  case shippingAddressChanged(PayPalCheckout.ShippingAddress?)
+  case merchantUpdatedAddress(PayPalCheckout.ShippingAddress, PayPalCheckout.ShippingChangeState)
+  case setNewProfileImage(UIKit.UIImage, Swift.Bool)
+  case FICentered(Swift.Int, PayPalCheckout.FIModelBase)
+  case FISelected(Swift.Int, PayPalCheckout.FIModelBase)
+  case sdkApprovePayment(PayPalCheckout.CheckoutCompleteResult?, Swift.Error?)
+  case onApproveRTDBMessage
+  case onCancel
+  case sdkShutdown
+  case errorApprovingPayment
+  case onError(Swift.Error)
+  case selectedPlanChanged(PayPalCheckout.Plan)
+  case toggleCartDetailsView
+  case firebaseSetProps(Swift.Result<Swift.Bool, Swift.Error>)
+  case openProfileLink(link: PayPalCheckout.PayPalLinks)
+  case nativeEligibilityUpdated(Swift.Bool)
+  public var type: PayPalCheckout.EventType {
+    get
+  }
+}
+final public class UserCheckoutQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.UserCheckoutResult
+  public init(clientID: Swift.String, authToken: Swift.String, payToken: Swift.String, dcvv: Swift.String?)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+final public class NormalizeAddressQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.GQLNormalizedAddressResult
+  public init(clientID: Swift.String, authToken: Swift.String, payToken: Swift.String, address: PayPalCheckout.Address)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+public enum TrackUser {
+  public static func addPayment(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func addAddressTapped(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func selectPreferredCard(previous id: Swift.String, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func cardPreferenceClicked(message: Swift.String?, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func conversionOptionsTapped(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func currencyTapped(conversionType: Swift.String?, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func currencySubmitted(conversionType: Swift.String?, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func cardTapped(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func logoutTapped(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func policiesAndRightsTapped(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func processReview(tokenUpgraded: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func paymentPoliciesTapped(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func paymentTermsTapped(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func paymentPrivacyTapped(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func profilePicTapped(isUserProfile: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func shippingAddressTapped(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func shippingAddressUpdated(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func shippingChangeTapped(success: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func scrollCarousel(increasing: Swift.Bool, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+}
+public struct AnalyticsFPTIEvent : Swift.Encodable {
+  public static let startCheckoutJS: PayPalCheckout.AnalyticsFPTIEvent
+  public static let startCheckout: PayPalCheckout.AnalyticsFPTIEvent
+  public static let startProgress: PayPalCheckout.AnalyticsFPTIEvent
+  public static let ryi: PayPalCheckout.AnalyticsFPTIEvent
+  public static let profile: PayPalCheckout.AnalyticsFPTIEvent
+  public static let legal: PayPalCheckout.AnalyticsFPTIEvent
+  public static let addresses: PayPalCheckout.AnalyticsFPTIEvent
+  public static let selectAddress: PayPalCheckout.AnalyticsFPTIEvent
+  public static let wallet: PayPalCheckout.AnalyticsFPTIEvent
+  public static let currencyConversion: PayPalCheckout.AnalyticsFPTIEvent
+  public static let orderSummary: PayPalCheckout.AnalyticsFPTIEvent
+  public static let logout: PayPalCheckout.AnalyticsFPTIEvent
+  public func encode(to encoder: Swift.Encoder) throws
+}
+final public class LsatUpgradeQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.LSATResult
+  public init(clientID: Swift.String, authToken: Swift.String, payToken: Swift.String, merchantLsat: Swift.String)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class UndefinedPage : PayPalCheckout.ContentPage {
+  public static var instance: PayPalCheckout.UndefinedPage
+  @objc deinit
+}
+public enum FallbackType {
+  case checkoutResponseErrors
+  case unsupportedFlow
+  case cancelURL
+  case ineligibleTraffic
+  case nonUserCancelledFlow
+  case unknownCheckoutIssue
+  case payTokenFailure
+  case currencyConvertFailure
+  case userCheckoutFailPayloadService
+  case firebaseTokenFailure
+  case userCheckoutFailFinishService
+  case hermesWeb
+  case eligibilityFailure
+  case updateClientConfigFailure
+  public static func == (a: PayPalCheckout.FallbackType, b: PayPalCheckout.FallbackType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public protocol User {
+  var userId: Swift.String? { get }
+  var givenName: Swift.String? { get }
+  var familyName: Swift.String? { get }
+  var fullName: Swift.String? { get }
+  var email: Swift.String? { get }
+  var locale: Foundation.Locale? { get }
+  var imageURL: Foundation.URL? { get }
+}
+public enum LogGating {
+  case release
+  case debugging
+  public static func == (a: PayPalCheckout.LogGating, b: PayPalCheckout.LogGating) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+extension CGImage {
+  public var averageColor: UIKit.UIColor? {
+    get
+    set
+  }
+}
+extension UIImage {
+  public var averageColor: UIKit.UIColor? {
+    get
+  }
+  public func isDark(recalculate: Swift.Bool = false) -> Swift.Bool
+}
+public enum CurrencyConversionType : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case provider
+  case vendor
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [PayPalCheckout.CurrencyConversionType]
+  public static var allCases: [PayPalCheckout.CurrencyConversionType] {
+    get
+  }
+}
+public enum CheckoutState : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case payable
+  case approved
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.CheckoutState]
+  public static var allCases: [PayPalCheckout.CheckoutState] {
+    get
+  }
+}
+public enum APICallStatus : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case success
+  case failure
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.APICallStatus]
+  public static var allCases: [PayPalCheckout.APICallStatus] {
+    get
+  }
+}
+public enum HTTPMethod : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case get
+  case head
+  case post
+  case put
+  case delete
+  case connect
+  case options
+  case patch
+  case redirect
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [PayPalCheckout.HTTPMethod]
+  public static var allCases: [PayPalCheckout.HTTPMethod] {
+    get
+  }
+}
+public enum PayPalLinks : Swift.String {
+  case policies
+  case privacy
+  case terms
+  public func url() -> Foundation.URL?
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum TrackError {
+  public enum ErrorType : Swift.String {
+    case fatal
+    case majorBug
+    case minorBug
+    case note
+    case network
+    case system
+    case config
+    case user
+    case thirdParty
+    public var logLevel: PayPalCheckout.LogLevel {
+      get
+    }
+    public var sendAnalytics: Swift.Bool {
+      get
+    }
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public static func fatal(_ description: Swift.String? = nil, error: Swift.Error? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func bug(_ description: Swift.String? = nil, error: Swift.Error? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func network(_ description: Swift.String? = nil, request: Foundation.URLRequest? = nil, response: Foundation.URLResponse? = nil, error: Swift.Error? = nil, debugId: Swift.String? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func user(_ description: Swift.String? = nil, error: Swift.Error? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func hostApp(_ description: Swift.String? = nil, error: Swift.Error? = nil, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  public static func config(_ description: Swift.String? = nil, error: Swift.Error? = nil, notifyHost: Swift.Bool = false, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class AmountView : UIKit.UIView, PayPalCheckout.ContentView {
+  public var isVisible: Swift.Bool
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc deinit
+}
+public protocol Transitionable {
+  associatedtype Kind : PayPalCheckout.StaticIdentifiable
+}
+public enum LogoPositioningErrors : Swift.Error {
+  case zeroValues(reason: Swift.String)
+}
+public struct LogoPositioningConfig {
+  public var xMultiplier: CoreGraphics.CGFloat
+  public var yMultiplier: CoreGraphics.CGFloat
+  public var height: CoreGraphics.CGFloat
+  public var width: CoreGraphics.CGFloat
+  public init(xMultiplier: CoreGraphics.CGFloat, yMultiplier: CoreGraphics.CGFloat, height: CoreGraphics.CGFloat, width: CoreGraphics.CGFloat)
+}
+public struct CodeLocation {
+  public init(file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+}
+@objc @_inheritsConvenienceInitializers open class TransitionLabel : UIKit.UILabel, PayPalCheckout.ContentView {
+  public var insets: UIKit.UIEdgeInsets {
+    get
+    set
+  }
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  convenience public init(_ content: Swift.String = "", insets: UIKit.UIEdgeInsets = .zero, textAlignment: UIKit.NSTextAlignment = .left, lineBreakMode: UIKit.NSLineBreakMode = .byWordWrapping)
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @available(*, unavailable)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public enum FundingInstrumentType : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case bankAccount
+  case creditCard
+  case incentive
+  case providerBalance
+  case providerCredit
+  case privateLabelCreditCard
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.FundingInstrumentType]
+  public static var allCases: [PayPalCheckout.FundingInstrumentType] {
+    get
+  }
+}
+public enum FundingInstrumentSubType : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case checking
+  case savings
+  case balance
+  case credit
+  case debit
+  case provider
+  case prepaid
+  case merchant
+  case incentive
+  case paypalSpecific
+  case merchantSpecific
+  case unknown
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.FundingInstrumentSubType]
+  public static var allCases: [PayPalCheckout.FundingInstrumentSubType] {
+    get
+  }
+}
+public enum FundingInstrumentMethodType : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case instant
+  case delayed
+  case manual
+  case echeck
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.FundingInstrumentMethodType]
+  public static var allCases: [PayPalCheckout.FundingInstrumentMethodType] {
+    get
+  }
+}
+public enum CartIntent : Swift.String, Swift.Codable {
+  case sale
+  case order
+  case capture
+  case authorize
+  case none
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct GQLNormalizedAddressResult : Swift.Equatable, Swift.Codable {
+  public struct Result : Swift.Equatable, Swift.Codable {
+    public static func == (a: PayPalCheckout.GQLNormalizedAddressResult.Result, b: PayPalCheckout.GQLNormalizedAddressResult.Result) -> Swift.Bool
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public static func == (a: PayPalCheckout.GQLNormalizedAddressResult, b: PayPalCheckout.GQLNormalizedAddressResult) -> Swift.Bool
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct GQLNormalizedAddress : PayPalCheckout.Address, Swift.Equatable, Swift.Codable {
+  public var line1: Swift.String?
+  public var line2: Swift.String?
+  public var city: Swift.String?
+  public var state: Swift.String?
+  public var country: Swift.String?
+  public var postalCode: Swift.String?
+  public var fullAddress: Swift.String {
+    get
+  }
+  public var alreadyNormalized: Swift.Bool
+  public var griffinFormattedAddresses: PayPalCheckout.GQLNormalizedAddress.GriffinFormattedAddresses?
+  public struct GriffinFormattedAddresses : Swift.Equatable, Swift.Codable {
+    public var formattedOriginalAddress: [Swift.String]
+    public var formattedNormalizedAddress: [Swift.String]
+    public static func == (a: PayPalCheckout.GQLNormalizedAddress.GriffinFormattedAddresses, b: PayPalCheckout.GQLNormalizedAddress.GriffinFormattedAddresses) -> Swift.Bool
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public static func == (a: PayPalCheckout.GQLNormalizedAddress, b: PayPalCheckout.GQLNormalizedAddress) -> Swift.Bool
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct GQLAddress : PayPalCheckout.Address, Swift.Equatable, Swift.Codable {
+  public let line1: Swift.String?
+  public let line2: Swift.String?
+  public let city: Swift.String?
+  public let state: Swift.String?
+  public let country: Swift.String?
+  public let postalCode: Swift.String?
+  public let fullAddress: Swift.String
+  public static func == (a: PayPalCheckout.GQLAddress, b: PayPalCheckout.GQLAddress) -> Swift.Bool
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct NetworkOperationResult : PayPalCheckout.NetworkResult, Swift.Equatable {
+  public var data: Foundation.Data?
+  public var status: PayPalCheckout.NetworkStatus
+  public var code: Swift.Int
+  public func jsonDecode<T>(_ type: T.Type) -> T? where T : Swift.Decodable
+  public init(_ status: PayPalCheckout.NetworkStatus, data: Foundation.Data? = nil, statusCode: Swift.Int = -1)
+  public static func == (a: PayPalCheckout.NetworkOperationResult, b: PayPalCheckout.NetworkOperationResult) -> Swift.Bool
+}
+public class UpdateClientConfigStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+extension UIButton {
+  public func applyPayPalConfig(state: UIKit.UIControl.State = .normal, buttonColor: PayPalCheckout.ColorType = .transparent, labelColor: PayPalCheckout.ColorType = .label)
+}
+final public class CheckoutFinishQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.CheckoutSessionResult
+  public init(clientID: Swift.String, authToken: Swift.String, payToken: Swift.String, selectedPlan: PayPalCheckout.Plan, selectedAddressId: Swift.String? = nil, preferredFundingOptionId: Swift.String? = nil, preferredShippingAddressId: Swift.String? = nil, currencyConversionType: PayPalCheckout.CurrencyConversionType? = nil, billingAddress: PayPalCheckout.Address? = nil)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+@objc @_inheritsConvenienceInitializers public class BackAction : UIKit.UIButton, PayPalCheckout.ContentView {
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public enum CardIssuer : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case amex
+  case visa
+  case masterCard
+  case dinersClub
+  case discover
+  case maestro
+  case jcb
+  case cbNationale
+  case cofinoga
+  case cetelem
+  case cofidis
+  case elo
+  case hiper
+  case hipercard
+  case unionPay
+  case ruPay
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.CardIssuer]
+  public static var allCases: [PayPalCheckout.CardIssuer] {
+    get
+  }
+}
+public enum BankAccountType : Swift.String, Swift.Codable, Swift.CaseIterable {
+  case businessChecking
+  case businessSavings
+  case checking
+  case custom
+  case normal
+  case savings
+  case unknown
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.BankAccountType]
+  public static var allCases: [PayPalCheckout.BankAccountType] {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class CurrencyConversionPage : PayPalCheckout.ContentPage {
+  @objc deinit
+}
+public protocol FadingContentView : UIKit.UIView, PayPalCheckout.ContentView {
+}
+extension FadingContentView {
+  public func willChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  public func didChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+}
+public class EligibilityStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+final public class RTDBSessionTokenQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.PayPalSessionTokenResponse
+  public init(clientID: Swift.String, authToken: Swift.String, sessionID: Swift.String)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+public struct CheckoutApprovePaymentResult : Swift.Decodable, Swift.Equatable {
+  public var session: PayPalCheckout.CheckoutSession {
+    get
+  }
+  public let paymentID: Swift.String?
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.CheckoutApprovePaymentResult, b: PayPalCheckout.CheckoutApprovePaymentResult) -> Swift.Bool
+}
+public struct CheckoutCompleteResult : Swift.Decodable, Swift.Equatable {
+  public let data: PayPalCheckout.CheckoutApprovePaymentResult
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.CheckoutCompleteResult, b: PayPalCheckout.CheckoutCompleteResult) -> Swift.Bool
+}
+@_hasMissingDesignatedInitializers @objc(PPCShippingChange) @objcMembers final public class ShippingChange : ObjectiveC.NSObject, Swift.Codable {
+  @objc final public let payToken: Swift.String
+  @objc final public let shippingAddress: PayPalCheckout.ShippingChangeAddress
+  @objc final public let paymentID: Swift.String?
+  @objc final public let billingToken: Swift.String?
+  @objc final public let selectedShippingMethod: PayPalCheckout.ShippingMethod?
+  @objc deinit
+  @objc override dynamic public init()
+  public init(from decoder: Swift.Decoder) throws
+  final public func encode(to encoder: Swift.Encoder) throws
+}
+public class InitializeFirebaseStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+final public class EligibilityQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.EligibilityResponse
+  public init(clientID: Swift.String, authToken: Swift.String, payToken: Swift.String, nativeAppVersion: Swift.String, fundingSource: Swift.String, currency: Swift.String, buttonSessionID: Swift.String, os: Swift.String = "iOS", nativeSdkVersion: Swift.String = Checkout.version, buyerCountry: Swift.String? = Locale.current.regionCode)
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+@objc @_inheritsConvenienceInitializers public class LogoImageView : UIKit.UIImageView, PayPalCheckout.ContentView {
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var reportTrueSize: Swift.Bool
+  public var isVisible: Swift.Bool {
+    get
+  }
+  public var contentConstraints: PayPalCheckout.ContentConstrainer
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc override dynamic public init(image: UIKit.UIImage?)
+  @objc override dynamic public init(image: UIKit.UIImage?, highlightedImage: UIKit.UIImage?)
+  @objc deinit
+}
+public protocol Merchant {
+  var merchantId: Swift.String? { get }
+}
+@objc @_inheritsConvenienceInitializers public class SeventyTwoHourConversionHeaderView : PayPalCheckout.UnconstrainedTextLabel {
+  override public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  override public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+public protocol ProviderCreditOffer {
+  var referenceID: Swift.String? { get }
+  var content: PayPalCheckout.PPCOffersContent? { get }
+  var clickURL: Foundation.URL? { get }
+  var dismissURL: Foundation.URL? { get }
+  var impressionURL: Foundation.URL? { get }
+}
+public protocol PPCOffersContent {
+  var ctaText: Swift.String? { get }
+  var product: Swift.String? { get }
+  var offerType: Swift.String? { get }
+  var offerCategory: Swift.String? { get }
+  var termsLink: Foundation.URL? { get }
+  var termsLinkText: Swift.String? { get }
+  var termsText: Swift.String? { get }
+  var offerText2: Swift.String? { get }
+  var offerText1: Swift.String? { get }
+  var offerTextTemplate: Swift.String? { get }
+  var offerHeading: Swift.String? { get }
+  var offerCheckoutButtonText: Swift.String? { get }
+}
+public protocol CheckoutSession {
+  var cart: PayPalCheckout.Cart? { get }
+  var buyer: PayPalCheckout.User? { get }
+  var merchant: PayPalCheckout.Merchant? { get }
+  var shippingAddresses: [PayPalCheckout.ShippingAddress] { get }
+  var creditOffers: [PayPalCheckout.ProviderCreditOffer] { get }
+  var fundingOptions: [PayPalCheckout.FundingOption] { get }
+  var isBillingAgreement: Swift.Bool { get }
+  var isChangePaymentMethodAllowed: Swift.Bool { get }
+  var isChangeShippingAddressAllowed: Swift.Bool { get }
+  var isSignupEligible: Swift.Bool { get }
+  var paymentContingencies: PayPalCheckout.PaymentContingencies? { get }
+  var shouldHideCartDetails: Swift.Bool { get }
+  var shouldHideShipping: Swift.Bool { get }
+  var shouldShowProviderCreditOffer: Swift.Bool { get }
+  var selectedPlan: PayPalCheckout.Plan? { get }
+  var preferredFundingOption: PayPalCheckout.FundingOption? { get }
+  var selectedAddress: PayPalCheckout.ShippingAddress? { get }
+  var state: PayPalCheckout.CheckoutState? { get }
+  var payMode: PayPalCheckout.PayMode? { get }
+}
+extension CheckoutSession {
+  public var selectedPlan: PayPalCheckout.Plan? {
+    get
+  }
+  public var preferredFundingOption: PayPalCheckout.FundingOption? {
+    get
+  }
+  public var selectedAddress: PayPalCheckout.ShippingAddress? {
+    get
+  }
+}
+@objc(PPCPaymentButtonSize) public enum PaymentButtonSize : Swift.Int, Swift.CaseIterable, Swift.CustomStringConvertible {
+  case mini
+  case collapsed
+  case expanded
+  case full
+  public var description: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.PaymentButtonSize]
+  public static var allCases: [PayPalCheckout.PaymentButtonSize] {
+    get
+  }
+}
+public protocol PlanTypes {
+  var soloPlan: PayPalCheckout.Plan { get }
+  var splitPlans: [PayPalCheckout.Plan] { get }
+}
+public protocol Amount {
+  var currencyCode: Swift.String? { get }
+  var currencyFormat: Swift.String? { get }
+  var currencyFormatSymbolISOCurrency: Swift.String? { get }
+  var currencySymbol: Swift.String? { get }
+  var currencyValue: Swift.String? { get }
+  var isEmpty: Swift.Bool { get }
+}
+public protocol CurrencyConversion {
+  var from: PayPalCheckout.Amount { get }
+  var to: PayPalCheckout.Amount { get }
+  var converted: PayPalCheckout.Amount { get }
+  var type: PayPalCheckout.CurrencyConversionType { get }
+  var feeRate: Swift.String? { get }
+  var spread: Swift.String? { get }
+  var rate: Swift.String? { get }
+  var canChangeConversionType: Swift.Bool { get }
+}
+public protocol Plan {
+  var id: Swift.String? { get }
+  var fundingSources: [PayPalCheckout.FundingSource] { get }
+  var backupFundingInstrument: PayPalCheckout.FundingInstrument? { get }
+  var currencyConversion: PayPalCheckout.CurrencyConversion? { get }
+  var isSelected: Swift.Bool { get }
+}
+public enum UIFontVariant : Swift.String, Swift.CaseIterable {
+  case regular
+  case bold
+  case black
+  case oblique
+  case book
+  case roman
+  case bookOblique
+  case heavyOblique
+  case italic
+  case boldItalic
+  case demiBold
+  case demiBoldItalic
+  case heavy
+  case heavyItalic
+  case medium
+  case mediumItalic
+  case mediumOblique
+  case light
+  case lightItalic
+  case lightOblique
+  case ultraLight
+  case ultraLightItalic
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.UIFontVariant]
+  public static var allCases: [PayPalCheckout.UIFontVariant] {
+    get
+  }
+}
+extension UIFont {
+  public static func avenirNext(_ variant: PayPalCheckout.UIFontVariant = .regular, _ size: CoreGraphics.CGFloat = UIFont.systemFontSize) -> UIKit.UIFont?
+  public static func avenir(_ variant: PayPalCheckout.UIFontVariant = .regular, _ size: CoreGraphics.CGFloat = UIFont.systemFontSize) -> UIKit.UIFont?
+  public static func bold(_ size: CoreGraphics.CGFloat? = nil) -> UIKit.UIFont
+  public static func italic(_ size: CoreGraphics.CGFloat? = nil) -> UIKit.UIFont
+}
+public class MoveToShutdownPage : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public class SequenceProcessor<Context> {
+  public typealias Next = (Swift.Error?) -> Swift.Void
+  public typealias PreFireListener = (PayPalCheckout.SequenceProcessor<Context>.Callback, Context?) -> PayPalCheckout.SequenceProcessor<Context>.Callback
+  public var callbacks: [PayPalCheckout.SequenceProcessor<Context>.Callback]
+  public var listeners: [PayPalCheckout.SequenceProcessor<Context>.PreFireListener]
+  final public let queue: Dispatch.DispatchQueue?
+  public var nextSequence: PayPalCheckout.SequenceProcessor<Context>?
+  public init(_ items: [PayPalCheckout.SequenceProcessor<Context>.Callback] = [], queue: Dispatch.DispatchQueue? = nil)
+  @objc deinit
+  public func go(context: Context? = nil, postSequenceCallback: PayPalCheckout.SequenceProcessor<Context>.Callback? = nil)
+  open class Callback : Swift.Identifiable, Swift.CustomStringConvertible {
+    public var function: (Context?, PayPalCheckout.SequenceProcessor<Context>.Next?) -> Swift.Void
+    public var context: Context?
+    public var name: Swift.String?
+    public var id: Swift.String {
+      get
+    }
+    public var description: Swift.String {
+      get
+    }
+    public init(context: Context? = nil, name: Swift.String? = nil, _ function: @escaping (Context?, PayPalCheckout.SequenceProcessor<Context>.Next?) -> Swift.Void)
+    @objc deinit
+    public typealias ID = Swift.String
+  }
+}
+extension SequenceProcessor : PayPalCheckout.CheckoutProcess where Context == PayPalCheckout.State {
+  public func index(of itemType: PayPalCheckout.SequenceProcessor<Context>.Callback.Type) -> Swift.Int?
+  public func append(_ item: PayPalCheckout.SequenceProcessor<Context>.Callback)
+  public func insert(_ item: PayPalCheckout.SequenceProcessor<Context>.Callback, at index: Swift.Int)
+  public func remove(at index: Swift.Int) -> PayPalCheckout.SequenceProcessor<Context>.Callback
+}
+extension String {
+  public func countInstances(of stringToFind: Swift.String) -> Swift.Int
+}
+public protocol NonFatalError : Swift.Error {
+}
+public enum NetworkSynchronicity {
+  case synchronous
+  case asynchronous
+  public static func == (a: PayPalCheckout.NetworkSynchronicity, b: PayPalCheckout.NetworkSynchronicity) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum FixedLocation {
+  case header
+  case footer
+  public static func == (a: PayPalCheckout.FixedLocation, b: PayPalCheckout.FixedLocation) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum ButtonStateKey : Swift.Hashable {
+  case primary
+  case `continue`
+  case addCard
+  case applyForCredit
+  case payIn4
+  case payNow
+  case custom(Swift.String)
+  public static func == (a: PayPalCheckout.ButtonStateKey, b: PayPalCheckout.ButtonStateKey) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public struct CheckoutSessionResult : Swift.Decodable {
+  public var payload: PayPalCheckout.CheckoutSession {
+    get
+  }
+  public init(from decoder: Swift.Decoder) throws
+}
+public class GetFeatureFlagsStep : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+public struct ClientConfigResponse : Swift.Decodable, Swift.Equatable {
+  public let updateClientConfig: Swift.String?
+  public let correlationId: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: PayPalCheckout.ClientConfigResponse, b: PayPalCheckout.ClientConfigResponse) -> Swift.Bool
+}
+public protocol CartItem {
+  var unitPrice: PayPalCheckout.Amount { get }
+  var total: PayPalCheckout.Amount { get }
+  var name: Swift.String { get }
+  var itemDescription: Swift.String? { get }
+  var quantity: Swift.Int { get }
+}
+public protocol Cart {
+  var intent: Swift.String { get }
+  var items: [PayPalCheckout.CartItem] { get }
+  var handlingFee: PayPalCheckout.Amount { get }
+  var insurance: PayPalCheckout.Amount { get }
+  var shippingAndHandling: PayPalCheckout.Amount { get }
+  var subtotal: PayPalCheckout.Amount { get }
+  var tax: PayPalCheckout.Amount { get }
+  var total: PayPalCheckout.Amount { get }
+  var cartID: Swift.String { get }
+  var cancelURL: Foundation.URL? { get }
+  var returnURL: Foundation.URL? { get }
+}
+public class SmartWalletQuery : PayPalCheckout.NetworkQuery, PayPalCheckout.Query {
+  public typealias QuerySuccess = PayPalCheckout.SmartWalletResponse
+  public init(clientID: Swift.String, merchantId: [Swift.String] = [], currency: Swift.String, amount: Swift.String = "", userIdToken: Swift.String = "", userRefreshToken: Swift.String = "", buyerAccessToken: Swift.String = "", nativeAppVersion: Swift.String, os: Swift.String = "iOS", nativeSdkVersion: Swift.String = Checkout.version, vetted: Swift.String = "")
+  @objc deinit
+  override public init(clientID: Swift.String, authToken: Swift.String, query: Swift.String, variables: PayPalCheckout.JSONPackage)
+}
+public enum SDKNonFatalStepErrors : PayPalCheckout.NonFatalError, Swift.CustomStringConvertible {
+  case unexpectedMissingNetworkOp
+  case localeUnchanged
+  public var description: Swift.String {
+    get
+  }
+  public static func == (a: PayPalCheckout.SDKNonFatalStepErrors, b: PayPalCheckout.SDKNonFatalStepErrors) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc(PPCPayMode) public enum PayMode : Swift.Int {
+  case `continue`
+  case payNow
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class ProfilePage : PayPalCheckout.ContentPage {
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(PPCShippingAmount) @objcMembers final public class ShippingAmount : ObjectiveC.NSObject, Swift.Codable {
+  @objc final public let currencyValue: Swift.String
+  @objc final public let currencySymbol: Swift.String
+  @objc final public let currencyFormat: Swift.String
+  @objc final public let currencyFormatSymbolISOCurrency: Swift.String
+  @objc final public let currencyCode: Swift.String
+  @objc deinit
+  @objc override dynamic public init()
+  public init(from decoder: Swift.Decoder) throws
+  final public func encode(to encoder: Swift.Encoder) throws
+}
+public class LSATUpgradeTask : PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Callback {
+  public init()
+  @objc deinit
+  override public init(context: PayPalCheckout.State? = super, name: Swift.String? = super, _ function: @escaping (PayPalCheckout.State?, PayPalCheckout.SequenceProcessor<PayPalCheckout.State>.Next?) -> Swift.Void)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class ShippingContainerView : UIKit.UIView, PayPalCheckout.FadingContentView, PayPalCheckout.ViewModelView, PayPalCheckout.ActionableRow {
+  public var id: Swift.String {
+    get
+  }
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var isVisible: Swift.Bool {
+    get
+  }
+  public var isPaysheetRow: Swift.Bool {
+    get
+  }
+  @objc deinit
+  public func updateData()
+  public func didSelectRow()
+}
+public protocol NetworkResult {
+  var data: Foundation.Data? { get }
+  var status: PayPalCheckout.NetworkStatus { get }
+  var code: Swift.Int { get }
+  var stringFormat: Swift.String? { get }
+}
+extension NetworkResult {
+  public var stringFormat: Swift.String? {
+    get
+  }
+}
+public protocol ImageDownloadable {
+  static func downloadImage(with url: Foundation.URL)
+}
+public protocol ImageCacheable {
+  static func cacheImage(with data: Foundation.Data) -> Swift.Bool
+}
+public protocol ImageRetrievable {
+  static func retrieveImages(with url: Foundation.URL) -> Swift.Bool
+}
+public protocol ImageRemoveable {
+  static func removeImage(with file: Foundation.URL) -> Swift.Bool
+}
+@objc @_inheritsConvenienceInitializers public class Legalese : UIKit.UIView, PayPalCheckout.ContentView, PayPalCheckout.ViewModelView {
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var contentConstraints: PayPalCheckout.ContentConstrainer {
+    get
+  }
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  public func updateData()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class ShippingView : UIKit.UIView, PayPalCheckout.ContentView, PayPalCheckout.ViewModelView, PayPalCheckout.ActionableRow {
+  public var id: Swift.String {
+    get
+  }
+  public var desiredHeight: CoreGraphics.CGFloat {
+    get
+  }
+  public var isVisible: Swift.Bool {
+    get
+  }
+  public var shouldBeHidden: Swift.Bool
+  public var isPaysheetRow: Swift.Bool {
+    get
+  }
+  @objc deinit
+  public func updateAddressLabels()
+  public func updateData()
+  public func shouldSelectRow() -> Swift.Bool
+  public func didSelectRow()
+  public func willChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+  public func didChangeHeight(_ change: PayPalCheckout.HeightChange, pageChange: Swift.Bool, duration: Foundation.TimeInterval, animation: (@escaping () -> Swift.Void) -> Swift.Void, animationCompletion: (@escaping (UIKit.UIViewAnimatingPosition) -> Swift.Void) -> Swift.Void)
+}
+public typealias PayToken = Swift.String
+public typealias AuthToken = Swift.String
+public typealias RedirectURI = PayPalCheckout.URI
+public typealias URI = Swift.String
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc(PPCCorrelationIDs) @objcMembers final public class CorrelationIDs : ObjectiveC.NSObject {
+  @objc final public var lsatUpgradeDebugID: Swift.String? {
+    get
+  }
+  @objc final public var fetchPayloadDebugID: Swift.String? {
+    get
+  }
+  @objc final public var currencyConversionDebugID: Swift.String? {
+    get
+  }
+  @objc final public var finishCheckoutDebugID: Swift.String? {
+    get
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(PPCErrorInfo) @objcMembers final public class ErrorInfo : ObjectiveC.NSObject {
+  @objc final public let reason: Swift.String?
+  @objc final public let correlationIDs: PayPalCheckout.CorrelationIDs
+  @objc deinit
+  @objc override dynamic public init()
+}
+public typealias Config = PayPalCheckout.CheckoutConfig
+@_hasMissingDesignatedInitializers @objc(PPCheckoutConfig) @objcMembers public class CheckoutConfig : ObjectiveC.NSObject, Foundation.NSCopying {
+  public typealias AuthenticationCallback = (@escaping (PayPalCheckout.AuthToken?, Swift.Error?) -> Swift.Void) -> Swift.Void
+  public typealias WebAuthenticationCallback = (PayPalCheckout.URI?, @escaping ((PayPalCheckout.RedirectURI?, Swift.Error?) -> Swift.Void)) -> Swift.Void
+  public typealias ApprovalCallback = (PayPalCheckout.Approval) -> Swift.Void
+  public typealias CancelCallback = () -> Swift.Void
+  public typealias ErrorCallback = (PayPalCheckout.ErrorInfo) -> Swift.Void
+  public typealias LogoutCallback = () -> Swift.Void
+  public typealias ShippingChangeCallback = (PayPalCheckout.ShippingChange, @escaping ((PayPalCheckout.ShippingChangeState, PayPalCheckout.ShippingChangeError?) -> Swift.Void)) -> Swift.Void
+  @objc public var clientID: Swift.String
+  @objc public var payToken: Swift.String?
+  @objc public var environment: PayPalCheckout.Environment
+  @objc public var uriScheme: Swift.String
+  @objc public var universalLink: Swift.String
+  @objc public var environmentConfig: PayPalCheckout.EnvironmentConfig
+  @objc public var onAuthenticate: PayPalCheckout.CheckoutConfig.AuthenticationCallback?
+  @objc public var onWebAuthenticate: PayPalCheckout.CheckoutConfig.WebAuthenticationCallback?
+  @objc public var onApprove: PayPalCheckout.CheckoutConfig.ApprovalCallback?
+  @objc public var onCancel: PayPalCheckout.CheckoutConfig.CancelCallback?
+  @objc public var onError: PayPalCheckout.CheckoutConfig.ErrorCallback?
+  @objc public var onLogout: PayPalCheckout.CheckoutConfig.LogoutCallback?
+  @objc public var onShippingChange: PayPalCheckout.CheckoutConfig.ShippingChangeCallback?
+  @objc public var presentingViewController: UIKit.UIViewController?
+  @objc public init(clientID: Swift.String, payToken: Swift.String, universalLink: Swift.String, uriScheme: Swift.String, onApprove: @escaping PayPalCheckout.CheckoutConfig.ApprovalCallback, onCancel: @escaping PayPalCheckout.CheckoutConfig.CancelCallback, onError: @escaping PayPalCheckout.CheckoutConfig.ErrorCallback, environment: PayPalCheckout.Environment = .live)
+  @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  @objc deinit
+  @objc override dynamic public init()
+}
+public enum GQLHTTPHeader : Swift.Hashable, Swift.RawRepresentable, Swift.CaseIterable {
+  case accept
+  case contentType
+  case origin
+  case userAgent
+  case custom(Swift.String)
+  public static let xPayPalAuthToken: PayPalCheckout.GQLHTTPHeader
+  public static let paypalClientContext: PayPalCheckout.GQLHTTPHeader
+  public static let xAppName: PayPalCheckout.GQLHTTPHeader
+  public static let xAppVersion: PayPalCheckout.GQLHTTPHeader
+  public static var allCases: [PayPalCheckout.GQLHTTPHeader] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public typealias AllCases = [PayPalCheckout.GQLHTTPHeader]
+}
+public enum GraphQLServer : PayPalCheckout.Server, Swift.Hashable, Swift.CaseIterable {
+  case sandbox
+  case production
+  case stage(host: Swift.String, scheme: Swift.String = "https")
+  public static var allCases: [PayPalCheckout.GraphQLServer] {
+    get
+  }
+  public static var current: PayPalCheckout.GraphQLServer
+  public var url: Foundation.URL {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public static func server(for env: PayPalCheckout.Environment) -> PayPalCheckout.GraphQLServer
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public typealias AllCases = [PayPalCheckout.GraphQLServer]
+  public static func == (a: PayPalCheckout.GraphQLServer, b: PayPalCheckout.GraphQLServer) -> Swift.Bool
+}
+public enum EventType : Swift.String, Swift.CaseIterable, Swift.CustomStringConvertible {
+  case initialStateComplete
+  case gqlPayload
+  case uiPageWillChange
+  case uiPageIsChanging
+  case uiPageDidChange
+  case uiSetCardAsPreferred
+  case uiProfilePicAvailable
+  case uiCurrencyConversionChanged
+  case openWeb
+  case logout
+  case shippingAddressAdded
+  case shippingAddressChanged
+  case merchantUpdatedAddress
+  case setNewProfileImage
+  case FICentered
+  case FISelected
+  case sdkApprovePayment
+  case onApproveRTDBMessage
+  case onCancel
+  case sdkShutdown
+  case errorApprovingPayment
+  case onError
+  case selectedPlanChanged
+  case toggleCartDetailsView
+  case firebaseSetProps
+  case openProfileLink
+  case nativeEligibilityUpdated
+  public var description: Swift.String {
+    get
+  }
+  public typealias AllCases = [PayPalCheckout.EventType]
+  public static var allCases: [PayPalCheckout.EventType] {
+    get
+  }
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+}
+public struct OnError : Swift.Codable {
+  public var message: Swift.String
+  public init(message: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc(PPCPaymentButtonConfig) @objcMembers public class PaymentButtonConfig : ObjectiveC.NSObject {
+  @objc public var type: PayPalCheckout.PaymentButtonType
+  @objc public var edges: PayPalCheckout.PaymentButtonEdges
+  @objc public var size: PayPalCheckout.PaymentButtonSize
+  public var insets: UIKit.NSDirectionalEdgeInsets?
+  @objc public var prefix: Swift.String
+  @objc public var suffix: Swift.String
+  required public init(type: PayPalCheckout.PaymentButtonType, edges: PayPalCheckout.PaymentButtonEdges, size: PayPalCheckout.PaymentButtonSize, insets: UIKit.NSDirectionalEdgeInsets?, prefix: Swift.String, suffix: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension PayPalCheckout.WebExperienceType : Swift.Equatable {}
+extension PayPalCheckout.WebExperienceType : Swift.Hashable {}
+extension PayPalCheckout.PaymentButtonEdges : Swift.Equatable {}
+extension PayPalCheckout.PaymentButtonEdges : Swift.Hashable {}
+extension PayPalCheckout.PaymentButtonEdges : Swift.RawRepresentable {}
+extension PayPalCheckout.ShippingChangeState : Swift.Equatable {}
+extension PayPalCheckout.ShippingChangeState : Swift.Hashable {}
+extension PayPalCheckout.ShippingChangeState : Swift.RawRepresentable {}
+extension PayPalCheckout.EventPlayback : Swift.Equatable {}
+extension PayPalCheckout.EventPlayback : Swift.Hashable {}
+extension PayPalCheckout.ButtonState.Color : Swift.Equatable {}
+extension PayPalCheckout.ButtonState.Color : Swift.Hashable {}
+extension PayPalCheckout.HTTPHeader : Swift.Equatable {}
+extension PayPalCheckout.HTTPHeader : Swift.Hashable {}
+extension PayPalCheckout.HTTPHeader : Swift.RawRepresentable {}
+extension PayPalCheckout.LogAudience : Swift.Equatable {}
+extension PayPalCheckout.LogAudience : Swift.Hashable {}
+extension PayPalCheckout.LogAudience : Swift.RawRepresentable {}
+extension PayPalCheckout.FallbackReason : Swift.Equatable {}
+extension PayPalCheckout.FallbackReason : Swift.Hashable {}
+extension PayPalCheckout.FallbackReason : Swift.RawRepresentable {}
+extension PayPalCheckout.FallbackType : Swift.Equatable {}
+extension PayPalCheckout.FallbackType : Swift.Hashable {}
+extension PayPalCheckout.ThreeDSPaymentExperience : Swift.Equatable {}
+extension PayPalCheckout.ThreeDSPaymentExperience : Swift.Hashable {}
+extension PayPalCheckout.ThreeDSPaymentExperience : Swift.RawRepresentable {}
+extension PayPalCheckout.ThreeDSContingencySourceType : Swift.Equatable {}
+extension PayPalCheckout.ThreeDSContingencySourceType : Swift.Hashable {}
+extension PayPalCheckout.ThreeDSContingencySourceType : Swift.RawRepresentable {}
+extension PayPalCheckout.ThreeDSContingencyReasonType : Swift.Equatable {}
+extension PayPalCheckout.ThreeDSContingencyReasonType : Swift.Hashable {}
+extension PayPalCheckout.ThreeDSContingencyReasonType : Swift.RawRepresentable {}
+extension PayPalCheckout.HTTPHeaderBase64Encoding : Swift.Equatable {}
+extension PayPalCheckout.HTTPHeaderBase64Encoding : Swift.Hashable {}
+extension PayPalCheckout.PaymentButtonType : Swift.Equatable {}
+extension PayPalCheckout.PaymentButtonType : Swift.Hashable {}
+extension PayPalCheckout.PaymentButtonType : Swift.RawRepresentable {}
+extension PayPalCheckout.Experience : Swift.Equatable {}
+extension PayPalCheckout.Experience : Swift.Hashable {}
+extension PayPalCheckout.Experience : Swift.RawRepresentable {}
+extension PayPalCheckout.ColorType : Swift.Equatable {}
+extension PayPalCheckout.ColorType : Swift.Hashable {}
+extension PayPalCheckout.NetworkStatus : Swift.Equatable {}
+extension PayPalCheckout.NetworkStatus : Swift.Hashable {}
+extension PayPalCheckout.ContentSection : Swift.Equatable {}
+extension PayPalCheckout.ContentSection : Swift.Hashable {}
+extension PayPalCheckout.ContentSection : Swift.RawRepresentable {}
+extension PayPalCheckout.NetworkInputType : Swift.Equatable {}
+extension PayPalCheckout.NetworkInputType : Swift.Hashable {}
+extension PayPalCheckout.PresentationMode : Swift.Equatable {}
+extension PayPalCheckout.PresentationMode : Swift.Hashable {}
+extension PayPalCheckout.NetworkActionType : Swift.Equatable {}
+extension PayPalCheckout.NetworkActionType : Swift.Hashable {}
+extension PayPalCheckout.CarouselCell.LabelType : Swift.Equatable {}
+extension PayPalCheckout.CarouselCell.LabelType : Swift.Hashable {}
+extension PayPalCheckout.SDKFatalStepErrors : Swift.Equatable {}
+extension PayPalCheckout.SDKFatalStepErrors : Swift.Hashable {}
+extension PayPalCheckout.CurrencyVM : PayPalCheckout.ViewModel {}
+extension PayPalCheckout.HeightChange : Swift.Equatable {}
+extension PayPalCheckout.HeightChange : Swift.Hashable {}
+extension PayPalCheckout.ContainerVM : UIKit.UITableViewDataSource {}
+extension PayPalCheckout.Environment : Swift.Equatable {}
+extension PayPalCheckout.Environment : Swift.Hashable {}
+extension PayPalCheckout.Environment : Swift.RawRepresentable {}
+extension PayPalCheckout.Environment.Redirect : Swift.Equatable {}
+extension PayPalCheckout.Environment.Redirect : Swift.Hashable {}
+extension PayPalCheckout.Environment.Redirect : Swift.RawRepresentable {}
+extension PayPalCheckout.ShippingType : Swift.Equatable {}
+extension PayPalCheckout.ShippingType : Swift.Hashable {}
+extension PayPalCheckout.ShippingType : Swift.RawRepresentable {}
+extension PayPalCheckout.LogLevel : Swift.Equatable {}
+extension PayPalCheckout.LogLevel : Swift.Hashable {}
+extension PayPalCheckout.LogLevel : Swift.RawRepresentable {}
+extension PayPalCheckout.URLQueryItemKey : Swift.Equatable {}
+extension PayPalCheckout.URLQueryItemKey : Swift.Hashable {}
+extension PayPalCheckout.URLQueryItemKey : Swift.RawRepresentable {}
+extension PayPalCheckout.SplitBalanceVM : PayPalCheckout.ViewModel {}
+extension PayPalCheckout.DeliveryViewModel : PayPalCheckout.StaticIdentifiable {}
+extension PayPalCheckout.DeliveryViewModel : PayPalCheckout.ViewModel {}
+extension PayPalCheckout.FIType : Swift.Equatable {}
+extension PayPalCheckout.FIType : Swift.Hashable {}
+extension PayPalCheckout.LogGating : Swift.Equatable {}
+extension PayPalCheckout.LogGating : Swift.Hashable {}
+extension PayPalCheckout.CurrencyConversionType : Swift.Equatable {}
+extension PayPalCheckout.CurrencyConversionType : Swift.Hashable {}
+extension PayPalCheckout.CurrencyConversionType : Swift.RawRepresentable {}
+extension PayPalCheckout.CheckoutState : Swift.Equatable {}
+extension PayPalCheckout.CheckoutState : Swift.Hashable {}
+extension PayPalCheckout.CheckoutState : Swift.RawRepresentable {}
+extension PayPalCheckout.APICallStatus : Swift.Equatable {}
+extension PayPalCheckout.APICallStatus : Swift.Hashable {}
+extension PayPalCheckout.APICallStatus : Swift.RawRepresentable {}
+extension PayPalCheckout.HTTPMethod : Swift.Equatable {}
+extension PayPalCheckout.HTTPMethod : Swift.Hashable {}
+extension PayPalCheckout.HTTPMethod : Swift.RawRepresentable {}
+extension PayPalCheckout.PayPalLinks : Swift.Equatable {}
+extension PayPalCheckout.PayPalLinks : Swift.Hashable {}
+extension PayPalCheckout.PayPalLinks : Swift.RawRepresentable {}
+extension PayPalCheckout.TrackError.ErrorType : Swift.Equatable {}
+extension PayPalCheckout.TrackError.ErrorType : Swift.Hashable {}
+extension PayPalCheckout.TrackError.ErrorType : Swift.RawRepresentable {}
+extension PayPalCheckout.FundingInstrumentType : Swift.Equatable {}
+extension PayPalCheckout.FundingInstrumentType : Swift.Hashable {}
+extension PayPalCheckout.FundingInstrumentType : Swift.RawRepresentable {}
+extension PayPalCheckout.FundingInstrumentSubType : Swift.Equatable {}
+extension PayPalCheckout.FundingInstrumentSubType : Swift.Hashable {}
+extension PayPalCheckout.FundingInstrumentSubType : Swift.RawRepresentable {}
+extension PayPalCheckout.FundingInstrumentMethodType : Swift.Equatable {}
+extension PayPalCheckout.FundingInstrumentMethodType : Swift.Hashable {}
+extension PayPalCheckout.FundingInstrumentMethodType : Swift.RawRepresentable {}
+extension PayPalCheckout.CartIntent : Swift.Equatable {}
+extension PayPalCheckout.CartIntent : Swift.Hashable {}
+extension PayPalCheckout.CartIntent : Swift.RawRepresentable {}
+extension PayPalCheckout.CardIssuer : Swift.Equatable {}
+extension PayPalCheckout.CardIssuer : Swift.Hashable {}
+extension PayPalCheckout.CardIssuer : Swift.RawRepresentable {}
+extension PayPalCheckout.BankAccountType : Swift.Equatable {}
+extension PayPalCheckout.BankAccountType : Swift.Hashable {}
+extension PayPalCheckout.BankAccountType : Swift.RawRepresentable {}
+extension PayPalCheckout.PaymentButtonSize : Swift.Equatable {}
+extension PayPalCheckout.PaymentButtonSize : Swift.Hashable {}
+extension PayPalCheckout.PaymentButtonSize : Swift.RawRepresentable {}
+extension PayPalCheckout.UIFontVariant : Swift.Equatable {}
+extension PayPalCheckout.UIFontVariant : Swift.Hashable {}
+extension PayPalCheckout.UIFontVariant : Swift.RawRepresentable {}
+extension PayPalCheckout.NetworkSynchronicity : Swift.Equatable {}
+extension PayPalCheckout.NetworkSynchronicity : Swift.Hashable {}
+extension PayPalCheckout.FixedLocation : Swift.Equatable {}
+extension PayPalCheckout.FixedLocation : Swift.Hashable {}
+extension PayPalCheckout.SDKNonFatalStepErrors : Swift.Equatable {}
+extension PayPalCheckout.SDKNonFatalStepErrors : Swift.Hashable {}
+extension PayPalCheckout.PayMode : Swift.Equatable {}
+extension PayPalCheckout.PayMode : Swift.Hashable {}
+extension PayPalCheckout.PayMode : Swift.RawRepresentable {}
+extension PayPalCheckout.EventType : Swift.Equatable {}
+extension PayPalCheckout.EventType : Swift.Hashable {}
+extension PayPalCheckout.EventType : Swift.RawRepresentable {}

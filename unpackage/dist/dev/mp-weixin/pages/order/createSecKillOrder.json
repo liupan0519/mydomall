@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "u-form": "/node-modules/uview-ui/components/u-form/u-form",
+    "u-form-item": "/node-modules/uview-ui/components/u-form-item/u-form-item",
+    "u-input": "/node-modules/uview-ui/components/u-input/u-input",
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}

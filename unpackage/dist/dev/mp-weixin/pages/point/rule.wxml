@@ -1,0 +1,1 @@
+<view class="container"><view class="point"><image style="width:100%;" src="{{signSetting.ruleUrl}}" mode="widthFix"></image></view></view>

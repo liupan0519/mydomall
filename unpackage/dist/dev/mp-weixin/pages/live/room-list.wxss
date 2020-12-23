@@ -1,0 +1,56 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+page, .content {
+  background: #f8f8f8;
+}
+/* 商品列表 */
+.room-list {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+.room-list .room-item {
+  width: 100%;
+  padding: 20rpx;
+  margin: 20rpx;
+  background: #fff;
+}
+.room-list .image-wrapper {
+  width: 100%;
+  height: 330rpx;
+  -webkit-border-radius: 3px;
+          border-radius: 3px;
+  overflow: hidden;
+}
+.room-list .image-wrapper image {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+.room-list .title {
+  font-size: 28rpx;
+  color: #303133;
+  line-height: 80rpx;
+}
+.room-list .desc-box {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  padding-right: 10rpx;
+  font-size: 24rpx;
+  color: #909399;
+}
+

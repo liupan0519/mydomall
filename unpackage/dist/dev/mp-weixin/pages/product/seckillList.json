@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "uni-countdown": "/components/uni-countdown/uni-countdown",
+    "uni-load-more": "/components/uni-load-more/uni-load-more"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "u-form": "/node-modules/uview-ui/components/u-form/u-form",
+    "u-form-item": "/node-modules/uview-ui/components/u-form-item/u-form-item",
+    "u-input": "/node-modules/uview-ui/components/u-input/u-input",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "u-row": "/node-modules/uview-ui/components/u-row/u-row",
+    "u-col": "/node-modules/uview-ui/components/u-col/u-col",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal"
+  }
+}

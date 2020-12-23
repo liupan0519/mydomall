@@ -1,0 +1,9 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "uni-badge": "/components/uni-badge/uni-badge",
+    "uni-load-more": "/components/uni-load-more/uni-load-more",
+    "empty": "/components/empty"
+  }
+}

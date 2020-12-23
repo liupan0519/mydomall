@@ -1,0 +1,17 @@
+{
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "u-tag": "/node-modules/uview-ui/components/u-tag/u-tag",
+    "u-cell-group": "/node-modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell-item": "/node-modules/uview-ui/components/u-cell-item/u-cell-item",
+    "u-avatar": "/node-modules/uview-ui/components/u-avatar/u-avatar",
+    "u-count-down": "/node-modules/uview-ui/components/u-count-down/u-count-down",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "uni-number-box": "/components/uni-number-box",
+    "uni-badge": "/components/uni-badge/uni-badge",
+    "uni-countdown": "/components/uni-countdown/uni-countdown"
+  }
+}
