@@ -98,6 +98,7 @@
 			},
 			// 生成海报
 			createPoster() {
+			console.log(22222222222)
 				let data = {
 					shareType: this.shareType,
 					productUuid: this.goodsId,

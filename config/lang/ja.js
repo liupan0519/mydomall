@@ -1,8 +1,9 @@
 //语言包
 export const index = {
 	lang: 'ja',
-	merchantTitle: 'HOWFRESH',
-	title: 'ハウフレッシュ　HOWFRESH',
+	bundle:'Howfresh',
+	merchantTitle: 'Howfresh',
+	title: 'ハウフレッシュ',
 	indexTitle: 'HOME',
 	loading: '読み込み中...',
 	more: "詳細",
@@ -490,7 +491,10 @@ export const index = {
 		gender2: '女性',
 		pullUpShow:'引き上げて詳細を表示',
 		loading:'読み込み中...',
-		noMoreData:'データはありません'
+		noMoreData:'データはありません',
+		agreementCon:'我已阅读取同意',
+		agreementName:'《Howfreshな户协议（含隐私政策）》',
+		agreeAgreement:'请先プライバシー用户隐私协议'
 	},
 	set: {
 		title: '設定',

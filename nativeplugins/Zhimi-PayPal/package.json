@@ -16,9 +16,7 @@
 			"hooksClass": "",  
 			"integrateType": "aar",  
 			"dependencies": [
-				"com.paypal.sdk:paypal-android-sdk:2.16.0",
-				"com.squareup.retrofit2:retrofit:2.3.0",
-				"com.squareup.retrofit2:converter-gson:2.3.0"
+				"com.paypal.sdk:paypal-android-sdk:2.16.0"
 			],
 			"compileOptions": {
 			    "sourceCompatibility": "1.8",
@@ -38,24 +36,16 @@
 			"hooksClass": "",
 			"integrateType": "library", 
 			"frameworks": [
-				"SafariServices.framework",
-				"MessageUI.framework",
-				"SystemConfiguration.framework",
-				"MobileCoreServices.framework"
+				"PayPalCheckout.framework"
 			],
 			"embedFrameworks": [
+				"PayPalCheckout.framework"
 			],
 			"headers":[
-				"PayPalConfiguration.h",
-				"PayPalFuturePaymentViewController.h",
-				"PayPalMobile.h",
-				"PayPalOAuthScopes.h",
-				"PayPalPayment.h",
-				"PayPalPaymentViewController.h",
-				"PayPalProfileSharingViewController.h"
 			],
 			"privacies": [
 			], 
+			"embedSwift": true,
 			"deploymentTarget": "9.0"
 		}
 	}

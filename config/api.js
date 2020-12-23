@@ -1,17 +1,24 @@
-/* 生产环境 */
+/* jp生产环境 u.howfresh.jp*/
+export const apiBaseUrl = 'https://howfresh.api.mydomall.com/b2b2c/'
 /* export const apiBaseUrl = 'https://api.howfresh.jp/b2b2c/' */
 
+/* zh生产环境 u.howgoodz.zh*/
+/* export const apiBaseUrl = 'https://api.howgoodz.cn/b2b2c/' */
+
 /* 测试环境 */
-export const apiBaseUrl = 'https://stage.hf.api.mydomall.com/b2b2c/'
+/* export const apiBaseUrl = 'https://stage.hf.api.mydomall.com/b2b2c/' */
 
 /* 本地环境 */
 /* export const apiBaseUrl = 'http://192.168.3.31:8083/' */
 
 
+export const h5BaseUrl = 'https://howfresh.m.mydomall.com'
 
+
+ 
 
 // 需要登陆的，都写到这里，否则就是不需要登陆的接口
-const generateUuid = (randomFlag, min, max) => {
+const generateUuid = (randomFlag, min, max) => { 
 	var str = '', 
 		range = min,
 		arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
@@ -106,7 +113,8 @@ const methodsToken = [
 	'consumer/inquiryProfitWelfare',
 	'consumer/receiveProfitWelfare',
 	'paypal/queryPaypalOrder',
-	'paypal/paypalNotify'
+	'paypal/paypalNotify',
+	'paypal/createPaypalOrder'
 ];
 
 const post = (method, data, callback, hideLoading) => {
@@ -147,9 +155,10 @@ const post = (method, data, callback, hideLoading) => {
 		data: postData,
 		method: 'POST',
 		success: (response) => {
+			/* console.log('method:'+method)
+			console.log(JSON.stringify(response)) */
 			if(!hideLoading)
-				uni.hideLoading();
-			/* console.log(apiBaseUrl + method+":"+JSON.stringify(response)) */
+			uni.hideLoading();
 			const result = response.data
 			if (!result.body.status.statusCode === '0') {
 				// 登录信息过期或者未登录

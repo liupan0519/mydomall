@@ -1,8 +1,9 @@
 //语言包
 export const index = {
 	lang: 'zh',
-	merchantTitle: '好好新鲜商家端',
-	title: '好好新鲜',
+	bundle:'Howfresh',
+	merchantTitle: 'Howfresh商家端',
+	title: 'Howfresh',
 	indexTitle: '首页',
 	loading: '加载中...',
 	more: "更多",

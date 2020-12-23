@@ -170,7 +170,7 @@
 		},
 		onLoad(option) {
 			uni.setNavigationBarTitle({
-				title: this.$i18n.merchant.detail
+				title: this.i18n.merchant.detail
 			})
 			this.merchantUuid = option.id;
 			// 商家基本信息

@@ -44,6 +44,26 @@ export default {
 		shareHref: {
 			type: String,
 			default: ''
+		},
+		//分享类型
+		shareType:{
+			type:Number,
+			default:1
+		},
+		//用户id
+		userId:{
+			type: String,
+			default: ''
+		},
+		//拼团id
+		groupId:{
+			type: String,
+			default: ''
+		},
+		//拼团的团队id
+		teamId:{
+			type:Number,
+			default:0
 		}
 	},
 	data () {
@@ -133,11 +153,16 @@ export default {
 		},
 		// 生成二维码
 		createPoster () {
+			console.log(4444444444444)
 			let data = {
 				productUuid: this.goodsId,
-				productQrCodeUrl :this.shareHref
+				productQrCodeUrl :this.shareHref,
+				shareType: 3,
+				hrefType: 2
 			}
+			console.log(data)
 			this.$api.request.goodsPoster(data, res => {
+				console.log(res);
 				if (res.body.status.statusCode === '0') {
 					this.close();
 					uni.navigateTo({

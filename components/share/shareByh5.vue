@@ -85,6 +85,7 @@ export default {
 		},
 		// 生成海报
 		createPoster () {
+			console.log(111111111111)
 			let data = {
 				shareType: this.shareType,
 				productUuid: this.goodsId,

@@ -273,11 +273,11 @@
 				let pages = getCurrentPages()
 				let page = pages[pages.length - 1]
 				// #ifdef H5 || MP-WEIXIN || APP-PLUS || APP-PLUS-NVUE
-				return this.$api.request.apiBaseUrl.replace("/b2c/rest/","") + '/#/' + page.route + '?id=' + this.product.productUuid;
+				return this.$api.request.h5BaseUrl + '/#/' + page.route + '?id=' + this.product.productUuid;
 				// #endif
 
 				// #ifdef MP-ALIPAY
-				return this.$api.request.apiBaseUrl.replace("/b2c/rest/","") + '/#/' + page.__proto__.route + '?id=' + this.product
+				return this.$api.request.h5BaseUrl + '/#/' + page.__proto__.route + '?id=' + this.product
 					.productUuid;
 				// #endif
 			}

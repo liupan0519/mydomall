@@ -87,6 +87,7 @@ export default {
 		},
 		// 生成海报
 		createPoster () {
+			console.log(333333333333333)
 			let data = {
 				productUuid: this.goodsId,
 				productQrCodeUrl :this.shareHref

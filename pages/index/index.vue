@@ -326,7 +326,7 @@
 
 
 			//#ifdef APP-PLUS
-			let webView = this.$mp.page.$getAppWebview();
+			/* let webView = this.$mp.page.$getAppWebview();
 			var tn = webView.getStyle().titleNView;
 			if (tn.buttons) {
 				uni.getSystemInfo({
@@ -337,7 +337,7 @@
 						});
 					}
 				})
-			}
+			} */
 			// #endif 
 			this.loadData();
 		},

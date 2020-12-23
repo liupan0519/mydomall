@@ -14,7 +14,8 @@
 							"backgroundColor": "rgba(231, 231, 231,.7)",
 							"borderRadius": "16px",
 							"disabled": true,
-							"placeholderColor": "#606266"
+							"placeholderColor": "#606266",
+							"placeholder":"キーワード検索" 
 						},
 						"buttons": [{
 								"fontSrc": "/static/yticon.ttf",
@@ -540,6 +541,15 @@
 			}
 
 		}
+        ,{
+            "path" : "pages/webview/webview",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

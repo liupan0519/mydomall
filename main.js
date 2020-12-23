@@ -6,17 +6,17 @@ import util from './config/util'
 import * as request from './config/api'
 import './components/ican-H5Api/ican-H5Api'
 import uView from "uview-ui";
-import Json from './Json' 
+import Json from './Json'
 /* import vconsole from 'vconsole' // 引入vconsole */
 
 
 Vue.use(uView);
-Vue.use(VueI18n)  
+Vue.use(VueI18n)
 
 
-const msg = (title, duration=2000, mask=false, icon='none')=>{
+const msg = (title, duration = 2000, mask = false, icon = 'none') => {
 	//统一提示方便全局修改
-	if(Boolean(title) === false){
+	if (Boolean(title) === false) {
 		return;
 	}
 	uni.showToast({
@@ -26,16 +26,16 @@ const msg = (title, duration=2000, mask=false, icon='none')=>{
 		icon
 	});
 }
-const json = type=>{
+const json = type => {
 	//模拟异步请求数据
-	return new Promise(resolve=>{
-		setTimeout(()=>{
+	return new Promise(resolve => {
+		setTimeout(() => {
 			resolve(Json[type]);
 		}, 500)
 	})
 }
 
-const prePage = ()=>{
+const prePage = () => {
 	let pages = getCurrentPages();
 	let prePage = pages[pages.length - 2];
 	// #ifdef H5
@@ -52,30 +52,43 @@ App.mpType = 'app';
 
 Vue.prototype.$fire = new Vue();
 Vue.prototype.$store = store;
-Vue.prototype.$api = {msg, json, prePage,util,request};
+Vue.prototype.$api = {
+	msg,
+	json,
+	prePage,
+	util,
+	request
+};
 /* Vue.prototype.$vconsole = new vconsole() // 使用vconsole */
 
 
 const i18n = new VueI18n({
-    locale : 'ja-JP', //语言标识
-    messages: {
-        'en-US' : require('config/lang/en.js')  , //英文语言包
-        'zh-CN' : require('config/lang/zh.js'),  //中文繁体语言包
-        'ja-JP' : require('config/lang/ja.js')  //日文语言包
-    } 
+	locale: 'ja-JP', //语言标识
+	messages: {
+		'en-US': require('config/lang/en.js'), //英文语言包
+		'zh-CN': require('config/lang/zh.js'), //中文繁体语言包
+		'ja-JP': require('config/lang/ja.js') //日文语言包
+	}
 })
 
-Vue.prototype.baseColor="#55aa7f";
+var lan = uni.getStorageSync('locale')
+if (!lan) {
+	uni.setStorageSync('locale',i18n.locale);
+}else{
+	i18n.locale=lan;
+}
+
+Vue.prototype.baseColor = "#55aa7f";
 Vue.prototype._i18n = i18n
-Vue.prototype.$i18nMsg = function(){
-    return i18n.messages[i18n.locale]
+Vue.prototype.$i18nMsg = function() {
+	return i18n.messages[i18n.locale]
 }
 
 App.mpType = 'app'
 
 const app = new Vue({
 	i18n,
-    store,
-    ...App
+	store,
+	...App
 })
 app.$mount()

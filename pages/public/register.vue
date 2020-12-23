@@ -11,7 +11,7 @@
 			</view>
 			<!-- #ifdef MP-WEIXIN -->
 			<view class="wrapper">
-			
+
 				<view class="application-logo">
 					<image :src="applicationConfig.applicationLogo" mode="aspectFill"></image>
 				</view>
@@ -24,24 +24,35 @@
 			<view class="input-content">
 				<view class="input-item">
 					<text class="tit">{{i18n.telephone}}</text>
-					<input type="number" :value="mobileNo" :placeholder="publicMsg.mobileNoPH" maxlength="11" data-key="mobileNo" @input="inputChange" />
+					<input type="number" :value="mobileNo" :placeholder="publicMsg.mobileNoPH" maxlength="11" data-key="mobileNo"
+					 @input="inputChange" />
 				</view>
 				<view class="input-item">
 					<text class="tit">{{publicMsg.pwd}}</text>
-					<input type="mobile" value="" :placeholder="publicMsg.validatePassword" placeholder-class="input-empty" maxlength="20" password
-					 data-key="password" @input="inputChange" />
+					<input type="mobile" value="" :placeholder="publicMsg.validatePassword" placeholder-class="input-empty" maxlength="20"
+					 password data-key="password" @input="inputChange" />
 				</view>
 				<view class="input-item">
 					<text class="tit">{{publicMsg.pwd2}}</text>
-					<input type="mobile" value="" :placeholder="publicMsg.validatePassword" placeholder-class="input-empty" maxlength="20" password
-					 data-key="rePassword" @input="inputChange" />
+					<input type="mobile" value="" :placeholder="publicMsg.validatePassword" placeholder-class="input-empty" maxlength="20"
+					 password data-key="rePassword" @input="inputChange" />
 				</view>
 			</view>
 			<!-- #endif -->
+
+			<view class="agreement">
+				<label class="radio" @click="click_radio">
+					<radio value="" :color="baseColor" :checked='agreeFlag' />
+					</radio>
+				</label>
+				<view class="con">
+					<text class="tit"><span @click="click_radio">{{publicMsg.agreementCon}}</span><span class="service_agreement" @click="navTo('../webview/webview?flag=0&url=https://app.howfresh.jp/Howfresh_privacy.html')">{{publicMsg.agreementName}}</span></text>
+				</view>
+			</view>
 			<!-- #ifdef MP-WEIXIN -->
 			<button open-type="getUserInfo" class="confirm-btn" @getuserinfo="getuserinfo" withCredentials="true" :disabled="registering">{{publicMsg.wxlogin}}</button>
 			<!-- #endif -->
-			
+
 			<!-- #ifndef MP-WEIXIN -->
 			<button class="confirm-btn" @click="toRegisterByPassword" :disabled="registering">{{publicMsg.toRegister}}</button>
 			<!-- #endif -->
@@ -66,9 +77,10 @@
 				registering: false,
 				supervisorId: '',
 				groupUuid: '', //会员注册专用商品组
-				wechatUserInfo:{},
+				wechatUserInfo: {},
 				to: '',
-				suscribeMsgList:[]
+				suscribeMsgList: [],
+				agreeFlag: false
 			}
 		},
 		onLoad(options) {
@@ -77,31 +89,32 @@
 			})
 			// #ifdef H5
 			//微信浏览器
-			if(this.isWexinBrowser()){
+			if (this.isWexinBrowser()) {
 				var openId = uni.getStorageSync('openId');
 				//未缓存openId
-				if(!openId){
+				if (!openId) {
 					//有code, 通过code换取openId
-					if(options.code){
+					if (options.code) {
 						this.code = options.code;
 						this.getOpenIdByCode(this.code);
 					}
 					//没有code, 重定向获取code
-					else{
+					else {
 						let uri = encodeURIComponent(window.location.href);
-						let authURL = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+this.applicationConfig.wechatAppIdOfficialAccount+'&redirect_uri='+uri+'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';  
+						let authURL = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.applicationConfig.wechatAppIdOfficialAccount +
+							'&redirect_uri=' + uri + '&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
 						window.location.href = authURL;
 						return;
 						//注意因为使用vue的history模式, 需要在nginx配置重定向, 否则会出现404错误
 					}
-				}else{
+				} else {
 					this.openId = openId;
 				}
 			}
 			// #endif
 			this.supervisorId = options.id || decodeURIComponent(options.scene);
 			var to = options.to;
-			if(to){
+			if (to) {
 				this.to = unescape(to);
 			}
 			this.inquiryProductGroupRegister();
@@ -118,13 +131,21 @@
 		},
 		methods: {
 			...mapMutations(['login']),
-			isWexinBrowser(){
-			    var ua = navigator.userAgent.toLowerCase();
-			    if(ua.match(/MicroMessenger/i)=="micromessenger") {
-			        return true;
-			    } else {
-			        return false;
-			    }
+			click_radio() {
+				this.agreeFlag = !this.agreeFlag;
+			},
+			isWexinBrowser() {
+				var ua = navigator.userAgent.toLowerCase();
+				if (ua.match(/MicroMessenger/i) == "micromessenger") {
+					return true;
+				} else {
+					return false;
+				}
+			},
+			navTo(url) {
+				uni.navigateTo({
+					url
+				})
 			},
 			getOpenIdByCode(code) {
 				let that = this;
@@ -135,7 +156,7 @@
 					if (res.body.status.statusCode === '0') {
 						var data = res.body.data;
 						that.openId = data.openId;
-						uni.setStorageSync("openId",that.openId);
+						uni.setStorageSync("openId", that.openId);
 					} else {
 						that.$api.msg(res.body.status.errorDesc);
 					}
@@ -148,7 +169,7 @@
 			navBack() {
 				uni.navigateBack();
 			},
-			getuserinfo(e){
+			getuserinfo(e) {
 				let that = this;
 				that.wechatUserInfo = e.detail.userInfo;
 				uni.requestSubscribeMessage({
@@ -161,7 +182,7 @@
 				uni.login({
 					provider: 'weixin',
 					success: function(res) {
-						console.log('code: '+res.code);
+						console.log('code: ' + res.code);
 						that.wechatUserInfo.code = res.code;
 						var requestData = {
 							verifyType: 'WECHAT'
@@ -195,7 +216,7 @@
 								} else {
 									that.loginRedirect();
 								}
-				
+
 							} else {
 								that.$api.msg(loginRes.body.status.errorDesc);
 							}
@@ -225,19 +246,19 @@
 					}
 				});
 			},
-			populateWechatUserInfo(requestData){
-				
+			populateWechatUserInfo(requestData) {
+
 				requestData.code = this.wechatUserInfo.code;
 				requestData.name = this.wechatUserInfo.nickName;
 				requestData.photoUrl = this.wechatUserInfo.avatarUrl;
 				let sex = this.publicMsg.noBind;
-				if(this.wechatUserInfo.gender===1)
+				if (this.wechatUserInfo.gender === 1)
 					sex = this.publicMsg.gender1;
-				else if(this.wechatUserInfo.gender===2)
+				else if (this.wechatUserInfo.gender === 2)
 					sex = this.publicMsg.gender2;
 				requestData.sex = sex;
 			},
-			
+
 			// 查询注册专用商品组
 			inquiryProductGroupRegister() {
 				this.$api.request.productGroupForRegister({}, res => {
@@ -253,7 +274,8 @@
 					mobileNo,
 					password,
 					rePassword,
-					publicMsg
+					publicMsg,
+					agreeFlag
 				} = this;
 				var isFormValid = true;
 				if (!this.$api.util.validateMobileNo(mobileNo)) {
@@ -264,6 +286,9 @@
 					isFormValid = false;
 				} else if (password != rePassword) {
 					this.$api.msg(publicMsg.validatePassword2);
+					isFormValid = false;
+				} else if (!agreeFlag) {
+					this.$api.msg(publicMsg.agreeAgreement);
 					isFormValid = false;
 				}
 				if (!isFormValid) {
@@ -294,12 +319,12 @@
 								var tokenId = loginRes.header.tokenId;
 								uni.setStorageSync('userToken', tokenId);
 								this.login(loginRes.body.data); //将用户信息保存起来
-								if(this.to){
+								if (this.to) {
 									console.log(this.to);
 									uni.navigateTo({
 										url: this.to
 									})
-								}else if (this.groupUuid) {
+								} else if (this.groupUuid) {
 									uni.navigateTo({
 										url: '/pages/product/group?groupId=' + this.groupUuid
 									})
@@ -328,6 +353,36 @@
 		background: #fff;
 	}
 
+	.agreement {
+		width: 100%;
+		margin-top: 60rpx;
+		display: flex;
+		text-align: center;
+
+		.radio {
+			flex: 0.5;
+			text-align: right;
+		}
+
+		.tit {
+			line-height: 50rpx;
+			font-size: 24rpx;
+		}
+
+		.service_agreement {
+			color: $base-color;
+		}
+	}
+
+	uni-radio .uni-radio-input {
+		width: 30rpx;
+		height: 30rpx;
+	}
+
+	.uni-radio-input:hover {
+		border: 1px solid #d1d1d1 !important;
+	}
+
 	.container {
 		padding-top: 75px;
 		position: relative;
@@ -353,7 +408,7 @@
 		font-size: 40upx;
 		color: $font-color-dark;
 	}
-	
+
 	.application-logo {
 		text-align: center;
 

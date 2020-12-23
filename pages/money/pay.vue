@@ -28,7 +28,7 @@
 					</radio>
 				</label>
 			</view>
-			<view class="type-item b-b" id="paypal-button" @click="changePayType(4)">
+			<view class="type-item b-b" id="paypal-button" @click="changePayType(4)" v-if="i18n.bundle=='Howfresh'">
 				<!-- <text class="icon yticon icon-alipay"></text> -->
 				<image src="../../static/image/paypal.png" class="icon-img"></image>
 				<view class="con">
@@ -36,6 +36,17 @@
 				</view>
 				<label class="radio">
 					<radio value="" :color="baseColor" :checked='payType == 4' />
+					</radio>
+				</label>
+			</view>
+			<view class="type-item b-b" id="square-button" @click="changePayType(5)" v-if="i18n.bundle=='Howfresh'">
+				<!-- <text class="icon yticon icon-alipay"></text> -->
+				<image src="../../static/image/square.png" class="icon-img"></image>
+				<view class="con">
+					<text class="tit">Square支付</text>
+				</view>
+				<label class="radio">
+					<radio value="" :color="baseColor" :checked='payType == 5' />
 					</radio>
 				</label>
 			</view>
@@ -62,10 +73,6 @@
 </template>
 
 <script>
-	//插件对象
-	var sdkwx = uni.requireNativePlugin('Zhimi-PayPal');
-	/* import PayPal from 'vue-paypal-checkout'
-	console.log(PayPal) */
 	import {
 		mapState,
 		mapMutations
@@ -74,6 +81,12 @@
 	//微信支付报错
 	//const wx = require('weixin-js-sdk');
 	// #endif
+
+	// #ifdef  APP-PLUS
+	//插件对象
+	var sdkwx = uni.requireNativePlugin('Zhimi-PayPal');
+	// #endif
+
 
 	export default {
 		data() {
@@ -106,18 +119,28 @@
 				this.inquiryPOrder(this.pOrderNo);
 			this.inquirySuscribeMsg();
 			//初始化
+			//sandbox clientId
 			var clientId = "AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-";
-			sdkwx.init({
+
+
+			//live clientId
+			/* var clientId = "AULFYTRq5omefPwnDZ5NoHYnEhlBIPcL_FNQSVlqrzvIbzlM5DSMOE80nuI9sRb09kbcPmtKkmfO3H6h"; */
+
+			// #ifdef  APP-PLUS
+			/* sdkwx.init({
 				environment: "sandbox", //mock离线环境 sandbox沙盒环境 live正式环境
 				clientId: clientId,
 				merchantName: "Howfresh"
-				/* ,
-								merchantPrivacyPolicyUri:"https://www.example.com/privacy",
-								merchantUserAgreementUri:"https://www.example.com/legal" */
-			});
+			}); */
+			// #endif
 		},
 
 		methods: {
+			navTo(url) {
+				uni.navigateTo({
+					url
+				})
+			},
 			paymentAuthorized(data) {
 				// 授权完成的回调，可以拿到订单id
 				console.log(data);
@@ -165,6 +188,20 @@
 					this.balancePay();
 				} else if (this.payType === 4) {
 					this.paypalPay();
+				} else if (this.payType === 5) {
+					let squareUrl = 'https://howfresh.square.mydomall.com/';
+					//let squareUrl = 'http://localhost:3000/'; 
+					let payForm = {
+						actualAmount: this.order.actualAmount,
+						orderNo: this.orderNo,
+						pOrderNo: this.pOrderNo,
+						tokenId: uni.getStorageSync("userToken")
+					}
+					
+					uni.showLoading({
+						//title: '加载中'
+					});
+					this.navTo("../webview/webview?flag=1&url=" + squareUrl + "?payForm=" + JSON.stringify(payForm))
 				}
 
 			},
@@ -267,7 +304,7 @@
 					fail: function(err) {
 						setTimeout(() => {
 							uni.redirectTo({
-								url: '/pages/order/order'
+								url: '/pages/order/order?state=1'
 							});
 						}, 1000);
 					},
@@ -279,7 +316,6 @@
 				uni.login({
 					provider: 'weixin',
 					success: function(loginRes) {
-						console.log(loginRes.code);
 						that.$api.request.wechatPay({
 							orderNo: that.orderNo,
 							pOrderNo: that.pOrderNo,
@@ -287,7 +323,6 @@
 						}, res => {
 							if (res.body.status.statusCode === '0') {
 								var data = res.body.data;
-								console.log(res.body.data);
 								uni.requestPayment({
 									provider: 'wxpay',
 									timeStamp: data.timestamp,
@@ -354,12 +389,13 @@
 				}, res => {
 					if (res.body.status.statusCode === '0') {
 						let alipayForm = res.body.data.alipayForm;
-						alert(alipayForm);
 						uni.requestPayment({
 							provider: 'alipay', //支付宝支付
 							orderInfo: alipayForm,
 							success: function(res) {
-								alert('success');
+								uni.showToast({
+									title: 'success'
+								})
 								setTimeout(() => {
 									uni.redirectTo({
 										url: '/pages/money/paySuccess'
@@ -367,10 +403,9 @@
 								}, 1000);
 							},
 							fail: function(err) {
-								alert('fail');
 								setTimeout(() => {
 									uni.redirectTo({
-										url: '/pages/order/order'
+										url: '/pages/order/order?state=1'
 									});
 								}, 1000);
 							},
@@ -382,70 +417,120 @@
 			},
 			paypalApp() {
 				let that = this;
-				sdkwx.payment({
-					amount: that.order.actualAmount, //金额
-					currencyCode: "JPY", //货币类型
-					shortDescription: "Howfresh", //简述
-					paymentIntent: "sale", //意图，sale支付  authorize order
-					custome: that.orderNo||that.pOrderNo,
-				}, result => {
-					if (result.code === 0) {
-						let paypalID = result.data.proofOfPayment.id;
-						that.$api.request.paypalAPPNotify({
+				switch (uni.getSystemInfoSync().platform) {
+					case 'android':
+						that.$api.request.paypalApp({
 							orderNo: that.orderNo,
-							pOrderNo: that.pOrderNo,
-							paypalID: paypalID
+							pOrderNo: that.pOrderNo
 						}, res => {
 							that.$api.msg(res);
 							if (res.body.status.statusCode === '0') {
-								uni.showToast({
-									title: 'success'
-								})
-								setTimeout(() => {
-									uni.redirectTo({
-										url: '/pages/money/paySuccess'
-									});
-								}, 1000);
-							} else {
-								setTimeout(() => {
-									uni.redirectTo({
-										url: '/pages/order/order'
-									});
-								}, 1000);
-							}
-						});
+								let formdata = res.body.data;
+								sdkwx.payment(formdata, result => {
+									if (result.code === 0) {
+										let paypalID = result.data.proofOfPayment.id;
+										that.$api.request.paypalAPPNotify({
+											orderNo: that.orderNo,
+											pOrderNo: that.pOrderNo,
+											paypalID: paypalID
+										}, res => {
+											if (res.body.status.statusCode === '0') {
+												uni.showToast({
+													title: 'success'
+												})
+												setTimeout(() => {
+													uni.redirectTo({
+														url: '/pages/money/paySuccess'
+													});
+												}, 1000);
+											} else {
+												setTimeout(() => {
+													uni.redirectTo({
+														url: '/pages/order/order?state=1'
+													});
+												}, 1000);
+											}
+										});
 
-					} else {
-						alert('fail');
-						setTimeout(() => {
-							uni.redirectTo({
-								url: '/pages/order/order'
-							});
-						}, 1000);
-					}
-				});
-				/* that.$api.request.paypalApp({
-					orderNo: that.orderNo,
-					pOrderNo: that.pOrderNo
-				}, res => {
-					that.$api.msg(`queryPaypalOrder:${JSON.stringify(res)}`);
-					console.log(`queryPaypalOrder:${JSON.stringify(res)}`)
-					if (res.body.status.statusCode === '0') {
-						let formdata = res.body.data;
-						//8M8232775V907070K
-						that.$api.request.paypalAppToken({
-							actualAmount: "200"
-						}, res => {
-							that.$api.msg(`createPaypalOrder:${JSON.stringify(res)}`);
-							console.log(`createPaypalOrder:${JSON.stringify(res)}`)
-							if (res.body.status.statusCode === '0') {
-								let paypalToken = res.body.data.orderId;
+									} else {
+										setTimeout(() => {
+											uni.redirectTo({
+												url: '/pages/order/order?state=1'
+											});
+										}, 1000);
+									}
+								});
+							} else {
+								that.$api.msg(res.body.status.errorDesc);
 							}
 						});
-					} else {
-						that.$api.msg(res.body.status.errorDesc);
-					}
-				}); */
+						break;
+					case 'ios':
+						that.$api.request.paypalAppToken({
+							orderNo: that.orderNo,
+							pOrderNo: that.pOrderNo
+						}, res => {
+							console.log("paypalAppToken:");
+							if (res.body.status.statusCode === '0') {
+								let formdata = res.body.data;
+								console.log(JSON.stringify(formdata));
+								/* formdata.uriScheme='howfresh'; */
+								//sandbox clientId
+								/* var clientId = "AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-"; */
+
+								//live clientId
+								//AULFYTRq5omefPwnDZ5NoHYnEhlBIPcL_FNQSVlqrzvIbzlM5DSMOE80nuI9sRb09kbcPmtKkmfO3H6h
+								var clientId = "Aewmqgv0-rzCbGPH7tCnNZjYUETV0By-KQJNqu2acFrMjrHkQhUuh1L5_PoiCDFjJ-W4nNAZaUiW6n9f";
+
+								sdkwx.startCheckoutWithToken({
+									token: formdata.token,
+									clientId: clientId,
+									uriScheme: "howfresh://paypalpay",
+									environment: "live", //live 生产环境 sandbox 沙盒环境
+									universalLink: "https://howfresh.app.mydomall.com/ulink/" //ios通用链接
+								}, result => {
+									console.log(111111);
+									console.log(JSON.stringify(result));
+									if (result.code === 0) {
+										//let paypalID = result.data.proofOfPayment.id;
+										that.$api.request.paypalAPPNotify({
+											orderNo: that.orderNo,
+											pOrderNo: that.pOrderNo,
+											/* paypalID: paypalID, */
+											paypalTokenID: formdata.token
+										}, res => {
+											console.log(22222222);
+											console.log(JSON.stringify(res));
+											if (res.body.status.statusCode === '0') {
+												uni.showToast({
+													title: 'success'
+												})
+												setTimeout(() => {
+													uni.redirectTo({
+														url: '/pages/money/paySuccess'
+													});
+												}, 1000);
+											} else {
+												setTimeout(() => {
+													uni.redirectTo({
+														url: '/pages/order/order?state=1'
+													});
+												}, 1000);
+											}
+										});
+
+									} else {
+										that.$api.msg(result.data);
+									}
+								});
+
+							}
+						});
+						break;
+					default:
+						that.$api.msg("暂不支持");
+						break;
+				}
 
 			},
 			//余额支付
@@ -550,8 +635,8 @@
 			width: 100upx;
 			font-size: 52upx;
 		}
-		
-		.icon-img{
+
+		.icon-img {
 			width: 52upx;
 			height: 52upx;
 			margin-right: 48upx;

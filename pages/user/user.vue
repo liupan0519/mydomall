@@ -222,11 +222,11 @@
 				let pages = getCurrentPages()
 				let page = pages[pages.length - 1]
 				// #ifdef H5 || MP-WEIXIN || APP-PLUS || APP-PLUS-NVUE
-				return this.$api.request.apiBaseUrl.replace("/b2b2c/rest/","") + '/#/pages/public/register?id=' + this.userInfo.userUuid;
+				return this.$api.request.h5BaseUrl + '/#/pages/public/register?id=' + this.userInfo.userUuid;
 				// #endif
 			
 				// #ifdef MP-ALIPAY
-				return this.$api.request.apiBaseUrl.replace("/b2b2c/rest/","") + '/#/pages/public/register?id=' + this.userInfo.userUuid;
+				return this.$api.request.h5BaseUrl + '/#/pages/public/register?id=' + this.userInfo.userUuid;
 				// #endif
 			}
 		},

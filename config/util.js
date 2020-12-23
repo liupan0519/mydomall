@@ -724,7 +724,9 @@ var phones = {
 //验证手机号码
 const validateMobileNo = (mobileNo) => {
 	var lan = uni.getStorageSync('locale')
-	return mobileNo.match(phones[lan]) != null;
+	//mobileNo.match(phones[lan])
+	//console.log("mobileNo.match(phones[lan]):"+mobileNo.match(phones[lan]))
+	return mobileNo != null;
 }
 //验证登录密码
 const validatePassword = (password) => {

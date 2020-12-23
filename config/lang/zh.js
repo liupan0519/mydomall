@@ -1,8 +1,9 @@
 //语言包
 export const index = {
 	lang: 'zh',
-	merchantTitle: '好好新鲜商家端',
-	title: '好好新鲜',
+	bundle:'Howfresh',
+	merchantTitle: '开市客代购商家端',
+	title: '开市客代购',
 	indexTitle: '首页',
 	loading: '加载中...',
 	more: "更多",
@@ -501,7 +502,10 @@ export const index = {
 		gender2: '女',
 		pullUpShow:'上拉显示更多',
 		loading:'正在加载...',
-		noMoreData:'没有更多数据了'
+		noMoreData:'没有更多数据了',
+		agreementCon:'我已阅读并同意',
+		agreementName:'《Howfresh用户协议(含隐私政策)》',
+		agreeAgreement:'请先同意用户隐私协议'
 		
 	},
 	set: {

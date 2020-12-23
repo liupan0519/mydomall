@@ -10,7 +10,7 @@
 		</view>
 
 		<!-- languages modal -->
-		<view class="list-cell" >
+		<view class="list-cell"  v-if="false">
 			<text class="cell-tit">{{setMsg.langStr}}</text>
 			<!-- <text class="cell-tip">{{setMsg.currentLang}}</text> -->
 			<picker @change="PickerChange" :value="index" :range="listLang">
@@ -73,6 +73,9 @@
 			})
 		},
 		computed: {
+			i18n() {
+				return this.$i18nMsg().index
+			},
 			setMsg() {
 				return this.$i18nMsg().index.set
 			},
