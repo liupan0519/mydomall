@@ -8,7 +8,8 @@
 		data() {
 			return {
 				url: "",
-				flag: 0
+				flag: 0,
+				payJson: {}
 			}
 		},
 		onLoad: function(option) {
@@ -22,6 +23,10 @@
 				uni.setNavigationBarTitle({
 					title: "Square Payment"
 				})
+			} else if (this.flag == 2) {
+				uni.setNavigationBarTitle({
+					title: "选择地址"
+				})
 			}
 
 		},
@@ -29,18 +34,14 @@
 			getData(event) {
 				let data = event.detail.data[0];
 				let status = data.status;
-				
+
 				if (status == 0) {
-					uni.showToast({
-						title: 'success'
-					})
-					setTimeout(() => {
-						uni.redirectTo({
-							url: '/pages/money/paySuccess'
-						});
-					}, 1000);
-					return;
-					this.$api.request.paypalAPPNotify(data.payObj, res => {
+					/* console.log("data.payObj:"+JSON.stringify(data.payObj)); */
+					/* let arr=[];
+					arr.push(data.payObj)
+					this.payJson["json"] = arr;
+					console.log(JSON.stringify(this.payJson)) */
+					this.$api.request.squareAPPNotify(data.payObj, res => {
 						if (res.body.status.statusCode === '0') {
 							uni.showToast({
 								title: 'success'
@@ -68,6 +69,7 @@
 					}, 1000);
 				}
 			}
+
 		}
 	}
 	/* window.addEventListener('message', function(e) {
