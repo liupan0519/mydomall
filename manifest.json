@@ -170,7 +170,7 @@
     },
     "h5" : {
         "title" : "Howfresh",
-        "domain" : "howfresh.m.mydomall.com",
+        "domain" : "stage.hf.m.mydomall.com",
         "router" : {
             "mode" : "history",
             "base" : "./"
