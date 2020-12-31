@@ -3,20 +3,20 @@
 		<!-- 空白页 -->
 		<view v-if="!hasLogin || empty===true" class="empty">
 			<image src="/static/emptyCart.png" mode="aspectFit"></image>
-						<view v-if="hasLogin" class="empty-tips">
-							<text>{{i18n.cart.nodata}}</text>
-							<view style="margin-top:10px">
-								<u-button :ripple="true" type="success" size="mini" @click="navToIndex">{{i18n.toIndex}}</u-button>
-							</view>
-							<!-- <navigator class="navigator" v-if="hasLogin" url="../index/index" open-type="switchTab">随便逛逛></navigator> -->
-						</view>
-						<view v-else class="empty-tips">
-							<text>{{i18n.cart.nodata}}</text>
-							<view style="margin-top:10px">
-								<u-button :ripple="true" type="success" size="mini" @click="navToLogin">{{i18n.toLogin}}</u-button>
-							</view>
-							<!-- <view class="navigator" @click="navToLogin">去登录></view> -->
-						</view>
+			<view v-if="hasLogin" class="empty-tips">
+				<text>{{i18n.cart.nodata}}</text>
+				<view style="margin-top:10px">
+					<u-button :ripple="true" type="success" size="mini" @click="navToIndex">{{i18n.toIndex}}</u-button>
+				</view>
+				<!-- <navigator class="navigator" v-if="hasLogin" url="../index/index" open-type="switchTab">随便逛逛></navigator> -->
+			</view>
+			<view v-else class="empty-tips">
+				<text>{{i18n.cart.nodata}}</text>
+				<view style="margin-top:10px">
+					<u-button :ripple="true" type="success" size="mini" @click="navToLogin">{{i18n.toLogin}}</u-button>
+				</view>
+				<!-- <view class="navigator" @click="navToLogin">去登录></view> -->
+			</view>
 		</view>
 		<view v-else>
 			<!-- 列表 -->
@@ -27,7 +27,7 @@
 					</view>
 					<view class="cart-item" :class="{'b-b': index!==cartList.length-1}">
 						<view class="image-wrapper">
-							<image  :src="item.productDTO.productMainImage.url" class="loaded" mode="aspectFill" lazy-load @load="onImageLoad('cartList', index)"
+							<image :src="item.productDTO.productMainImage.url" class="loaded" mode="aspectFill" lazy-load @load="onImageLoad('cartList', index)"
 							 @error="onImageError('cartList', index)"></image>
 							<view class="yticon icon-xuanzhong2 checkbox" :class="{checked: item.checked}" @click="check('item', index)"></view>
 						</view>
@@ -63,7 +63,8 @@
 						{{i18n.unit}}
 					</text>
 				</view>
-				<button type="primary" :disabled="selectedCartIds===''" :class="{'disabled':!selectedCartIds}" class="no-border confirm-btn" @click="createOrder">{{i18n.cart.toSettle}}</button>
+				<button type="primary" :disabled="selectedCartIds===''" :class="{'disabled':!selectedCartIds}" class="no-border confirm-btn"
+				 @click="createOrder">{{i18n.cart.toSettle}}</button>
 			</view>
 		</view>
 	</view>
@@ -108,7 +109,7 @@
 			}
 		},
 		computed: {
-			i18n(){
+			i18n() {
 				return this.$i18nMsg().index
 			},
 			...mapState(['hasLogin', 'userInfo'])
@@ -185,7 +186,7 @@
 					} else {
 						console.log(res.body.status.errorDesc);
 					}
-				},true);
+				}, true);
 			},
 			//删除
 			deleteCartItem(index) {
@@ -204,7 +205,7 @@
 					} else {
 						console.log(res.body.status.errorDesc);
 					}
-				},true);
+				}, true);
 			},
 			//清空
 			clearCart() {
@@ -221,7 +222,7 @@
 								} else {
 									console.log(res.body.status.errorDesc);
 								}
-							},false);
+							}, false);
 						}
 					}
 				})
@@ -235,7 +236,7 @@
 				}
 				let total = 0;
 				let checked = true;
-				let selectedCartIds = ''; 
+				let selectedCartIds = '';
 				list.forEach(item => {
 					if (item.checked === true) {
 						if (item.productDTO.skuEnabled)
@@ -249,7 +250,7 @@
 				})
 				this.allChecked = checked;
 				//商品总额
-				this.total = total.toFixed(2); 
+				this.total = total.toFixed(2);
 				//购物车中选择的商品
 				if (selectedCartIds.substr(0, 1) == ',') {
 					selectedCartIds = selectedCartIds.substr(1);
@@ -263,10 +264,10 @@
 				})
 			},
 			//详情
-			navToDetailPage(item){
+			navToDetailPage(item) {
 				let id = item.productDTO.productUuid;
 				uni.navigateTo({
-					url: '/pages/product/product?id='+id
+					url: '/pages/product/product?id=' + id
 				})
 			},
 		}
@@ -303,18 +304,21 @@
 			}
 		}
 	}
-	.store{
+
+	.store {
 		display: flex;
 		flex-direction: row;
 		margin: 40upx 30upx 0 30upx;
 		font-size: $font-sm;
 		color: $font-color-dark;
-		.portrait{
+
+		.portrait {
 			width: 40upx;
 			height: 40upx;
 			margin-right: 10upx;
 		}
 	}
+
 	/* 购物车列表项 */
 	.cart-item {
 		display: flex;
@@ -468,6 +472,7 @@
 			background: $uni-color-primary;
 			box-shadow: 1px 2px 5px rgba(217, 60, 93, 0.72)
 		}
+
 		.disabled {
 			background-color: $font-color-disabled;
 			box-shadow: none
