@@ -1,62 +1,192 @@
-
 <!DOCTYPE html>
-
-<head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-</head>
-
-<body>
-  <div id="paypal-button"></div>
-
-  <script>
-     paypal.Button.render({
-     	locale: 'zh_CN', // or en_US
-     	env: 'sandbox', // or sandbox
-     	commit: true, // Show a 'Pay Now' button
-     	client: {
-     		sandbox: 'AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-',
-     		production: 'AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-'
-     	},
-     	style: {
-     		size: 'small',
-     		color: 'silver',
-     		shape: 'pill',
-     		label: 'checkout',
-     		tagline: false
-     	},
-     
-     	payment: function(data, actions) {
-     		return actions.payment.create({
-     			payment: {
-     				transactions: [{
-     					amount: {
-     						total: '20',
-     						currency: 'JPY'
-     					}
-     				}]
-     			}
-     		});
-     	},
-     
-     	onAuthorize: function(data, actions) {
-     		return actions.payment.execute().then(function(payment) {
-     			console.log(payment)
-     		});
-     	},
-     
-     	onCancel: function(data, actions) {
-     		/*
-     		 * Buyer cancelled the payment
-     		 */
-     	},
-     
-     	onError: function(err) {
-     		/*
-     		 * An error occurred during the transaction
-     		 */
-     	}
-     }, '#paypal-button');
-  </script>
-</body>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>选择地址</title>
+	</head>
+	<style>
+			body {
+				padding: 0;
+				margin: 0;
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+				-webkit-user-select: none;
+				-moz-user-focus: none;
+				-moz-user-select: none;
+			}
+	
+		</style>
+		<body>
+			<div id="map"></div>
+		</body>
+		<script src="https://cdn.staticfile.org/jquery/2.0.1/jquery.min.js"></script>
+	
+		<script>
+			function getQuery(name) {
+				let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				let r = window.location.search.substr(1).match(reg);
+				if (r != null) {
+					return decodeURIComponent(r[2]);
+				}
+				return null;
+			}
+			const address = getQuery("address")||"北海道札幌市中央区以下に掲載がない場合";
+		const mapHeight = getQuery('mapH') || 650;
+			$('#map').css("height", mapHeight + "px");
+			console.log("address:" + address)
+			var map;
+			var mark;
+			var markers = [];
+			var latlng;
+			var infoWindow;
+			var centerLatlng;
+			//初始化地图
+			function createMap(lat, lng) {
+				var styles = [ //地图样式
+					{
+						featureType: 'poi',
+						stylers: [{
+							visibility: "off"
+						}]
+					},
+					{
+						featureType: 'transit',
+						elementType: 'geometry',
+						stylers: [{
+							visibility: "on"
+						}]
+					},
+					{
+						featureType: 'road',
+						elementType: 'labels',
+						stylers: [{
+							visibility: "simplified"
+						}]
+					}
+				];
+				console.log('createMap');
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: {
+						lat: lat,
+						lng: lng
+					},
+					zoom: 15,
+					disableDefaultUI: true,
+					gestureHandling: "greedy",
+					styles: styles
+				});
+				const geocoder = new google.maps.Geocoder();
+				/* document.getElementById("submit").addEventListener("click", function() { //绑定按钮点击事件
+					geocodeAddress(geocoder, map); //根据地址查询坐标
+				}); */
+				geocodeAddress(geocoder, map); //根据地址查询坐标
+			}
+	
+			//增加普通标记
+			function addMarkers(lat, lng) {
+				infoWindow = new google.maps.InfoWindow();
+				//addMarker("-15.821089","-47.92501");
+				addMarker(lat, lng);
+				//addMarker("-15.821099","-47.92599");
+			}
+			//增加普通标记
+			function addMarker(equipment_la, equipment_lo) {
+				latlng = new google.maps.LatLng(equipment_la, equipment_lo);
+				var img = {
+					url: "local.png",
+					scaledSize: new google.maps.Size(47, 47)
+				}
+				mark = new google.maps.Marker({
+					position: latlng,
+					map: map,
+					icon: img
+				});
+				markers.push(mark);
+			}
+	
+			// Sets the map on all markers in the array.
+			function setMapOnAll(map) {
+				for (var i = 0; i < markers.length; i++) {
+					markers[i].setMap(map);
+				}
+			}
+	
+			// Removes the markers from the map, but keeps them in the array.
+			function clearMarkers() {
+				setMapOnAll(null);
+			}
+	
+			//清除普通标记
+			// Deletes all markers in the array by removing references to them.
+			function deleteMarkers() {
+				clearMarkers();
+				markers = [];
+			}
+	
+			//js 回调的初始化函数
+			function initMap() {
+				//$(window).height()
+				//地图初始化中心坐标
+				const lat = -31.718234,
+					lng = 147.154312;
+				createMap(lat, lng); //创建地图
+	
+				//普通标记
+				//addMarkers(lat, lng);
+				//聚类标记
+				const locations = [];
+				var coord = {};
+				coord["lat"] = -33.718234;
+				coord["lng"] = 147.154312;
+				locations.push(coord);
+				var coord1 = new Map();
+				coord1["lat"] = -33.758234;
+				coord1["lng"] = 147.54312;
+				locations.push(coord1);
+				console.log(locations);
+				const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //聚类标记标识字母
+				const markers = locations.map((location, i) => {
+					return new google.maps.Marker({
+						position: location,
+						label: labels[i % labels.length],
+					});
+				});
+				// Add a marker clusterer to manage the markers.
+				new MarkerClusterer(map, markers, {
+					imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+				});
+			}
+	
+			//google 地理编码 根据地址查询坐标
+			function geocodeAddress(geocoder, resultsMap) {
+				//限定地区及国家 例如沙特阿拉伯
+				geocoder.geocode({
+					'address': address,
+					'region': 'ja',
+					'location': new google.maps.LatLng(24.634930694, 46.71743871),
+					'componentRestrictions': {
+						'country': 'JP'
+					}
+				}, (results, status) => {
+					if (status === "OK") {
+						resultsMap.setCenter(results[0].geometry.location);
+						resultsMap.setZoom(18);
+						var location = results[0].geometry.location + "";
+						var outLat = (location.substring(1, location.length - 1)).split(",")[0];
+						var outLng = (location.substring(1, location.length - 1)).split(",")[1];
+						console.log("lat=" + outLat + ",lng=" + outLng);
+						new google.maps.Marker({
+							map: resultsMap,
+							position: results[0].geometry.location,
+						});
+					} else {
+						alert("Geocode was not successful for the following reason: " + status);
+					}
+				});
+			}
+		</script>
+		<script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
+		<!--聚类标记-->
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDogTbRdjzs-TOldsj-ubuFK4CNp8jbYWg&region=ja&language=ja_JP&callback=initMap">
+		</script>
+	</html>
