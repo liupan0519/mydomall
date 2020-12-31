@@ -15,7 +15,7 @@
 							"borderRadius": "16px",
 							"disabled": true,
 							"placeholderColor": "#606266",
-							"placeholder":"キーワード検索" 
+							"placeholder": "キーワード検索"
 						},
 						"buttons": [{
 								"fontSrc": "/static/yticon.ttf",
@@ -540,9 +540,28 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/webview/webview",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/address/postcode",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/address/maps",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 		}
-        ,{
-            "path" : "pages/webview/webview",
+	    ,{
+            "path" : "pages/card/card",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
