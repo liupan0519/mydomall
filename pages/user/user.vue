@@ -92,6 +92,7 @@
 					 mode="aspectFill" v-for="(product,index) in footPrint"></image>
 				</scroll-view>
 				<list-cell icon="icon-tuan" iconColor="#e07472" :title="userMsg.groupbuy" @eventClick="navTo('/pages/groupbuy/groupbuy')"></list-cell>
+				<list-cell icon="icon-shouhuodizhi" iconColor="#5fcda2" title="我的卡包" @eventClick="navTo('/pages/card/card')"></list-cell>
 				<list-cell icon="icon-point" iconColor="#F8BD9F" :title="userMsg.pointlist" @eventClick="navTo('/pages/point/point-order-list')"></list-cell>
 				<list-cell icon="icon-shouhuodizhi" iconColor="#5fcda2" :title="userMsg.address" @eventClick="navTo('/pages/address/address')"></list-cell>
 				<list-cell v-if="hasLogin" @eventClick="togglePopup('bottom', 'share')" icon="icon-share" iconColor="#9789f7" :title="userMsg.share" :tips="userMsg.invite"></list-cell>
