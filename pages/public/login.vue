@@ -185,6 +185,7 @@
 					publicMsg
 				} = this;
 				var isFormValid = true;
+				//
 				if (!this.$api.util.validateMobileNo(mobile)) {
 					this.$api.msg(publicMsg.validateMobileNo);
 					isFormValid = false;

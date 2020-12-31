@@ -226,7 +226,10 @@
 			},
 			loginRedirect() {
 				var that = this;
-				if (that.to) {
+				uni.navigateTo({
+					url: '/pages/address/postcode?type=1' + escape(that.to)
+				})
+				/* if (that.to) {
 					uni.navigateTo({
 						url: that.to
 					})
@@ -234,7 +237,7 @@
 					uni.switchTab({
 						url: '/pages/user/user'
 					})
-				}
+				} */
 			},
 			//查询订阅消息
 			inquirySuscribeMsg() {
@@ -278,6 +281,7 @@
 					agreeFlag
 				} = this;
 				var isFormValid = true;
+				//
 				if (!this.$api.util.validateMobileNo(mobileNo)) {
 					this.$api.msg(publicMsg.validateMobileNo);
 					isFormValid = false;

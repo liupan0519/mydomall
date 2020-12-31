@@ -88,6 +88,7 @@
 					rePassword,
 					publicMsg
 				} = this;
+				//this.$api.util.validateMobileNo
 				if (!this.$api.util.validateMobileNo(mobileNo)) {
 					this.$api.msg(publicMsg.validateMobileNo);
 					return
@@ -141,6 +142,7 @@
 					publicMsg
 				} = this;
 				var isFormValid = true;
+				//
 				if (!this.$api.util.validateMobileNo(mobileNo)) {
 					this.$api.msg(publicMsg.validateMobileNo);
 					isFormValid = false;
