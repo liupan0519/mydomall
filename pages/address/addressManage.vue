@@ -10,38 +10,44 @@
 			<input class="input" type="number" v-model="addressData.telephone" :placeholder="i18n.address.telephone2"
 			 placeholder-class="placeholder" />
 		</view>
-		<view class="row b-b" v-if="i18n.lang=='ja'">
+		<!-- <view class="row b-b">
 			<text class="tit">{{i18n.province}}</text>
 			<view class="uni-list-cell-db">
 				<picker @change="bindPickerChange" :value="index" :range="array" range-key="label">
 					<view class="uni-input">{{array[index].label}}</view>
 				</picker>
 			</view>
-		</view>
-
-		<view class="row b-b" v-if="i18n.lang=='ja'">
-			<text class="tit">{{i18n.address.city}}</text>
-			<input :maxlength="100" class="input" type="text" v-model="addressData.city" :placeholder="i18n.address.city"
+		</view> -->
+		<!-- <view class="row b-b">
+			<text class="tit">{{i18n.province}}</text>
+			<input :maxlength="100" class="input" type="text" v-model="addressData.province" :placeholder="i18n.province"
+			 placeholder-class="placeholder" />
+		</view> -->
+		
+		<view class="row b-b">
+			<text class="tit">{{i18n.address.zipcode}}</text>
+			<input class="input" type="number" :maxlength="8" v-model="addressData.zipcode" :placeholder="i18n.address.zipcodePH"
 			 placeholder-class="placeholder" />
 		</view>
-		<view class="row b-b" v-if="i18n.lang=='zh'">
+		<view class="row b-b">
+			<text class="tit">{{i18n.address.city}}</text>
+			<view class="input">
+				{{addressData.province}} {{addressData.city}} {{addressData.area}}
+			</view>
+		</view>
+		<!-- <view class="row b-b" v-if="i18n.lang=='zh'">
 			<text class="tit">{{i18n.province}}</text>
 			<view class="input">
 				{{addressData.province}} {{addressData.city}} {{addressData.area}}
 			</view>
 			<text class="yticon icon-you" @click="showAddressRegion"></text>
-		</view>
+		</view> -->
 		<view class="input">
 			<w-picker mode="region" :defaultVal="defaultRegion" :hideArea="false" @confirm="onConfirm" ref="region" :timeout="true"></w-picker>
 		</view>
 		<view class="row b-b">
 			<text class="tit">{{i18n.address.street}}</text>
 			<input :maxlength="100" class="input" type="text" v-model="addressData.street" :placeholder="i18n.address.street"
-			 placeholder-class="placeholder" />
-		</view>
-		<view class="row b-b">
-			<text class="tit">{{i18n.address.zipcode}}</text>
-			<input class="input" type="number" :maxlength="8" v-model="addressData.zipcode" :placeholder="i18n.address.zipcodePH"
 			 placeholder-class="placeholder" />
 		</view>
 		<view class="row default-row">
@@ -80,8 +86,9 @@
 			}
 		},
 		onLoad(option) {
+			console.log(JSON.stringify(option))
 			let title = this.i18n.address.addBtn;
-			if (this.i18n.lang === 'ja'&&option.type === 'add') {
+			if (this.i18n.lang === 'ja' && option.type === 'add') {
 				this.addressData.city = ''
 				this.addressData.area = 0
 			}

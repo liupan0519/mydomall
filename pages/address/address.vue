@@ -63,9 +63,15 @@
 				}
 			},
 			addAddress(type, item) {
-				uni.navigateTo({
-					url: `/pages/address/addressManage?type=${type}&data=${JSON.stringify(item)}`
-				})
+				if(type=="add"){
+					uni.navigateTo({
+						url: `/pages/address/postcode?type=0`
+					})
+				}else{
+					uni.navigateTo({
+						url: `/pages/address/addressManage?type=${type}&data=${JSON.stringify(item)}`
+					})
+				}
 			},
 			//添加或修改成功之后回调
 			refreshList() {
