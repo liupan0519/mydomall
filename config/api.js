@@ -1,12 +1,12 @@
 /* jp生产环境 u.howfresh.jp*/
-export const apiBaseUrl = 'https://howfresh.api.mydomall.com/b2b2c/'
+/* export const apiBaseUrl = 'https://howfresh.api.mydomall.com/b2b2c/' */
 /* export const apiBaseUrl = 'https://api.howfresh.jp/b2b2c/' */
 
 /* zh生产环境 u.howgoodz.zh*/
 /* export const apiBaseUrl = 'https://api.howgoodz.cn/b2b2c/' */
 
 /* 测试环境 */
-/* export const apiBaseUrl = 'https://stage.hf.api.mydomall.com/b2b2c/' */
+export const apiBaseUrl = 'https://stage.hf.api.mydomall.com/b2b2c/'
 
 /* 本地环境 */
 /* export const apiBaseUrl = 'http://192.168.3.31:8083/' */
@@ -114,7 +114,11 @@ const methodsToken = [
 	'consumer/receiveProfitWelfare',
 	'paypal/queryPaypalOrder',
 	'paypal/paypalNotify',
-	'paypal/createPaypalOrder'
+	'paypal/createPaypalOrder',
+	'squareupPayment/squareupNotify',
+	'public/inquiryZips',
+	'bankCard/changeBankCardInfo',
+	'bankCard/searchBankCardInfo'
 ];
 
 const post = (method, data, callback, hideLoading) => {
@@ -155,6 +159,7 @@ const post = (method, data, callback, hideLoading) => {
 		data: postData,
 		method: 'POST',
 		success: (response) => {
+			
 			/* console.log('method:'+method)
 			console.log(JSON.stringify(response)) */
 			if(!hideLoading)
@@ -605,6 +610,9 @@ export const saveUserShip = (data, callback, hideLoading) => post('consumer/chan
 // 收货地址删除
 export const removeShip = (data, callback, hideLoading) => post('consumer/changeUserDeliveryAddress', data, callback, hideLoading);
 
+// 邮编模糊查询
+export const inquiryZips = (data, callback, hideLoading) => post('public/vagueInquiryZips', data, callback, hideLoading);
+
 // 生成订单
 export const createOrder = (data, callback, hideLoading) => post('consumer/changeOrder', data, callback, hideLoading);
 
@@ -705,6 +713,9 @@ export const paypalAppToken = (data, callback, hideLoading) => post('paypal/crea
 // paypal/paypalNotify
 export const paypalAPPNotify = (data, callback, hideLoading) => post('paypal/paypalNotify', data, callback, hideLoading);
 
+//squareupPayment/squareupNotify
+export const squareAPPNotify = (data, callback, hideLoading) => post('squareupPayment/squareupNotify', data, callback, hideLoading);
+
 // 模拟支付成功接口
 export const balancePay = (data, callback, hideLoading) => post('consumer/balancePay', data, callback, hideLoading);
 
@@ -788,3 +799,11 @@ export const pointStatementList = (data, callback, hideLoading) => post('consume
 
 //直播间列表
 export const wechatLiveRoomList = (data, callback, hideLoading) => post('public/inquiryWechatLiveRooms', data, callback, hideLoading);
+
+//添加、修改、删除用户信用卡信息
+export const changeBankCardInfo = (data, callback, hideLoading) => post('bankCard/changeBankCardInfo', data, callback, hideLoading);
+
+//查询用户信用卡信息
+export const searchBankCardInfo = (data, callback, hideLoading) => post('bankCard/searchBankCardInfo', data, callback, hideLoading);
+
+

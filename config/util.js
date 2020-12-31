@@ -723,6 +723,9 @@ var phones = {
 
 //验证手机号码
 const validateMobileNo = (mobileNo) => {
+	if(!mobileNo){
+		return null;
+	}
 	var lan = uni.getStorageSync('locale')
 	//mobileNo.match(phones[lan])
 	//console.log("mobileNo.match(phones[lan]):"+mobileNo.match(phones[lan]))
