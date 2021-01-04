@@ -3,7 +3,7 @@
 		<view class="share-pop">
 			<view class="share-item" @click="copyUrl()">
 				<image src="../../static/image/share-f.png" mode=""></image>
-				<view class="">{{i18n.share.poster}}</view>
+				<view class="">{{i18n.share.copyUrl}}</view>
 			</view>
 			<view class="share-item" @click="createPoster()">
 				<image src="../../static/image/poster.png" mode=""></image>
