@@ -321,7 +321,6 @@
 		font-size: 32upx;
 		color: #fff;
 		background-color: $base-color;
-		border-radius: 10upx;
 		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 </style>

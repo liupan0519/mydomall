@@ -106,7 +106,7 @@
 			navToDetailPage(item){
 				let id = item.productUuid;
 				uni.navigateTo({
-					url: 'plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id='+item.roomid
+					url: 'plugin-private://wxcd79c455d9d777be/pages/live-player-plugin?room_id='+item.roomid
 				})
 			},
 			stopPrevent(){}

@@ -6,11 +6,10 @@
 /* export const apiBaseUrl = 'https://api.howgoodz.cn/b2b2c/' */
 
 /* 测试环境 */
-export const apiBaseUrl = 'https://stage.hf.api.mydomall.com/b2b2c/'
+export const apiBaseUrl = 'https://service.mydomall.com/mydomall/'
 
 /* 本地环境 */
 /* export const apiBaseUrl = 'http://192.168.3.31:8083/' */
-
 
 export const h5BaseUrl = 'https://howfresh.m.mydomall.com'
 
@@ -159,7 +158,6 @@ const post = (method, data, callback, hideLoading) => {
 		data: postData,
 		method: 'POST',
 		success: (response) => {
-			
 			/* console.log('method:'+method)
 			console.log(JSON.stringify(response)) */
 			if(!hideLoading)

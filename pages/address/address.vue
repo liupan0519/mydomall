@@ -75,6 +75,7 @@
 			},
 			//添加或修改成功之后回调
 			refreshList() {
+				console.log(111111111111111);
 				this.inquiryAddress();
 			},
 			//查询收货地址
@@ -84,6 +85,7 @@
 						userUuid: this.userInfo.userUuid
 					}
 				}, res => {
+					console.log(res);
 					if (res.body.status.statusCode === '0') {
 						this.addressList = res.body.data.addresses;
 					} else {
@@ -173,7 +175,6 @@
 		font-size: 32upx;
 		color: #fff;
 		background-color: $base-color;
-		border-radius: 10upx;
 		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 </style>

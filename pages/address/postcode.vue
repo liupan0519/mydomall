@@ -3,14 +3,16 @@
 		<image src="../../static/image/bgImg.png" class="bgImg" mode="widthFix"></image>
 		<view class="input-content">
 			<view class="input-item">
-				<input class="uni-input" confirm-type="search" type="number" placeholder="请输入邮编 例:0600000" @input="onInput" />
+				<input class="uni-input" confirm-type="search" type="number" :maxlength="8" placeholder="请输入邮编 例:0600000" @input="onInput" />
 			</view>
-			<uni-list class="addressList" v-show="addressList.length>0">
-				<!-- <uni-list-item title="北海道札幌市中央区以下に掲載がない場合" clickable @click="onClick" /> -->
-				<uni-list-item v-for="(item, index) in addressList" :key="index" class="address-item" :showArrow="false" :title="item.privCn+item.cityCn+item.distCn"
-				 @click="onClick(item)" />
-			</uni-list>
 
+			<uni-list class="addressList">
+				<text v-show="addressList.length<1">至少输入三位邮编显示模糊匹配列表</text>
+				<!-- v-show="addressList.length>0" -->
+				<!-- <uni-list-item title="北海道札幌市中央区以下に掲載がない場合" clickable @click="onClick" /> -->
+				<uni-list-item v-show="addressList.length>0" v-for="(item, index) in addressList" :key="index" class="address-item"
+				 :showArrow="false" :title="item.privCn+item.cityCn+item.distCn" @click="onClick(item)" />
+			</uni-list>
 		</view>
 		<view class="uni-btn-v">
 			<button class="confirm-btn" v-show="type==1" @click="toJump">跳过</button>
@@ -55,7 +57,18 @@
 				// 【不用v-model绑定表单,直接时间获取值】这种方式是uni-app官方的方式,测试结果正确！
 				let tempVal = e.detail.value
 				_this.value = tempVal;
-				if (tempVal.length > 5) {
+				if (tempVal.length > 2) {
+					uni.hideKeyboard();
+					/* this.navTo("../address/maps?type=" + this.type + "&address=" +
+						encodeURIComponent(JSON.stringify({
+						privCn: '東京都',
+						cityCn: '千代田区',
+						distCn: '以下に掲載がない場合',
+						privJp: '東京都',
+						cityJp: '千代田区',
+						distJp: '以下に掲載がない場合',
+						zip:"0600000"
+					}))) */
 					_this.$api.request.inquiryZips({
 						zip: tempVal
 					}, res => {
@@ -70,28 +83,11 @@
 				if (tempVal.length < 1) {
 					_this.addressList = [];
 				}
-				/* 	if (tempVal.indexOf("北") != -1) {
-						this.flag = true;
-					} else {
-						this.flag = false;
-					} */
-
 			},
 			onClick(str) {
-				console.log('执行click事件', str)
+				uni.hideKeyboard();
 				this.navTo("../address/maps?type=" + this.type + "&address=" +
 					encodeURIComponent(JSON.stringify(str)))
-
-
-
-
-
-				//let tempUrl="http://192.168.3.21:8848/b2b2c-user/pages/html/demo-map.html";
-				let tempUrl = "http://192.168.3.21:8848/b2b2c-user/pages/html/maps.html";
-				//let tempUrl="http://stage.hf.m.mydomall.com/demo-map.html";
-				/* this.navTo("../webview/webview?flag=2&url="+tempUrl+"?address=" +
-					encodeURIComponent(str)) */
-
 			},
 			loginRedirect() {
 				var that = this;
@@ -112,11 +108,12 @@
 
 <style lang="scss">
 	.bgImg {
-		width: 100%;
+		width:80%;
+		margin-left: 10%;
 	}
 
 	.input-content {
-		padding: 0 60upx;
+		padding: 0 41rpx;
 	}
 
 	.input-item {
@@ -124,10 +121,10 @@
 		flex-direction: column;
 		align-items: flex-start;
 		justify-content: center;
-		padding: 0 30upx;
+		padding: 30upx 31rpx;
 		background: $page-color-light;
-		height: 100rpx;
-		border-radius: 4px;
+		height: 90rpx;
+		border-radius: 16rpx;
 
 		&:last-child {
 			margin-bottom: 0;
@@ -167,23 +164,38 @@
 		}
 	}
 
-	.addressList {
-		border: 1px solid #ccc;
-		border-top: 0px;
-		border-bottom-right-radius: 10rpx;
-		border-bottom-left-radius: 10rpx;
-		padding: 8rpx;
-		max-height: 50vh;
-		overflow-y: auto;
 
+	.addressList {
+		margin-top: 31rpx;
+		border-top: 0px;
+		background-color: #f8f6fc !important;
+		/*border: 1px solid #ccc;
+		 border-bottom-right-radius: 22rpx;
+		border-bottom-left-radius: 22rpx; */
+
+		border-radius: 22rpx;
+		padding: 39rpx 30rpx;
+		overflow-y: auto;
+		height: 539rpx;
+		width: 669rpx;
+		
+		text {
+			color: #999999;
+		}
 		.address-item {
 			font-size: 12px;
 			border-top: 1px dotted #ccc;
-			padding-left: 10rpx;
+			padding: 0;
+			:first-child {
+				padding-right: 0px;
+			}
 		}
 
-		:nth-child(1) {
-			border-top: 0;
+		.address-item:nth-of-type(1) {
+			border-top: 0 !important;
+			:nth-child(1) {
+				padding-top: 0px !important;
+			}
 		}
 	}
 </style>

@@ -557,19 +557,28 @@
 			"path": "pages/address/maps",
 			"style": {
 				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+                    "softinputNavBar": "none",
+					"softinputMode": "adjustResize" // 自适应软键盘弹起页面高度
+				}
+			}
+		}, {
+			"path": "pages/card/card",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/card/cardManage",
+			"style": {
+				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
 		}
-	    ,{
-            "path" : "pages/card/card",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		/* "navigationBarTitleText": "好好新鲜商城", */
@@ -578,7 +587,7 @@
 	},
 	"tabBar": {
 		"color": "#C0C4CC",
-		"selectedColor": "#55aa7f",
+		"selectedColor": "#6fb68b",
 		"borderStyle": "white",
 		"backgroundColor": "#ffffff",
 		"list": [{

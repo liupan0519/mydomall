@@ -887,9 +887,9 @@
 		align-items: center;
 		width: 690upx;
 		height: 100upx;
-		box-shadow: 0 20upx 40upx -16upx #55aa7f;
+		box-shadow: 0 20upx 40upx -16upx #6fb68b;
 		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
-		background: linear-gradient(to right,  #55a6aa, #55aa7f, #6aaa55);
+		background: linear-gradient(to right,  #55a6aa, #6fb68b, #6aaa55);
 
 		.uni-badge {
 			position: absolute;

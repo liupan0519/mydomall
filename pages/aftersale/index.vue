@@ -406,7 +406,6 @@
 		font-size: $font-lg;
 		color: #fff;
 		background-color: $base-color;
-		border-radius: 10upx;
 		box-shadow: 1px 2px 5px $base-color;
 	}
 

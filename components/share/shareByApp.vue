@@ -121,13 +121,13 @@ export default {
 					}
 				}
 				
-				data.push({
+				/* data.push({
 					name: this.i18n.share.poster,
 					cate: 'poster',
 					id: 'poster',
 					img: '../../static/image/poster.png',
 					sort: 5
-				})
+				}) */
 				this.providerList = data.sort((x,y) => {
 					return x.sort - y.sort
 				});

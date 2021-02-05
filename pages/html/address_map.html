@@ -19,18 +19,20 @@
 		.popup-bubble {
 			/* Position the bubble centred-above its parent. */
 			position: absolute;
-			top: -7px;
+			top: -15px;
 			left: 0;
 			transform: translate(-20%, -100%);
 			/* Style the bubble. */
-			background-color: #79be9b;
+			background-color: #8EC5A5;
 			color: #fff;
-			padding: 5px 10px;
-			border-radius: 5px;
-			font-family: sans-serif;
+			padding: 12px;
+			border-radius: 10px;
+			font-family: 'PingFangSC-Medium';
+			font-size: 13px;
 			overflow-y: auto;
 			max-height: 60px;
 			box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+			display: block !important;
 		}
 
 		/* The parent of the bubble. A zero-height div at the top of the tip. */
@@ -46,7 +48,7 @@
 		.popup-bubble-anchor::after {
 			content: "";
 			position: absolute;
-			top: -7px;
+			top: -15px;
 			left: 0;
 			/* Center the tip horizontally. */
 			transform: translate(-50%, 0);
@@ -56,8 +58,7 @@
 			/* The tip is 8px high, and 12px wide. */
 			border-left: 6px solid transparent;
 			border-right: 6px solid transparent;
-			border-top: 8px solid #79be9b;
-			;
+			border-top: 8px solid #8EC5A5;
 		}
 
 		/* JavaScript will position this div at the bottom of the popup tip. */
@@ -68,10 +69,27 @@
 			/* The max width of the info window. */
 			width: 200px;
 		}
+
+		#content {
+			display: none;
+		}
+
+		#marker {
+			position: absolute;
+			top: -35px;
+			left: -35px;
+			display: none;
+		}
+
+		.popup-bubble-anchor #marker {
+			display: block !important;
+		}
 	</style>
 	<body>
 		<div id="map"></div>
-		<div id="content"></div>
+		<div id="content">
+		</div>
+		<image id="marker" src="../img/position.png"></image>
 	</body>
 	<script src="https://cdn.staticfile.org/jquery/2.0.1/jquery.min.js"></script>
 
@@ -119,7 +137,6 @@
 					}]
 				}
 			];
-			console.log('createMap----------------------------');
 			map = new google.maps.Map(document.getElementById('map'), {
 				center: {
 					lat: lat,
@@ -191,7 +208,6 @@
 		//google 地理编码 根据地址查询坐标
 		function geocodeAddress(geocoder, resultsMap) {
 			//限定地区及国家 例如沙特阿拉伯
-			console.log("geocodeAddress-------------------------------");
 			geocoder.geocode({
 				'address': address,
 				'region': 'ja',
@@ -209,7 +225,8 @@
 					console.log("lat=" + outLat + ",lng=" + outLng);
 					/* new google.maps.Marker({
 						map: resultsMap,
-						position: results[0].geometry.location,
+						position: results[0].geometry.location, 
+						icon: "../../static/image/position.png"
 					}); */
 					/**
 					 * A customized popup on the map.
@@ -223,9 +240,11 @@
 							const bubbleAnchor = document.createElement("div");
 							bubbleAnchor.classList.add("popup-bubble-anchor");
 							bubbleAnchor.appendChild(content);
+
 							// This zero-height div is positioned at the bottom of the tip.
 							this.containerDiv = document.createElement("div");
 							this.containerDiv.classList.add("popup-container");
+							bubbleAnchor.appendChild(document.getElementById("marker"));
 							this.containerDiv.appendChild(bubbleAnchor);
 							// Optionally stop clicks, etc., from bubbling up to the map.
 							Popup.preventMapHitsAndGesturesFrom(this.containerDiv);
@@ -273,8 +292,9 @@
 			});
 		}
 	</script>
-	<script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
+	<!-- <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script> -->
 	<!--聚类标记-->
+	<!-- <script src="http://ditu.google.cn/maps/api/js?&key=AIzaSyDogTbRdjzs-TOldsj-ubuFK4CNp8jbYWg"></script> -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDogTbRdjzs-TOldsj-ubuFK4CNp8jbYWg&region=ja&language=ja_JP&callback=initMap">
 	</script>
 </html>

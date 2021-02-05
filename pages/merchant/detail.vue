@@ -666,4 +666,7 @@
 		margin: 20upx 0;
 		border-radius: 20upx;
 	}
+	.u-size-mini{
+		border-radius: 10rpx;
+	}
 </style>

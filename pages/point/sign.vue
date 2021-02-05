@@ -260,7 +260,7 @@
 				height: 200upx;
 				line-height: 200upx;
 				border-radius: 50%;
-				background: linear-gradient(to bottom, #55a6aa, #55aa7f, #6aaa55);
+				background: linear-gradient(to bottom, #55a6aa, #6fb68b #6aaa55);
 				text-align: center;
 				color: #fff;
 				border: none;

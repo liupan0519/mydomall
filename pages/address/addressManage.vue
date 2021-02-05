@@ -23,27 +23,22 @@
 			<input :maxlength="100" class="input" type="text" v-model="addressData.province" :placeholder="i18n.province"
 			 placeholder-class="placeholder" />
 		</view> -->
-		
-		<view class="row b-b">
+
+		<view class="row b-b zipcode">
 			<text class="tit">{{i18n.address.zipcode}}</text>
 			<input class="input" type="number" :maxlength="8" v-model="addressData.zipcode" :placeholder="i18n.address.zipcodePH"
-			 placeholder-class="placeholder" />
+			 placeholder-class="placeholder" @input="onInput" />
+			<uni-list class="addressList" v-show="addressList.length>0">
+				<!-- <uni-list-item title="北海道札幌市中央区以下に掲載がない場合" clickable @click="onClick" /> -->
+				<uni-list-item v-for="(item, index) in addressList" :key="index" class="address-item" :showArrow="false" :title="item.privCn+item.cityCn+item.distCn"
+				 @click="onClick(item)" />
+			</uni-list>
 		</view>
 		<view class="row b-b">
 			<text class="tit">{{i18n.address.city}}</text>
 			<view class="input">
 				{{addressData.province}} {{addressData.city}} {{addressData.area}}
 			</view>
-		</view>
-		<!-- <view class="row b-b" v-if="i18n.lang=='zh'">
-			<text class="tit">{{i18n.province}}</text>
-			<view class="input">
-				{{addressData.province}} {{addressData.city}} {{addressData.area}}
-			</view>
-			<text class="yticon icon-you" @click="showAddressRegion"></text>
-		</view> -->
-		<view class="input">
-			<w-picker mode="region" :defaultVal="defaultRegion" :hideArea="false" @confirm="onConfirm" ref="region" :timeout="true"></w-picker>
 		</view>
 		<view class="row b-b">
 			<text class="tit">{{i18n.address.street}}</text>
@@ -61,7 +56,6 @@
 
 <script>
 	import wPicker from "@/components/w-picker/w-picker.vue";
-	import provinceArray from "../../static/province.js";
 	import {
 		mapState,
 		mapMutations
@@ -71,39 +65,24 @@
 			return {
 				manageType: '',
 				index: 0,
-				array: provinceArray,
+				addressList: [],
 				addressData: {
 					name: '',
 					telephone: '',
-					province: '北京市',
-					city: '市辖区',
-					area: '东城区',
+					province: '',
+					city: '',
+					area: '',
 					street: '',
 					zipcode: '',
 					default: true,
-				},
-				defaultRegion: ['北京市', '市辖区', '东城区']
+				}
 			}
 		},
 		onLoad(option) {
-			console.log(JSON.stringify(option))
 			let title = this.i18n.address.addBtn;
-			if (this.i18n.lang === 'ja' && option.type === 'add') {
-				this.addressData.city = ''
-				this.addressData.area = 0
-			}
 			if (option.type === 'edit') {
-				let tempArea = parseInt(JSON.parse(option.data).area);
 				title = this.i18n.address.editBtn;
-				if (this.i18n.lang === 'ja') {
-					if (isNaN(tempArea)) {
-						this.index = 0
-					} else {
-						this.index = tempArea;
-					}
-				}
 				this.addressData = JSON.parse(option.data);
-				this.defaultRegion = [this.addressData.province, this.addressData.city, this.addressData.area];
 			}
 			this.manageType = option.type;
 			//debugger
@@ -121,24 +100,49 @@
 			wPicker
 		},
 		methods: {
-			bindPickerChange: function(e) {
-				//console.log('picker发送选择改变，携带值为：' + e.detail.value)
-				this.index = e.detail.value;
-				this.$set(this.addressData, 'province', this.array[this.index].label);
-				this.$set(this.addressData, 'area', e.detail.value + "");
+			onInput(e) {
+				let _this = this;
+				//0600000
+				// 【不用v-model绑定表单,直接时间获取值】这种方式是uni-app官方的方式,测试结果正确！
+				let tempVal = e.detail.value
+				_this.value = tempVal;
+				if (tempVal.length > 5) {
+					_this.$api.request.inquiryZips({
+						zip: tempVal
+					}, res => {
+						if (res.body.status.statusCode === '0') {
+							//console.log(res.body.data);
+							_this.addressList = res.body.data.zips;
+						} else {
+							_this.$api.msg(res.body.status.errorDesc);
+						}
+					});
+				}
+				if (tempVal.length < 1) {
+					_this.addressList = [];
+				}
 			},
-			showAddressRegion() {
-				this.$refs['region'].show();
-			},
-			onConfirm(val) {
-				this.$set(this.addressData, 'province', val.checkArr[0]);
-				this.$set(this.addressData, 'city', val.checkArr[1]);
-				this.$set(this.addressData, 'area', val.checkArr[2]);
+			onClick(tempObj) {
+				let province,
+					city, area;
+				if (this.i18n.lang === 'zh') {
+					province = tempObj.privCn;
+					city = tempObj.cityCn;
+					area = tempObj.distCn;
+				} else {
+					province = tempObj.privJp;
+					city = tempObj.cityJp;
+					area = tempObj.distJp;
+				}
+				console.log('执行click事件', tempObj)
+				this.addressData.province = province;
+				this.addressData.city = city;
+				this.addressData.area = area;
+				this.addressList = [];
 			},
 			switchChange(e) {
 				this.addressData.default = e.detail.value;
 			},
-
 			//地图选择地址
 			chooseLocation() {
 				uni.chooseLocation({
@@ -209,21 +213,30 @@
 			},
 			//删除地址
 			del() {
-				let options = {
-					userDeliveryAddressUuid: this.addressData.userDeliveryAddressUuid,
-					actionType: 'DELETE'
-				}
-				this.$api.request.removeShip(options, res => {
-					if (res.body.status.statusCode === '0') {
-						this.$api.msg(this.i18n.address.successDel);
-						setTimeout(() => {
-							this.$api.prePage().refreshList();
-							uni.navigateBack();
-						}, 800)
-					} else {
-						this.$api.msg(res.body.status.errorDesc);
+				let that = this;
+				uni.showModal({
+					content: that.i18n.address.deleteConfirm,
+					success: (e) => {
+						if (e.confirm) {
+							let options = {
+								userDeliveryAddressUuid: that.addressData.userDeliveryAddressUuid,
+								actionType: 'DELETE'
+							}
+							that.$api.request.removeShip(options, res => {
+								if (res.body.status.statusCode === '0') {
+									that.$api.msg(that.i18n.address.successDel);
+									setTimeout(() => {
+										that.$api.prePage().refreshList();
+										uni.navigateBack();
+									}, 800)
+								} else {
+									that.$api.msg(res.body.status.errorDesc);
+								}
+							});
+						}
 					}
-				});
+				})
+
 
 			}
 		}
@@ -284,9 +297,8 @@
 		margin: 60upx auto;
 		font-size: $font-lg;
 		color: #fff;
-		background-color: #09A0F7;
-		border-radius: 10upx;
-		box-shadow: 1px 2px 5px #09A0F7;
+		background-color: $base-color;
+		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 
 	.del-btn {
@@ -298,9 +310,8 @@
 		margin: 60upx auto;
 		font-size: $font-lg;
 		color: #fff;
-		background-color: $base-color;
-		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
+		background-color: #E8A34E;
+		box-shadow: 1px 2px 5px #e8cca9;
 	}
 
 
@@ -316,5 +327,38 @@
 	.result {
 		margin-top: 100upx;
 		font-size: 32upx;
+	}
+
+	.zipcode {
+		position: relative;
+
+		.addressList {
+			position: absolute;
+			top: 110upx;
+			left: 180upx;
+			right: 20rpx;
+			border: 1px solid #ccc;
+			border-top: 0px;
+			border-bottom-right-radius: 22rpx;
+			border-bottom-left-radius: 22rpx;
+			padding: 8rpx;
+			max-height: 50vh;
+			overflow-y: auto;
+			z-index: 99;
+
+			.address-item {
+				font-size: 12px;
+				border-top: 1px dotted #ccc;
+				padding: 0 10rpx;
+
+				:first-child {
+					padding-right: 0px;
+				}
+			}
+
+			:nth-child(1) {
+				border-top: 0;
+			}
+		}
 	}
 </style>

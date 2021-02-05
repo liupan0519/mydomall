@@ -105,6 +105,28 @@ export const index = {
 		brands: '热门品牌',
 		type: '常用分类'
 	},
+	card: {
+		title: "我的卡包",
+		addBtn: "新增信用卡",
+		editBtn: "编辑信用卡",
+		name: "持卡人姓名",
+		namePH: "请输入持卡人姓名",
+		errorName: '请填写持卡人姓名',
+		number: "信用卡卡号",
+		numberPH: "请输入信用卡卡号",
+		errorNumber: '请填写信用卡卡号',
+		errorNumber2: '请输入正确的信用卡卡号',
+		cvv: "信用卡有效期",
+		cvvPH: "请输入信用卡有效期",
+		errorCvv: '请填写信用卡有效期',
+		postal: "信用卡邮编",
+		postalPH: "请输入信用卡邮编",
+		errorPostal: '请填写信用卡邮编',
+		successAdd: '信用卡添加成功',
+		successEdit: '信用卡修改成功',
+		successDel: '信用卡删除成功',
+		deleteConfirm: '确认要删除此信用卡吗？',
+	},
 	address: {
 		longitude: '所在城市',
 		title: "收货地址",
@@ -136,7 +158,8 @@ export const index = {
 		deliveryName: '提货人姓名',
 		deliveryContactNo: '提货人手机号码',
 		selectDeliveryLongitude: '请选择门店',
-		deliveryLongitude: '门店地址'
+		deliveryLongitude: '门店地址',
+		deleteConfirm:'确认要删除吗？'
 	},
 	courier: {
 		courier: '快递',

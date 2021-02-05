@@ -7,12 +7,13 @@ import * as request from './config/api'
 import './components/ican-H5Api/ican-H5Api'
 import uView from "uview-ui";
 import Json from './Json'
+import VueClipboard from 'vue-clipboard2'
 /* import vconsole from 'vconsole' // 引入vconsole */
 
 
 Vue.use(uView);
 Vue.use(VueI18n)
-
+Vue.use(VueClipboard)
 
 const msg = (title, duration = 2000, mask = false, icon = 'none') => {
 	//统一提示方便全局修改
@@ -73,12 +74,12 @@ const i18n = new VueI18n({
 
 var lan = uni.getStorageSync('locale')
 if (!lan) {
-	uni.setStorageSync('locale',i18n.locale);
-}else{
-	i18n.locale=lan;
+	uni.setStorageSync('locale', i18n.locale);
+} else {
+	i18n.locale = lan;
 }
 
-Vue.prototype.baseColor = "#55aa7f";
+Vue.prototype.baseColor = "#6fb68b";
 Vue.prototype._i18n = i18n
 Vue.prototype.$i18nMsg = function() {
 	return i18n.messages[i18n.locale]

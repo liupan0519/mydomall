@@ -1,10 +1,10 @@
 <template>
 	<view class="content">
 		<web-view :src="url" @message="getData"></web-view>
-		<view class="input-con">
+		<view class="input-con" id="input-con" :style="{bottom:inputBottom+'px'}">
 			<view class="row b-b">
 				<text class="tit">{{i18n.address.name}}</text>
-				<input class="input" :maxlength="10" type="text" v-model="addressData.name" :placeholder="i18n.address.name2"
+				<input class="input" cursor-spacing="0" :maxlength="10" type="text" v-model="addressData.name" :placeholder="i18n.address.name2"
 				 placeholder-class="placeholder" />
 			</view>
 			<view class="row b-b">
@@ -49,7 +49,11 @@
 					street: '',
 					zipcode: '',
 					default: true,
-				}
+				},
+				footerHeight: 0,
+				mapstatus: 0,
+				wvHeight: 0,
+				inputBottom: 0
 			}
 		},
 		computed: {
@@ -60,36 +64,55 @@
 		},
 		onReady() {
 			let _this = this;
-			var height = 0; //定义动态的高度变量，如高度为定值，可以直接写
+
 			uni.getSystemInfo({
 				//成功获取的回调函数，返回值为系统信息
 				success: (sysinfo) => {
 					//console.log("屏幕的高度:"+sysinfo.windowHeight); // 屏幕的宽度 
-					uni.createSelectorQuery().select(".input-con").boundingClientRect(data => {
+					let inputCon = uni.createSelectorQuery().select("#input-con");
+					inputCon.boundingClientRect(data => {
 						//console.log("InputCon的高度:"+data.height);
-						height = sysinfo.windowHeight - data.height
+						_this.wvHeight = sysinfo.windowHeight - data.height
 						//console.log("Maps的高度:"+height);
-						/* _this.url = "http://192.168.3.21:8848/b2b2c-user/pages/html/address_map.html?address=" + encodeURIComponent(
+						_this.url = "http://howfresh.app.mydomall.com/html/address_map.html?address=" +
+							encodeURIComponent(
 								_this.address) +
-							"&mapH=" + height; */
-					}).exec()
+							"&mapH=" + _this.wvHeight;
 
+					}).exec()
 				},
 				complete: () => {}
 			});
 
 			// #ifdef APP-PLUS
 			var currentWebview = this.$scope.$getAppWebview(); //获取当前web-view
+			let wv = null;
 			setTimeout(function() {
-				var wv = currentWebview.children()[0];
-				console.log(wv);
-				console.log("height:" + height);
+				wv = currentWebview.children()[0];
+				console.log("height:" + _this.wvHeight);
 				wv.setStyle({ //设置web-view距离顶部的距离以及自己的高度，单位为px
 					top: 68,
-					height: height
+					height: _this.wvHeight
 				})
 			}, 1000); //如页面初始化调用需要写延迟
+
+			uni.onKeyboardHeightChange(res => {
+				_this.inputBottom = res.height;
+				wv.setStyle({ //设置web-view距离顶部的距离以及自己的高度，单位为px
+					top: 68,
+					height: _this.wvHeight-res.height
+				})
+			})
 			// #endif 
+
+			uni.onWindowResize((res) => {
+				console.log('变化后的窗口宽度=' + res.size.windowWidth)
+				console.log('变化后的窗口高度=' + res.size.windowHeight)
+			})
+
+			uni.offWindowResize(() => {
+				console.log('取消监听窗口尺寸变化事件')
+			})
 		},
 		onLoad: function(option) {
 			uni.setNavigationBarTitle({
@@ -139,19 +162,9 @@
 					})
 				}
 			},
-			toRedirect() {
-				var that = this;
-				if (that.to) {
-					this.navTo(that.to)
-				} else {
-					uni.redirectTo({
-						url: '/pages/address/address'
-					})
-				}
-			},
 			//提交
 			confirm() {
-				
+				uni.hideKeyboard();
 				let data = this.addressData;
 				if (!data.name) {
 					this.$api.msg(this.i18n.address.errorName);
@@ -201,7 +214,12 @@
 						if (this.type == 1) {
 							this.loginRedirect();
 						} else {
-							this.toRedirect();
+							let pages = getCurrentPages();
+							let beforePage = pages[pages.length - 3]; //上一页
+							beforePage.$vm.refreshList();
+							uni.navigateBack({
+								delta: 2
+							});
 						}
 					} else {
 						this.$api.msg(res.body.status.errorDesc);
@@ -210,6 +228,7 @@
 
 			},
 			switchChange(e) {
+				uni.hideKeyboard();
 				this.addressData.default = e.detail.value;
 			}
 		}
@@ -223,11 +242,15 @@
 		padding-top: 16upx;
 	}
 
+	web-view {
+		z-index: 1 ;
+	}
+
+
 	.input-con {
 		position: absolute;
-		bottom: 0;
 		width: 100%;
-		z-index: 2;
+		z-index: 3;
 	}
 
 	.row {
@@ -279,7 +302,6 @@
 		font-size: 32upx;
 		color: #fff;
 		background-color: $base-color;
-		border-radius: 10upx;
 		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 
@@ -293,7 +315,6 @@
 		font-size: $font-lg;
 		color: #fff;
 		background-color: $base-color;
-		border-radius: 10upx;
 		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
 	}
 

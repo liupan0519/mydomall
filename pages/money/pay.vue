@@ -69,6 +69,37 @@
 		<!-- #ifndef MP-WEIXIN -->
 		<text class="mix-btn" @click="confirm">{{i18n.pay.confirm}}</text>
 		<!-- #endif -->
+		<u-mask :show="isShowCard" @click="isShowCard = false">
+			<view class="warp">
+				<view class="card-list " @tap.stop v-show="isShowCard">
+					<text class="title">我的卡包</text>
+					<view class="list" v-for="(item, index) in cardList" :key="index" @click="checkCard(item)">
+						<view class="wrapper">
+							<view class="logo-box">
+								<image src="../../static/image/card.png" mode="aspectFill"></image>
+							</view>
+							<view class="card-box">
+								<view class="u-box ">
+									<view class="name">{{item.userBankName}}</view>
+									<view class="number">{{$api.util.showCard(item.userBankNumber)}}</view>
+								</view>
+							</view>
+						</view>
+						<label class="radio">
+							<radio value="" :color="baseColor" :checked='cardData.userBankInfoUuid==item.userBankInfoUuid' />
+							</radio>
+						</label>
+					</view>
+
+					<view class="add-btn" @click="addCard('add')">
+						<uni-icons type="plus" color="#8EC5A5" size="25" />
+						<text>新增卡片</text>
+					</view>
+					<text class="mix-btn" @click="confirmSquare" v-clipboard:copy="cardData.userBankNumber" v-clipboard:success="onCopy"
+					 >{{i18n.pay.confirm}}</text>
+				</view>
+			</view>
+		</u-mask>
 	</view>
 </template>
 
@@ -91,11 +122,15 @@
 	export default {
 		data() {
 			return {
-				payType: 4,
+				payType: 5,
 				orderNo: '',
 				pOrderNo: '',
 				order: {},
-				suscribeMsgList: []
+				suscribeMsgList: [],
+				cardList: [],
+				isOpened: 'none',
+				isShowCard: false,
+				cardData: {}
 			};
 		},
 		components: {
@@ -158,6 +193,9 @@
 			changePayType(type) {
 				this.payType = type;
 			},
+			onCopy(e) { // 复制成功时的回调函数
+				console.log("内容已复制到剪切板！"+e.text)
+			},
 			//确认支付
 			confirmWx: function() {
 				uni.requestSubscribeMessage({
@@ -189,21 +227,75 @@
 				} else if (this.payType === 4) {
 					this.paypalPay();
 				} else if (this.payType === 5) {
-					let squareUrl = 'https://howfresh.square.mydomall.com/';
-					//let squareUrl = 'http://localhost:3000/'; 
-					let payForm = {
-						actualAmount: this.order.actualAmount,
-						orderNo: this.orderNo,
-						pOrderNo: this.pOrderNo,
-						tokenId: uni.getStorageSync("userToken")
-					}
-					
-					uni.showLoading({
-						//title: '加载中'
-					});
-					this.navTo("../webview/webview?flag=1&url=" + squareUrl + "?payForm=" + JSON.stringify(payForm))
+					this.searchBankCard()
 				}
 
+			},
+			//选择卡片
+			checkCard(item) {
+				this.cardData = item;
+			}, //跳转支付页面
+			confirmSquare() {
+				this.squarePay();
+			},
+			//square支付查询卡包
+			searchBankCard() {
+				let that = this;
+				that.$api.request.searchBankCardInfo({
+					userDTO: {
+						userUuid: that.userInfo.userUuid
+					}
+				}, res => {
+					that.isShowCard = true;
+					if (res.body.status.statusCode === '0') {
+						that.cardList = res.body.data.userBankInfoDTOList;
+						that.cardList.forEach((item, index) => {
+							if (item.defaule) {
+								that.cardData = item;
+							}
+						})
+					} else {
+						that.$api.msg(res.body.status.errorDesc);
+					}
+				});
+				/* this.cardList = [{
+					userBankInfoUuid: '1111',
+					useUuid: '222222',
+					userBankNumber: '4111111111112222',
+					userBankName: '招商银行',
+					userBankCvv: '20210310',
+					userBankPostal: '111',
+					isDefaule: true
+				}] */
+			},
+			//square支付
+			squarePay() {
+				if (JSON.stringify(this.cardData) == "{}") {
+					this.$api.msg("至少选择一张信用卡");
+					return;
+				}
+				let squareUrl = 'https://howfresh.square.mydomall.com/';
+				//let squareUrl = 'http://localhost:3000/';
+				let payForm = {
+					actualAmount: this.order.actualAmount,
+					orderNo: this.orderNo,
+					pOrderNo: this.pOrderNo,
+					tokenId: uni.getStorageSync("userToken"),
+					cardData: this.cardData
+				}
+
+				uni.showLoading({
+					//title: '加载中'
+				});
+				this.navTo("../webview/webview?flag=1&url=" + squareUrl + "?payForm=" + JSON.stringify(payForm))
+			},
+			addCard(type, item) {
+				uni.navigateTo({
+					url: `/pages/card/cardManage?type=${type}&data=${JSON.stringify(item)}`
+				})
+			}, //卡片添加或修改成功之后回调
+			refreshList() {
+				this.searchBankCard();
 			},
 			wechatPay() {
 				// #ifdef H5
@@ -351,7 +443,6 @@
 			paypalPay() {
 				this.paypalApp()
 			},
-
 			//支付宝支付
 			alipayPay() {
 				// #ifdef H5
@@ -470,10 +561,9 @@
 							orderNo: that.orderNo,
 							pOrderNo: that.pOrderNo
 						}, res => {
-							console.log("paypalAppToken:");
 							if (res.body.status.statusCode === '0') {
 								let formdata = res.body.data;
-								console.log(JSON.stringify(formdata));
+								//console.log(JSON.stringify(formdata));
 								/* formdata.uriScheme='howfresh'; */
 								//sandbox clientId
 								/* var clientId = "AdEHVvaXzyrpD_0Ez1AsZkLI8s0UKPzxiF5upj-YBM2B0CSFUK6y3nEHFSii2_p0fSyHgvnUNPh81Hn-"; */
@@ -489,8 +579,6 @@
 									environment: "live", //live 生产环境 sandbox 沙盒环境
 									universalLink: "https://howfresh.app.mydomall.com/ulink/" //ios通用链接
 								}, result => {
-									console.log(111111);
-									console.log(JSON.stringify(result));
 									if (result.code === 0) {
 										//let paypalID = result.data.proofOfPayment.id;
 										that.$api.request.paypalAPPNotify({
@@ -499,8 +587,6 @@
 											/* paypalID: paypalID, */
 											paypalTokenID: formdata.token
 										}, res => {
-											console.log(22222222);
-											console.log(JSON.stringify(res));
 											if (res.body.status.statusCode === '0') {
 												uni.showToast({
 													title: 'success'
@@ -679,7 +765,132 @@
 		font-size: $font-lg;
 		color: #fff;
 		background-color: $base-color;
-		border-radius: 10upx;
+		border-radius: 45rpx;
 		box-shadow: 1px 2px 5px rgba(85, 170, 127, 0.4);
+	}
+
+	.u-mask-show {
+		z-index: 100 !important;
+	}
+
+	.warp {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+
+
+	.card-list {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		background-color: #fff;
+
+		padding: 30upx 10upx;
+		padding-top: 0;
+
+		uni-swipe-action,
+		uni-swipe-action-item {
+			width: 100%;
+		}
+
+		.title {
+			line-height: 80rpx;
+			margin-left: 20rpx;
+		}
+
+		.list uni-view:first-child {
+			width: 100%;
+		}
+
+		.list {
+			display: flex;
+			align-items: center;
+			background: #fff;
+			position: relative;
+			margin: 20rpx;
+		}
+
+		.wrapper {
+			display: flex;
+			flex: 1;
+			background-color: #8EC5A5;
+			padding: 10rpx 21rpx;
+			border-radius: 40rpx;
+		}
+
+		.logo-box {
+			flex: 1;
+			flex: 88rpx 0 0;
+			align-items: center;
+
+			image {
+				width: 100rpx;
+				height: 100rpx;
+				border-radius: 50%;
+			}
+		}
+
+		.radio {
+			margin-left: 20rpx;
+		}
+
+		.card-box {
+			flex: 2;
+			flex-direction: column;
+			align-items: center;
+			color: #fff;
+			font-size: 30upx;
+			padding-left: 35rpx;
+
+			view {
+				padding: 2rpx 0;
+			}
+
+			.name {
+				font-weight: bold;
+			}
+
+			.number {
+				padding-top: 10rpx;
+				font-weight: bold;
+			}
+		}
+
+		.u-box {
+			color: #fff;
+
+			.tag {
+				float: right;
+				font-size: 24rpx;
+				background: #F4506B;
+				border-radius: 20rpx;
+				padding: 10rpx 25rpx;
+				line-height: 1;
+			}
+
+		}
+
+		.icon-bianji {
+			display: flex;
+			align-items: center;
+			height: 80upx;
+			font-size: 40upx;
+			color: $font-color-light;
+			padding-left: 30upx;
+		}
+
+		.add-btn {
+			padding: 0 10rpx;
+			align-items: center;
+			justify-content: center;
+			font-size: 32upx;
+			color: #8EC5A5;
+
+			text {
+				padding-left: 10rpx;
+			}
+		}
 	}
 </style>

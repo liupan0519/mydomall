@@ -723,7 +723,7 @@ var phones = {
 
 //验证手机号码
 const validateMobileNo = (mobileNo) => {
-	if(!mobileNo){
+	if (!mobileNo) {
 		return null;
 	}
 	var lan = uni.getStorageSync('locale')
@@ -731,6 +731,29 @@ const validateMobileNo = (mobileNo) => {
 	//console.log("mobileNo.match(phones[lan]):"+mobileNo.match(phones[lan]))
 	return mobileNo != null;
 }
+
+
+//验证信用卡
+const validateCard = (cardNo) => {
+	let visa = /^4[0-9]{12}(?:[0-9]{3})?$/;
+	let master = /^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/;
+	if (cardNo.match(visa) != null) {
+		return true;
+	} else if (cardNo.match(master) != null) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
+const showCard = (cardNo) => {
+	//var str=cardNo.replace( /^(\d{4})\d+(\d{4})$/,"$1 **** **** $2")
+	var reg = /^(\d{4})\d+(\d{4})$/;
+	return cardNo.replace(reg, "**** **** **** $2")
+}
+
+
 //验证登录密码
 const validatePassword = (password) => {
 	return password.match(/^[a-zA-Z0-9_]{8,20}$/) != null;
@@ -780,7 +803,7 @@ if (lan == 'ja' || lan == 'ja-JP') {
 //将订单状态编号转化为描述
 const translateOrderStatus = (orderStatus) => {
 	let orderStatusDesc = '';
-	let orderStatusColor = '#55aa7f';
+	let orderStatusColor = '#6fb68b';
 	switch (orderStatus) {
 		case '0':
 			orderStatusDesc = orderStatusObj.state0;
@@ -975,5 +998,7 @@ export default {
 	getCountDownTimes,
 	navSwiper,
 	navAD,
-	getDistance
+	getDistance,
+	validateCard,
+	showCard
 }
