@@ -1,0 +1,32 @@
+{
+  "name": "b2b2c-user",
+  "version": "1.0.0",
+  "description": "用户端",
+  "main": "main.js",
+  "dependencies": {
+    "clipboard": "^2.0.6",
+    "uview-ui": "^1.4.1",
+    "vconsole": "^3.3.4",
+    "vue-clipboard2": "^0.3.1",
+    "vue-i18n": "^8.22.0",
+    "vue-paypal-checkout": "^3.2.0",
+    "weixin-js-sdk": "^1.6.0"
+  },
+  "devDependencies": {
+    "@dcloudio/uni-ui": "^1.2.10"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yipai-shanghai/howfreash-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yipai-shanghai/howfreash-frontend/issues"
+  },
+  "homepage": "https://github.com/yipai-shanghai/howfreash-frontend#readme"
+}
