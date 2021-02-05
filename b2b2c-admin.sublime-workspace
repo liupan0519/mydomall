@@ -1,0 +1,1569 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Re",
+				"ReceiveFreePoint"
+			],
+			[
+				"seri",
+				"seriesData"
+			],
+			[
+				"stat",
+				"statisticType"
+			],
+			[
+				"change",
+				"changeLyj"
+			],
+			[
+				"pa",
+				"padding-top"
+			],
+			[
+				"padding",
+				"padding-right"
+			],
+			[
+				"di",
+				"div\tTag"
+			],
+			[
+				"s",
+				"style\tAttr"
+			],
+			[
+				"th",
+				"th\tTag"
+			],
+			[
+				"over",
+				"overflow-y"
+			],
+			[
+				"com",
+				"component"
+			],
+			[
+				"co",
+				"component"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"w",
+				"word-wrap"
+			],
+			[
+				"pro",
+				"profooter"
+			],
+			[
+				"bor",
+				"border-bottom"
+			],
+			[
+				"te",
+				"text"
+			],
+			[
+				"fol",
+				"float"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"sc",
+				"script\tTag"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"da",
+				"dayin"
+			],
+			[
+				"val",
+				"val"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"fl",
+				"float"
+			],
+			[
+				"user",
+				"userDTO"
+			],
+			[
+				"userD",
+				"userDTO"
+			],
+			[
+				"use",
+				"userDTO"
+			],
+			[
+				"proce",
+				"processModelmy"
+			],
+			[
+				"pr",
+				"processModelType"
+			],
+			[
+				"state",
+				"stateProvider"
+			],
+			[
+				"reportM",
+				"reportMonthBefore"
+			],
+			[
+				"pers",
+				"personalEmail"
+			],
+			[
+				"per",
+				"personalEmail"
+			],
+			[
+				"start",
+				"startDate"
+			],
+			[
+				"re",
+				"report"
+			],
+			[
+				"report",
+				"report"
+			],
+			[
+				"person",
+				"personalPhone"
+			],
+			[
+				"star",
+				"startDate"
+			],
+			[
+				"repor",
+				"report"
+			],
+			[
+				"repo",
+				"reportType"
+			],
+			[
+				"sta",
+				"state"
+			],
+			[
+				"modif",
+				"MODIFY"
+			],
+			[
+				"end",
+				"endTime"
+			],
+			[
+				"changewe",
+				"changeWechatCalendarEvents"
+			],
+			[
+				"u",
+				"userinfo"
+			],
+			[
+				"loc",
+				"LocalStorage"
+			],
+			[
+				"data",
+				"datadt"
+			],
+			[
+				"cha",
+				"chargePeople"
+			],
+			[
+				"userDt",
+				"userDTO"
+			],
+			[
+				"perso",
+				"personalPhoneCountryCode"
+			],
+			[
+				"bod",
+				"border"
+			],
+			[
+				"view",
+				"views"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"distanceM",
+				"distanceMi"
+			],
+			[
+				"dis",
+				"distance"
+			],
+			[
+				"ro",
+				"rordatas"
+			],
+			[
+				"row",
+				"rowData"
+			],
+			[
+				"attenda",
+				"attendanceMonth"
+			],
+			[
+				"atten",
+				"attendanceYear"
+			],
+			[
+				"module",
+				"modules"
+			],
+			[
+				"address",
+				"addressModelNum"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"no",
+				"nowrap"
+			],
+			[
+				"ini",
+				"intiM"
+			],
+			[
+				"modal",
+				"modalInstance"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"paddi",
+				"padding-bottom"
+			],
+			[
+				"attend",
+				"attendance"
+			],
+			[
+				"vie",
+				"view"
+			],
+			[
+				"get",
+				"getMonth"
+			],
+			[
+				"dt",
+				"dt\tTag"
+			],
+			[
+				"set",
+				"styleObj"
+			],
+			[
+				"fun",
+				"function"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/main.js",
+			"settings":
+			{
+				"buffer_size": 1631,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 744,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/views/main-components/shrinkable-menu/shrinkable-menu.vue",
+			"settings":
+			{
+				"buffer_size": 2085,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/store/modules/app.js",
+			"settings":
+			{
+				"buffer_size": 9359,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/locale/locale.js",
+			"settings":
+			{
+				"buffer_size": 2033,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/libs/util.js",
+			"settings":
+			{
+				"buffer_size": 7503,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/app.vue",
+			"settings":
+			{
+				"buffer_size": 539,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/views/main-components/theme-switch/theme-switch.vue",
+			"settings":
+			{
+				"buffer_size": 5869,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/views/Main.vue",
+			"settings":
+			{
+				"buffer_size": 8450,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/views/home/home.vue",
+			"settings":
+			{
+				"buffer_size": 9545,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/work/ccm/b2c/ccm-b2c-uniapp/pages/help/help.vue",
+			"settings":
+			{
+				"buffer_size": 25550,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/router/router.js",
+			"settings":
+			{
+				"buffer_size": 20740,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/views/main.less",
+			"settings":
+			{
+				"buffer_size": 5638,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/views/login.vue",
+			"settings":
+			{
+				"buffer_size": 5121,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 119.0,
+		"last_filter": "install package",
+		"selected_items":
+		[
+			[
+				"install package",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install package",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 648.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/E/work/ccm/b2c/ccm-b2c-admin",
+		"/E/work/ccm/b2c/ccm-b2c-admin/src",
+		"/E/work/ccm/b2c/ccm-b2c-admin/src/locale",
+		"/E/work/ccm/b2c/ccm-b2c-admin/src/views"
+	],
+	"file_history":
+	[
+		"/C/Users/93227/Desktop/juneng.war",
+		"/E/work/san/san-admin/src/views/sys/fee-setting.vue",
+		"/E/work/ccm/b2c/ccm-b2c-uniapp/pages/order/createOrder.vue",
+		"/C/Users/93227/AppData/Local/Temp/Rar$DIa0.879/cache.js",
+		"/E/work/ccm/b2c/ccm-b2c-admin/src/libs/util.js",
+		"/E/work/ccm/b2c/ccm-b2c-admin/index.html",
+		"/E/work/juneng/online-shopping-platform/src/main.js",
+		"/E/work/全渠道商城/微同商城/admin-web/src/js/navtab.js",
+		"/E/work/全渠道商城/微同商城/admin-web/src/js/common.js",
+		"/E/work/juneng/online-shopping-platform/index.html",
+		"/E/work/juneng/online-shopping-platform/build/webpack.base.config.js",
+		"/E/work/juneng/online-shopping-platform/src/views/login.vue",
+		"/E/work/juneng/online-shopping-platform/src/views/station/station-list.vue",
+		"/E/work/全渠道商城/jshop/uniapp/App.vue",
+		"/E/work/juneng/online-shopping-platform/src/template/index.ejs",
+		"/E/work/juneng/online-shopping-platform/dist/index.html",
+		"/E/work/juneng/online-shopping-platform/src/router/router.js",
+		"/E/work/积分商城/Jshop小程序商城/jshop_mall/h5/src/App.vue",
+		"/E/work/积分商城/Jshop小程序商城/jshop_mall/h5/src/main.js",
+		"/C/Users/93227/Desktop/p.junengshop.com.conf",
+		"/E/work/juneng/online-shopping-platform/package.json",
+		"/E/work/juneng/online-shopping-payment/src/main.js",
+		"/E/work/juneng/online-shopping-payment/src/components/ReceiveFreePoint.vue",
+		"/E/work/juneng/online-shopping-payment/src/components/PayResult.vue",
+		"/E/work/juneng/online-shopping-payment/index.html",
+		"/E/work/juneng/online-shopping-platform/src/views/order/order-list.vue",
+		"/E/work/juneng/online-shopping-merchant/src/main.js",
+		"/E/work/juneng/online-shopping-mobile/main.js",
+		"/E/work/juneng/online-shopping-merchant/src/router/router.js",
+		"/E/work/juneng/online-shopping-merchant/src/views/registerMerchant.vue",
+		"/E/work/ccm/ccm-www/src/components/HelloWorld.vue",
+		"/E/work/ccm/ccm-www/src/components/header.vue",
+		"/E/work/juneng/online-shopping-platform/src/views/coupon/chagecoupon.vue",
+		"/E/work/juneng/online-shopping-platform/build/webpack.prod.config.js",
+		"/E/work/juneng/online-shopping-payment/src/components/Pay.vue",
+		"/E/work/juneng/online-shopping-platform/src/views/product/product-add.vue",
+		"/E/work/juneng/online-shopping-platform/src/views/product/product-edit.vue",
+		"/E/work/juneng/online-shopping-platform/src/views/product/product-list-insale.vue",
+		"/E/work/juneng/online-shopping-platform/src/views/product/product-brand.vue",
+		"/E/work/juneng/online-shopping-platform/node_modules/less/Gruntfile.js",
+		"/E/work/juneng/online-shopping-platform/build/webpack.dev.config.js",
+		"/E/work/juneng/online-shopping-payment/redirect.html",
+		"/E/work/juneng/online-shopping-payment/node_modules/http-proxy-middleware/lib/router.js",
+		"/E/work/juneng/online-shopping-platform/address-picker.html",
+		"/E/work/juneng/online-shopping-payment/src/components/RegisterUserResult.vue",
+		"/E/work/juneng/online-shopping-payment/src/components/AccountStatement.vue",
+		"/E/work/juneng/online-shopping-platform/src/views/station/station-address.vue",
+		"/E/work/juneng/online-shopping-platform/src/views/merchant/merchant-list.vue",
+		"/E/work/juneng/online-shopping-payment/src/common/common.js",
+		"/E/work/juneng/online-shopping-payment/config/index.js",
+		"/E/work/juneng/online-shopping-payment/.editorconfig",
+		"/E/work/shijifengjiuyuan/admin/road-rescue-admin/src/main.js",
+		"/E/work/shijifengjiuyuan/admin/road-rescue-admin/build/webpack.prod.config.js",
+		"/E/work/shijifengjiuyuan/admin/road-rescue-admin/src/views/vehicle/S_vehicle_register.vue",
+		"/E/work/shijifengjiuyuan/admin/road-rescue-admin/src/views/vehicle/S_vehicle_details.vue",
+		"/E/work/juneng/online-shopping-platform/src/views/common-components/data/merchant-list-data.js",
+		"/C/Users/93227/Desktop/credentials.json",
+		"/E/work/juma-source/oil-manage-view/src/service/config/trunkConfig.js",
+		"/C/Users/93227/AppData/Local/Temp/Rar$DIa0.424/factor_ddl.sql",
+		"/E/work/juma/jumaManage/jumaManage/src/views/cardChargeAudit.vue",
+		"/E/work/juma/jumaManage/jumaManage/src/views/requestAudit.vue",
+		"/E/work/juma/baoli-web/src/router/router.js",
+		"/E/work/juma/baoli-web/src/views/Configuration/channel.vue",
+		"/E/work/juma/baoli-web/index.html",
+		"/E/work/juma/baoli-web/build/webpack.prod.config.js",
+		"/E/work/juma/baoli-web/src/views/login.vue",
+		"/E/work/juma/baoli-web/src/libs/util.js",
+		"/E/work/juma/jumaManage/jumaManage/src/service/routers/home.js",
+		"/E/work/juma/jumaManage/jumaManage/src/views/workflowTest.vue",
+		"/E/work/juma/jumaManage/jumaManage/src/views/workflowTestFrame.vue",
+		"/E/work/juma/jumaManage/jumaManage/build/webpackAlias.js",
+		"/E/work/juma/jumaManage/jumaManage/build/config.js",
+		"/E/work/juma/jumaManage/jumaManage/src/service/config/developConfig.js",
+		"/E/work/juma/jumaManage/jumaManage/src/service/config/config.js",
+		"/E/work/juma/baoli-web/src/main.js",
+		"/C/Users/93227/AppData/Local/Temp/Rar$DIa0.109/sys-styles.js",
+		"/C/Users/93227/AppData/Local/Temp/Rar$DIa0.962/leaflet.js",
+		"/C/Users/93227/AppData/Local/Temp/Rar$DIa0.394/leaflet.js",
+		"/E/work/DXALThunderMonWeb/index.html",
+		"/E/work/DXALThunderMonWeb/js/identify.js",
+		"/E/work/DXALThunderMonWeb/js/qrazyearth.js",
+		"/E/work/DXALThunderMonWeb/js/business.js",
+		"/E/work/DXALThunderMonWeb/css/map.css",
+		"/C/Users/93227/Desktop/en-US.js",
+		"/C/Users/93227/Desktop/zh-CN.js",
+		"/C/Users/93227/AppData/Local/Temp/Rar$DIa0.712/zh-CN.js",
+		"/C/Users/93227/AppData/Local/Temp/Rar$DIa0.907/en-US.js",
+		"/E/work/san/san-admin/node_modules/iview/dist/iview.js",
+		"/E/work/san-marketing/admin-web/src/views/home/home.vue",
+		"/E/work/san-marketing/customer-web/src/components/ReceiveProduct.vue",
+		"/E/work/san-marketing/customer-web/src/components/Home.vue",
+		"/E/work/san-marketing/customer-web/config/index.js",
+		"/E/work/san-marketing/customer-web/src/main.js",
+		"/E/work/san-marketing/customer-web/src/components/Result.vue",
+		"/E/work/san-marketing/customer-web/index.html",
+		"/E/work/san-marketing/customer-web/src/components/Success.vue",
+		"/E/work/san-marketing/customer-web/src/router/index.js",
+		"/E/work/san-marketing/customer-web/src/components/Preview.vue",
+		"/E/work/scrm/customer-web/src/main.js",
+		"/E/work/scrm/customer-web/src/components/Poster.vue",
+		"/E/work/san-marketing/customer-web/node_modules/vue2-preview/src/plugins/preview/preview.vue",
+		"/E/work/san-marketing/customer-web/node_modules/photoswipe/dist/default-skin/default-skin.css",
+		"/E/work/scrm/customer-web/src/components/Login.vue",
+		"/E/work/san-marketing/customer-web/redirect.html",
+		"/E/work/scrm/customer-web/src/components/Home.vue",
+		"/E/work/scrm/customer-web/src/App.vue",
+		"/E/work/san-marketing/customer-web/src/App.vue",
+		"/E/work/san-marketing/customer-web/src/components/Guide.vue",
+		"/E/work/scrm/admin-web/src/views/article/article-list.vue",
+		"/E/work/scrm/admin-web/build/webpack.prod.config.js",
+		"/C/Users/93227/Desktop/template-cart[1].wxml",
+		"/E/work/san/san-wechat/utils/util.js",
+		"/E/work/shijifengjiuyuan/wechat-merchant/road-rescue-wechat/mini-program/pages/proxy/addorder/addorder_payment.js",
+		"/E/work/shijifengjiuyuan/wechat-merchant/road-rescue-wechat/mini-program/pages/proxy/addorder/addorder_payment.wxml",
+		"/C/Users/93227/Desktop/template-cart[1].wxss",
+		"/E/work/scrm/admin-web/src/main.js",
+		"/E/work/scrm/scrm-service/mb-bg-ext-web/src/main/java/com/mb/ext/web/controller/admin/AdminArticleController.java",
+		"/E/work/scrm/scrm-service/mb-bg-ext-core/src/main/java/com/mb/ext/core/service/impl/ArticleServiceImpl.java",
+		"/E/work/san/san-admin/src/main.js",
+		"/E/work/san/san-admin/src/views/content/article-add.vue",
+		"/E/work/san/san-admin/src/views/content/announcement-list.vue",
+		"/E/work/san/san-admin/src/router/router.js",
+		"/E/work/san/san-admin/src/views/content/article-list.vue",
+		"/E/work/san/san-admin/src/views/content/announcement-add.vue",
+		"/E/work/san/san-admin/src/views/content/notice-list.vue",
+		"/E/work/san/san-admin/src/views/content/notice-add.vue",
+		"/E/work/san/san-admin/src/views/content/qa-list.vue",
+		"/E/work/san/san-admin/src/views/content/qa-add.vue"
+	],
+	"find":
+	{
+		"height": 50.0
+	},
+	"find_in_files":
+	{
+		"height": 138.0,
+		"where_history":
+		[
+			"E:\\work\\ccm\\b2c\\ccm-b2c-admin\\src",
+			"E:\\work\\ccm\\b2c\\ccm-b2c-admin\\src\\views\\main-components",
+			"E:\\work\\ccm\\b2c\\ccm-b2c-admin\\src\\views\\common-components",
+			"E:\\work\\ccm\\b2c\\ccm-b2c-admin\\src\\views\\main-components",
+			"E:\\work\\ccm\\b2c\\ccm-b2c-admin\\src",
+			"E:\\work\\juneng\\online-shopping-platform\\src",
+			"E:\\work\\juneng\\online-shopping-platform",
+			"E:\\work\\juneng\\online-shopping-platform\\src",
+			"E:\\work\\juneng\\online-shopping-merchant\\src",
+			"E:\\work\\juneng\\online-shopping-payment",
+			"E:\\work\\juneng\\online-shopping-payment\\build",
+			"E:\\work\\juneng\\online-shopping-payment\\src",
+			"E:\\work\\juneng\\online-shopping-platform",
+			"E:\\work\\juneng\\online-shopping-platform\\src",
+			"E:\\work\\juneng\\online-shopping-platform\\build",
+			"E:\\work\\juneng\\online-shopping-platform\\src",
+			"E:\\work\\juneng\\online-shopping-platform",
+			"E:\\work\\juneng\\online-shopping-platform\\build",
+			"E:\\work\\juneng\\online-shopping-payment",
+			"E:\\work\\juneng\\online-shopping-payment\\src",
+			"E:\\work\\juneng\\online-shopping-platform\\src",
+			"E:\\work\\juneng\\online-shopping-platform\\build",
+			"E:\\work\\juneng\\online-shopping-platform\\src",
+			"E:\\work\\juneng\\online-shopping-platform\\dist",
+			"E:\\work\\juneng\\online-shopping-payment\\src",
+			"E:\\work\\juma\\baoli-web\\src",
+			"E:\\work\\juma\\baoli-web",
+			"E:\\work\\juma\\jumaManage\\jumaManage",
+			"E:\\work\\juma\\jumaManage\\jumaManage\\build",
+			"E:\\work\\bird-pc",
+			"E:\\work\\scrm\\customer-web",
+			"E:\\work\\DXALThunderMonWeb",
+			"E:\\work\\san\\san-admin\\node_modules",
+			"E:\\work\\san-marketing\\customer-web\\src",
+			"E:\\work\\san-marketing\\customer-web",
+			"E:\\work\\san-marketing\\customer-web\\src",
+			"E:\\work\\san-marketing\\customer-web",
+			"E:\\work\\san-marketing\\customer-web\\build",
+			"E:\\work\\vuetest\\my-project\\node_modules\\mint-ui",
+			"E:\\work\\vuetest\\my-project\\src\\common",
+			"E:\\work\\vuetest\\my-project\\src\\components",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"首页",
+			"home",
+			"otherRouter",
+			"[\n",
+			"菜单",
+			"495060",
+			"495600",
+			"495060",
+			"background-color",
+			"495060",
+			"background:#495060",
+			"495060",
+			"#495060",
+			"ivu-menu-dark.ivu-menu-vertical",
+			"theme",
+			"theme\ntheme",
+			"theme",
+			"ivu-menu-submenu",
+			"bgColor",
+			"ivu-shrinkable-menu",
+			"logo-con",
+			"聚能链合",
+			"common.js",
+			"devServer:",
+			"webpack-dev-server",
+			"dist",
+			"handleSubmenuChange",
+			"addvalue.",
+			"addvalue",
+			"addvalule",
+			"openMap",
+			"openMapFrom",
+			"onAddressLi",
+			"mapModal",
+			"品牌",
+			"商家地址",
+			"openMap",
+			"editvalule",
+			"onAddressLi",
+			"openMap",
+			"editvalue",
+			"editmodel",
+			"openMap",
+			"editmodel",
+			"openMap",
+			"openMap\nopenMap",
+			"openMap\nopenMap\nopenMap",
+			"openMap",
+			"onAddressLi",
+			"van-icon",
+			"openMap",
+			"mapbox",
+			"van-icon",
+			"admap",
+			"mounted",
+			"key",
+			"mapbox",
+			"mymapM",
+			"watch",
+			"clearable",
+			"search_key",
+			"keySearch",
+			"<van-icon>",
+			"map",
+			"mymapM",
+			"sass",
+			"keySearch",
+			"search_key",
+			"openMap",
+			"mapModal",
+			"assignPoint",
+			".i",
+			"i",
+			"rewardPointReceived",
+			"type",
+			"isUserLogin",
+			"rewardIntegral",
+			"icon",
+			"rate",
+			"order",
+			"submit",
+			"rewardPointReceived",
+			"assignPoint",
+			"showReceivePoint",
+			"show",
+			"inquiryMember",
+			"getData",
+			"completeMultipleOrder",
+			"完成",
+			"selectOrder",
+			"table",
+			"完成",
+			"carryout",
+			"完成",
+			"openMap",
+			"validatePhone",
+			"test",
+			"toast",
+			"edit",
+			"couponCategoryName",
+			"edit",
+			"newCouponCateModel",
+			"newcouponcatecancel",
+			"newcouponcateok",
+			"newcouponcatecan",
+			"couponCate.couponCategoryName",
+			"edit",
+			"领取购币",
+			"button-active",
+			"showReceivePoint",
+			"领取购币",
+			"领取",
+			"openId",
+			"submit",
+			"20",
+			"积分",
+			"common",
+			"close",
+			"i",
+			"loaders",
+			"showReceivePoint",
+			"-->",
+			"orderNo",
+			"getOpenIdByCode",
+			"4",
+			"initOfflineWechatPay",
+			"alipayUuid",
+			"merchant"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"000000",
+			"购币",
+			"searchBrand",
+			"brandData",
+			"brands",
+			"previewBrandImage",
+			"row",
+			"活动",
+			"资讯"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 10,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1631,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 744,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								744,
+								744
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/views/main-components/shrinkable-menu/shrinkable-menu.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2085,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1127,
+								1132
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 482.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/store/modules/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9359,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								552,
+								552
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/locale/locale.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2033,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								50,
+								50
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/libs/util.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7503,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4517,
+								4517
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 3021.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/app.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 539,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								291,
+								291
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/views/main-components/theme-switch/theme-switch.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5869,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1531,
+								1537
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 589.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/views/Main.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8450,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1929,
+								1929
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 660.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/views/home/home.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9545,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/E/work/ccm/b2c/ccm-b2c-uniapp/pages/help/help.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 25550,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "src/router/router.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20740,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1142.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "src/views/main.less",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5638,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5363,
+								5363
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4156.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "src/views/login.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5121,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								300,
+								300
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 49.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "b2c-admin.sublime-project",
+	"replace":
+	{
+		"height": 94.0
+	},
+	"save_all_on_build": false,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"home.vue",
+				"src\\views\\home\\home.vue"
+			],
+			[
+				"router.js",
+				"src\\router\\router.js"
+			],
+			[
+				"main.js",
+				"src\\main.js"
+			],
+			[
+				"app.vu",
+				"src\\app.vue"
+			],
+			[
+				"main.less",
+				"src\\views\\main.less"
+			],
+			[
+				"index.h",
+				"index.html"
+			],
+			[
+				"login",
+				"src\\views\\login.vue"
+			],
+			[
+				"index.html",
+				"index.html"
+			],
+			[
+				"index.",
+				"index.html"
+			],
+			[
+				"main",
+				"src\\main.js"
+			],
+			[
+				"station",
+				"src\\views\\station\\station-list.vue"
+			],
+			[
+				"index.ejs",
+				"src\\template\\index.ejs"
+			],
+			[
+				"index",
+				"dist\\index.html"
+			],
+			[
+				"inde",
+				"dist\\index.html"
+			],
+			[
+				"webpack",
+				"build\\webpack.base.config.js"
+			],
+			[
+				"main.",
+				"src\\main.js"
+			],
+			[
+				"orderlist",
+				"src\\views\\order\\order-list.vue"
+			],
+			[
+				"stations-list",
+				"src\\views\\station\\station-list.vue"
+			],
+			[
+				"rourter.js",
+				"src\\router\\router.js"
+			],
+			[
+				"stations-li",
+				"src\\views\\station\\station-list.vue"
+			],
+			[
+				"login.vue",
+				"src\\views\\login.vue"
+			],
+			[
+				"chagecoupon",
+				"src\\views\\coupon\\chagecoupon.vue"
+			],
+			[
+				"pay.vu",
+				"src\\components\\Pay.vue"
+			],
+			[
+				"payre",
+				"src\\components\\PayResult.vue"
+			],
+			[
+				"station-list",
+				"src\\views\\station\\station-list.vue"
+			],
+			[
+				"product-edit",
+				"src\\views\\product\\product-edit.vue"
+			],
+			[
+				"product",
+				"src\\views\\product\\product-add.vue"
+			],
+			[
+				"product-brand",
+				"src\\views\\product\\product-brand.vue"
+			],
+			[
+				"router",
+				"node_modules\\http-proxy-middleware\\lib\\router.js"
+			],
+			[
+				"pay",
+				"src\\components\\Pay.vue"
+			],
+			[
+				"router.",
+				"src\\router\\router.js"
+			],
+			[
+				"statio",
+				"src\\views\\station\\station-list.vue"
+			],
+			[
+				"merchantlist",
+				"src\\views\\merchant\\merchant-list.vue"
+			],
+			[
+				"main.j",
+				"src\\main.js"
+			],
+			[
+				"redire",
+				"redirect.html"
+			],
+			[
+				"index.js",
+				"config\\index.js"
+			],
+			[
+				"vehicle_details",
+				"src\\views\\vehicle\\S_vehicle_details.vue"
+			],
+			[
+				"vehicle__register",
+				"src\\views\\vehicle\\S_vehicle_register.vue"
+			],
+			[
+				"channel.vue",
+				"src\\views\\Configuration\\channel.vue"
+			],
+			[
+				"route.js",
+				"src\\router\\router.js"
+			],
+			[
+				"busin",
+				"js\\business.js"
+			],
+			[
+				"q",
+				"js\\qrazyearth.js"
+			],
+			[
+				"identi",
+				"js\\identify.js"
+			],
+			[
+				"main.vue",
+				"node_modules\\vux\\src\\components\\actionsheet\\index.vue"
+			],
+			[
+				"home.",
+				"src\\components\\Home.vue"
+			],
+			[
+				"receivepro",
+				"src\\components\\ReceiveProduct.vue"
+			],
+			[
+				"receiveproduct",
+				"src\\components\\ReceiveProduct.vue"
+			],
+			[
+				"result",
+				"src\\components\\Result.vue"
+			],
+			[
+				"home",
+				"src\\components\\Home.vue"
+			],
+			[
+				"sucess",
+				"src\\components\\Success.vue"
+			],
+			[
+				"preview",
+				"src\\components\\Preview.vue"
+			],
+			[
+				"articlelist",
+				"src\\views\\article\\article-list.vue"
+			],
+			[
+				"qapre",
+				"src\\views\\content\\qa-preview.vue"
+			],
+			[
+				"qaa",
+				"src\\views\\content\\qa-add.vue"
+			],
+			[
+				"qalist.vue",
+				"src\\views\\content\\qa-list.vue"
+			],
+			[
+				"noticeadd",
+				"src\\views\\content\\notice-add.vue"
+			],
+			[
+				"noticelist",
+				"src\\views\\content\\notice-list.vue"
+			],
+			[
+				"article",
+				"src\\views\\content\\article-add.vue"
+			],
+			[
+				"annou",
+				"src\\views\\content\\announcement-add.vue"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 488.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
