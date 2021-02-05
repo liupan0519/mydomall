@@ -906,7 +906,7 @@
 			padding: 0 10px;
 			margin: 5px 0;
 			border-radius: 5px;
-			background-color: #FA436A;
+			background-color: $base-color;
 			color: #fff;
 			height: 30px;
 			line-height: 30px;

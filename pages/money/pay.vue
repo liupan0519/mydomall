@@ -13,7 +13,7 @@
 					<text>{{i18n.pay.recommendWxpay}}</text>
 				</view>
 				<label class="radio">
-					<radio value="" color="#fa436a" :checked='payType == 1' />
+					<radio value="" :color="baseColor" :checked='payType == 1' />
 					</radio>
 				</label>
 			</view>
@@ -24,7 +24,7 @@
 					<text class="tit">{{i18n.pay.alipay}}</text>
 				</view>
 				<label class="radio">
-					<radio value="" color="#fa436a" :checked='payType == 2' />
+					<radio value="" :color="baseColor" :checked='payType == 2' />
 					</radio>
 				</label>
 			</view>
@@ -36,7 +36,7 @@
 					<text>{{i18n.pay.availableBalance}} ¥{{userInfo.availableBalance}}</text>
 				</view>
 				<label class="radio">
-					<radio value="" color="#fa436a" :checked='payType == 3' />
+					<radio value="" :color="baseColor" :checked='payType == 3' />
 					</radio>
 				</label>
 			</view>

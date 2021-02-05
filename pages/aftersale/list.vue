@@ -509,11 +509,11 @@
 			}
 
 			&.recom {
-				background: #fff9f9;
+				background: $base-bgcolor;
 				color: $base-color;
 
 				&:after {
-					border-color: #f7bcc8;
+					border-color: $base-color;
 				}
 			}
 		}

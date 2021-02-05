@@ -77,13 +77,13 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/user/balance",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/user/performance",
 			"style": {
@@ -95,37 +95,37 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/user/invited",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/withdraw/list",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/withdraw/apply",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/withdraw/detail",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/merchant/nearby",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		}, 
+		},
 		{
 			"path": "pages/merchant/list",
 			"style": {
@@ -434,6 +434,34 @@
 				"enablePullDownRefresh": false,
 				"navigationBarTitleText": ""
 			}
+		}, {
+			"path": "pages/webview/webview",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/address/maps",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"softinputNavBar": "none",
+					"softinputMode": "adjustResize", // 自适应软键盘弹起页面高度
+					"titleNView": {
+						"buttons": [{
+							"color": "#8EC5A5",
+							"colorPressed": "#eee",
+							"float": "right",
+							"fontSize": "18px",
+							"fontSrc": "/static/iconfont.ttf", // 字体文件
+							"text": "确定 " // 字体图标\u 开头，加上字体图标unicode后面四位
+						}]
+					}
+				}
+
+			}
 		}
 	],
 	"globalStyle": {
@@ -444,7 +472,7 @@
 	},
 	"tabBar": {
 		"color": "#C0C4CC",
-		"selectedColor": "#fa436a",
+		"selectedColor": "#55aa7f",
 		"borderStyle": "white",
 		"backgroundColor": "#ffffff",
 		"list": [{
@@ -475,9 +503,9 @@
 			}
 		]
 	},
-	"permission": { 
-					"scope.userLocation": {
-					  "desc": "你的位置信息将用于查询附近的门店"
-					}
-				 }
+	"permission": {
+		"scope.userLocation": {
+			"desc": "你的位置信息将用于查询附近的门店"
+		}
+	}
 }

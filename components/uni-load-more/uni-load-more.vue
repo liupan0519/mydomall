@@ -40,20 +40,16 @@
 			color: {
 				type: String,
 				default: "#777777"
-			},
-			contentText: {
-				type: Object,
-				default () {
-					return {
-						contentdown: "上拉显示更多",
-						contentrefresh: "正在加载...",
-						contentnomore: "没有更多数据了"
-					};
-				}
 			}
 		},
 		data() {
-			return {}
+			return {
+				contentText: {
+					contentdown: this.$i18nMsg().index.publics.pullUpShow,
+					contentrefresh: this.$i18nMsg().index.publics.loading,
+					contentnomore: this.$i18nMsg().index.publics.noMoreData
+				}
+			}
 		}
 	}
 </script>

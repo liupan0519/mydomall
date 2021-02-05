@@ -60,7 +60,7 @@
 		},
 		onLoad(option) {
 			uni.setNavigationBarTitle({
-				title: this.i18n.withdrawMsg.apply
+				title: this.i18n.withdraw.apply
 			})
 			this.searchMerchantWithdraw();
 		},

@@ -23,9 +23,9 @@
 				type: Array,
 				default () {
 					return [
-						'上拉显示更多',
-						'正在加载...',
-						'没有更多数据了'
+						this.$i18nMsg().index.publics.pullUpShow,
+						this.$i18nMsg().index.publics.loading,
+						this.$i18nMsg().index.publics.noMoreData
 					];
 				}
 			}

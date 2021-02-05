@@ -366,7 +366,7 @@
 				content: '';
 				width: 0;
 				height: 0;
-				border-bottom: 4upx solid rgba(219, 63, 96, 1);
+				border-bottom: 4upx solid $base-color;
 				position: absolute;
 				left: 50%;
 				bottom: 0;
@@ -375,7 +375,7 @@
 			}
 		}
 		.current{
-			color: rgba(219, 63, 96, 1);
+			color: $base-color;
 			&:after{
 				width: 50%;
 			}

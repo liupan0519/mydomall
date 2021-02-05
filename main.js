@@ -54,22 +54,25 @@ const prePage = ()=>{
 Vue.config.productionTip = false
 Vue.prototype.$fire = new Vue();
 Vue.prototype.$store = store;
-Vue.prototype.$api = {msg, json, prePage,util,dateutil,request};
-
+Vue.prototype.baseColor="#55aa7f";
 
 const i18n = new VueI18n({
-    locale : 'zh-CN', //语言标识
+    locale : 'ja-JP', //语言标识
     messages: {
         'en-US' : require('config/lang/en.js') , //英文语言包
-        'zh-CN' : require('config/lang/zh.js')  //中文繁体语言包
+        'zh-CN' : require('config/lang/zh.js'),  //中文简体语言包
+        'ja-JP' : require('config/lang/ja.js'),  //日文语言包
     }
 })
+const i18nMsg=function(){
+    return i18n.messages[i18n.locale]
+}
 
 Vue.prototype._i18n = i18n
 
-Vue.prototype.$i18nMsg = function(){
-    return i18n.messages[i18n.locale]
-}
+Vue.prototype.$i18nMsg =i18nMsg
+Vue.prototype.$api = {msg, json, prePage,util,dateutil,request};
+
 
 App.mpType = 'app'
 

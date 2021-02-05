@@ -38,7 +38,7 @@
 		},
 		onLoad() {
 			uni.setNavigationBarTitle({
-				title: this.setMsg.merchantInfo
+				title: this.i18n.set.merchantInfo
 			})
 		},
 		computed: {

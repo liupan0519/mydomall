@@ -7,7 +7,7 @@
 		<view class="wrapper">
 			<view class="left-top-sign">REGISTER</view>
 			<view class="welcome">
-				{{applicationConfig.applicationName}}
+				<!-- {{applicationConfig.applicationName}} -->{{i18n.merchantTitle}}
 			</view>
 			<view class="welcome">
 				{{publicMsg.welcomeMerchant}}
@@ -15,42 +15,62 @@
 			<view class="input-content">
 				<view class="input-item">
 					<text class="tit">{{i18n.merchant.merchantName}}</text>
-					<input type="text" :value="merchantName" :placeholder="i18n.merchant.merchantNamePH" maxlength="30" data-key="merchantName" @input="inputChange" />
+					<input type="text" :value="merchantName" :placeholder="i18n.merchant.merchantNamePH" maxlength="30" data-key="merchantName"
+					 @input="inputChange" />
 				</view>
 				<view class="input-item">
 					<text class="tit">{{i18n.address.name}}</text>
-					<input type="text" :value="contactName" :placeholder="i18n.address.namePH" maxlength="11" data-key="contactName" @input="inputChange" />
+					<input type="text" :value="contactName" :placeholder="i18n.address.namePH" maxlength="11" data-key="contactName"
+					 @input="inputChange" />
 				</view>
 				<view class="input-item">
 					<text class="tit">{{i18n.telephone}}</text>
-					<input type="number" :value="mobileNo" :placeholder="publicMsg.mobileNoPH" maxlength="11" data-key="mobileNo" @input="inputChange" />
+					<input type="number" :value="mobileNo" :placeholder="publicMsg.mobileNoPH" maxlength="11" data-key="mobileNo"
+					 @input="inputChange" />
 				</view>
-				<view class="input-item">
+				<view class="input-item" v-if="i18n.lang=='ja'">
+					<text class="tit">{{i18n.province}}</text>
+					<view class="uni-list-cell-db">
+						<picker @change="bindPickerChange" :value="index" :range="array" range-key="label">
+							<view class="uni-input">{{array[index].label}}</view>
+						</picker>
+					</view>
+				</view>
+				<view class="input-item" v-if="i18n.lang=='ja'">
+					<text class="tit">{{i18n.address.city}}</text>
+					<input :maxlength="100" class="input" type="text" v-model="city" :placeholder="i18n.address.city"
+					 placeholder-class="placeholder" />
+				</view>
+				
+				<view class="input-item" v-if="i18n.lang=='zh'">
 					<text class="tit">{{i18n.address.longitude}}</text>
 					<view style="font-size: 15px;color:#303133" @click="showAddressRegion">
-						{{province}}  {{city}}  {{district}}
+						{{province}} {{city}} {{district}}
 					</view>
 				</view>
 				<view class="input">
-					<w-picker
-						mode="region"
-						:defaultVal="defaultRegion"
-						:hideArea="false"
-						@confirm="onConfirm" 
-						ref="region"
-						:timeout="true"
-					></w-picker>
+					<w-picker mode="region" :defaultVal="defaultRegion" :hideArea="false" @confirm="onConfirm" ref="region" :timeout="true"></w-picker>
 				</view>
 				<view class="input-item">
 					<text class="tit">{{i18n.address.street}}</text>
-					<input disabled @click="map()" type="text" :value="merchantAddress" :placeholder="i18n.addresserrorStreetMerchant" placeholder-class="input-empty" maxlength="20"
-					 data-key="merchantAddress" @input="inputChange" />
+					<input disabled @click="map()" type="text" :value="merchantAddress" :placeholder="i18n.addresserrorStreetMerchant"
+					 placeholder-class="input-empty" maxlength="20" data-key="merchantAddress" @input="inputChange" />
+				</view>
+			</view>
+			<view class="agreement">
+				<label class="radio" @click="click_radio">
+					<radio value="" :color="baseColor" :checked='agreeFlag' />
+					</radio>
+				</label>
+				<view class="con">
+					<text class="tit"><span @click="click_radio">{{publicMsg.agreementCon}}</span><span class="service_agreement"
+						 @click="navTo('../webview/webview?flag=0&url=https://app.howfresh.jp/Howfresh_privacy.html')">{{publicMsg.agreementName}}</span></text>
 				</view>
 			</view>
 			<!-- #ifdef MP-WEIXIN -->
 			<button open-type="getUserInfo" class="confirm-btn" @getuserinfo="getuserinfo" withCredentials="true" :disabled="registering">注册</button>
 			<!-- #endif -->
-			
+
 			<!-- #ifndef MP-WEIXIN -->
 			<button class="confirm-btn" @click="toRegister" :disabled="registering">注册</button>
 			<!-- #endif -->
@@ -59,6 +79,7 @@
 </template>
 
 <script>
+	import provinceArray from "../../static/province.js";
 	import {
 		mapState,
 		mapMutations
@@ -67,10 +88,12 @@
 	export default {
 		data() {
 			return {
+				index: 0,
+				array: provinceArray,
 				province: '北京市',
 				city: '市辖区',
 				district: '东城区',
-				defaultRegion:['北京市','市辖区','东城区'],
+				defaultRegion: ['北京市', '市辖区', '东城区'],
 				merchantName: '',
 				merchantAddress: '',
 				latitude: null,
@@ -78,9 +101,10 @@
 				contactName: '',
 				mobileNo: '',
 				registering: false,
-				wechatUserInfo:{},
+				wechatUserInfo: {},
 				to: '',
-				suscribeMsgList:[]
+				suscribeMsgList: [],
+				agreeFlag: false
 			}
 		},
 		onLoad(options) {
@@ -88,10 +112,23 @@
 				title: this.publicMsg.loginTitle
 			})
 			var to = options.to;
-			if(to){
+			if (to) {
 				this.to = unescape(to);
 			}
+			if (this.i18n.lang === 'ja') {
+				this.city = ''
+				this.area = 0
+			}
 			this.inquirySuscribeMsg();
+			
+			/* uni.getLocation({
+				success: function(res) {
+					console.log('当前位置的经度：' + res.longitude);
+					console.log('当前位置的纬度：' + res.latitude);
+					this.latitude = res.latitude;
+					this.longitude = res.longitude;
+				}
+			}); */
 		},
 		computed: {
 			i18n() {
@@ -103,26 +140,45 @@
 			...mapState(['applicationConfig'])
 		},
 		methods: {
-			...mapMutations(['login']),
-			showAddressRegion(){
-				this.$refs['region'].show();	
+			bindPickerChange: function(e) {
+				//console.log('picker发送选择改变，携带值为：' + e.detail.value)
+				this.index = e.detail.value;
+				this.province=this.array[this.index].label;
+				this.area=e.detail.value + "";
 			},
-			onConfirm(val){
-				this.province=val.checkArr[0];
-				this.city=val.checkArr[1];
-				this.district=val.checkArr[2];
+			...mapMutations(['login']),
+			click_radio() {
+				this.agreeFlag = !this.agreeFlag;
+			},
+			navTo(url) {
+				uni.navigateTo({
+					url
+				})
+			},
+			showAddressRegion() {
+				this.$refs['region'].show();
+			},
+			onConfirm(val) {
+				this.province = val.checkArr[0];
+				this.city = val.checkArr[1];
+				this.district = val.checkArr[2];
 			},
 			map() {
 				var that = this;
-				uni.chooseLocation({
-					success: function (res) {
-						if(res.name){
+				let pos={
+					lat:this.latitude,
+					lnt:this.longitude
+				};
+				that.navTo("../address/maps?to=" + this.to+"&type=" + this.type)
+				/* uni.chooseLocation({
+					success: function(res) {
+						if (res.name) {
 							that.merchantAddress = res.address;
-							that.latitude= res.latitude;
-							that.longitude=res.longitude;
+							that.latitude = res.latitude;
+							that.longitude = res.longitude;
 						}
 					}
-				});
+				}); */
 			},
 			inputChange(e) {
 				const key = e.currentTarget.dataset.key;
@@ -131,7 +187,7 @@
 			navBack() {
 				uni.navigateBack();
 			},
-			getuserinfo(e){
+			getuserinfo(e) {
 				let that = this;
 				that.wechatUserInfo = e.detail.userInfo;
 				uni.requestSubscribeMessage({
@@ -144,7 +200,7 @@
 				uni.login({
 					provider: 'weixin',
 					success: function(res) {
-						console.log('code: '+res.code);
+						console.log('code: ' + res.code);
 						that.wechatUserInfo.code = res.code;
 						that.toRegister();
 					}
@@ -172,11 +228,12 @@
 					merchantAddress,
 					latitude,
 					longitude,
-					publicMsg
+					publicMsg,
+					agreeFlag
 				} = this;
 				var isFormValid = true;
 				if (!merchantName) {
-					this.$api.msg(publicMsg.merchantNamePH);
+					this.$api.msg(this.i18n.merchant.merchantNamePH);
 					isFormValid = false;
 				} else if (!contactName) {
 					this.$api.msg(this.i18n.address.namePH);
@@ -186,6 +243,9 @@
 					isFormValid = false;
 				} else if (!merchantAddress) {
 					this.$api.msg(this.i18n.address.errorStreetMerchant2);
+					isFormValid = false;
+				} else if (!agreeFlag) {
+					this.$api.msg(publicMsg.agreeAgreement);
 					isFormValid = false;
 				}
 				if (!isFormValid) {
@@ -229,6 +289,36 @@
 <style lang='scss'>
 	page {
 		background: #fff;
+	}
+
+	.agreement {
+		width: 100%;
+		margin-top: 60rpx;
+		display: flex;
+		text-align: center;
+
+		.radio {
+			flex: 0.5;
+			text-align: right;
+		}
+
+		.tit {
+			line-height: 50rpx;
+			font-size: 24rpx;
+		}
+
+		.service_agreement {
+			color: $base-color;
+		}
+	}
+
+	uni-radio .uni-radio-input {
+		width: 30rpx;
+		height: 30rpx;
+	}
+
+	.uni-radio-input:hover {
+		border: 1px solid #d1d1d1 !important;
 	}
 
 	.container {

@@ -51,14 +51,15 @@
 		},
 		methods: {
 			navContent(item){
+				let that=this;
 				this.$api.request.inquiryArticle({articleUuid: item.articleUuid}, function(res) {
 					if (res.body.status.statusCode === '0') {
 						var article = res.body.data;
-						if(article.linkType===this.i18n.notice.linkType1)
+						if(article.linkType===that.i18n.notice.linkType1)
 							uni.navigateTo({
 								url: '/pages/content/richText?content=' + escape(JSON.stringify(article.content))
 							})
-						else if(article.linkType===this.i18n.notice.linkType1)
+						else if(article.linkType===that.i18n.notice.linkType1)
 							uni.navigateTo({
 								url: '/pages/content/webView?src=' + article.content
 							})

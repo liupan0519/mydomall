@@ -7,7 +7,7 @@
 		<view class="wrapper">
 			<view class="left-top-sign">LOGIN</view>
 			<view class="welcome">
-				{{applicationConfig.applicationName}}{{i18n.merchantTitle}}
+				<!-- {{applicationConfig.applicationName}} -->{{i18n.merchantTitle}}
 			</view>
 			<view class="welcome">
 				{{publicMsg.welcome}}

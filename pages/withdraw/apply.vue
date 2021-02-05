@@ -225,13 +225,13 @@
 		
 		.tit{
 			flex-shrink: 0;
-			width: 160upx;
+			width: 250upx;
 			font-size: 30upx;
 			color: $font-color-dark;
 		}
 		.tit-amount{
 			flex-shrink: 0;
-			width: 160upx;
+			width: 210upx;
 			font-size: 30upx;
 			color: red;
 			text-decoration:underline;

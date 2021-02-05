@@ -16,6 +16,19 @@
 			<text class="cell-tit">清除缓存</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view> -->
+		<!-- languages modal -->
+		<!-- languages modal -->
+		<view class="list-cell" >
+			<text class="cell-tit">{{setMsg.langStr}}</text>
+			<!-- <text class="cell-tip">{{setMsg.currentLang}}</text> -->
+			<picker @change="PickerChange" :value="index" :range="listLang">
+				<view class="picker">
+					{{index>-1?listLang[index]:setMsg.currentLang}}
+				</view>
+			</picker>
+				<text class="cell-more yticon icon-you"></text>
+			<!-- <text class="cell-more yticon icon-you"></text> -->
+		</view>
 		<view class="list-cell">
 			<text class="cell-tit">{{setMsg.applicationVersion}}</text>
 			<text class="cell-tip">{{applicationConfig.applicationVersion}}</text>
@@ -38,7 +51,9 @@
 	export default {
 		data() {
 			return {
-				
+				modalLang: null,
+				listLang:['中文','日文'],
+				index:-1
 			};
 		},
 		onLoad() {
@@ -47,6 +62,7 @@
 			})
 		},
 		computed: {
+			
 			setMsg() {
 				return this.$i18nMsg().index.set
 			},
@@ -54,7 +70,25 @@
 		},
 		methods:{
 			...mapMutations(['logout']),
-
+			PickerChange(e) {
+				this.index = e.detail.value;
+				let index=this.index
+				if (index === -1) {
+					/* const res = uni.getSystemInfoSync()
+					this.$i18n.locale = res.language */
+					/* this.$cache.set('_lang', 'System', 0) */
+				} else if (index === 0) {
+					/* this.$cache.set('_lang', 'zh-CN', 0) */
+					this.$i18n.locale = 'zh-CN'
+				} else if (index === 1) {
+					/* this.$cache.set('_lang', 'jp', 0) */
+					this.$i18n.locale = 'ja-JP'
+				}else if (index === 2) {
+					/* this.$cache.set('_lang', 'en', 0) */
+					this.$i18n.locale = 'en-US'
+				}
+				 uni.setStorageSync('locale', this.$i18n.locale);
+			},
 			navTo(url){
 				uni.navigateTo({
 					url:url

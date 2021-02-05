@@ -82,7 +82,7 @@
 		<view class="body-section">
 			<u-row>
 				<u-col span="8">
-					<u-tabs :show-bar="true" active-color="#FA436A" :list="tabList" :is-scroll="true" :current="current" @change="change"></u-tabs>
+					<u-tabs :show-bar="true" :active-color="baseColor" :list="tabList" :is-scroll="true" :current="current" @change="change"></u-tabs>
 				</u-col>
 				<u-col span="4">
 					<view style="margin-top:5px" >

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Place ID Geocoder</title>
+		<script src="https://cdn.staticfile.org/jquery/2.0.1/jquery.min.js"></script>
+		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDogTbRdjzs-TOldsj-ubuFK4CNp8jbYWg&callback=initMap&libraries=places&v=weekly"></script> -->
+		
+		<style type="text/css">
+			/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+			#map {
+				height: 50%;
+			}
+
+			/* Optional: Makes the sample page fill the window. */
+			html,
+			body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+
+			.controls {
+				background-color: #fff;
+				border: 1px solid transparent;
+				box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+				box-sizing: border-box;
+				font-family: Roboto;
+				font-size: 15px;
+				font-weight: 300;
+				height: 29px;
+				margin-left: 2%;
+				margin-top: 10px;
+				outline: none;
+				padding: 0 11px 0 13px;
+				text-overflow: ellipsis;
+				width: 96%;
+				left: 0 !important;
+				top: auto !important;
+				bottom: 10px !important;
+				z-index: 9999999 !important;
+				border-radius: 5px;
+			}
+
+			.controls:focus {
+				border-color: #8EC5A5;
+			}
+
+			.title {
+				font-weight: bold;
+			}
+
+			#infowindow-content {
+				display: none;
+			}
+
+			#map #infowindow-content {
+				display: inline;
+			}
+
+
+			/* The popup bubble styling. */
+			.popup-bubble {
+				/* Position the bubble centred-above its parent. */
+				position: absolute;
+				top: -15px;
+				left: 0;
+				transform: translate(-20%, -100%);
+				/* Style the bubble. */
+				background-color: #8EC5A5;
+				color: #fff;
+				padding: 12px;
+				border-radius: 10px;
+				font-family: 'PingFangSC-Medium';
+				font-size: 13px;
+				overflow-y: auto;
+				max-height: 60px;
+				box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+				display: block !important;
+			}
+
+			/* The parent of the bubble. A zero-height div at the top of the tip. */
+			.popup-bubble-anchor {
+				/* Position the div a fixed distance above the tip. */
+				position: absolute;
+				width: 100%;
+				bottom: 8px;
+				left: 0;
+			}
+
+			/* This element draws the tip. */
+			.popup-bubble-anchor::after {
+				content: "";
+				position: absolute;
+				top: -15px;
+				left: 0;
+				/* Center the tip horizontally. */
+				transform: translate(-50%, 0);
+				/* The tip is a https://css-tricks.com/snippets/css/css-triangle/ */
+				width: 0;
+				height: 0;
+				/* The tip is 8px high, and 12px wide. */
+				border-left: 6px solid transparent;
+				border-right: 6px solid transparent;
+				border-top: 8px solid #8EC5A5;
+			}
+
+			/* JavaScript will position this div at the bottom of the popup tip. */
+			.popup-container-marker {
+				cursor: auto;
+				height: 0;
+				position: absolute;
+				/* The max width of the info window. */
+				width: 200px;
+			}
+
+			#content {
+				display: none;
+			}
+
+			#marker {
+				position: absolute;
+				top: -35px;
+				left: -35px;
+				display: none;
+			}
+
+			.popup-bubble-anchor #marker {
+				display: block !important;
+			}
+
+
+			.pac-container {
+				margin: 0 auto;
+				margin-top: 10px;
+				border-radius: 5px;
+				background: #fff;
+				z-index: 9999;
+				height: 46%;
+				overflow: auto;
+			}
+
+			.pac-item {
+				/* height: 40px; */
+				padding: 10px 14px;
+				line-height: 20px !important;
+				border-bottom: 1px solid #d9d9d9;
+				border-top: 0 !important;
+			}
+
+			.pac-item-query {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				font-size: 15px;
+				display: inline-block;
+				width: 90%;
+			}
+
+			.pac-item span:last-child {
+				color: #a6a6a6;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				font-size: 13px;
+				width: 90%;
+				display: block;
+
+			}
+
+			.pac-matched {
+				display: inline !important;
+			}
+
+			.pac-icon {
+				margin-top: 2px !important;
+
+			}
+
+			.gm-style .gm-style-iw-c {
+				background-color: #8EC5A5 !important;
+				padding: 12px !important;
+				color: #fff;
+			}
+
+			.gm-style .gm-style-iw-d {
+				overflow: auto !important;
+			}
+
+			.gm-style .gm-style-iw-t::after {
+				background: #8EC5A5 !important;
+			}
+
+			.pac-item-selected {
+				color: #8EC5A5 !important;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div style="display: none">
+			<input id="pac-input" class="controls" type="text" placeholder="Enter a location" />
+		</div>
+		<div id="map"></div>
+		<div id="content">
+		</div>
+		<image id="marker" src="../img/position.png"></image>
+		<!-- <div id="infowindow-content">
+			<span id="place-name" class="title"></span><br />
+			<strong>Place ID</strong>: <span id="place-id"></span><br />
+			<span id="place-address"></span>
+		</div> -->
+	</body>
+	<script>
+		function getQuery(name) {
+			let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			let r = window.location.search.substr(1).match(reg);
+			if (r != null) {
+				return decodeURIComponent(r[2]);
+			}
+			return null;
+		}
+		const address = getQuery("address") || "北海道札幌市中央区以下に掲載がない場合";
+		// This sample requires the Places library. Include the libraries=places
+		// parameter when you first load the API. For example:
+		// <script
+		// src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+		function initMap() {
+			var styles = [ //地图样式
+				{
+					featureType: 'poi',
+					stylers: [{
+						visibility: "off"
+					}]
+				},
+				{
+					featureType: 'transit',
+					elementType: 'geometry',
+					stylers: [{
+						visibility: "on"
+					}]
+				},
+				{
+					featureType: 'road',
+					elementType: 'labels',
+					stylers: [{
+						visibility: "simplified"
+					}]
+				}
+			];
+			class Popup extends google.maps.OverlayView {
+				constructor(position, content) {
+					super();
+					this.position = position;
+					content.classList.add("popup-bubble");
+					// This zero-height div is positioned at the bottom of the bubble.
+					const bubbleAnchor = document.createElement("div");
+					bubbleAnchor.classList.add("popup-bubble-anchor");
+					bubbleAnchor.appendChild(content);
+
+					// This zero-height div is positioned at the bottom of the tip.
+					this.containerDiv = document.createElement("div");
+					this.containerDiv.classList.add("popup-container-marker");
+					bubbleAnchor.appendChild(document.getElementById("marker"));
+					this.containerDiv.appendChild(bubbleAnchor);
+					// Optionally stop clicks, etc., from bubbling up to the map.
+					Popup.preventMapHitsAndGesturesFrom(this.containerDiv);
+				}
+				/** Called when the popup is added to the map. */
+				onAdd() {
+					this.getPanes().floatPane.appendChild(this.containerDiv);
+				}
+				/** Called when the popup is removed from the map. */
+				onRemove() {
+					if (this.containerDiv.parentElement) {
+						this.containerDiv.parentElement.removeChild(this.containerDiv);
+					}
+				}
+				/** Called each frame when the popup needs to draw itself. */
+				draw() {
+					const divPosition = this.getProjection().fromLatLngToDivPixel(
+						this.position
+					);
+					// Hide the popup when it is far out of view.
+					/* const display =
+						Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000 ?
+						"block" :
+						"none"; */
+
+					const display = "block";
+					if (display === "block") {
+						this.containerDiv.style.left = divPosition.x + "px";
+						this.containerDiv.style.top = divPosition.y + "px";
+					}
+
+					if (this.containerDiv.style.display !== display) {
+						this.containerDiv.style.display = display;
+					}
+				}
+			}
+			const map = new google.maps.Map(document.getElementById("map"), {
+				center: {
+					lat: -33.8688,
+					lng: 151.2195
+				},
+				zoom: 15,
+				disableDefaultUI: true,
+				gestureHandling: "greedy",
+				styles: styles
+			});
+			const input = document.getElementById("pac-input");
+			const autocomplete = new google.maps.places.Autocomplete(input);
+			/* autocomplete.bindTo("bounds", map); */
+			// Specify just the place data fields that you need.
+			autocomplete.setFields([
+				"place_id",
+				"geometry",
+				"name",
+				"formatted_address",
+			]);
+			map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+			/* const infowindow = new google.maps.InfoWindow();
+			  const infowindowContent = document.getElementById("infowindow-content");
+			  infowindow.setContent(infowindowContent); */
+			const geocoder = new google.maps.Geocoder();
+			/* const marker = new google.maps.Marker({ map: map });
+			 marker.addListener("click", () => {
+			    infowindow.open(map, marker);
+			  }); */
+			autocomplete.addListener("place_changed", () => {
+
+				/* infowindow.close(); */
+				const place = autocomplete.getPlace();
+				if (!place.place_id) {
+					return;
+				}
+
+				geocoder.geocode({
+					placeId: place.place_id
+				}, (results, status) => {
+					let locationObj = results[0].geometry.location;
+					if (status !== "OK") {
+						window.alert("Geocoder failed due to: " + status);
+						return;
+					}
+					map.setZoom(19);
+					console.log("locationObj:");
+					console.log(locationObj);
+					map.setCenter(locationObj);
+					$('#content').html(results[0].formatted_address);
+					popup = new Popup(
+						new google.maps.LatLng(locationObj.lat, locationObj.lng),
+						document.getElementById("content")
+					);
+					popup.setMap(map);
+					// Set the position of the marker using the place ID and location.
+					/* marker.setIcon("../img/position.png")
+					marker.setPlace({
+						placeId: place.place_id,
+						location: locationObj,
+					});
+					marker.setVisible(true);
+					infowindowContent.children["place-name"].textContent = place.name;
+					infowindowContent.children["place-id"].textContent = place.place_id;
+					infowindowContent.children["place-address"].textContent =
+						results[0].formatted_address;
+					infowindow.open(map, marker); */
+				});
+			});
+		}
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDogTbRdjzs-TOldsj-ubuFK4CNp8jbYWg&region=ja&language=ja_JP&callback=initMap&libraries=places">
+	</script>
+</html>

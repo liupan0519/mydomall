@@ -191,7 +191,9 @@
 			};
 		},
 		computed:{
-			
+			i18n() {
+				return this.$i18nMsg().index
+			}
 		},
 		props:{
 			mode:{

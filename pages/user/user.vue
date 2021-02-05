@@ -539,7 +539,7 @@
 		.yticon {
 			font-size: 48upx;
 			margin-bottom: 18upx;
-			color: #fa436a;
+			color: $base-color;
 		}
 
 		.icon-shouhoutuikuan {

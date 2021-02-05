@@ -219,7 +219,7 @@
 	}
 
 	.arc-title-dot-light {
-		border-left: 10upx solid #FA436A;
+		border-left: 10upx solid $base-color;
 		padding-left: 10upx;
 		font-size: 28upx;
 		color: $font-color-base
